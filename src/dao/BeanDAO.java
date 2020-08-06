@@ -1,0 +1,64 @@
+package dao;
+
+import java.util.ArrayList;
+import beans.interfaces.*;
+import java.util.Collection;
+import java.util.HashMap;
+
+
+/** Template DAO class for basic CRUD operations with BeanObject-inheriting classes. */
+public abstract class BeanDAO <T extends BeanInterface> {
+	
+	// HashMap to act as a database
+	protected HashMap<String, T> database;
+	
+	public BeanDAO() {
+		database = new HashMap<String, T>();
+	}
+	
+	/** Should be used for adding objects to the database. */
+	protected abstract void init();
+	
+	/** Add BeanObject to the database
+	 * @param BeanObject
+	 * @return BeanObject or null if they already exist.
+	 */
+	public T add(T object) {
+		if (!database.containsKey(object.getKey())) {
+			database.put(object.getKey(), object);
+			
+			return object;
+		}
+		else
+			return null;
+	}
+	
+	/** Finds a BeanObject in the database with the specified key attached to it.
+	 * @param insuranceNumber
+	 * @return BeanObject or null if the key doesn't exist.
+	 */
+	public T findByKey(String key) {
+		return database.get(key);
+	}
+	
+	/** Returns a collection with all BeanObjec */
+	public Collection<T> findAll(){
+		ArrayList<T> allEntries = new ArrayList<T>(); 
+		
+		for (T entry : database.values()) {
+			allEntries.add(entry);
+		}
+		
+		return allEntries;
+	}
+	
+	public T remove(String key) {
+		T obj = database.get(key);
+		
+		if (obj != null) {
+			return database.remove(obj);
+		}
+		
+		return null;
+	}
+}
