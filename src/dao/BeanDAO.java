@@ -33,16 +33,16 @@ public abstract class BeanDAO <T extends BeanInterface> {
 			return null;
 	}
 	
-	/** Finds a BeanObject in the database with the specified key attached to it.
+	/** Get a bean object from the database with the specified key attached to it.
 	 * @param insuranceNumber
 	 * @return BeanObject or null if the key doesn't exist.
 	 */
-	public T findByKey(String key) {
+	public T getByKey(String key) {
 		return database.get(key);
 	}
 	
-	/** Returns a collection with all BeanObjec */
-	public Collection<T> findAll(){
+	/** Returns a collection of all bean objects from the database */
+	public Collection<T> getAll(){
 		ArrayList<T> allEntries = new ArrayList<T>(); 
 		
 		for (T entry : database.values()) {
@@ -52,13 +52,8 @@ public abstract class BeanDAO <T extends BeanInterface> {
 		return allEntries;
 	}
 	
-	public T remove(String key) {
-		T obj = database.get(key);
-		
-		if (obj != null) {
-			return database.remove(obj);
-		}
-		
-		return null;
+	/** Removes an object with the specified key from the database */
+	public T delete(String key) {
+		return database.remove(key);
 	}
 }

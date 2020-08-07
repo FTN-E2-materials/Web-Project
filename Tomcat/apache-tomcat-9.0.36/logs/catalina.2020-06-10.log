@@ -1,0 +1,39 @@
+10-Jun-2020 18:19:33.759 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/9.0.36
+10-Jun-2020 18:19:33.761 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Jun 3 2020 17:07:09 UTC
+10-Jun-2020 18:19:33.761 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 9.0.36.0
+10-Jun-2020 18:19:33.761 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+10-Jun-2020 18:19:33.761 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+10-Jun-2020 18:19:33.761 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+10-Jun-2020 18:19:33.761 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jre1.8.0_251
+10-Jun-2020 18:19:33.762 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_251-b08
+10-Jun-2020 18:19:33.762 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+10-Jun-2020 18:19:33.762 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36
+10-Jun-2020 18:19:33.762 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36
+10-Jun-2020 18:19:33.762 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36\conf\logging.properties
+10-Jun-2020 18:19:33.764 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+10-Jun-2020 18:19:33.764 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+10-Jun-2020 18:19:33.764 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+10-Jun-2020 18:19:33.764 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+10-Jun-2020 18:19:33.764 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36
+10-Jun-2020 18:19:33.764 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36
+10-Jun-2020 18:19:33.765 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36\temp
+10-Jun-2020 18:19:33.765 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [1.2.24] using APR version [1.7.0].
+10-Jun-2020 18:19:33.765 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+10-Jun-2020 18:19:33.765 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+10-Jun-2020 18:19:33.770 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 1.1.1g  21 Apr 2020]
+10-Jun-2020 18:19:34.035 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+10-Jun-2020 18:19:34.452 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [820] milliseconds
+10-Jun-2020 18:19:34.489 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+10-Jun-2020 18:19:34.489 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/9.0.36]
+10-Jun-2020 18:19:34.502 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36\webapps\docs]
+10-Jun-2020 18:19:34.715 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36\webapps\docs] has finished in [213] ms
+10-Jun-2020 18:19:34.716 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36\webapps\examples]
+10-Jun-2020 18:19:35.196 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36\webapps\examples] has finished in [480] ms
+10-Jun-2020 18:19:35.197 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36\webapps\host-manager]
+10-Jun-2020 18:19:35.247 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36\webapps\host-manager] has finished in [51] ms
+10-Jun-2020 18:19:35.248 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36\webapps\manager]
+10-Jun-2020 18:19:35.305 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36\webapps\manager] has finished in [57] ms
+10-Jun-2020 18:19:35.306 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36\webapps\ROOT]
+10-Jun-2020 18:19:35.354 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\Nikola\Desktop\Faks\WEB\Tomcat\apache-tomcat-9.0.36\webapps\ROOT] has finished in [48] ms
+10-Jun-2020 18:19:35.358 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+10-Jun-2020 18:19:35.368 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [914] milliseconds

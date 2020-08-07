@@ -18,7 +18,8 @@ import javax.ws.rs.core.MediaType;
 import dao.BeanDAO;
 
 
-/** Abstract template for a REST service class. Instantiates with a bean model and DAO class related to it */
+/** Abstract template for a REST service class. 
+ * Instantiates with a bean model and DAO class related to it */
 public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	
 	@Context
@@ -59,7 +60,7 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	public Collection<T> getAll(){
 		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
 		
-		return objectDAO.findAll();	
+		return objectDAO.getAll();	
 	}
 	
 	/** Parses the given GET QueryParameter to get a filter string. Returns all BeanObjects
@@ -73,7 +74,7 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	public T get(@QueryParam("key") String key) {
 		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
 		
-		return objectDAO.findByKey(key);
+		return objectDAO.getByKey(key);
 	}
 	
 	@DELETE
@@ -83,7 +84,7 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	public T delete(@PathParam("ime") String key) {
 		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
 		
-		return objectDAO.remove(key);
+		return objectDAO.delete(key);
 	}
 }
 
