@@ -3,6 +3,7 @@ package beans.model;
 import java.util.Calendar;
 import beans.interfaces.*;
 
+
 public class Reservation implements BeanInterface {
 	
    public String id;
@@ -12,7 +13,7 @@ public class Reservation implements BeanInterface {
    public String reservationMessage;
    public ReservationStatus status;
    
-   public Guest guest;
+   public String guestID;
    public Apartment apartment;
    
 	@Override

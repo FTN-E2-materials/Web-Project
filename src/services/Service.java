@@ -28,6 +28,9 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	// If using multiple child classes of this, load this String separately in each of those classes to avoid collision.
 	protected String databaseAttributeString = "database";
 	
+	@PostConstruct
+	protected abstract void init();
+	
 	
 	/** POST to add received JSON BeanObject to the database.
 	 * @param BeanObject
@@ -49,9 +52,6 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 			return objectDAO.add(object);
 		}
 	}
-	
-	@PostConstruct
-	protected abstract void init();
 	
 	/** Returns a JSON array of all BeanObjects in the database. */
 	@GET

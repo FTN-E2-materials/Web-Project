@@ -6,7 +6,8 @@ import java.util.Collection;
 import java.util.HashMap;
 
 
-/** Template DAO class for basic CRUD operations with BeanObject-inheriting classes. */
+/** Template DAO class for basic CRUD operations with BeanInterface classes. 
+ *  Contains basic CRUD methods (add, getByID, getAll, delete)*/
 public abstract class BeanDAO <T extends BeanInterface> {
 	
 	// HashMap to act as a database

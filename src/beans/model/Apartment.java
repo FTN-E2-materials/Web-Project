@@ -9,17 +9,15 @@ public class Apartment implements BeanInterface {
    public ApartmentType type;
    public int numberOfRooms;
    public int numberOfGuests;
-   public List<Date> availableDates;
-   public List<Date> workingDates;
+   public List<Calendar> availableDates;
+   public List<Calendar> workingDates;
    public Double pricePerNight;
    public List<String> pictures;
    public Time checkInTime;
    public Time checkOutTime;
    public ApartmentStatus status;
-   
+   public String hostID;   
    public Location location;
-   // TODO Host identification via Username?
-   public Host host;
    public ArrayList<Amenity> amenities;
    
 	@Override
