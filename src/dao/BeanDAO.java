@@ -24,7 +24,7 @@ public abstract class BeanDAO <T extends BeanInterface> {
 	 * @param BeanObject
 	 * @return BeanObject or null if they already exist.
 	 */
-	public T add(T object) {
+	public T create(T object) {
 		if (!database.containsKey(object.getKey())) {
 			database.put(object.getKey(), object);
 			
@@ -51,6 +51,15 @@ public abstract class BeanDAO <T extends BeanInterface> {
 		}
 		
 		return allEntries;
+	}
+	
+	/** Update an existing object */
+	public T update(T obj) {
+		if (database.get(obj.getKey()) == null)
+			return null;
+		
+		database.put(obj.getKey(), obj);
+		return obj;
 	}
 	
 	/** Removes an object with the specified key from the database */
