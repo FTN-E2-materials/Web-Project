@@ -25,12 +25,8 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	@Context
 	ServletContext ctx;
 	
-	// If using multiple child classes of this, load this String separately in each of those classes to avoid collision.
+	/** This string is used to identify unique database names accross the server. */
 	protected String databaseAttributeString;
-	
-/*	@PostConstruct
- 	Override default database name here 
-	protected abstract void init(); */
 	
 	
 	/** POST to add received JSON BeanObject to the database.
@@ -61,8 +57,6 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	public Collection<T> getAll(){
 		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
 		
-		System.out.println("Database string is " + databaseAttributeString);
-		
 		return objectDAO.getAll();	
 	}
 	
@@ -73,10 +67,10 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/search")
-	public T get(@QueryParam("key") String key) {
+	@Path("{id}")
+	public T getByID(@PathParam("id") String key) {
 		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
-		
+		System.out.println("Trying to fetch ID: " + key);
 		return objectDAO.getByKey(key);
 	}
 	

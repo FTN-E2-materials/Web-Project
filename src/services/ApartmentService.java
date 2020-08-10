@@ -14,15 +14,20 @@ import dao.ApartmentDAO;
 
 @Path("/apartments")
 public class ApartmentService extends Service<Apartment, ApartmentDAO> implements DatabaseServiceInterface {
+	private String attributeString = "apartmentDatabase";
 	
 	@Override
 	@PostConstruct
 	public void onCreate() {
-		databaseAttributeString = "apartmentDatabase";
-		System.out.println("Database string is " + databaseAttributeString);
+		databaseAttributeString = attributeString;
+		
 		if (ctx.getAttribute(databaseAttributeString) == null)
 			ctx.setAttribute(databaseAttributeString, new ApartmentDAO());	
 		
+		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
+		Apartment apartment = new Apartment();
+		apartment.id = "AP1";
+		dao.create(apartment);
 	}
 	
 	/** Test method. */
