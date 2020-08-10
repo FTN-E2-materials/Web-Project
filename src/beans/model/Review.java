@@ -8,6 +8,7 @@ public class Review implements BeanInterface {
    public int rate;
    public String authorID;
    public String apartmentID;
+   public boolean visibleToGuests;
 
 	@Override
 	public String getKey() {

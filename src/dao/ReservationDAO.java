@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 
 import beans.model.Reservation;
@@ -18,7 +19,7 @@ public class ReservationDAO extends BeanDAO<Reservation> {
 		Collection<Reservation> reservations = new ArrayList<Reservation>();
 		
 		for (Reservation res : database.values()) {
-			if (res.guestID.contentEquals(guestID))
+			if (res.guestID.contentEquals(guestID)  &&  res.startingDate.after(Calendar.getInstance()))
 				reservations.add(res);
 		}
 		

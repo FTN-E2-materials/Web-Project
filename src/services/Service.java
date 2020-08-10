@@ -26,10 +26,11 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	ServletContext ctx;
 	
 	// If using multiple child classes of this, load this String separately in each of those classes to avoid collision.
-	protected String databaseAttributeString = "database";
+	protected String databaseAttributeString;
 	
-	@PostConstruct
-	protected abstract void init();
+/*	@PostConstruct
+ 	Override default database name here 
+	protected abstract void init(); */
 	
 	
 	/** POST to add received JSON BeanObject to the database.
@@ -40,7 +41,7 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/")
-	public T add(T object) {
+	public T create(T object) {
 		if (object == null) {
 			return null;
 		}
@@ -49,7 +50,7 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 		}
 		else {
 			DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
-			return objectDAO.add(object);
+			return objectDAO.create(object);
 		}
 	}
 	
@@ -59,6 +60,8 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	@Path("/")
 	public Collection<T> getAll(){
 		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
+		
+		System.out.println("Database string is " + databaseAttributeString);
 		
 		return objectDAO.getAll();	
 	}

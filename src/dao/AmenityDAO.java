@@ -10,6 +10,4 @@ public class AmenityDAO extends BeanDAO<Amenity> {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
 }
