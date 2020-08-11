@@ -4,4 +4,5 @@ package beans.interfaces;
 public interface BeanInterface {
    
    String getKey();
+   void setKey(String key);
 }

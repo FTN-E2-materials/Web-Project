@@ -5,13 +5,18 @@ import java.util.Collection;
 
 import beans.model.Apartment;
 import beans.model.ApartmentStatus;
+import util.Config;
 
 
 public class ApartmentDAO extends BeanDAO<Apartment> {
 
 	@Override
 	protected void init() {
-		
+		idHeader = Config.apartmentIdHeader;
+	}
+	
+	public ApartmentDAO() {
+		init();
 	}
 	
 	/** Returns a collection of all active apartments */

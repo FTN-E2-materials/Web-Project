@@ -5,13 +5,18 @@ import java.util.Calendar;
 import java.util.Collection;
 
 import beans.model.Reservation;
+import util.Config;
 
 
 public class ReservationDAO extends BeanDAO<Reservation> {
 
 	@Override
 	protected void init() {
-
+		idHeader = Config.reservationIdHeader;
+	}
+	
+	public ReservationDAO() {
+		init();
 	}
 
 	/** Returns a list of reservations for the given guest ID */

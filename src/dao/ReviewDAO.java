@@ -7,14 +7,18 @@ import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 
 import beans.model.Review;
+import util.Config;
 
 
 public class ReviewDAO extends BeanDAO<Review> {
 
 	@Override
 	protected void init() {
-		// TODO Auto-generated method stub
-		
+		idHeader = Config.reviewIdHeader;		
+	}
+	
+	public ReviewDAO() {
+		init();
 	}
 	
 	/** Returns a collection of reviews for the given apartment. Requested by host.

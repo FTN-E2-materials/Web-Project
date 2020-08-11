@@ -14,4 +14,9 @@ public class Review implements BeanInterface {
 	public String getKey() {
 		return id;
 	}
+	
+	@Override
+	public void setKey(String key) {
+		this.id = key;
+	}
 }

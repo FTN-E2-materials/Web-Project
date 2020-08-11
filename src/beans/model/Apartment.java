@@ -24,6 +24,11 @@ public class Apartment implements BeanInterface {
 	public String getKey() {
 		return id;
 	}
+	
+	@Override
+	public void setKey(String key) {
+		this.id = key;
+	}
    
    public ArrayList<Amenity> getAmenities() {
       if (amenities == null)

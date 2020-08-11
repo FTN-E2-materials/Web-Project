@@ -12,4 +12,10 @@ public abstract class UserAccount implements BeanInterface {
 	public String getKey() {
 		return username;
 	}
+   
+   @Override
+   public void setKey(String key) {
+	   // Usernames are not supposed to be changed or counted
+	   throw new IllegalStateException();
+   }
 }

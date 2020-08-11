@@ -12,9 +12,12 @@ public abstract class BeanDAO <T extends BeanInterface> {
 	
 	// HashMap to act as a database
 	protected HashMap<String, T> database;
+	protected String idHeader;
+	protected long entityCounter;
 	
 	public BeanDAO() {
 		database = new HashMap<String, T>();
+		entityCounter = 100;
 	}
 	
 	/** Should be used for adding objects to the database. */
@@ -26,6 +29,7 @@ public abstract class BeanDAO <T extends BeanInterface> {
 	 */
 	public T create(T object) {
 		if (!database.containsKey(object.getKey())) {
+			object.setKey(idHeader + ++entityCounter);
 			database.put(object.getKey(), object);
 			
 			return object;
