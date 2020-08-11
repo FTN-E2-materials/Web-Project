@@ -64,9 +64,9 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/hideVisibility")
-	/** Hide the review from Guests. Only a host can call this method */
-	public Review hideReview(Review review) {
+	@Path("/visibility")
+	/** Toggle visibility status of the particular review object. */
+	public Review toggleVisibility(Review review) {
 		// TODO Check if user is host
 		
 		// Check if the apartment exists, and if it does, whether it is this host's apartment.
@@ -75,32 +75,11 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 		
 		if (apartment == null)
 			return null;
-		if (apartment.hostID != "fetch host ID from request")
-			return null;
+		//TODO Fetch host id from request
+		//if (apartment.hostID != "fetch host ID from request")
+		//	return null;
 		
-		review.visibleToGuests = false;
-		ReviewDAO reviewDAO = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
-		return reviewDAO.update(review);
-	}
-	
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/showVisibility")
-	/** Show the review to Guests. Only a host can call this method */
-	public Review showReview(Review review) {
-		// TODO Check if user is host
-		
-		// Check if the apartment exists, and if it does, whether it is this host's apartment.
-		ApartmentDAO apartmentDAO = (ApartmentDAO)ctx.getAttribute("apartmentDatabase");
-		Apartment apartment = apartmentDAO.getByKey(review.apartmentID);
-		
-		if (apartment == null)
-			return null;
-		if (apartment.hostID != "fetch host ID from request")
-			return null;
-		
-		review.visibleToGuests = true;
+		review.visibleToGuests = !review.visibleToGuests;
 		ReviewDAO reviewDAO = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
 		return reviewDAO.update(review);
 	}
