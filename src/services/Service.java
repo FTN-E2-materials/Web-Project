@@ -36,7 +36,6 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/")
 	public T create(T object) {
 		if (object == null) {
 			return null;
@@ -53,7 +52,6 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	/** Returns a JSON array of all BeanObjects in the database. */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/")
 	public Collection<T> getAll(){
 		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
 		
@@ -67,7 +65,7 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("{id}")
+	@Path("/{id}")
 	public T getByID(@PathParam("id") String key) {
 		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
 		System.out.println("Trying to fetch ID: " + key);

@@ -15,16 +15,16 @@ import beans.interfaces.DatabaseServiceInterface;
 import beans.model.Amenity;
 import beans.model.Apartment;
 import dao.ApartmentDAO;
+import util.Config;
 
 
 @Path("/apartments")
 public class ApartmentService extends Service<Apartment, ApartmentDAO> implements DatabaseServiceInterface {
-	private String attributeString = "apartmentDatabase";
 	
 	@Override
 	@PostConstruct
 	public void onCreate() {
-		databaseAttributeString = attributeString;
+		databaseAttributeString = Config.apartmentDatabaseString;
 		
 		if (ctx.getAttribute(databaseAttributeString) == null)
 			ctx.setAttribute(databaseAttributeString, new ApartmentDAO());	

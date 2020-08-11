@@ -17,17 +17,16 @@ import beans.model.Apartment;
 import beans.model.Review;
 import dao.ApartmentDAO;
 import dao.ReviewDAO;
+import util.Config;
 
 
 @Path("/reviews")
 public class ReviewService extends Service<Review, ReviewDAO> implements DatabaseServiceInterface{
 
-	private String attributeString = "reviewDatabase";
-	
 	@Override
 	@PostConstruct
 	public void onCreate() {
-		databaseAttributeString = attributeString;
+		databaseAttributeString = Config.reviewDatabaseString;
 		if (ctx.getAttribute(databaseAttributeString) == null)
 			ctx.setAttribute(databaseAttributeString, new ReviewDAO());
 	}
@@ -59,6 +58,7 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 		// Then depending on the type of user, return filtered or not
 		ReviewDAO dao = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
 		return dao.getByApartmentIDForGuest(id);
+		// return dao.getByApartmentIDForHost`(id);
 	}
 	
 	@POST
