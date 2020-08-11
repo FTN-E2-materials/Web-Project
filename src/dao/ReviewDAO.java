@@ -3,6 +3,9 @@ package dao;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.ws.rs.POST;
+import javax.ws.rs.core.MediaType;
+
 import beans.model.Review;
 
 
@@ -14,12 +17,13 @@ public class ReviewDAO extends BeanDAO<Review> {
 		
 	}
 	
-	/** Returns a collection of reviews for the given apartment. Requested by host. */
+	/** Returns a collection of reviews for the given apartment. Requested by host.
+	 *  All reviews will be visible, whether hidden or not. */
 	public Collection<Review> getByApartmentIDForHost(String apartmentID) {
 		Collection<Review> reviews = new ArrayList<Review>();
 		
 		for (Review rev : database.values()) {
-			if (rev.apartmentID.contentEquals(apartmentID))
+			if (rev.apartmentID.equals(apartmentID))
 				reviews.add(rev);
 		}
 		
@@ -32,7 +36,7 @@ public class ReviewDAO extends BeanDAO<Review> {
 		Collection<Review> reviews = new ArrayList<Review>();
 		
 		for (Review rev : database.values()) {
-			if (rev.apartmentID.contentEquals(apartmentID)  &&  rev.visibleToGuests)
+			if (rev.apartmentID.equals(apartmentID)  &&  rev.visibleToGuests)
 				reviews.add(rev);
 		}
 		

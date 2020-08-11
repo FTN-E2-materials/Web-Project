@@ -37,8 +37,8 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Review create(Review review) {
-		// TODO Check if user is authorised to create a review
-		System.out.println("Creating a review with id " + review.id);
+		// TODO Only guests can create reviews
+		// Guest has to have a FINISHED or REJECTED reservation with the apartment in question
 		ReviewDAO dao = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
 		return dao.create(review);
 	}
@@ -47,13 +47,13 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Collection<Review> getAll() {
-		// TODO Check if user is admin 
+		// TODO Check if user is admin, if not, reject 
 		return super.getAll();
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
+	@Path("apartment/{id}")
 	public Collection<Review> getByApartmentID(@PathParam("id") String id) {
 		// TODO Check if user is Guest or unregistered
 		// Then depending on the type of user, return filtered or not
