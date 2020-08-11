@@ -77,8 +77,7 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/{ime}")
-	public T delete(@PathParam("ime") String key) {
+	public T delete(String key) {
 		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
 		
 		return objectDAO.delete(key);
