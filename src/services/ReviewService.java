@@ -18,7 +18,7 @@ import beans.model.Apartment;
 import beans.model.Review;
 import dao.ApartmentDAO;
 import dao.ReviewDAO;
-import storage.ReviewStorage;
+import storage.Storage;
 import util.Config;
 
 
@@ -31,10 +31,13 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 		databaseAttributeString = Config.reviewDatabaseString;
 		storageFileLocation = Config.reviewsDataLocation;
 		
-		if (ctx.getAttribute(databaseAttributeString) == null)
-			ctx.setAttribute(databaseAttributeString, new ReviewDAO());
 		if (ctx.getAttribute(storageFileLocation) == null)
-			ctx.setAttribute(storageFileLocation, new ReviewStorage(storageFileLocation));
+			ctx.setAttribute(storageFileLocation, new Storage<Review>(storageFileLocation));
+		if (ctx.getAttribute(databaseAttributeString) == null)
+			ctx.setAttribute(databaseAttributeString, 
+									new ReviewDAO(
+										(Storage<Review>)ctx.getAttribute(storageFileLocation)
+									));
 	}
 	
 	@POST
@@ -47,7 +50,8 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 		ReviewDAO dao = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
 		dao.create(review);
 	
-		ReviewStorage storage = (ReviewStorage)ctx.getAttribute(storageFileLocation);
+		// TODO Try creating a HashMap listener in DAO, so it can automatically call Storage every time a change occurs.
+		Storage<Review> storage = (Storage<Review>)ctx.getAttribute(storageFileLocation);
 		storage.writeAll((ArrayList<Review>)dao.getAll());
 		return review;
 	}

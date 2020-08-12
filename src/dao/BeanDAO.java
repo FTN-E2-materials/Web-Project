@@ -3,6 +3,7 @@ package dao;
 import java.util.ArrayList;
 import beans.interfaces.*;
 import storage.Storage;
+import util.DataConverter;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,6 +21,11 @@ public abstract class BeanDAO <T extends BeanInterface> {
 	public BeanDAO() {
 		database = new HashMap<String, T>();
 		entityCounter = 100;
+	}
+	
+	public BeanDAO(Storage<T> storage) {
+		database = DataConverter.listToMap(storage.readAll());
+		entityCounter = 100 + database.size();
 	}
 	
 	/** Should be used for adding objects to the database. */

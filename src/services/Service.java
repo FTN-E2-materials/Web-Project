@@ -28,7 +28,7 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	
 	/** This string is used to identify unique database names accross the server. */
 	protected String databaseAttributeString;
-	/** */
+	/** Location of the data storage file where the data will be kept on the disk. */
 	protected String storageFileLocation;
 	
 	/** POST to add received JSON BeanObject to the database.

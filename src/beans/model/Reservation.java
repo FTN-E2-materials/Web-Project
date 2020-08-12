@@ -4,9 +4,8 @@ import java.util.Calendar;
 import beans.interfaces.*;
 
 
-public class Reservation implements BeanInterface {
+public class Reservation extends DatabaseEntity {
 	
-   public String id;
    public Calendar startingDate;
    public int numberOfNights;
    public Double price;
@@ -15,14 +14,4 @@ public class Reservation implements BeanInterface {
    
    public String guestID;
    public Apartment apartment;
-   
-	@Override
-	public String getKey() {
-		return id;
-	}
-
-	@Override
-	public void setKey(String key) {
-		this.id = key;
-	}
 }

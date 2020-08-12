@@ -7,8 +7,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 
 import beans.model.Review;
-import storage.ReviewStorage;
+import storage.Storage;
 import util.Config;
+import util.DataConverter;
 
 
 public class ReviewDAO extends BeanDAO<Review> {
@@ -19,8 +20,16 @@ public class ReviewDAO extends BeanDAO<Review> {
 	}
 	
 	public ReviewDAO() {
+		super();
 		init();
 	}
+	
+	public ReviewDAO(Storage<Review> storage) {
+		super(storage);
+		init();
+	}
+	
+	
 	
 	/** Returns a collection of reviews for the given apartment. Requested by host.
 	 *  All reviews will be visible, whether hidden or not. */

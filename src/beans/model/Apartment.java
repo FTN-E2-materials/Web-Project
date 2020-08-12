@@ -3,9 +3,8 @@ package beans.model;
 import java.util.*;
 import beans.interfaces.*;
 
-public class Apartment implements BeanInterface {
+public class Apartment extends DatabaseEntity {
 	
-   public String id;
    public ApartmentType type;
    public int numberOfRooms;
    public int numberOfGuests;
@@ -19,16 +18,6 @@ public class Apartment implements BeanInterface {
    public String hostID;   
    public Location location;
    public ArrayList<Amenity> amenities;
-   
-	@Override
-	public String getKey() {
-		return id;
-	}
-	
-	@Override
-	public void setKey(String key) {
-		this.id = key;
-	}
    
    public ArrayList<Amenity> getAmenities() {
       if (amenities == null)
