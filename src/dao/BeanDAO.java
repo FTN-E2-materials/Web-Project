@@ -2,6 +2,8 @@ package dao;
 
 import java.util.ArrayList;
 import beans.interfaces.*;
+import storage.Storage;
+
 import java.util.Collection;
 import java.util.HashMap;
 

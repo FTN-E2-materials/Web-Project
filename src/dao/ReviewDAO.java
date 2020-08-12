@@ -7,6 +7,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 
 import beans.model.Review;
+import storage.ReviewStorage;
 import util.Config;
 
 
@@ -14,7 +15,7 @@ public class ReviewDAO extends BeanDAO<Review> {
 
 	@Override
 	protected void init() {
-		idHeader = Config.reviewIdHeader;		
+		idHeader = Config.reviewIdHeader;	
 	}
 	
 	public ReviewDAO() {

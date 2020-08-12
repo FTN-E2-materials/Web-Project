@@ -16,6 +16,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import dao.BeanDAO;
+import storage.Storage;
 
 
 /** Abstract template for a REST service class. 
@@ -27,7 +28,8 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	
 	/** This string is used to identify unique database names accross the server. */
 	protected String databaseAttributeString;
-	
+	/** */
+	protected String storageFileLocation;
 	
 	/** POST to add received JSON BeanObject to the database.
 	 * @param BeanObject

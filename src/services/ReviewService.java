@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -17,6 +18,7 @@ import beans.model.Apartment;
 import beans.model.Review;
 import dao.ApartmentDAO;
 import dao.ReviewDAO;
+import storage.ReviewStorage;
 import util.Config;
 
 
@@ -27,8 +29,12 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 	@PostConstruct
 	public void onCreate() {
 		databaseAttributeString = Config.reviewDatabaseString;
+		storageFileLocation = Config.reviewsDataLocation;
+		
 		if (ctx.getAttribute(databaseAttributeString) == null)
 			ctx.setAttribute(databaseAttributeString, new ReviewDAO());
+		if (ctx.getAttribute(storageFileLocation) == null)
+			ctx.setAttribute(storageFileLocation, new ReviewStorage(storageFileLocation));
 	}
 	
 	@POST
@@ -39,7 +45,11 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 		// TODO Only guests can create reviews
 		// Guest has to have a FINISHED or REJECTED reservation with the apartment in question
 		ReviewDAO dao = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
-		return dao.create(review);
+		dao.create(review);
+	
+		ReviewStorage storage = (ReviewStorage)ctx.getAttribute(storageFileLocation);
+		storage.writeAll((ArrayList<Review>)dao.getAll());
+		return review;
 	}
 	
 	@GET
