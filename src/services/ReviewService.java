@@ -1,6 +1,5 @@
 package services;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +12,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import beans.interfaces.DatabaseServiceInterface;
-import beans.model.Amenity;
 import beans.model.Apartment;
 import beans.model.Review;
 import dao.ApartmentDAO;
@@ -28,9 +26,23 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 	@Override
 	@PostConstruct
 	public void onCreate() {
+		setDatabaseString();
+		setStorageLocation();
+		initAttributes();
+	}
+	
+	@Override
+	public void setDatabaseString() {
 		databaseAttributeString = Config.reviewDatabaseString;
+	}
+
+	@Override
+	public void setStorageLocation() {
 		storageFileLocation = Config.reviewsDataLocation;
-		
+	}
+
+	@Override
+	public void initAttributes() {
 		if (ctx.getAttribute(storageFileLocation) == null)
 			ctx.setAttribute(storageFileLocation, new Storage<Review>(Review.class, storageFileLocation));
 		if (ctx.getAttribute(databaseAttributeString) == null)

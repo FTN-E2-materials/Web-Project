@@ -14,7 +14,9 @@ import javax.ws.rs.core.MediaType;
 import beans.interfaces.DatabaseServiceInterface;
 import beans.model.Amenity;
 import beans.model.Apartment;
+import beans.model.Reservation;
 import dao.ApartmentDAO;
+import dao.ReservationDAO;
 import storage.Storage;
 import util.Config;
 
@@ -25,28 +27,30 @@ public class ApartmentService extends Service<Apartment, ApartmentDAO> implement
 	@Override
 	@PostConstruct
 	public void onCreate() {
+		setDatabaseString();
+		setStorageLocation();
+		initAttributes();
+	}
+	
+	@Override
+	public void setDatabaseString() {
 		databaseAttributeString = Config.apartmentDatabaseString;
+	}
+
+	@Override
+	public void setStorageLocation() {
 		storageFileLocation = Config.apartmentsDataLocation;
-		
+	}
+
+	@Override
+	public void initAttributes() {
 		if (ctx.getAttribute(storageFileLocation) == null)
 			ctx.setAttribute(storageFileLocation, new Storage<Apartment>(Apartment.class, storageFileLocation));
 		if (ctx.getAttribute(databaseAttributeString) == null)
 			ctx.setAttribute(databaseAttributeString, 
-										new ApartmentDAO(
-												(Storage<Apartment>)ctx.getAttribute(storageFileLocation)
-										));	
-	}
-	
-	/** Test method. */
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/test")
-	public Amenity test(){
-		Amenity amenity = new Amenity();
-		amenity.id = "A1";
-		amenity.name = "Amenity";
-		
-		return amenity;
+									new ApartmentDAO(
+										(Storage<Apartment>)ctx.getAttribute(storageFileLocation)
+									));
 	}
 	
 	@POST

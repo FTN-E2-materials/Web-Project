@@ -1,7 +1,7 @@
 package dao;
 
 import java.util.ArrayList;
-import beans.interfaces.*;
+import beans.model.DatabaseEntity;
 import javafx.collections.MapChangeListener;
 import storage.Storage;
 
@@ -12,9 +12,9 @@ import java.util.Map;
 import com.sun.javafx.collections.ObservableMapWrapper;
 
 
-/** Template DAO class for basic CRUD operations with BeanInterface classes. 
+/** Template DAO class for basic CRUD operations with DatabaseEntity classes. 
  *  Contains basic CRUD methods (add, getByID, getAll, delete)*/
-public abstract class BeanDAO <T extends BeanInterface> {
+public abstract class BeanDAO <T extends DatabaseEntity> {
 	
 	// HashMap to act as a database
 	protected ObservableMapWrapper<String, T> database;
@@ -36,15 +36,16 @@ public abstract class BeanDAO <T extends BeanInterface> {
 			}
 		});
 		
+		// Entity labeling begins at 101 
 		entityCounter = 100 + database.size();
 	}
 	
 	/** Should be used for adding objects to the database. */
 	protected abstract void init();
 	
-	/** Add BeanObject to the database
-	 * @param BeanObject
-	 * @return BeanObject or null if they already exist.
+	/** Add object to the database
+	 * @param 
+	 * @return Object or null if they already exist.
 	 */
 	public T create(T object) {
 		if (!database.containsKey(object.getKey())) {
@@ -57,9 +58,9 @@ public abstract class BeanDAO <T extends BeanInterface> {
 			return null;
 	}
 	
-	/** Get a bean object from the database with the specified key attached to it.
-	 * @param insuranceNumber
-	 * @return BeanObject or null if the key doesn't exist.
+	/** Get an object from the database with the specified key attached to it.
+	 * @param 
+	 * @return Object or null if the key doesn't exist.
 	 */
 	public T getByKey(String key) {
 		return database.get(key);

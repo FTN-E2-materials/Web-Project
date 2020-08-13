@@ -31,6 +31,10 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	/** Location of the data storage file where the data will be kept on the disk. */
 	protected String storageFileLocation;
 	
+	public abstract void setDatabaseString();
+	public abstract void setStorageLocation();
+	public abstract void initAttributes();
+	
 	/** POST to add received JSON BeanObject to the database.
 	 * @param BeanObject
 	 * @return JSON format BeanObject added, or null if failed.

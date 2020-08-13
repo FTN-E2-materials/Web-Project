@@ -27,16 +27,30 @@ public class ReservationService extends Service<Reservation, ReservationDAO> imp
 	@Override
 	@PostConstruct
 	public void onCreate() {
+		setDatabaseString();
+		setStorageLocation();
+		initAttributes();
+	}
+	
+	@Override
+	public void setDatabaseString() {
 		databaseAttributeString = Config.reservationDatabaseString;
+	}
+
+	@Override
+	public void setStorageLocation() {
 		storageFileLocation = Config.reservationsDataLocation;
-		
+	}
+
+	@Override
+	public void initAttributes() {
 		if (ctx.getAttribute(storageFileLocation) == null)
 			ctx.setAttribute(storageFileLocation, new Storage<Reservation>(Reservation.class, storageFileLocation));
-		if (ctx.getAttribute(databaseAttributeString) == null) 
+		if (ctx.getAttribute(databaseAttributeString) == null)
 			ctx.setAttribute(databaseAttributeString, 
-							new ReservationDAO(
-									(Storage<Reservation>)ctx.getAttribute(storageFileLocation)
-							));
+									new ReservationDAO(
+										(Storage<Reservation>)ctx.getAttribute(storageFileLocation)
+									));
 	}
 	
 	@POST
