@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import beans.model.Apartment;
 import beans.model.ApartmentStatus;
+import storage.Storage;
 import util.Config;
 
 
@@ -14,8 +15,9 @@ public class ApartmentDAO extends BeanDAO<Apartment> {
 	protected void init() {
 		idHeader = Config.apartmentIdHeader;
 	}
-	
-	public ApartmentDAO() {
+	 
+	public ApartmentDAO(Storage<Apartment> storage) {
+		super(storage);
 		init();
 	}
 	

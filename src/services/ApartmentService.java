@@ -15,6 +15,7 @@ import beans.interfaces.DatabaseServiceInterface;
 import beans.model.Amenity;
 import beans.model.Apartment;
 import dao.ApartmentDAO;
+import storage.Storage;
 import util.Config;
 
 
@@ -25,9 +26,15 @@ public class ApartmentService extends Service<Apartment, ApartmentDAO> implement
 	@PostConstruct
 	public void onCreate() {
 		databaseAttributeString = Config.apartmentDatabaseString;
+		storageFileLocation = Config.apartmentsDataLocation;
 		
+		if (ctx.getAttribute(storageFileLocation) == null)
+			ctx.setAttribute(storageFileLocation, new Storage<Apartment>(Apartment.class, storageFileLocation));
 		if (ctx.getAttribute(databaseAttributeString) == null)
-			ctx.setAttribute(databaseAttributeString, new ApartmentDAO());	
+			ctx.setAttribute(databaseAttributeString, 
+										new ApartmentDAO(
+												(Storage<Apartment>)ctx.getAttribute(storageFileLocation)
+										));	
 	}
 	
 	/** Test method. */

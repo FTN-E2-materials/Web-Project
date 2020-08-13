@@ -19,16 +19,10 @@ public class ReviewDAO extends BeanDAO<Review> {
 		idHeader = Config.reviewIdHeader;	
 	}
 	
-	public ReviewDAO() {
-		super();
-		init();
-	}
-	
 	public ReviewDAO(Storage<Review> storage) {
 		super(storage);
 		init();
 	}
-	
 	
 	
 	/** Returns a collection of reviews for the given apartment. Requested by host.

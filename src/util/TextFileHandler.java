@@ -25,6 +25,7 @@ public class TextFileHandler {
 	/** Return all the lines from the specified file as a single String */
 	public static String readFromFile(String fileLocation) {
 		try {
+			// TODO This crashes if the .txt file doesn't exist already!
 			return new String(Files.readAllBytes(Paths.get(fileLocation)));
 		}
 		catch (Exception e) {

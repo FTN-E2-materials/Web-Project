@@ -14,5 +14,8 @@ public class Config {
 	public static String dataRootLocation = "C:\\Users\\Nikola\\Desktop\\Faks\\WEB\\Web-Project\\data\\";
 	
 	public static String reviewsDataLocation = dataRootLocation + "reviews.txt";
+	public static String reservationsDataLocation = dataRootLocation + "reservations.txt";
+	public static String apartmentsDataLocation = dataRootLocation + "apartments.txt";
+	public static String amenitiesDataLocation = dataRootLocation + "amenities.txt";
 	
 }

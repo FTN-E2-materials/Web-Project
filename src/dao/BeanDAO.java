@@ -2,11 +2,14 @@ package dao;
 
 import java.util.ArrayList;
 import beans.interfaces.*;
+import javafx.collections.MapChangeListener;
 import storage.Storage;
-import util.DataConverter;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
+
+import com.sun.javafx.collections.ObservableMapWrapper;
 
 
 /** Template DAO class for basic CRUD operations with BeanInterface classes. 
@@ -14,17 +17,25 @@ import java.util.HashMap;
 public abstract class BeanDAO <T extends BeanInterface> {
 	
 	// HashMap to act as a database
-	protected HashMap<String, T> database;
+	protected ObservableMapWrapper<String, T> database;
 	protected String idHeader;
 	protected long entityCounter;
 	
-	public BeanDAO() {
-		database = new HashMap<String, T>();
-		entityCounter = 100;
-	}
-	
 	public BeanDAO(Storage<T> storage) {
-		database = DataConverter.listToMap(storage.readAll());
+		// If file is empty, GSON returns null
+		Map<String, T> storedData = storage.readAll();
+		if (storedData == null)
+			storedData = new HashMap<String, T>();
+		database = new ObservableMapWrapper<String, T>(storedData);
+		// Every time map is changed (put/delete), write those changes to the file
+		database.addListener(new MapChangeListener<String, T>() {
+
+			@Override
+			public void onChanged(Change<? extends String, ? extends T> change) {
+				storage.writeAll(database);
+			}
+		});
+		
 		entityCounter = 100 + database.size();
 	}
 	

@@ -1,10 +1,9 @@
 package storage;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.*;
-import java.lang.reflect.Type;
 import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
 
@@ -20,26 +19,27 @@ public class Storage<T extends BeanInterface> {
 	public static Gson GSON = new Gson();
 	/** Type token for dynamic deserialization 
 	 *  Define which type of object is tied to this class at runtime. */
-	private TypeToken<List<T>> targetType;
+	private TypeToken<Map<String, T>> targetType;
 	
 	public Storage(Class<T> dataType, String fileStorageLocation) {
 		this.fileStorageLocation = fileStorageLocation;
 		
-		targetType = new TypeToken<List<T>>() {}
+		targetType = new TypeToken<Map<String, T>>() {}
         			.where(new TypeParameter<T>() {}, dataType);
 	}
 	
-	/** Return an ArrayList of all the JSON objects which were saved in the specified file. */
-	@SuppressWarnings("unchecked")
-	public List<T> readAll() {
+	/** Return a Map of all the JSON objects which were saved in the specified file. */
+	public Map<String, T> readAll() {
 		String objectsJSON = TextFileHandler.readFromFile(fileStorageLocation);	// This fetches the JSON-format objects from the text file 
 		
         return GSON.fromJson(objectsJSON, targetType.getType());		// This deserializes the JSON string into a List of objects
 	}
 	
 	/** Write all objects from the specified map to a file specified by the location parameter. */
-	public void writeAll(ArrayList<T> objects) {
+	public void writeAll(Map<String, T> objects) {
 		String objectsJSON = GSON.toJson(objects);
 		TextFileHandler.writeToFile(objectsJSON, fileStorageLocation);
 	}
+	
+	
 }

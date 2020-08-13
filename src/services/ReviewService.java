@@ -48,12 +48,7 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 		// TODO Only guests can create reviews
 		// Guest has to have a FINISHED or REJECTED reservation with the apartment in question
 		ReviewDAO dao = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
-		dao.create(review);
-	
-		// TODO Try creating a HashMap listener in DAO, so it can automatically call Storage every time a change occurs.
-		Storage<Review> storage = (Storage<Review>)ctx.getAttribute(storageFileLocation);
-		storage.writeAll((ArrayList<Review>)dao.getAll());
-		return review;
+		return dao.create(review);
 	}
 	
 	@GET

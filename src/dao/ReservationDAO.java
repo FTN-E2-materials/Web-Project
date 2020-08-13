@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Collection;
 
 import beans.model.Reservation;
+import beans.model.Review;
+import storage.Storage;
 import util.Config;
 
 
@@ -15,7 +17,8 @@ public class ReservationDAO extends BeanDAO<Reservation> {
 		idHeader = Config.reservationIdHeader;
 	}
 	
-	public ReservationDAO() {
+	public ReservationDAO(Storage<Reservation> storage) {
+		super(storage);
 		init();
 	}
 
