@@ -1,12 +1,14 @@
 package storage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+import com.google.common.reflect.TypeParameter;
+import com.google.common.reflect.TypeToken;
 
 import beans.interfaces.BeanInterface;
-import beans.model.Review;
 import util.TextFileHandler;
 
 
@@ -16,22 +18,28 @@ public class Storage<T extends BeanInterface> {
 	protected String fileStorageLocation;
 	/** Static Gson object to be shared by all the DB classes for I/O operations */
 	public static Gson GSON = new Gson();
+	/** Type token for dynamic deserialization 
+	 *  Define which type of object is tied to this class at runtime. */
+	private TypeToken<List<T>> targetType;
 	
-	public Storage(String fileStorageLocation) {
+	public Storage(Class<T> dataType, String fileStorageLocation) {
 		this.fileStorageLocation = fileStorageLocation;
+		
+		targetType = new TypeToken<List<T>>() {}
+        			.where(new TypeParameter<T>() {}, dataType);
 	}
 	
-	/** Return a map of all the JSON objects which were saved in the specified file. */
+	/** Return an ArrayList of all the JSON objects which were saved in the specified file. */
 	@SuppressWarnings("unchecked")
-	public ArrayList<T> readAll() {
-		String objectsJSON = TextFileHandler.readFromFile(fileStorageLocation);
-		return GSON.fromJson(objectsJSON, TypeToken.getParameterized(ArrayList.class, Review.class).getType());
+	public List<T> readAll() {
+		String objectsJSON = TextFileHandler.readFromFile(fileStorageLocation);	// This fetches the JSON-format objects from the text file 
+		
+        return GSON.fromJson(objectsJSON, targetType.getType());		// This deserializes the JSON string into a List of objects
 	}
 	
 	/** Write all objects from the specified map to a file specified by the location parameter. */
 	public void writeAll(ArrayList<T> objects) {
 		String objectsJSON = GSON.toJson(objects);
-		System.out.println("JSON: " + objectsJSON);
 		TextFileHandler.writeToFile(objectsJSON, fileStorageLocation);
 	}
 }

@@ -32,7 +32,7 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 		storageFileLocation = Config.reviewsDataLocation;
 		
 		if (ctx.getAttribute(storageFileLocation) == null)
-			ctx.setAttribute(storageFileLocation, new Storage<Review>(storageFileLocation));
+			ctx.setAttribute(storageFileLocation, new Storage<Review>(Review.class, storageFileLocation));
 		if (ctx.getAttribute(databaseAttributeString) == null)
 			ctx.setAttribute(databaseAttributeString, 
 									new ReviewDAO(
