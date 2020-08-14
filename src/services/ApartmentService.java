@@ -3,12 +3,14 @@ package services;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.interfaces.DatabaseServiceInterface;
@@ -58,9 +60,10 @@ public class ApartmentService extends Service<Apartment, ApartmentDAO> implement
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	/** Check if user is eligible to create an apartment (if user is a host) */
-	public Apartment create(Apartment apartment) {
+	public Apartment create(Apartment apartment, @Context HttpServletRequest request) {
 		// TODO Check if user is a host 
-		return super.create(apartment);
+		System.out.println("Creating apartment...");
+		return super.create(apartment, request);
 	}
 	
 	@DELETE
@@ -68,18 +71,18 @@ public class ApartmentService extends Service<Apartment, ApartmentDAO> implement
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	/** Check if user is eligible to delete an apartment */
-	public Apartment delete(String key) {
+	public Apartment delete(String key, @Context HttpServletRequest request) {
 		// TODO Check is user a host/admin in order to delete
 		// Maybe pass the whole Apartment? 
 		
-		return super.delete(key);
+		return super.delete(key, request);
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/update")
-	public Apartment update(Apartment apartment) {
+	public Apartment update(Apartment apartment, @Context HttpServletRequest request) {
 		// TODO Fetch auth to see which host it is
 		// Host can only change their own apartments
 		// If it is an admin, allow it 
@@ -97,9 +100,9 @@ public class ApartmentService extends Service<Apartment, ApartmentDAO> implement
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Collection<Apartment> getAll() {
+	public Collection<Apartment> getAll(@Context HttpServletRequest request) {
 		// TODO Check if user is admin
-		return super.getAll();
+		return super.getAll(request);
 	}
 	
 	@GET

@@ -1,6 +1,5 @@
 package storage;
 
-import java.util.List;
 import java.util.Map;
 
 import com.google.gson.*;
@@ -18,7 +17,7 @@ public class Storage<T extends BeanInterface> {
 	/** Static Gson object to be shared by all the DB classes for I/O operations */
 	public static Gson GSON = new Gson();
 	/** Type token for dynamic deserialization 
-	 *  Define which type of object is tied to this class at runtime. */
+	 *  Defines which type of object is tied to this class at runtime. */
 	private TypeToken<Map<String, T>> targetType;
 	
 	public Storage(Class<T> dataType, String fileStorageLocation) {

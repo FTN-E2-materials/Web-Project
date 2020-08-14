@@ -3,13 +3,9 @@ package dao;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.core.MediaType;
-
 import beans.model.Review;
 import storage.Storage;
 import util.Config;
-import util.DataConverter;
 
 
 public class ReviewDAO extends BeanDAO<Review> {

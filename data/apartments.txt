@@ -1,0 +1,1 @@
+{"apartment104":{"numberOfRooms":0,"numberOfGuests":0,"amenities":[],"id":"apartment104"},"apartment103":{"numberOfRooms":0,"numberOfGuests":0,"amenities":[],"id":"apartment103"},"apartment102":{"numberOfRooms":0,"numberOfGuests":0,"amenities":[],"id":"apartment102"},"apartment101":{"numberOfRooms":0,"numberOfGuests":0,"amenities":[],"id":"apartment101"}}

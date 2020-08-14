@@ -3,12 +3,14 @@ package services;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.interfaces.DatabaseServiceInterface;
@@ -56,19 +58,18 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Review create(Review review) {
+	public Review create(Review review, @Context HttpServletRequest request) {
 		// TODO Only guests can create reviews
 		// Guest has to have a FINISHED or REJECTED reservation with the apartment in question
-		ReviewDAO dao = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
-		return dao.create(review);
+		return super.create(review, request);
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Collection<Review> getAll() {
+	public Collection<Review> getAll(@Context HttpServletRequest request) {
 		// TODO Check if user is admin, if not, reject 
-		return super.getAll();
+		return super.getAll(request);
 	}
 	
 	@GET
@@ -91,7 +92,7 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 		// TODO Check if user is host
 		
 		// Check if the apartment exists, and if it does, whether it is this host's apartment.
-		ApartmentDAO apartmentDAO = (ApartmentDAO)ctx.getAttribute("apartmentDatabase");
+		ApartmentDAO apartmentDAO = (ApartmentDAO)ctx.getAttribute(Config.apartmentDatabaseString);
 		Apartment apartment = apartmentDAO.getByKey(review.apartmentID);
 		
 		if (apartment == null)
@@ -102,6 +103,7 @@ public class ReviewService extends Service<Review, ReviewDAO> implements Databas
 		
 		review.visibleToGuests = !review.visibleToGuests;
 		ReviewDAO reviewDAO = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
+		System.out.println("Changing visibility...");
 		return reviewDAO.update(review);
 	}
 }

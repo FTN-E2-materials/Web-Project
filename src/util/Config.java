@@ -17,5 +17,4 @@ public class Config {
 	public static String reservationsDataLocation = dataRootLocation + "reservations.txt";
 	public static String apartmentsDataLocation = dataRootLocation + "apartments.txt";
 	public static String amenitiesDataLocation = dataRootLocation + "amenities.txt";
-	
 }

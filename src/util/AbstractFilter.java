@@ -2,12 +2,12 @@ package util;
 
 import java.util.Collection;
 
-import beans.interfaces.BeanInterface;
+import beans.model.DatabaseEntity;
 import dao.BeanDAO;
 
 
 /** Class used for database filtering */
-public abstract class AbstractFilter<T extends BeanInterface> {
+public abstract class AbstractFilter<T extends DatabaseEntity> {
 	
 	protected Collection<T> entities;
 	

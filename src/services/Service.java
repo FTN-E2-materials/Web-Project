@@ -1,10 +1,10 @@
 package services;
 
 import java.util.Collection;
-import beans.interfaces.*;
+import beans.model.DatabaseEntity;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,7 +21,7 @@ import storage.Storage;
 
 /** Abstract template for a REST service class. 
  * Instantiates with a bean model and DAO class related to it */
-public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
+public abstract class Service<T extends DatabaseEntity, DAO extends BeanDAO<T>> {
 	
 	@Context
 	ServletContext ctx;
@@ -42,7 +42,7 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public T create(T object) {
+	public T create(T object, @Context HttpServletRequest request) {
 		if (object == null) {
 			return null;
 		}
@@ -58,7 +58,7 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	/** Returns a JSON array of all BeanObjects in the database. */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<T> getAll(){
+	public Collection<T> getAll(@Context HttpServletRequest request){
 		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
 		
 		return objectDAO.getAll();	
@@ -72,7 +72,7 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public T getByID(@PathParam("id") String key) {
+	public T getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
 		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
 		System.out.println("Trying to fetch ID: " + key);
 		return objectDAO.getByKey(key);
@@ -81,7 +81,7 @@ public abstract class Service<T extends BeanInterface, DAO extends BeanDAO<T>> {
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public T delete(String key) {
+	public T delete(String key, @Context HttpServletRequest request) {
 		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
 		
 		return objectDAO.delete(key);

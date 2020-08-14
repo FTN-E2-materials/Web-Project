@@ -40,7 +40,7 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 		entityCounter = 100 + database.size();
 	}
 	
-	/** Should be used for adding objects to the database. */
+	/** Postconstruct initialization, such as header definitions etc. */
 	protected abstract void init();
 	
 	/** Add object to the database
