@@ -86,5 +86,7 @@ public abstract class Service<T extends DatabaseEntity, DAO extends BeanDAO<T>> 
 		
 		return objectDAO.delete(key);
 	}
+	
+	// TODO Update method?
 }
 

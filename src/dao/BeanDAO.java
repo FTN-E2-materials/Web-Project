@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import beans.model.DatabaseEntity;
 import javafx.collections.MapChangeListener;
 import storage.Storage;
+import util.Config;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 		});
 		
 		// Entity labeling begins at 101 
-		entityCounter = 100 + database.size();
+		entityCounter = Config.minimalIdNumber + database.size();
 	}
 	
 	/** Postconstruct initialization, such as header definitions etc. */
@@ -48,10 +49,14 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 	 * @return Object or null if they already exist.
 	 */
 	public T create(T object) {
-		if (!database.containsKey(object.getKey())) {
+		if (object.isCountable()) {		// Apartments, reservations and such 
 			object.setKey(idHeader + ++entityCounter);
 			database.put(object.getKey(), object);
 			
+			return object;
+		}
+		if (!database.containsKey(object.getKey())) {		// Users
+			database.put(object.getKey(), object);
 			return object;
 		}
 		else
