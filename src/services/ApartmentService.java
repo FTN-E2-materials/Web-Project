@@ -21,6 +21,7 @@ import dao.ApartmentDAO;
 import dao.ReservationDAO;
 import storage.Storage;
 import util.Config;
+import util.RequestWrapper;
 
 
 @Path("/apartments")
@@ -71,11 +72,11 @@ public class ApartmentService extends Service<Apartment, ApartmentDAO> implement
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	/** Check if user is eligible to delete an apartment */
-	public Apartment delete(String key, @Context HttpServletRequest request) {
+	public Apartment delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
 		// TODO Check is user a host/admin in order to delete
 		// Maybe pass the whole Apartment? 
 		
-		return super.delete(key, request);
+		return super.delete(requestWrapper, request);
 	}
 	
 	@POST

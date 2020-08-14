@@ -1,7 +1,10 @@
 package services;
 
 import javax.annotation.PostConstruct;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import beans.interfaces.DatabaseServiceInterface;
 import beans.model.UserAccount;
@@ -41,4 +44,11 @@ public class UserService extends Service<UserAccount, UserDAO> implements Databa
 										(Storage<UserAccount>)ctx.getAttribute(storageFileLocation)));
 	}
 
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/d")
+	public String fetchUsername(UserAccount account) {
+		return account.getKey();
+	}
 }

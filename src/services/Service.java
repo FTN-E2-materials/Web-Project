@@ -17,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import dao.BeanDAO;
 import storage.Storage;
+import util.RequestWrapper;
 
 
 /** Abstract template for a REST service class. 
@@ -81,10 +82,10 @@ public abstract class Service<T extends DatabaseEntity, DAO extends BeanDAO<T>> 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public T delete(String key, @Context HttpServletRequest request) {
+	public T delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
 		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
 		
-		return objectDAO.delete(key);
+		return objectDAO.delete(requestWrapper.stringKey);
 	}
 	
 	// TODO Update method?

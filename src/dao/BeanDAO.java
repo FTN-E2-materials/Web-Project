@@ -93,6 +93,8 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 	
 	/** Removes an object with the specified key from the database */
 	public T delete(String key) {
+		// TODO Potentially decrease the entity counter when deleting? 
+		// If deletion is logical then not.
 		return database.remove(key);
 	}
 }
