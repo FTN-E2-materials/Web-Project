@@ -85,12 +85,9 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Override
 	public void register(UserAccount account, @Context HttpServletRequest request) {
-		System.out.println("Starting the registration process...");
 		// If already logged in, deny
-		if (request.getAttribute(Config.userSessionAttributeString) != null) {
-			System.out.println("User already logged in. Cannot register until logged out.");
+		if (request.getAttribute(Config.userSessionAttributeString) != null)
 			return;
-		}
 				
 		if (account == null)
 			return;
@@ -109,10 +106,7 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 	@POST
 	@Override
 	public void logOut(@Context HttpServletRequest request) {
-		System.out.println("Before: " + ctx.getAttribute(Config.userSessionAttributeString));
 		request.setAttribute(Config.userSessionAttributeString, null);
-		System.out.println("After: " + ctx.getAttribute(Config.userSessionAttributeString));
-
 		System.out.println("User logged out successfully.");
 	}
 }
