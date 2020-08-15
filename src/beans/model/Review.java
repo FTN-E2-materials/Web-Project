@@ -9,4 +9,10 @@ public class Review extends DatabaseEntity {
    public String authorID;
    public String apartmentID;
    public boolean visibleToGuests;
+   
+   @Override
+   public void validate() {
+   	// TODO Auto-generated method stub
+   	
+   }
 }

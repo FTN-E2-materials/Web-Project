@@ -25,6 +25,12 @@ public class Apartment extends DatabaseEntity {
       return amenities;
    }
    
+   @Override
+   public void validate() {
+   	// TODO Auto-generated method stub
+   	
+   }
+   
    public void setAmenities(ArrayList<Amenity> newAmenities) {
       amenities = newAmenities;
    }

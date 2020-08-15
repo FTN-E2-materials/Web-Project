@@ -1,5 +1,4 @@
 package beans.model;
-import beans.interfaces.BeanInterface;
 
 
 public class UserAccount extends DatabaseEntity {
@@ -15,5 +14,11 @@ public class UserAccount extends DatabaseEntity {
    
    public TypeOfUser getType() {
 	   return type;
+   }
+   
+   @Override
+   public void validate() {
+   	// TODO Auto-generated method stub
+   	
    }
 }

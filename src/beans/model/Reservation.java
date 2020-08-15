@@ -14,4 +14,10 @@ public class Reservation extends DatabaseEntity {
    
    public String guestID;
    public Apartment apartment;
+   
+   @Override
+   public void validate() {
+   	// TODO Auto-generated method stub
+   	
+   }
 }

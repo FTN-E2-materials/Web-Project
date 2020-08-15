@@ -24,7 +24,7 @@ import util.RequestWrapper;
  * @param <T>
  * @param <DAO>
  */
-public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<T>> extends BaseService<T, DAO>{
+public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<T>> extends BaseService {
 	
 	/** POST to add received JSON BeanObject to the database.
 	 * @param BeanObject

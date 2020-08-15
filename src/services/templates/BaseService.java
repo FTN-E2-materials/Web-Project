@@ -15,7 +15,7 @@ import services.interfaces.DatabaseServiceInterface;
  * @param <T>
  * @param <DAO>
  */
-public abstract class BaseService<T extends DatabaseEntity, DAO extends BeanDAO<T>> implements DatabaseServiceInterface {
+public abstract class BaseService implements DatabaseServiceInterface {
 	
 	@Context
 	protected ServletContext ctx;
