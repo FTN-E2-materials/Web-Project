@@ -18,7 +18,7 @@ import beans.model.Apartment;
 import beans.model.Reservation;
 import dao.ApartmentDAO;
 import dao.ReservationDAO;
-import services.interfaces.DatabaseServiceInterface;
+import services.interfaces.DatabaseAccessInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -26,7 +26,7 @@ import util.RequestWrapper;
 
 
 @Path("/apartments")
-public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> implements DatabaseServiceInterface {
+public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> {
 	
 	@Override
 	@PostConstruct

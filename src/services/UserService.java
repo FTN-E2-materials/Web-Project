@@ -5,14 +5,14 @@ import javax.ws.rs.Path;
 
 import beans.model.UserAccount;
 import dao.UserDAO;
-import services.interfaces.DatabaseServiceInterface;
+import services.interfaces.DatabaseAccessInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
 
 
 @Path("/users")
-public class UserService extends CRUDService<UserAccount, UserDAO> implements DatabaseServiceInterface {
+public class UserService extends CRUDService<UserAccount, UserDAO> {
 
 	@Override
 	@PostConstruct

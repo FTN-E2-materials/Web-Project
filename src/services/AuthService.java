@@ -11,14 +11,14 @@ import javax.ws.rs.core.MediaType;
 
 import beans.model.UserAccount;
 import dao.UserDAO;
-import services.interfaces.AuthServiceInterface;
+import services.interfaces.AuthenticationInterface;
 import services.templates.BaseService;
 import storage.Storage;
 import util.Config;
 import util.RequestWrapper;
 
 @Path("/auth")
-public class AuthService extends BaseService implements AuthServiceInterface {
+public class AuthService extends BaseService implements AuthenticationInterface {
 
 	@PostConstruct
 	@Override

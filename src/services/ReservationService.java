@@ -19,14 +19,14 @@ import beans.model.Reservation;
 import beans.model.TypeOfUser;
 import beans.model.UserAccount;
 import dao.ReservationDAO;
-import services.interfaces.DatabaseServiceInterface;
+import services.interfaces.DatabaseAccessInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
 
 
 @Path("/reservations")
-public class ReservationService extends CRUDService<Reservation, ReservationDAO> implements DatabaseServiceInterface{
+public class ReservationService extends CRUDService<Reservation, ReservationDAO> {
 
 	@Override
 	@PostConstruct

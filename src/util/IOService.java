@@ -1,12 +1,11 @@
 package util;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class TextFileHandler {
+public class IOService {
 
 	/** Write the string text into a file specified by the given location/path */
 	public static void writeToFile(String text, String fileLocation) {

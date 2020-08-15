@@ -17,14 +17,14 @@ import beans.model.Apartment;
 import beans.model.Review;
 import dao.ApartmentDAO;
 import dao.ReviewDAO;
-import services.interfaces.DatabaseServiceInterface;
+import services.interfaces.DatabaseAccessInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
 
 
 @Path("/reviews")
-public class ReviewService extends CRUDService<Review, ReviewDAO> implements DatabaseServiceInterface{
+public class ReviewService extends CRUDService<Review, ReviewDAO> {
 
 	@Override
 	@PostConstruct

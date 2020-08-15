@@ -1,4 +1,4 @@
-package util;
+package filters;
 
 import java.util.Calendar;
 import beans.model.Apartment;
@@ -7,7 +7,7 @@ import beans.model.Country;
 
 
 /** Database filtering class used for fetching specific entities based on their details */
-public class ApartmentFilter extends AbstractFilter<Apartment> {
+public class ApartmentFilter extends BaseFilter<Apartment> {
 	
 	/** Return a collection of entities for the given host */
 	public ApartmentFilter filterByHost(String hostUsername) {

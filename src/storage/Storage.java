@@ -7,7 +7,7 @@ import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
 
 import beans.interfaces.BeanInterface;
-import util.TextFileHandler;
+import util.IOService;
 
 
 public class Storage<T extends BeanInterface> {
@@ -29,7 +29,7 @@ public class Storage<T extends BeanInterface> {
 	
 	/** Return a Map of all the JSON objects which were saved in the specified file. */
 	public Map<String, T> readAll() {
-		String objectsJSON = TextFileHandler.readFromFile(fileStorageLocation);	// This fetches the JSON-format objects from the text file 
+		String objectsJSON = IOService.readFromFile(fileStorageLocation);	// This fetches the JSON-format objects from the text file 
 		
         return GSON.fromJson(objectsJSON, targetType.getType());		// This deserializes the JSON string into a List of objects
 	}
@@ -37,7 +37,7 @@ public class Storage<T extends BeanInterface> {
 	/** Write all objects from the specified map to a file specified by the location parameter. */
 	public void writeAll(Map<String, T> objects) {
 		String objectsJSON = GSON.toJson(objects);
-		TextFileHandler.writeToFile(objectsJSON, fileStorageLocation);
+		IOService.writeToFile(objectsJSON, fileStorageLocation);
 	}
 	
 	

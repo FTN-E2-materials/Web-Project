@@ -5,7 +5,7 @@ import javax.ws.rs.core.Context;
 
 import beans.model.DatabaseEntity;
 import dao.BeanDAO;
-import services.interfaces.DatabaseServiceInterface;
+import services.interfaces.DatabaseAccessInterface;
 
 
 /** Abstract template for a basic service class. Contains a ServletContext field
@@ -15,7 +15,7 @@ import services.interfaces.DatabaseServiceInterface;
  * @param <T>
  * @param <DAO>
  */
-public abstract class BaseService implements DatabaseServiceInterface {
+public abstract class BaseService implements DatabaseAccessInterface {
 	
 	@Context
 	protected ServletContext ctx;
