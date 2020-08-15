@@ -24,4 +24,6 @@ public class Config {
 	public static final String usersDataLocation = dataRootLocation + "users.txt";
 	
 	public static final int minimalIdNumber = 100;
+	
+	public static final String userSessionAttributeString = "currentUser";
 }

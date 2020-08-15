@@ -15,16 +15,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import beans.interfaces.DatabaseServiceInterface;
 import beans.model.Reservation;
+import beans.model.TypeOfUser;
+import beans.model.UserAccount;
 import dao.ReservationDAO;
-import services.Service;
+import services.interfaces.DatabaseServiceInterface;
+import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
 
 
 @Path("/reservations")
-public class ReservationService extends Service<Reservation, ReservationDAO> implements DatabaseServiceInterface{
+public class ReservationService extends CRUDService<Reservation, ReservationDAO> implements DatabaseServiceInterface{
 
 	@Override
 	@PostConstruct
@@ -60,25 +62,31 @@ public class ReservationService extends Service<Reservation, ReservationDAO> imp
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Reservation create(Reservation reservation, @Context HttpServletRequest request) {
-		// TODO Only guests can create reviews
-		// Guest has to have a FINISHED or REJECTED reservation with the apartment in question
-		return super.create(reservation, request);
+		UserAccount currentUser = super.getCurrentUser(request);
+		
+		if (currentUser.getType() == TypeOfUser.GUEST)
+			super.create(reservation, request);
+			
+		return null;					
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Collection<Reservation> getAll(@Context HttpServletRequest request) {
-		// TODO See what privileges does the user have 
-		// 1 - Unregistered - Deny
-		// 2 - Guest - see their own reservations
-		// 3 - Host - see reservations on their apartments
-		// 4 - Admin - see all the reservations 
-		// For now let's just return all 
-		Object user = request.getAttribute("user");
-		if (user == null)
-			System.out.println("Atribut je null");
+		UserAccount currentUser = super.getCurrentUser(request);
+		ReservationDAO dao = (ReservationDAO)ctx.getAttribute(databaseAttributeString);
 		
-		return super.getAll(request);
+		if (currentUser == null)
+			return new ArrayList<>();		
+		
+		if (currentUser.getType() == TypeOfUser.GUEST)
+			return dao.getByGuestID(currentUser.id);
+		if (currentUser.getType() == TypeOfUser.HOST)
+			return dao.getByHostID(currentUser.id);
+		if (currentUser.getType() == TypeOfUser.ADMINISTRATOR)
+			return super.getAll(request);
+		else 
+			return null;
 	}
 }

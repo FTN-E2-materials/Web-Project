@@ -13,19 +13,20 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import beans.interfaces.DatabaseServiceInterface;
 import beans.model.Amenity;
 import beans.model.Apartment;
 import beans.model.Reservation;
 import dao.ApartmentDAO;
 import dao.ReservationDAO;
+import services.interfaces.DatabaseServiceInterface;
+import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
 import util.RequestWrapper;
 
 
 @Path("/apartments")
-public class ApartmentService extends Service<Apartment, ApartmentDAO> implements DatabaseServiceInterface {
+public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> implements DatabaseServiceInterface {
 	
 	@Override
 	@PostConstruct

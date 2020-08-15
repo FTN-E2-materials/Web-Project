@@ -1,9 +1,9 @@
-package services;
+package services.templates;
 
 import java.util.Collection;
 import beans.model.DatabaseEntity;
+import beans.model.UserAccount;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -12,29 +12,19 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import dao.BeanDAO;
-import storage.Storage;
+import util.Config;
 import util.RequestWrapper;
 
 
-/** Abstract template for a REST service class. 
- * Instantiates with a bean model and DAO class related to it */
-public abstract class Service<T extends DatabaseEntity, DAO extends BeanDAO<T>> {
-	
-	@Context
-	ServletContext ctx;
-	
-	/** This string is used to identify unique database names accross the server. */
-	protected String databaseAttributeString;
-	/** Location of the data storage file where the data will be kept on the disk. */
-	protected String storageFileLocation;
-	
-	public abstract void setDatabaseString();
-	public abstract void setStorageLocation();
-	public abstract void initAttributes();
+/** Abstract template for a CRUD service class with predefined basic CRUD method
+ * @author Nikola
+ * @param <T>
+ * @param <DAO>
+ */
+public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<T>> extends BaseService<T, DAO>{
 	
 	/** POST to add received JSON BeanObject to the database.
 	 * @param BeanObject
@@ -89,5 +79,10 @@ public abstract class Service<T extends DatabaseEntity, DAO extends BeanDAO<T>> 
 	}
 	
 	// TODO Update method?
+	
+	/** Fetch the auth token which lets you identify the user that is currently using the service */
+	protected UserAccount getCurrentUser(HttpServletRequest request) {
+		return (UserAccount) request.getAttribute(Config.userSessionAttributeString);
+	}
 }
 

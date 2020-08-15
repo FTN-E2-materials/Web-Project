@@ -1,27 +1,28 @@
 package services;
 
-import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
 
+import beans.model.Apartment;
 import beans.model.UserAccount;
+import dao.ApartmentDAO;
 import dao.UserDAO;
-import services.interfaces.DatabaseServiceInterface;
-import services.templates.CRUDService;
+import services.interfaces.AuthServiceInterface;
+import services.templates.BaseService;
 import storage.Storage;
 import util.Config;
 
-
-@Path("/users")
-public class UserService extends CRUDService<UserAccount, UserDAO> implements DatabaseServiceInterface {
+@Path("/auth")
+public class AuthService extends BaseService<UserAccount, UserDAO>implements AuthServiceInterface {
 
 	@Override
-	@PostConstruct
 	public void onCreate() {
 		setDatabaseString();
 		setStorageLocation();
 		initAttributes();
 	}
-
+	
 	@Override
 	public void setDatabaseString() {
 		databaseAttributeString = Config.userDatabaseString;
@@ -39,6 +40,22 @@ public class UserService extends CRUDService<UserAccount, UserDAO> implements Da
 		if (ctx.getAttribute(databaseAttributeString) == null)
 			ctx.setAttribute(databaseAttributeString, 
 									new UserDAO(
-										(Storage<UserAccount>)ctx.getAttribute(storageFileLocation)));
+										(Storage<UserAccount>)ctx.getAttribute(storageFileLocation)
+									));
+	}
+	
+	@Override
+	public void login(String username, String password, @Context HttpServletRequest request) {
+		
+	}
+
+	@Override
+	public void register(UserAccount account, @Context HttpServletRequest request) {
+		
+	}
+
+	@Override
+	public void logOut(@Context HttpServletRequest request) {
+		request.setAttribute(Config.userSessionAttributeString, null);
 	}
 }

@@ -13,17 +13,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import beans.interfaces.DatabaseServiceInterface;
 import beans.model.Apartment;
 import beans.model.Review;
 import dao.ApartmentDAO;
 import dao.ReviewDAO;
+import services.interfaces.DatabaseServiceInterface;
+import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
 
 
 @Path("/reviews")
-public class ReviewService extends Service<Review, ReviewDAO> implements DatabaseServiceInterface{
+public class ReviewService extends CRUDService<Review, ReviewDAO> implements DatabaseServiceInterface{
 
 	@Override
 	@PostConstruct

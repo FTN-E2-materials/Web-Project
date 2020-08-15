@@ -3,15 +3,16 @@ package services;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Path;
 
-import beans.interfaces.DatabaseServiceInterface;
 import beans.model.Amenity;
 import dao.AmenityDAO;
+import services.interfaces.DatabaseServiceInterface;
+import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
 
 
 @Path("/amenities")
-public class AmenityService extends Service<Amenity, AmenityDAO> implements DatabaseServiceInterface {
+public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements DatabaseServiceInterface {
 
 	@Override
 	@PostConstruct
