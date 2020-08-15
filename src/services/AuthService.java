@@ -55,7 +55,7 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 	@Override
 	public void login(RequestWrapper loginInfo, @Context HttpServletRequest request) {
 		// If already logged in, deny
-		if (ctx.getAttribute(Config.userSessionAttributeString) != null)
+		if (request.getAttribute(Config.userSessionAttributeString) != null)
 			return;
 		
 		// Failsafing
@@ -85,9 +85,12 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Override
 	public void register(UserAccount account, @Context HttpServletRequest request) {
+		System.out.println("Starting the registration process...");
 		// If already logged in, deny
-		if (ctx.getAttribute(Config.userSessionAttributeString) != null)
+		if (request.getAttribute(Config.userSessionAttributeString) != null) {
+			System.out.println("User already logged in. Cannot register until logged out.");
 			return;
+		}
 				
 		if (account == null)
 			return;
@@ -98,13 +101,18 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 		if (result == null)
 			return;
 		
-		ctx.setAttribute(Config.userSessionAttributeString, result);
+		System.out.println("Creating account with the username: " + account.id);
+		request.setAttribute(Config.userSessionAttributeString, result);
 	}
 
 	@Path("/logout")
-	@GET
+	@POST
 	@Override
 	public void logOut(@Context HttpServletRequest request) {
+		System.out.println("Before: " + ctx.getAttribute(Config.userSessionAttributeString));
 		request.setAttribute(Config.userSessionAttributeString, null);
+		System.out.println("After: " + ctx.getAttribute(Config.userSessionAttributeString));
+
+		System.out.println("User logged out successfully.");
 	}
 }
