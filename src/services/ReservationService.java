@@ -78,15 +78,15 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		ReservationDAO dao = (ReservationDAO)ctx.getAttribute(databaseAttributeString);
 		
 		if (currentUser == null)
-			return new ArrayList<>();		
+			return new ArrayList<>();
 		
-		if (currentUser.getType() == TypeOfUser.GUEST)
+		if (currentUser.isGuest())
 			return dao.getByGuestID(currentUser.id);
-		if (currentUser.getType() == TypeOfUser.HOST)
+		if (currentUser.isHost())
 			return dao.getByHostID(currentUser.id);
-		if (currentUser.getType() == TypeOfUser.ADMINISTRATOR)
+		if (currentUser.isAdmin())
 			return super.getAll(request);
 		else 
-			return null;
+			return new ArrayList<>();
 	}
 }

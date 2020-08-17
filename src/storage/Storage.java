@@ -39,6 +39,4 @@ public class Storage<T extends BeanInterface> {
 		String objectsJSON = GSON.toJson(objects);
 		IOService.writeToFile(objectsJSON, fileStorageLocation);
 	}
-	
-	
 }

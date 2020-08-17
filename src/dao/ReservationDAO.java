@@ -5,12 +5,12 @@ import java.util.Calendar;
 import java.util.Collection;
 
 import beans.model.Reservation;
-import beans.model.Review;
+import dao.interfaces.ReservationDAOInterface;
 import storage.Storage;
 import util.Config;
 
 
-public class ReservationDAO extends BeanDAO<Reservation> {
+public class ReservationDAO extends BeanDAO<Reservation> implements ReservationDAOInterface{
 
 	@Override
 	protected void init() {

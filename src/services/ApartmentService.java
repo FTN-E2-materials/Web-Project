@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import beans.model.Amenity;
 import beans.model.Apartment;
 import beans.model.Reservation;
+import beans.model.UserAccount;
 import dao.ApartmentDAO;
 import dao.ReservationDAO;
 import services.interfaces.DatabaseAccessInterface;
@@ -103,52 +105,36 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Collection<Apartment> getAll(@Context HttpServletRequest request) {
-		// TODO Check if user is admin
-		return super.getAll(request);
-	}
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/active")
-	/** Returns a collecton of all active apartments 
-	 *  Available to guests, admin and unregistered users. */
-	public Collection<Apartment> getActive() {
-		// TODO Check if user is a guest, admin or unregistered
+		UserAccount currentUser = super.getCurrentUser(request);
 		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
-		return dao.getActive();
+		
+		if (currentUser == null)
+			return dao.getActive();
+		if (currentUser.isGuest())
+			return dao.getActive();
+		if (currentUser.isHost())
+			return dao.getActiveByHost(currentUser.id);
+		if (currentUser.isAdmin())
+			return dao.getAll();
+		
+		return new ArrayList<>();
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/inactive")
 	/** Returns a collection of inactive apartments.
-	 *  Available only to admin.
+	 *  Only available to hosts.
 	 */
-	public Collection<Apartment> getInactive() {
-		// TODO Check if user is admin
+	public Collection<Apartment> getInactive(@Context HttpServletRequest request) {
+		UserAccount currentUser = super.getCurrentUser(request);
 		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
-		return dao.getInactive();
-	}
-	
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/host_active")
-	/** Return a collection of active apartments for the given host */
-	public Collection<Apartment> getActiveByHost(String hostID) {
-		// TODO Can a guest see apartments for a host
-		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
-		return dao.getActiveByHost(hostID);
-	}
-	
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/host_inactive")
-	/** Return a collection of inactive apartments for the given host */
-	public Collection<Apartment> getInactiveByHost(String hostID) {
-		// TODO Check if user is host
-		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
-		return dao.getInactiveByHost(hostID);
+		
+		if (currentUser == null)
+			return new ArrayList<>();
+		if (currentUser.isHost())
+			return dao.getInactiveByHost(currentUser.id);
+		
+		return new ArrayList<>();
 	}
 }

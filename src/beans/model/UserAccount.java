@@ -21,4 +21,16 @@ public class UserAccount extends DatabaseEntity {
    	// TODO Auto-generated method stub
    	
    }
+   
+   public boolean isGuest() {
+	   return type == TypeOfUser.GUEST;
+   }
+   
+   public boolean isHost() {
+	   return type == TypeOfUser.HOST;
+   }
+   
+   public boolean isAdmin() {
+	   return type == TypeOfUser.ADMINISTRATOR;
+   }
 }

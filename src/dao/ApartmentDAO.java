@@ -5,11 +5,12 @@ import java.util.Collection;
 
 import beans.model.Apartment;
 import beans.model.ApartmentStatus;
+import dao.interfaces.ApartmentDAOInterface;
 import storage.Storage;
 import util.Config;
 
 
-public class ApartmentDAO extends BeanDAO<Apartment> {
+public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInterface{
 
 	@Override
 	protected void init() {
@@ -21,7 +22,6 @@ public class ApartmentDAO extends BeanDAO<Apartment> {
 		init();
 	}
 	
-	/** Returns a collection of all active apartments */
 	public Collection<Apartment> getActive() {
 		Collection<Apartment> apartments = new ArrayList<Apartment>();
 		
@@ -33,7 +33,6 @@ public class ApartmentDAO extends BeanDAO<Apartment> {
 		return apartments;
 	}
 	
-	/** Returns a collection of all inactive apartments */
 	public Collection<Apartment> getInactive() {
 		Collection<Apartment> apartments = new ArrayList<Apartment>();
 		
@@ -45,7 +44,6 @@ public class ApartmentDAO extends BeanDAO<Apartment> {
 		return apartments;
 	}
 	
-	/** Returns a collection of active apartments for the given host */
 	public Collection<Apartment> getActiveByHost(String hostID) {
 		Collection<Apartment> apartments = new ArrayList<Apartment>();
 		
@@ -57,7 +55,6 @@ public class ApartmentDAO extends BeanDAO<Apartment> {
 		return apartments;
 	}
 	
-	/** Returns a collection of inactive apartments for the given host */
 	public Collection<Apartment> getInactiveByHost(String hostID) {
 		Collection<Apartment> apartments = new ArrayList<Apartment>();
 		

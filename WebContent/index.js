@@ -1,7 +1,58 @@
 $(document).ready(function(){
     
-    // Submit button onClick listener
-    $("#sendButton").click(function(){
+    alert("Hello.")
+
+    // Logout button functionality
+    $("#logout_button").click(function(){
+        $.post({
+            url : "u/auth/logout",
+                success : function(data){
+                    if (!data) {
+                        alert("Successfully logged out.")
+                    }
+                },
+                error : function(data){
+                    alert("An error occurred!");
+                }
+            });
+    })
+
+    // Login button functionality
+    $("#login_button").click(function(){
+
+        let username = $("#username");
+        let pass = $("#pass");
+
+        if (!username.val()) {
+            username.css("border-color", "red");
+        }
+        if (!pass.val()) {
+            pass.css("border-color", "red");
+        }
+
+        $.post({
+            url : "u/auth/login",
+                contentType : "application/json",
+                data : JSON.stringify({
+                    "stringArgs" : [
+                        username.val(),
+                        pass.val()
+                    ]
+                }),
+                success : function(data){
+                    if (!data) {
+                        alert("Login success.")
+                        window.location.replace("http://localhost:8080/WebProject/home.html"); 
+                    }
+                },
+                error : function(data){
+                    alert("An error occurred!");
+                }
+            });
+        })
+    })
+            
+        /* 
         let repairCodeField = $("#repairCode");
         let fullNameField =  $("#fullName");
         let phoneNumberField =  $("#phoneNumber");
@@ -26,7 +77,7 @@ $(document).ready(function(){
         }
         else {
             // If everything is correct
-
+ 
             $.post({
                 url : "rest/repairs",
                 contentType : "application/json",
@@ -52,11 +103,9 @@ $(document).ready(function(){
                                     .delay(3000).fadeOut();
                 }
             });
-
+ 
             return;
         }
 
         $("#error").text("Sva polja moraju biti popunjena!")
-                   .css("color", "red").show().delay(3000).fadeOut();
-    });
-})
+                   .css("color", "red").show().delay(3000).fadeOut(); */

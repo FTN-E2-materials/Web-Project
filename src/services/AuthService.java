@@ -86,8 +86,10 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 	@Override
 	public void register(UserAccount account, @Context HttpServletRequest request) {
 		// If already logged in, deny
-		if (request.getAttribute(Config.userSessionAttributeString) != null)
-			return;
+		if (request.getAttribute(Config.userSessionAttributeString) != null) {
+			System.out.println("This session is already logged in.");
+			return;	
+		}
 				
 		if (account == null)
 			return;

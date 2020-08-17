@@ -2,7 +2,6 @@ package services.templates;
 
 import java.util.Collection;
 import beans.model.DatabaseEntity;
-import beans.model.UserAccount;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -15,8 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import dao.BeanDAO;
-import services.interfaces.DatabaseAccessInterface;
-import util.Config;
 import util.RequestWrapper;
 
 
@@ -80,10 +77,5 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 	}
 	
 	// TODO Update method?
-	
-	/** Fetch the auth token which lets you identify the user that is currently using the service */
-	protected UserAccount getCurrentUser(HttpServletRequest request) {
-		return (UserAccount) request.getAttribute(Config.userSessionAttributeString);
-	}
 }
 

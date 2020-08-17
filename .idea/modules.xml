@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Tomcat/apache-tomcat-9.0.36/webapps/examples/WEB-INF/WEB-INF.iml" filepath="$PROJECT_DIR$/Tomcat/apache-tomcat-9.0.36/webapps/examples/WEB-INF/WEB-INF.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Web-Project.iml" filepath="$PROJECT_DIR$/Web-Project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tomcat/apache-tomcat-9.0.36/webapps/docs/docs.iml" filepath="$PROJECT_DIR$/Tomcat/apache-tomcat-9.0.36/webapps/docs/docs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tomcat/apache-tomcat-9.0.36/webapps/examples/WEB-INF/jsp/jsp.iml" filepath="$PROJECT_DIR$/Tomcat/apache-tomcat-9.0.36/webapps/examples/WEB-INF/jsp/jsp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tomcat/apache-tomcat-9.0.36/webapps/examples/jsp/jsp1.iml" filepath="$PROJECT_DIR$/Tomcat/apache-tomcat-9.0.36/webapps/examples/jsp/jsp1.iml" />
+    </modules>
+  </component>
+</project>
