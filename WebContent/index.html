@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="UTF-8">
 		
-		<script src="jquery-3.3.1.min.js"></script>
-		<script src="index.js"></script>
+		<script src="https://unpkg.com/vue"></script>
+		
 		<style>
 			h1 {color: gray;}
 			
@@ -16,29 +16,28 @@
 		</style>
 	</head>
 	<body>
-		<center>
-			<form style="margin-top: 6%;">
-				<table>
-					<tr>
-						<td>
-							<input type="text" id="username">
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<input type="text" id="pass">
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div>
-								<input type="button" id="login_button" value="Log in">
-								<input type="button" id="logout_button" value="Log out">
-							</div>
-						</td>
-					</tr>
-				</table>
-			</form>
-		</center>
+		<div id="vue-app">
+			<h1> {{name}} </h1>
+			<a :href="website">Go to google.com</a>
+	
+
+			<h1> Your age is {{ age }} </h1>
+			<button @click="addYear"> Add year</button>
+			<button @click="removeYear"> Remove year</button>
+			<!-- Register enter clicks -->
+			<input type="text" id="year_input" v-model="age"/>
+
+			<div>
+				<button @click="getApartments">Download apartments</button>
+			</div>'
+			<div>
+				<button @click="addReview">Post review</button>
+			</div>'
+		</div>
+
+		<!-- Axios -->
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<!-- Vue.js -->
+		<script src="index.js"></script>
 	</body>
 </html>

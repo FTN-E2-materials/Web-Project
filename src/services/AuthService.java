@@ -6,6 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -52,19 +53,20 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 	@Path("/login")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public void login(RequestWrapper loginInfo, @Context HttpServletRequest request) {
+	public UserAccount login(RequestWrapper loginInfo, @Context HttpServletRequest request) {
 		// If already logged in, deny
 		if (request.getAttribute(Config.userSessionAttributeString) != null)
-			return;
+			return null;
 		
 		// Failsafing
 		if (loginInfo == null)
-			return;
+			return null;
 		if (loginInfo.stringArgs == null)
-			return;
+			return null;
 		if (loginInfo.stringArgs.size() != 2)
-			return;
+			return null;
 		
 		String username = loginInfo.stringArgs.get(0);
 		String password = loginInfo.stringArgs.get(1);
@@ -72,36 +74,40 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 		UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);
 		UserAccount account = dao.getByKey(username);
 		if (account == null)
-			return;
+			return null;
 		if (!account.password.contentEquals(password))
-			return;
+			return null;
 		
+		//TODO Return profile if login success? 
 		System.out.println("Login successful for account: " + username);
 		request.setAttribute(Config.userSessionAttributeString, account);
+		return account;
 	}
 
 	@Path("/register")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public void register(UserAccount account, @Context HttpServletRequest request) {
+	public UserAccount register(UserAccount account, @Context HttpServletRequest request) {
 		// If already logged in, deny
 		if (request.getAttribute(Config.userSessionAttributeString) != null) {
 			System.out.println("This session is already logged in.");
-			return;	
+			return null;	
 		}
 				
 		if (account == null)
-			return;
+			return null;
 		account.validate();
 		
 		UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);
 		UserAccount result = dao.create(account);
 		if (result == null)
-			return;
+			return null;
 		
 		System.out.println("Creating account with the username: " + account.id);
 		request.setAttribute(Config.userSessionAttributeString, result);
+		return account;
 	}
 
 	@Path("/logout")

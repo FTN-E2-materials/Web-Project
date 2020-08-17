@@ -7,7 +7,7 @@ import beans.model.UserAccount;
 import util.RequestWrapper;
 
 public interface AuthenticationInterface {
-	public void login(RequestWrapper loginInfo, @Context HttpServletRequest request);
-	public void register(UserAccount account, @Context HttpServletRequest request);
+	public UserAccount login(RequestWrapper loginInfo, @Context HttpServletRequest request);
+	public UserAccount register(UserAccount account, @Context HttpServletRequest request);
 	public void logOut(@Context HttpServletRequest request);
 }
