@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.interfaces.SessionToken;
 import beans.model.Reservation;
 import beans.model.UserAccount;
 import beans.model.enums.TypeOfUser;
@@ -63,9 +64,9 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Reservation create(Reservation reservation, @Context HttpServletRequest request) {
-		UserAccount currentUser = super.getCurrentUser(request);
+		SessionToken session = super.getCurrentSession(request);
 		
-		if (currentUser.getType() == TypeOfUser.GUEST)
+		if (session.isGuest())
 			super.create(reservation);
 			
 		return null;					
@@ -81,17 +82,17 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Reservation> getAll(@Context HttpServletRequest request) {
-		UserAccount currentUser = super.getCurrentUser(request);
+		SessionToken session = super.getCurrentSession(request);
 		ReservationDAO dao = (ReservationDAO)ctx.getAttribute(databaseAttributeString);
 		
-		if (currentUser == null)
+		if (session == null)
 			return new ArrayList<>();
 		
-		if (currentUser.isGuest())
-			return dao.getByGuestID(currentUser.id);
-		if (currentUser.isHost())
-			return dao.getByHostID(currentUser.id);
-		if (currentUser.isAdmin())
+		if (session.isGuest())
+			return dao.getByGuestID(session.getID());
+		if (session.isHost())
+			return dao.getByHostID(session.getID());
+		if (session.isAdmin())
 			return dao.getAll();
 		else 
 			return new ArrayList<>();

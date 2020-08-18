@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.interfaces.SessionToken;
 import beans.model.Apartment;
 import beans.model.UserAccount;
 import beans.model.enums.ApartmentStatus;
@@ -92,16 +93,16 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Apartment> getAll(@Context HttpServletRequest request) {
-		UserAccount currentUser = super.getCurrentUser(request);
+		SessionToken session = super.getCurrentSession(request);
 		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
 		
-		if (currentUser == null)
+		if (session == null)
 			return dao.getActive();
-		if (currentUser.isGuest())
+		if (session.isGuest())
 			return dao.getActive();
-		if (currentUser.isHost())
-			return dao.getActiveByHost(currentUser.id);
-		if (currentUser.isAdmin())
+		if (session.isHost())
+			return dao.getActiveByHost(session.getID());
+		if (session.isAdmin())
 			return dao.getAll();
 		
 		return new ArrayList<>();
@@ -112,21 +113,21 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@Path("/{id}")
 	public Apartment getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
 		Apartment apartment = super.getByID(key);
-		UserAccount currentUser = super.getCurrentUser(request);
+		SessionToken session = super.getCurrentSession(request);
 		
 		if (apartment == null)
 			return null;
 		if (apartment.status == ApartmentStatus.ACTIVE) {
-			if (currentUser == null)
+			if (session == null)
 				return apartment;
-			if (currentUser.isHost()  &&  !currentUser.id.equals(apartment.id))
+			if (session.isHost()  &&  !session.getID().equals(apartment.hostID))
 				return null;
 			return apartment;
 		}
 		if (apartment.status == ApartmentStatus.INACTIVE) {
-			if (currentUser == null)
+			if (session == null)
 				return null;
-			if (currentUser.isAdmin()  ||  currentUser.id.equals(apartment.id))
+			if (session.isAdmin()  ||  session.getID().equals(apartment.hostID))
 				return apartment;
 		}
 		
@@ -140,13 +141,13 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	 *  Only available to hosts.
 	 */
 	public Collection<Apartment> getInactive(@Context HttpServletRequest request) {
-		UserAccount currentUser = super.getCurrentUser(request);
+		SessionToken session = super.getCurrentSession(request);
 		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
 		
-		if (currentUser == null)
+		if (session == null)
 			return new ArrayList<>();
-		if (currentUser.isHost())
-			return dao.getInactiveByHost(currentUser.id);
+		if (session.isHost())
+			return dao.getInactiveByHost(session.getID());
 		
 		return new ArrayList<>();
 	}

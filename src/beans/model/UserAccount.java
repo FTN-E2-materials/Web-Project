@@ -24,14 +24,22 @@ public class UserAccount extends DatabaseEntity implements SessionToken {
    	
    }
    
+   @Override 
+   public String getID() {
+	   return id;
+   }
+   
+   @Override
    public boolean isGuest() {
 	   return type == TypeOfUser.GUEST;
    }
    
+   @Override
    public boolean isHost() {
 	   return type == TypeOfUser.HOST;
    }
    
+   @Override
    public boolean isAdmin() {
 	   return type == TypeOfUser.ADMINISTRATOR;
    }

@@ -57,7 +57,7 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 	@Override
 	public UserAccount login(RequestWrapper loginInfo, @Context HttpServletRequest request) {
 		// If already logged in, deny
-		if (super.getCurrentUser(request) != null)
+		if (super.getCurrentSession(request) != null)
 			return null;
 		
 		// Failsafing
@@ -90,7 +90,7 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 	@Override
 	public UserAccount register(UserAccount account, @Context HttpServletRequest request) {
 		// If already logged in, deny
-		if (super.getCurrentUser(request) != null) {
+		if (super.getCurrentSession(request) != null) {
 			System.out.println("This session is already logged in.");
 			return null;	
 		}

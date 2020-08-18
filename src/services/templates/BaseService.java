@@ -29,8 +29,8 @@ public abstract class BaseService implements DatabaseAccessInterface, SessionTra
 	
 	/** Fetch the auth token which lets you identify the user that is currently using the service */
 	@Override
-	public UserAccount getCurrentUser(HttpServletRequest request) {
-		return (UserAccount) request.getAttribute(Config.userSessionAttributeString);
+	public SessionToken getCurrentSession(HttpServletRequest request) {
+		return (SessionToken)request.getAttribute(Config.userSessionAttributeString);
 	}
 	
 	/** Deletes the current user session related to this request */

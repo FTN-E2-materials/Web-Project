@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.interfaces.SessionToken;
 import beans.model.UserAccount;
 import dao.UserDAO;
 import services.templates.BaseService;
@@ -59,11 +60,11 @@ public class UserService extends BaseService {
 	 * @return
 	 */
 	public Collection<UserAccount> getAll(@Context HttpServletRequest request) {
-		UserAccount currentUser = super.getCurrentUser(request);
+		SessionToken session = super.getCurrentSession(request);
 		
-		if (currentUser == null)
+		if (session == null)
 			return new ArrayList<>();
-		if (currentUser.isHost()) {
+		if (session.isHost()) {
 			UserDAO dao = (UserDAO)ctx.getAttribute(Config.userDatabaseString);
 			return dao.getAll();
 		}
@@ -75,11 +76,11 @@ public class UserService extends BaseService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public UserAccount update(UserAccount updatedAccount, @Context HttpServletRequest request) {
-		UserAccount currentUser = super.getCurrentUser(request);
+		SessionToken session = super.getCurrentSession(request);
 		
-		if (currentUser == null)
+		if (session == null)
 			return null;
-		if (!currentUser.id.equals(updatedAccount.id)) // Only the owner of the account can change the data 
+		if (!session.getID().equals(updatedAccount.id)) // Only the owner of the account can change the data 
 			return null;
 		try { updatedAccount.validate(); }
 			catch (IllegalArgumentException ex) {
