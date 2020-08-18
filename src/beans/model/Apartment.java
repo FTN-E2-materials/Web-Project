@@ -1,7 +1,6 @@
 package beans.model;
 
 import java.util.*;
-import beans.interfaces.*;
 import beans.model.enums.ApartmentStatus;
 import beans.model.enums.ApartmentType;
 
@@ -16,7 +15,7 @@ public class Apartment extends DatabaseEntity {
    public List<String> pictures;
    public Time checkInTime;
    public Time checkOutTime;
-   public ApartmentStatus status;
+   public ApartmentStatus status = ApartmentStatus.INACTIVE;
    public String hostID;   
    public Location location;
    public ArrayList<Amenity> amenities;

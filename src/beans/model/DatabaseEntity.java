@@ -29,5 +29,8 @@ public abstract class DatabaseEntity implements BeanInterface {
 	public void delete() {
 		this.available = false;
 	}
-
+	
+	public boolean isDeleted() {
+		return !available;
+	}
 }

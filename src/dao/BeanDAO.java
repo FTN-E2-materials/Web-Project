@@ -21,6 +21,7 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 	protected ObservableMapWrapper<String, T> database;
 	protected String idHeader;
 	protected long entityCounter;
+	private Storage<T> storage;
 	
 	public BeanDAO(Storage<T> storage) {
 		// If file is empty, GSON returns null
@@ -39,6 +40,8 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 		
 		// Entity labeling begins at 101 
 		entityCounter = Config.minimalIdNumber + database.size();
+		
+		this.storage = storage;
 	}
 	
 	/** Postconstruct initialization, such as header definitions etc. */
@@ -68,7 +71,10 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 	 * @return Object or null if the key doesn't exist.
 	 */
 	public T getByKey(String key) {
-		return database.getOrDefault(key, null);
+		T obj = database.getOrDefault(key, null);
+		if (obj.isDeleted())
+			return null;
+		return obj;
 	}
 	
 	/** Returns a collection of all bean objects from the database */
@@ -76,7 +82,8 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 		ArrayList<T> allEntries = new ArrayList<T>(); 
 		
 		for (T entry : database.values()) {
-			allEntries.add(entry);
+			if (!entry.isDeleted())
+				allEntries.add(entry);
 		}
 		
 		return allEntries;
@@ -88,6 +95,7 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 			return null;
 		
 		database.put(obj.getKey(), obj);
+
 		return obj;
 	}
 	
@@ -99,6 +107,8 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 			return null;
 		
 		entity.delete();
+		storage.writeAll(database);
+		
 		return entity;
 	}
 }

@@ -1,7 +1,5 @@
 package services.interfaces;
 
-import java.util.Collection;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 

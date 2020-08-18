@@ -26,7 +26,7 @@ public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInte
 		Collection<Apartment> apartments = new ArrayList<Apartment>();
 		
 		for (Apartment ap : database.values()) {
-			if (ap.status == ApartmentStatus.ACTIVE)
+			if (ap.status == ApartmentStatus.ACTIVE  &&  !ap.isDeleted())
 				apartments.add(ap);
 		}
 		
@@ -37,7 +37,7 @@ public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInte
 		Collection<Apartment> apartments = new ArrayList<Apartment>();
 		
 		for (Apartment ap : database.values()) {
-			if (ap.status == ApartmentStatus.INACTIVE)
+			if (ap.status == ApartmentStatus.INACTIVE  &&  !ap.isDeleted())
 				apartments.add(ap);
 		}
 		
@@ -48,7 +48,7 @@ public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInte
 		Collection<Apartment> apartments = new ArrayList<Apartment>();
 		
 		for (Apartment ap : database.values()) {
-			if (ap.status == ApartmentStatus.ACTIVE  &&  ap.hostID.equals(hostID))
+			if (ap.status == ApartmentStatus.ACTIVE  &&  ap.hostID.equals(hostID)  &&  !ap.isDeleted())
 				apartments.add(ap);
 		}
 		
@@ -59,7 +59,7 @@ public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInte
 		Collection<Apartment> apartments = new ArrayList<Apartment>();
 		
 		for (Apartment ap : database.values()) {
-			if (ap.status == ApartmentStatus.INACTIVE  &&  ap.hostID.equals(hostID))
+			if (ap.status == ApartmentStatus.INACTIVE  &&  ap.hostID.equals(hostID)  &&  !ap.isDeleted())
 				apartments.add(ap);
 		}
 		

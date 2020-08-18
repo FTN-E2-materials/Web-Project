@@ -70,7 +70,7 @@ public abstract class BaseService implements DatabaseAccessInterface, SessionTra
 		return Response.status(Config.AUTH_FAILED).entity(object).build();
 	}
 	
-	// TODO Potentially redundant
+	// TODO Potentially redundant, could be handled without string arg, due to the specific nature of BadRequest context (bad input, please fix etc)
 	/** Returns a BadRequest response, with an additional message explaining why the error occurred. */
 	public Response BadRequest(Object object) {
 		return Response.status(Config.BAD_REQUEST).entity(object).build();

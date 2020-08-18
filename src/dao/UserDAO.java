@@ -16,4 +16,6 @@ public class UserDAO extends BeanDAO<UserAccount> {
 	protected void init() {
 		idHeader = Config.userIdheader;
 	}
+	
+	// TODO Get for host (search reservations add users)
 }

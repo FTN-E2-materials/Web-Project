@@ -1,8 +1,5 @@
 package services;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -19,13 +16,11 @@ import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
 import beans.model.Apartment;
-import beans.model.UserAccount;
 import beans.model.enums.ApartmentStatus;
 import dao.ApartmentDAO;
 import services.interfaces.CRUDServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
-import sun.security.provider.certpath.OCSPResponse.ResponseStatus;
 import util.Config;
 import util.RequestWrapper;
 
@@ -75,10 +70,14 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 			return BadRequest();
 		}
 		SessionToken session = super.getCurrentSession(request);
-		if (session.isHost())
-			return OK(super.create(apartment));
-		
-		return BadRequest();
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isHost()) {
+			apartment.status = ApartmentStatus.INACTIVE;
+			return OK(super.create(apartment));			
+		}
+
+		return ForbiddenRequest();
 	}
 	
 	@DELETE
@@ -86,10 +85,20 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@Produces(MediaType.APPLICATION_JSON)
 	/** Check if user is eligible to delete an apartment */
 	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
-		// TODO Check is user a host/admin in order to delete
-		// Maybe pass the whole Apartment? 
+		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(Config.apartmentDatabaseString);
+		Apartment apartment = dao.getByKey(requestWrapper.stringKey);
+		// TODO Take the whole apartment as argument to avoid DAO lookup?
 		
-		return OK(super.delete(requestWrapper));
+		if (apartment == null)
+			return BadRequest();
+		SessionToken session = super.getCurrentSession(request);
+		
+		if (session.isAdmin())
+			return OK(super.delete(requestWrapper));
+		if (session.isHost()  &&  session.getSessionID().equals(apartment.hostID))
+			return OK(super.delete(requestWrapper));
+		
+		return ForbiddenRequest();
 	}
 
 	@PUT
@@ -126,7 +135,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		if (session.isGuest())
 			return OK(dao.getActive());
 		if (session.isHost())
-			return OK(dao.getActiveByHost(session.getSessionID()));
+			return OK(dao.getActiveByHost(session.getSessionID()));	// TODO Return all host's apartments and filter them out using JS?
 		if (session.isAdmin())
 			return OK(dao.getAll());
 		

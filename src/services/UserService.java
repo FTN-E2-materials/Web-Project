@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
 import beans.model.UserAccount;
@@ -59,37 +60,41 @@ public class UserService extends BaseService {
 	 * @param request
 	 * @return
 	 */
-	public Collection<UserAccount> getAll(@Context HttpServletRequest request) {
+	public Response getAll(@Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		
 		if (session == null)
-			return new ArrayList<>();
+			return ForbiddenRequest();
 		if (session.isAdmin()) {
 			UserDAO dao = (UserDAO)ctx.getAttribute(Config.userDatabaseString);
-			return dao.getAll();
+			return OK(dao.getAll());
+		}
+		if (session.isHost()) {
+			UserDAO dao = (UserDAO)ctx.getAttribute(Config.userDatabaseString);
+			return OK(dao.getAll()); // TODO Add DAO method to search users 
 		}
 		// TODO Where can the host see his guests?
-		return new ArrayList<>();
+		return ForbiddenRequest();
 	}
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public UserAccount update(UserAccount updatedAccount, @Context HttpServletRequest request) {
+	public Response update(UserAccount updatedAccount, @Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		
 		if (session == null)
-			return null;
+			return ForbiddenRequest();
 		if (!session.getSessionID().equals(updatedAccount.getKey())) // Only the owner of the account can change the data 
-			return null;
+			return ForbiddenRequest();
 		try { updatedAccount.validate(); }
 			catch (IllegalArgumentException ex) {
-				System.out.println("Trying to update an existing entity with invalid field values.");
-				return null;
+				System.out.println("Attempt to update an account with invalid field values.");
+				return BadRequest();
 			}
 		
 		UserDAO dao = (UserDAO)ctx.getAttribute(Config.userDatabaseString);
-		return dao.update(updatedAccount);
+		return OK(dao.update(updatedAccount));
 	}
 	
 }
