@@ -4,8 +4,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 
+import beans.interfaces.SessionToken;
 import beans.model.UserAccount;
 import services.interfaces.DatabaseAccessInterface;
+import services.interfaces.SessionTrackerInterface;
 import util.Config;
 
 
@@ -15,7 +17,7 @@ import util.Config;
  * @param <T>
  * @param <DAO>
  */
-public abstract class BaseService implements DatabaseAccessInterface {
+public abstract class BaseService implements DatabaseAccessInterface, SessionTrackerInterface {
 	
 	@Context
 	protected ServletContext ctx;
@@ -26,7 +28,20 @@ public abstract class BaseService implements DatabaseAccessInterface {
 	protected String storageFileLocation;
 	
 	/** Fetch the auth token which lets you identify the user that is currently using the service */
-	protected UserAccount getCurrentUser(HttpServletRequest request) {
+	@Override
+	public UserAccount getCurrentUser(HttpServletRequest request) {
 		return (UserAccount) request.getAttribute(Config.userSessionAttributeString);
+	}
+	
+	/** Deletes the current user session related to this request */
+	@Override
+	public void deleteSession(HttpServletRequest request) {
+		request.setAttribute(Config.userSessionAttributeString, null);
+	}
+	
+	/** Attaches the given object to the given user session */
+	@Override
+	public void createSession(SessionToken token, HttpServletRequest request) {
+		request.setAttribute(Config.userSessionAttributeString, token);
 	}
 }

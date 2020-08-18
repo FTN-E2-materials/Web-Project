@@ -86,15 +86,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		// TODO Fetch auth to see which host it is
 		// Host can only change their own apartments
 		// If it is an admin, allow it 
-		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
-		Apartment existingApartment = dao.getByKey(apartment.id);
-		
-		if (existingApartment == null)
-			return null;
-		if (!existingApartment.hostID.equals(apartment.hostID))
-			return null;
-		
-		return dao.update(apartment);
+		return super.update(apartment);
 	}
 	
 	@GET

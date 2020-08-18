@@ -1,8 +1,9 @@
 package beans.model;
 
+import beans.interfaces.SessionToken;
 import beans.model.enums.TypeOfUser;
 
-public class UserAccount extends DatabaseEntity {
+public class UserAccount extends DatabaseEntity implements SessionToken {
    
 	// Id from DatabaseEntity acts as a username
    public String password;

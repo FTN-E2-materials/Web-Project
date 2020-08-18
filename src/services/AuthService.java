@@ -57,7 +57,7 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 	@Override
 	public UserAccount login(RequestWrapper loginInfo, @Context HttpServletRequest request) {
 		// If already logged in, deny
-		if (request.getAttribute(Config.userSessionAttributeString) != null)
+		if (super.getCurrentUser(request) != null)
 			return null;
 		
 		// Failsafing
@@ -78,9 +78,8 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 		if (!account.password.contentEquals(password))
 			return null;
 		
-		//TODO Return profile if login success? 
 		System.out.println("Login successful for account: " + username);
-		request.setAttribute(Config.userSessionAttributeString, account);
+		super.createSession(account, request);
 		return account;
 	}
 
@@ -91,7 +90,7 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 	@Override
 	public UserAccount register(UserAccount account, @Context HttpServletRequest request) {
 		// If already logged in, deny
-		if (request.getAttribute(Config.userSessionAttributeString) != null) {
+		if (super.getCurrentUser(request) != null) {
 			System.out.println("This session is already logged in.");
 			return null;	
 		}
@@ -106,7 +105,7 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 			return null;
 		
 		System.out.println("Creating account with the username: " + account.id);
-		request.setAttribute(Config.userSessionAttributeString, result);
+		super.createSession(result, request);
 		return account;
 	}
 
@@ -114,7 +113,7 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 	@POST
 	@Override
 	public void logOut(@Context HttpServletRequest request) {
-		request.setAttribute(Config.userSessionAttributeString, null);
+		super.deleteSession(request);
 		System.out.println("User logged out successfully.");
 	}
 }
