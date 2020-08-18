@@ -68,7 +68,7 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 	 * @return Object or null if the key doesn't exist.
 	 */
 	public T getByKey(String key) {
-		return database.get(key);
+		return database.getOrDefault(key, null);
 	}
 	
 	/** Returns a collection of all bean objects from the database */
@@ -84,7 +84,7 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 	
 	/** Update an existing object */
 	public T update(T obj) {
-		if (database.get(obj.getKey()) == null)
+		if (database.getOrDefault(obj.getKey(), null) == null)
 			return null;
 		
 		database.put(obj.getKey(), obj);
@@ -93,8 +93,12 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 	
 	/** Removes an object with the specified key from the database */
 	public T delete(String key) {
-		// TODO Potentially decrease the entity counter when deleting? 
-		// If deletion is logical then not.
-		return database.remove(key);
+		T entity = database.getOrDefault(key, null);
+		
+		if (entity == null)
+			return null;
+		
+		entity.delete();
+		return entity;
 	}
 }

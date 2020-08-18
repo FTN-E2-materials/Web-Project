@@ -80,7 +80,7 @@ public class UserService extends BaseService {
 		
 		if (session == null)
 			return null;
-		if (!session.getID().equals(updatedAccount.id)) // Only the owner of the account can change the data 
+		if (!session.getID().equals(updatedAccount.getKey())) // Only the owner of the account can change the data 
 			return null;
 		try { updatedAccount.validate(); }
 			catch (IllegalArgumentException ex) {

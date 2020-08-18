@@ -8,6 +8,7 @@ public abstract class DatabaseEntity implements BeanInterface {
 
 	public String id;
 	protected boolean isCountable = true;
+	private boolean available = true;
 	
 	/** Used to determine whether the ID of the entity can be overridden by an entity counter during Create() in DAO 
 	 *  Only false in Users and similar classes which already come with a predetermined ID. */
@@ -23,6 +24,10 @@ public abstract class DatabaseEntity implements BeanInterface {
 	@Override
 	public void setKey(String key) {
 		id = key;
+	}
+	
+	public void delete() {
+		this.available = false;
 	}
 
 }

@@ -104,7 +104,7 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 		if (result == null)
 			return null;
 		
-		System.out.println("Creating account with the username: " + account.id);
+		System.out.println("Creating account with the username: " + account.getKey());
 		super.createSession(result, request);
 		return account;
 	}
