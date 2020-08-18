@@ -3,10 +3,12 @@ package services.templates;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
 import beans.model.UserAccount;
 import services.interfaces.DatabaseAccessInterface;
+import services.interfaces.HttpResponseHandlerInterface;
 import services.interfaces.SessionTrackerInterface;
 import util.Config;
 
@@ -17,7 +19,7 @@ import util.Config;
  * @param <T>
  * @param <DAO>
  */
-public abstract class BaseService implements DatabaseAccessInterface, SessionTrackerInterface {
+public abstract class BaseService implements DatabaseAccessInterface, SessionTrackerInterface, HttpResponseHandlerInterface {
 	
 	@Context
 	protected ServletContext ctx;
@@ -44,4 +46,34 @@ public abstract class BaseService implements DatabaseAccessInterface, SessionTra
 	public void createSession(SessionToken token, HttpServletRequest request) {
 		request.setAttribute(Config.userSessionAttributeString, token);
 	}
+	
+	/** Returns a bad request response with code 400 */
+	@Override
+	public Response BadRequest() {
+		return Response.status(Config.BAD_REQUEST).build();
+	}
+	
+	/** Returns a forbidden request response with code 403 */
+	@Override
+	public Response ForbiddenRequest() {
+		return Response.status(Config.FORBIDDEN).build();
+	}
+	
+	/** Returns an OK request response, with an optional object as payload */
+	@Override
+	public Response OK(Object object) {
+		return Response.ok(object).build();
+	}
+	
+	/** Returns a response which means that user has failed to authorize themselves */
+	public Response AuthFailed(Object object) {
+		return Response.status(Config.AUTH_FAILED).entity(object).build();
+	}
+	
+	// TODO Potentially redundant
+	/** Returns a BadRequest response, with an additional message explaining why the error occurred. */
+	public Response BadRequest(Object object) {
+		return Response.status(Config.BAD_REQUEST).entity(object).build();
+	}
+
 }

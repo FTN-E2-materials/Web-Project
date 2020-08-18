@@ -15,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
 import beans.model.Apartment;
@@ -24,6 +25,7 @@ import dao.ApartmentDAO;
 import services.interfaces.CRUDServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
+import sun.security.provider.certpath.OCSPResponse.ResponseStatus;
 import util.Config;
 import util.RequestWrapper;
 
@@ -64,82 +66,102 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	/** Check if user is eligible to create an apartment (if user is a host) */
-	public Apartment create(Apartment apartment, @Context HttpServletRequest request) {
-		// TODO Check if user is a host 
-		return super.create(apartment);
+	public Response create(Apartment apartment, @Context HttpServletRequest request) {
+		try {
+			apartment.validate();
+		}
+		catch (IllegalArgumentException ex) {
+			System.out.println("Attempt to create apartment with invalid field values.");
+			return BadRequest();
+		}
+		SessionToken session = super.getCurrentSession(request);
+		if (session.isHost())
+			return OK(super.create(apartment));
+		
+		return BadRequest();
 	}
 	
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	/** Check if user is eligible to delete an apartment */
-	public Apartment delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
 		// TODO Check is user a host/admin in order to delete
 		// Maybe pass the whole Apartment? 
 		
-		return super.delete(requestWrapper);
+		return OK(super.delete(requestWrapper));
 	}
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Apartment update(Apartment apartment, @Context HttpServletRequest request) {
-		// TODO Fetch auth to see which host it is
-		// Host can only change their own apartments
-		// If it is an admin, allow it 
-		return super.update(apartment);
+	public Response update(Apartment apartment, @Context HttpServletRequest request) {
+		try {
+			apartment.validate();
+		}
+		catch (IllegalArgumentException ex) {
+			System.out.println("Attempt to modify apartment with invalid field values.");
+			return BadRequest();
+		}
+		SessionToken session = super.getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isHost()  &&  session.getSessionID().equals(apartment.hostID))
+			return OK(super.update(apartment));
+		if (session.isAdmin())
+			return OK(super.update(apartment));
+		
+		return ForbiddenRequest();
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Apartment> getAll(@Context HttpServletRequest request) {
+	public Response getAll(@Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
 		
 		if (session == null)
-			return dao.getActive();
+			return OK(dao.getActive());
 		if (session.isGuest())
-			return dao.getActive();
+			return OK(dao.getActive());
 		if (session.isHost())
-			return dao.getActiveByHost(session.getID());
+			return OK(dao.getActiveByHost(session.getSessionID()));
 		if (session.isAdmin())
-			return dao.getAll();
+			return OK(dao.getAll());
 		
-		return new ArrayList<>();
+		return BadRequest();
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public Apartment getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
+	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
 		Apartment apartment = super.getByID(key);
 		SessionToken session = super.getCurrentSession(request);
 		
 		if (apartment == null)
-			return null;
+			return OK(null);
 		if (apartment.status == ApartmentStatus.ACTIVE) {
 			if (session == null)
-				return apartment;
-			if (session.isHost()  &&  !session.getID().equals(apartment.hostID))
-				return null;
-			return apartment;
+				return OK(apartment);
+			if (session.isHost()  &&  !session.getSessionID().equals(apartment.hostID))
+				return OK(null);
+			return OK(apartment);
 		}
 		if (apartment.status == ApartmentStatus.INACTIVE) {
 			if (session == null)
-				return null;
-			if (session.isAdmin()  ||  session.getID().equals(apartment.hostID))
-				return apartment;
+				return OK(null);
+			if (session.isAdmin()  ||  session.getSessionID().equals(apartment.hostID))
+				return OK(apartment);
 		}
 		
-		return null;
+		return OK(null);
 	}
-	
+/* Could be solved with JS filter functions on getAll for hosts? 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/inactive")
-	/** Returns a collection of inactive apartments.
-	 *  Only available to hosts.
-	 */
 	public Collection<Apartment> getInactive(@Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
@@ -147,8 +169,8 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		if (session == null)
 			return new ArrayList<>();
 		if (session.isHost())
-			return dao.getInactiveByHost(session.getID());
+			return dao.getInactiveByHost(session.getSessionID());
 		
 		return new ArrayList<>();
-	}
+	} */
 }

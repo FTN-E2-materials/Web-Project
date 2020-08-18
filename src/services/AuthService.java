@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import beans.model.UserAccount;
 import dao.UserDAO;
@@ -55,18 +56,18 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public UserAccount login(RequestWrapper loginInfo, @Context HttpServletRequest request) {
+	public Response login(RequestWrapper loginInfo, @Context HttpServletRequest request) {
 		// If already logged in, deny
 		if (super.getCurrentSession(request) != null)
-			return null;
+			return ForbiddenRequest();
 		
 		// Failsafing
 		if (loginInfo == null)
-			return null;
+			return BadRequest();
 		if (loginInfo.stringArgs == null)
-			return null;
+			return BadRequest();
 		if (loginInfo.stringArgs.size() != 2)
-			return null;
+			return BadRequest();
 		
 		String username = loginInfo.stringArgs.get(0);
 		String password = loginInfo.stringArgs.get(1);
@@ -74,46 +75,54 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 		UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);
 		UserAccount account = dao.getByKey(username);
 		if (account == null)
-			return null;
+			return AuthFailed("Account " + username + " does not exist!");
 		if (!account.password.contentEquals(password))
-			return null;
+			return AuthFailed("Incorrect password!");
 		
 		System.out.println("Login successful for account: " + username);
 		super.createSession(account, request);
-		return account;
+		return OK(account);
 	}
 
+	/** Attempts to register the user. Account object must be valid.
+	 *  User must not be logged in already. */
 	@Path("/register")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public UserAccount register(UserAccount account, @Context HttpServletRequest request) {
+	public Response register(UserAccount account, @Context HttpServletRequest request) {
 		// If already logged in, deny
 		if (super.getCurrentSession(request) != null) {
 			System.out.println("This session is already logged in.");
-			return null;	
+			return ForbiddenRequest();	
 		}
 				
 		if (account == null)
-			return null;
-		account.validate();
+			return BadRequest();
+		try {
+			account.validate();
+		}
+		catch(IllegalArgumentException ex) {
+			System.out.println("Attempt to create an account with bad field values.");
+			return BadRequest();
+		}
 		
 		UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);
 		UserAccount result = dao.create(account);
 		if (result == null)
-			return null;
+			return AuthFailed("Account with this username already exists!");
 		
 		System.out.println("Creating account with the username: " + account.getKey());
 		super.createSession(result, request);
-		return account;
+		return OK(result);
 	}
 
 	@Path("/logout")
 	@POST
 	@Override
-	public void logOut(@Context HttpServletRequest request) {
+	public Response logOut(@Context HttpServletRequest request) {
 		super.deleteSession(request);
-		System.out.println("User logged out successfully.");
+		return OK("Logged out.");
 	}
 }

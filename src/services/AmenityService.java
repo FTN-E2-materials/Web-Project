@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import beans.model.Amenity;
 import dao.AmenityDAO;
@@ -59,35 +60,35 @@ public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Amenity create(Amenity obj, @Context HttpServletRequest request) {
-		return super.create(obj);
+	public Response create(Amenity obj, @Context HttpServletRequest request) {
+		return OK(super.create(obj));
 	}
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Amenity update(Amenity obj, @Context HttpServletRequest request) {
-		return super.update(obj);
+	public Response update(Amenity obj, @Context HttpServletRequest request) {
+		return OK(super.update(obj));
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Amenity> getAll(@Context HttpServletRequest request) {
-		return super.getAll();
+	public Response getAll(@Context HttpServletRequest request) {
+		return OK(super.getAll());
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public Amenity getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
-		return super.getByID(key);
+	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
+		return OK(super.getByID(key));
 	}
 
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Amenity delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
-		return super.delete(requestWrapper);
+	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+		return OK(super.delete(requestWrapper));
 	}
 
 }

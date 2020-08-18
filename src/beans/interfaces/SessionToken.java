@@ -7,5 +7,5 @@ public interface SessionToken {
 	public boolean isHost();
 	public boolean isAdmin();
 	
-	public String getID();
+	public String getSessionID();
 }

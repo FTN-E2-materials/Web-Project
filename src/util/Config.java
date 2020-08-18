@@ -1,5 +1,6 @@
 package util;
 
+import javax.ws.rs.core.Response.Status;
 
 /** Keeps static constants */
 public class Config {
@@ -28,4 +29,9 @@ public class Config {
 	public static final int minimalIdNumber = 100;
 	
 	public static final String userSessionAttributeString = "currentUser";
+	
+	//ERROR CODES
+	public static final int BAD_REQUEST = 400;
+	public static final int FORBIDDEN = 403;
+	public static final int AUTH_FAILED = 412; // Precondition failed status
 }

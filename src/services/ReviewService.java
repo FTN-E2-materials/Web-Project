@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import beans.model.Apartment;
 import beans.model.Review;
@@ -61,72 +62,48 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements CRU
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Review create(Review review, @Context HttpServletRequest request) {
+	public Response create(Review review, @Context HttpServletRequest request) {
 		// TODO Only guests can create reviews
 		// Guest has to have a FINISHED or REJECTED reservation with the apartment in question
-		return super.create(review);
+		return OK(super.create(review));
 	}
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Review update(Review obj, @Context HttpServletRequest request) {
-		return super.update(obj);
+	public Response update(Review obj, @Context HttpServletRequest request) {
+		return OK(super.update(obj));
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Review> getAll(@Context HttpServletRequest request) {
+	public Response getAll(@Context HttpServletRequest request) {
 		// TODO Check if user is admin, if not, reject 
-		return super.getAll();
+		return OK(super.getAll());
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public Review getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
-		return super.getByID(key);
+	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
+		return OK(super.getByID(key));
 	}
 
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Review delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
-		return super.delete(requestWrapper);
+	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+		return OK(super.delete(requestWrapper));
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("apartment/{id}")
-	public Collection<Review> getByApartmentID(@PathParam("id") String id) {
+	public Response getByApartmentID(@PathParam("id") String id) {
 		// TODO Check if user is Guest or unregistered
 		// Then depending on the type of user, return filtered or not
 		ReviewDAO dao = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
-		return dao.getByApartmentIDForGuest(id);
+		return OK(dao.getByApartmentIDForGuest(id));
 		// return dao.getByApartmentIDForHost`(id);
-	}
-	
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/visibility")
-	/** Toggle visibility status of the particular review object. */
-	public Review toggleVisibility(Review review) {
-		// TODO Check if user is host
-		
-		// Check if the apartment exists, and if it does, whether it is this host's apartment.
-		ApartmentDAO apartmentDAO = (ApartmentDAO)ctx.getAttribute(Config.apartmentDatabaseString);
-		Apartment apartment = apartmentDAO.getByKey(review.apartmentID);
-		
-		if (apartment == null)
-			return null;
-		//TODO Fetch host id from request
-		//if (apartment.hostID != "fetch host ID from request")
-		//	return null;
-		
-		review.visibleToGuests = !review.visibleToGuests;
-		ReviewDAO reviewDAO = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
-		System.out.println("Changing visibility...");
-		return reviewDAO.update(review);
 	}
 }

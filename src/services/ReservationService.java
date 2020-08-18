@@ -15,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
 import beans.model.Reservation;
@@ -63,7 +64,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Reservation create(Reservation reservation, @Context HttpServletRequest request) {
+	public Response create(Reservation reservation, @Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		
 		if (session.isGuest())
@@ -75,38 +76,38 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Reservation update(Reservation obj, @Context HttpServletRequest request) {
-		return super.update(obj);
+	public Response update(Reservation obj, @Context HttpServletRequest request) {
+		return OK(super.update(obj));
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Reservation> getAll(@Context HttpServletRequest request) {
+	public Response getAll(@Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		ReservationDAO dao = (ReservationDAO)ctx.getAttribute(databaseAttributeString);
 		
 		if (session == null)
-			return new ArrayList<>();
+			return ForbiddenRequest();
 		
 		if (session.isGuest())
-			return dao.getByGuestID(session.getID());
+			return OK(dao.getByGuestID(session.getSessionID()));
 		if (session.isHost())
-			return dao.getByHostID(session.getID());
+			return OK(dao.getByHostID(session.getSessionID()));
 		if (session.isAdmin())
-			return dao.getAll();
+			return OK(dao.getAll());
 		else 
-			return new ArrayList<>();
+			return ForbiddenRequest();
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public Reservation getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
-		return super.getByID(key);
+	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
+		return OK(super.getByID(key));
 	}
 
-	public Reservation delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
-		return super.delete(requestWrapper);
+	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+		return OK(super.delete(requestWrapper));
 	}
 
 

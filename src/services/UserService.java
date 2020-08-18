@@ -64,11 +64,11 @@ public class UserService extends BaseService {
 		
 		if (session == null)
 			return new ArrayList<>();
-		if (session.isHost()) {
+		if (session.isAdmin()) {
 			UserDAO dao = (UserDAO)ctx.getAttribute(Config.userDatabaseString);
 			return dao.getAll();
 		}
-		
+		// TODO Where can the host see his guests?
 		return new ArrayList<>();
 	}
 	
@@ -80,7 +80,7 @@ public class UserService extends BaseService {
 		
 		if (session == null)
 			return null;
-		if (!session.getID().equals(updatedAccount.getKey())) // Only the owner of the account can change the data 
+		if (!session.getSessionID().equals(updatedAccount.getKey())) // Only the owner of the account can change the data 
 			return null;
 		try { updatedAccount.validate(); }
 			catch (IllegalArgumentException ex) {

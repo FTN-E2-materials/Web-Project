@@ -3,6 +3,7 @@ package services.interfaces;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Response;
 
 import beans.model.DatabaseEntity;
 import util.RequestWrapper;
@@ -14,9 +15,9 @@ import util.RequestWrapper;
  * @param <T>
  */
 public interface CRUDServiceInterface<T extends DatabaseEntity> {
-	public T create(T obj, HttpServletRequest request);
-	public T update(T obj, HttpServletRequest request);
-	public Collection<T> getAll(HttpServletRequest request);
-	public T getByID(String key, HttpServletRequest request);
-	public T delete(RequestWrapper requestWrapper, HttpServletRequest request);
+	public Response create(T obj, HttpServletRequest request);
+	public Response update(T obj, HttpServletRequest request);
+	public Response getAll(HttpServletRequest request);
+	public Response getByID(String key, HttpServletRequest request);
+	public Response delete(RequestWrapper requestWrapper, HttpServletRequest request);
 }
