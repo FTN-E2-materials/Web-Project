@@ -3,7 +3,6 @@ package services.templates;
 import java.util.Collection;
 import beans.model.DatabaseEntity;
 
-import javax.ws.rs.PathParam;
 import dao.BeanDAO;
 import util.RequestWrapper;
 
@@ -33,17 +32,16 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 		return dao.create(object);
 	}
 	
-	/** Returns a JSON array of all BeanObjects in the database. */
+	/** Returns a JSON array of all entities in the database. */
 	protected Collection<T> getAll(){
 		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
 		
 		return dao.getAll();	
 	}
 	
-	/** Parses the given GET PathParam to get a filter string. Returns all DatabaseEntities
-	 * which fit the query.
+	/** Fetches an object with the matching ID key.
 	 * @param key
-	 * @return JSON formatted array of entities 
+	 * @return DB entity with the given key, or null if it does not exist.
 	 */
 	protected T getByID(String key) {
 		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
@@ -54,7 +52,7 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 	/** Deletes the object with the same ID as the stringKey field from the 
 	 * RequestWrapper argument.
 	 * @param requestWrapper
-	 * @return
+	 * @return object on success, or null if the object does not exist.
 	 */
 	protected T delete(RequestWrapper requestWrapper) {
 		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
@@ -62,10 +60,10 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 		return dao.delete(requestWrapper.stringKey);
 	}
 	
-	/** Checks whether the given object is valid (not null, valid field values).
-	 * If yes, it updates its value in the database.
+	/** Updates the object from the database with the same key as the given object.
+	 *  Given argument object must be valid.
 	 * @param obj
-	 * @return
+	 * @return modified object on success, or null if failed.
 	 */
 	protected T update(T obj) {
 		if (obj == null)

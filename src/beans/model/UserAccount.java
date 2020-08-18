@@ -1,5 +1,6 @@
 package beans.model;
 
+import beans.model.enums.TypeOfUser;
 
 public class UserAccount extends DatabaseEntity {
    

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import beans.model.Apartment;
-import beans.model.ApartmentStatus;
+import beans.model.enums.ApartmentStatus;
 import dao.interfaces.ApartmentDAOInterface;
 import storage.Storage;
 import util.Config;

@@ -1,5 +1,7 @@
 package util;
 
+
+/** Keeps static constants */
 public class Config {
 	public static final String apartmentDatabaseString = "apartmentDatabase";
 	public static final String reviewDatabaseString = "reviewDatabase";

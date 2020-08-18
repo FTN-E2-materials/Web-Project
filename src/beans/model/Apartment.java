@@ -2,6 +2,8 @@ package beans.model;
 
 import java.util.*;
 import beans.interfaces.*;
+import beans.model.enums.ApartmentStatus;
+import beans.model.enums.ApartmentType;
 
 public class Apartment extends DatabaseEntity {
 	

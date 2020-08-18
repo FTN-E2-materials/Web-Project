@@ -16,10 +16,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.model.Amenity;
-import beans.model.Apartment;
 import dao.AmenityDAO;
-import services.interfaces.AuthCRUDServiceInterface;
-import services.interfaces.DatabaseAccessInterface;
+import services.interfaces.CRUDServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -27,7 +25,7 @@ import util.RequestWrapper;
 
 
 @Path("/amenities")
-public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements AuthCRUDServiceInterface<Amenity>{
+public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements CRUDServiceInterface<Amenity>{
 
 	@Override
 	@PostConstruct

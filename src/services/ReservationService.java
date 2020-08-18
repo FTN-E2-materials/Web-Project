@@ -17,10 +17,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.model.Reservation;
-import beans.model.TypeOfUser;
 import beans.model.UserAccount;
+import beans.model.enums.TypeOfUser;
 import dao.ReservationDAO;
-import services.interfaces.AuthCRUDServiceInterface;
+import services.interfaces.CRUDServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -28,10 +28,10 @@ import util.RequestWrapper;
 
 
 @Path("/reservations")
-public class ReservationService extends CRUDService<Reservation, ReservationDAO> implements AuthCRUDServiceInterface<Reservation>{
+public class ReservationService extends CRUDService<Reservation, ReservationDAO> implements CRUDServiceInterface<Reservation>{
 
-	@Override
 	@PostConstruct
+	@Override
 	public void onCreate() {
 		setDatabaseString();
 		setStorageLocation();
@@ -74,7 +74,6 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/update")
 	public Reservation update(Reservation obj, @Context HttpServletRequest request) {
 		return super.update(obj);
 	}

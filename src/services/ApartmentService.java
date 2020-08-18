@@ -17,10 +17,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.model.Apartment;
-import beans.model.ApartmentStatus;
 import beans.model.UserAccount;
+import beans.model.enums.ApartmentStatus;
 import dao.ApartmentDAO;
-import services.interfaces.AuthCRUDServiceInterface;
+import services.interfaces.CRUDServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -28,9 +28,10 @@ import util.RequestWrapper;
 
 
 @Path("/apartments")
-public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> implements AuthCRUDServiceInterface<Apartment>{
+public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> implements CRUDServiceInterface<Apartment>{
 	
 	@PostConstruct
+	@Override
 	public void onCreate() {
 		setDatabaseString();
 		setStorageLocation();

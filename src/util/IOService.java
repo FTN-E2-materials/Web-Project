@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+
+/** Helper class for reading and writing to text files */
 public class IOService {
 
 	/** Write the string text into a file specified by the given location/path */

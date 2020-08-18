@@ -1,4 +1,4 @@
-package beans.model;
+package beans.model.enums;
 
 public enum ApartmentStatus {
    ACTIVE,

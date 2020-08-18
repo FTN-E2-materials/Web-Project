@@ -19,8 +19,7 @@ import beans.model.Apartment;
 import beans.model.Review;
 import dao.ApartmentDAO;
 import dao.ReviewDAO;
-import services.interfaces.AuthCRUDServiceInterface;
-import services.interfaces.DatabaseAccessInterface;
+import services.interfaces.CRUDServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -28,9 +27,10 @@ import util.RequestWrapper;
 
 
 @Path("/reviews")
-public class ReviewService extends CRUDService<Review, ReviewDAO> implements AuthCRUDServiceInterface<Review> {
+public class ReviewService extends CRUDService<Review, ReviewDAO> implements CRUDServiceInterface<Review> {
 
 	@PostConstruct
+	@Override
 	public void onCreate() {
 		setDatabaseString();
 		setStorageLocation();
@@ -106,7 +106,7 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Aut
 		// return dao.getByApartmentIDForHost`(id);
 	}
 	
-	@POST
+	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/visibility")

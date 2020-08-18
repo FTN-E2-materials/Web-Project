@@ -23,8 +23,8 @@ import util.Config;
 @Path("/users")
 public class UserService extends BaseService {
 
-	@Override
 	@PostConstruct
+	@Override
 	public void onCreate() {
 		setDatabaseString();
 		setStorageLocation();

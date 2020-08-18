@@ -2,6 +2,7 @@ package beans.model;
 
 import java.util.Calendar;
 import beans.interfaces.*;
+import beans.model.enums.ReservationStatus;
 
 
 public class Reservation extends DatabaseEntity {
