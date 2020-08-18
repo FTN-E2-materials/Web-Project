@@ -9,18 +9,18 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import beans.model.Amenity;
 import beans.model.Apartment;
-import beans.model.Reservation;
+import beans.model.ApartmentStatus;
 import beans.model.UserAccount;
 import dao.ApartmentDAO;
-import dao.ReservationDAO;
-import services.interfaces.DatabaseAccessInterface;
+import services.interfaces.AuthCRUDServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -28,9 +28,8 @@ import util.RequestWrapper;
 
 
 @Path("/apartments")
-public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> {
+public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> implements AuthCRUDServiceInterface<Apartment>{
 	
-	@Override
 	@PostConstruct
 	public void onCreate() {
 		setDatabaseString();
@@ -62,30 +61,26 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	/** Check if user is eligible to create an apartment (if user is a host) */
 	public Apartment create(Apartment apartment, @Context HttpServletRequest request) {
 		// TODO Check if user is a host 
-		System.out.println("Creating apartment...");
-		return super.create(apartment, request);
+		return super.create(apartment);
 	}
 	
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	/** Check if user is eligible to delete an apartment */
 	public Apartment delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
 		// TODO Check is user a host/admin in order to delete
 		// Maybe pass the whole Apartment? 
 		
-		return super.delete(requestWrapper, request);
+		return super.delete(requestWrapper);
 	}
-	
-	@POST
+
+	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/update")
 	public Apartment update(Apartment apartment, @Context HttpServletRequest request) {
 		// TODO Fetch auth to see which host it is
 		// Host can only change their own apartments
@@ -103,7 +98,6 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Collection<Apartment> getAll(@Context HttpServletRequest request) {
 		UserAccount currentUser = super.getCurrentUser(request);
 		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
@@ -118,6 +112,32 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> {
 			return dao.getAll();
 		
 		return new ArrayList<>();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public Apartment getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
+		Apartment apartment = super.getByID(key);
+		UserAccount currentUser = super.getCurrentUser(request);
+		
+		if (apartment == null)
+			return null;
+		if (apartment.status == ApartmentStatus.ACTIVE) {
+			if (currentUser == null)
+				return apartment;
+			if (currentUser.isHost()  &&  !currentUser.id.equals(apartment.id))
+				return null;
+			return apartment;
+		}
+		if (apartment.status == ApartmentStatus.INACTIVE) {
+			if (currentUser == null)
+				return null;
+			if (currentUser.isAdmin()  ||  currentUser.id.equals(apartment.id))
+				return apartment;
+		}
+		
+		return null;
 	}
 	
 	@GET

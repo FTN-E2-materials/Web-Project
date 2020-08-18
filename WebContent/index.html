@@ -29,10 +29,14 @@
 
 			<div>
 				<button @click="getApartments">Download apartments</button>
-			</div>'
+			</div>
 			<div>
 				<button @click="addReview">Post review</button>
-			</div>'
+			</div>
+			<div>
+				Search apartment:  
+				<input type="text" v-model="apartmentID" @keyup.enter="searchApartment"/>
+			</div>
 		</div>
 
 		<!-- Axios -->

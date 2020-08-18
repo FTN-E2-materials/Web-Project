@@ -3,79 +3,81 @@ package services.templates;
 import java.util.Collection;
 import beans.model.DatabaseEntity;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import dao.BeanDAO;
 import util.RequestWrapper;
 
 
-/** Abstract template for a CRUD service class with predefined basic CRUD method
+/** Abstract template for a CRUD service class with predefined basic CRUD methods
+ *  Handles object validity (not null, valid fields).
  * @author Nikola
  * @param <T>
  * @param <DAO>
  */
 public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<T>> extends BaseService {
 	
-	/** POST to add received JSON BeanObject to the database.
-	 * @param BeanObject
-	 * @return JSON format BeanObject added, or null if failed.
+	/** Checks if an object is valid, and if yes, adds it to the database.
+	 * @param DatabaseEntity
+	 * @return JSON format Entity if added, or null if failed.
 	 */
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public T create(T object, @Context HttpServletRequest request) {
+	protected T create(T object) {
 		if (object == null) {
 			return null;
 		}
-		else if (object.getKey() == null) {
-			return null;
-		}
-		else {
-			DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
-			return objectDAO.create(object);
-		}
+		try { object.validate(); }
+			catch (IllegalArgumentException ex) {
+				System.out.println("Attempt to create invalid object.");
+				return null;
+			}
+		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
+		return dao.create(object);
 	}
 	
 	/** Returns a JSON array of all BeanObjects in the database. */
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<T> getAll(@Context HttpServletRequest request){
-		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
+	protected Collection<T> getAll(){
+		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
 		
-		return objectDAO.getAll();	
+		return dao.getAll();	
 	}
 	
-	/** Parses the given GET QueryParameter to get a filter string. Returns all BeanObjects
+	/** Parses the given GET PathParam to get a filter string. Returns all DatabaseEntities
 	 * which fit the query.
 	 * @param key
-	 * @return JSON formatted array of BeanObjects 
+	 * @return JSON formatted array of entities 
 	 */
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
-	public T getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
-		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
+	protected T getByID(String key) {
+		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
 		System.out.println("Trying to fetch ID: " + key);
-		return objectDAO.getByKey(key);
+		return dao.getByKey(key);
 	}
 	
-	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public T delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
-		DAO objectDAO = (DAO)ctx.getAttribute(databaseAttributeString);
+	/** Deletes the object with the same ID as the stringKey field from the 
+	 * RequestWrapper argument.
+	 * @param requestWrapper
+	 * @return
+	 */
+	protected T delete(RequestWrapper requestWrapper) {
+		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
 		
-		return objectDAO.delete(requestWrapper.stringKey);
+		return dao.delete(requestWrapper.stringKey);
 	}
 	
-	// TODO Update method?
+	/** Checks whether the given object is valid (not null, valid field values).
+	 * If yes, it updates its value in the database.
+	 * @param obj
+	 * @return
+	 */
+	protected T update(T obj) {
+		if (obj == null)
+			return null;
+		try { obj.validate(); }
+			catch (IllegalArgumentException ex) {
+				System.out.println("Trying to update entity with invalid field values.");
+				return null;
+			}
+		
+		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
+		return dao.update(obj);
+	}
 }
 

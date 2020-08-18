@@ -3,14 +3,15 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -19,14 +20,15 @@ import beans.model.Reservation;
 import beans.model.TypeOfUser;
 import beans.model.UserAccount;
 import dao.ReservationDAO;
-import services.interfaces.DatabaseAccessInterface;
+import services.interfaces.AuthCRUDServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
+import util.RequestWrapper;
 
 
 @Path("/reservations")
-public class ReservationService extends CRUDService<Reservation, ReservationDAO> {
+public class ReservationService extends CRUDService<Reservation, ReservationDAO> implements AuthCRUDServiceInterface<Reservation>{
 
 	@Override
 	@PostConstruct
@@ -60,19 +62,25 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Reservation create(Reservation reservation, @Context HttpServletRequest request) {
 		UserAccount currentUser = super.getCurrentUser(request);
 		
 		if (currentUser.getType() == TypeOfUser.GUEST)
-			super.create(reservation, request);
+			super.create(reservation);
 			
 		return null;					
 	}
 	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/update")
+	public Reservation update(Reservation obj, @Context HttpServletRequest request) {
+		return super.update(obj);
+	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Collection<Reservation> getAll(@Context HttpServletRequest request) {
 		UserAccount currentUser = super.getCurrentUser(request);
 		ReservationDAO dao = (ReservationDAO)ctx.getAttribute(databaseAttributeString);
@@ -85,8 +93,21 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		if (currentUser.isHost())
 			return dao.getByHostID(currentUser.id);
 		if (currentUser.isAdmin())
-			return super.getAll(request);
+			return dao.getAll();
 		else 
 			return new ArrayList<>();
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public Reservation getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
+		return super.getByID(key);
+	}
+
+	public Reservation delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+		return super.delete(requestWrapper);
+	}
+
+
 }

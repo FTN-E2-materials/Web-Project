@@ -4,7 +4,8 @@ new Vue({
         name : "Nikola",
         website : "http://www.google.rs",
         age : 10,
-        apartments : []
+        apartments : [],
+        apartmentID : ""
     },
     methods : {
         addYear : function() {
@@ -40,6 +41,15 @@ new Vue({
             }).then(function() {
                 alert("Postovao sam.")
             })
+        },
+        searchApartment : function() {
+            if (this.apartmentID === "") {
+                return;
+            }
+            axios.get("http://localhost:8080/WebProject/u/apartments/" + this.apartmentID)
+                .then(function(result) {
+                    console.log(result.data);
+                })
         }
     } 
 });

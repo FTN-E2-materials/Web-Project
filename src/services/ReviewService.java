@@ -5,8 +5,10 @@ import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,16 +19,17 @@ import beans.model.Apartment;
 import beans.model.Review;
 import dao.ApartmentDAO;
 import dao.ReviewDAO;
+import services.interfaces.AuthCRUDServiceInterface;
 import services.interfaces.DatabaseAccessInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
+import util.RequestWrapper;
 
 
 @Path("/reviews")
-public class ReviewService extends CRUDService<Review, ReviewDAO> {
+public class ReviewService extends CRUDService<Review, ReviewDAO> implements AuthCRUDServiceInterface<Review> {
 
-	@Override
 	@PostConstruct
 	public void onCreate() {
 		setDatabaseString();
@@ -58,19 +61,38 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Review create(Review review, @Context HttpServletRequest request) {
 		// TODO Only guests can create reviews
 		// Guest has to have a FINISHED or REJECTED reservation with the apartment in question
-		return super.create(review, request);
+		return super.create(review);
+	}
+
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Review update(Review obj, @Context HttpServletRequest request) {
+		return super.update(obj);
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Collection<Review> getAll(@Context HttpServletRequest request) {
 		// TODO Check if user is admin, if not, reject 
-		return super.getAll(request);
+		return super.getAll();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public Review getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
+		return super.getByID(key);
+	}
+
+	@DELETE
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Review delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+		return super.delete(requestWrapper);
 	}
 	
 	@GET
