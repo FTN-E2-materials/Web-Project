@@ -1,7 +1,6 @@
 package beans.model;
 
 import java.util.Calendar;
-import beans.interfaces.*;
 import beans.model.enums.ReservationStatus;
 
 
@@ -15,6 +14,10 @@ public class Reservation extends DatabaseEntity {
    
    public String guestID;
    public Apartment apartment;
+   
+   public Reservation() {
+	   status = ReservationStatus.CREATED;
+   }
    
    @Override
    public void validate() {

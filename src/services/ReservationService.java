@@ -1,8 +1,6 @@
 package services;
 
-
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Calendar;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -19,10 +17,9 @@ import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
 import beans.model.Reservation;
-import beans.model.UserAccount;
-import beans.model.enums.TypeOfUser;
+import beans.model.enums.ReservationStatus;
 import dao.ReservationDAO;
-import services.interfaces.CRUDServiceInterface;
+import services.interfaces.ResponseCRUDServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -30,7 +27,7 @@ import util.RequestWrapper;
 
 
 @Path("/reservations")
-public class ReservationService extends CRUDService<Reservation, ReservationDAO> implements CRUDServiceInterface<Reservation>{
+public class ReservationService extends CRUDService<Reservation, ReservationDAO> implements ResponseCRUDServiceInterface<Reservation>{
 
 	@PostConstruct
 	@Override
@@ -77,7 +74,122 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response update(Reservation obj, @Context HttpServletRequest request) {
-		return OK(super.update(obj));
+		return ForbiddenRequest(); // Reservations cannot be updated.
+								   // Only status changes are allowed via separate PUT methods
+	}
+	
+	@PUT 
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/cancel")
+	public Response cancel(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+		if (requestWrapper == null)
+			return BadRequest();
+		if (requestWrapper.stringKey == null)
+			return BadRequest();
+		
+		ReservationDAO dao = (ReservationDAO)ctx.getAttribute(databaseAttributeString);
+		Reservation reservation = dao.getByKey(requestWrapper.stringKey);
+		if (reservation == null)
+			return BadRequest("Reservation with the given ID was not found.");
+		
+		SessionToken session = super.getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		// If guest wants to change
+		if (session.isGuest()  &&  session.getSessionID().equals(reservation.guestID)) {
+			if (reservation.status == ReservationStatus.CREATED  ||
+					reservation.status == ReservationStatus.APPROVED) {
+				reservation.status = ReservationStatus.CANCELLED;
+				return OK(super.update(reservation));
+			}
+			else {
+				return ForbiddenRequest("This reservation cannot be cancelled.");
+			}
+		}
+		// If host wants to change
+		if (session.isHost() &&  session.getSessionID().equals(reservation.apartment.hostID)) {
+			if (reservation.status == ReservationStatus.CREATED  ||
+					reservation.status == ReservationStatus.APPROVED) {
+				reservation.status = ReservationStatus.DENIED;
+				return OK(super.update(reservation));
+			}
+			else {
+				return ForbiddenRequest("This reservation cannot be cancelled.");
+			}
+		}
+		
+		return ForbiddenRequest();
+	}
+	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/approve")
+	public Response approve(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+		if (requestWrapper == null)
+			return BadRequest();
+		if (requestWrapper.stringKey == null)
+			return BadRequest();
+		
+		ReservationDAO dao = (ReservationDAO)ctx.getAttribute(databaseAttributeString);
+		Reservation reservation = dao.getByKey(requestWrapper.stringKey);
+		if (reservation == null)
+			return BadRequest("Reservation with the given ID was not found.");
+		
+		SessionToken session = super.getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isHost() &&  session.getSessionID().equals(reservation.apartment.hostID)) {
+			if (reservation.status == ReservationStatus.CREATED) {
+				reservation.status = ReservationStatus.APPROVED;
+				return OK(super.update(reservation));
+			}
+			else {
+				return ForbiddenRequest("This reservation cannot be approved.");
+			}
+		}
+		
+		return ForbiddenRequest();
+	}
+	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/finish")
+	public Response finish(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+		if (requestWrapper == null)
+			return BadRequest();
+		if (requestWrapper.stringKey == null)
+			return BadRequest();
+		
+		ReservationDAO dao = (ReservationDAO)ctx.getAttribute(databaseAttributeString);
+		Reservation reservation = dao.getByKey(requestWrapper.stringKey);
+		if (reservation == null)
+			return BadRequest("Reservation with the given ID was not found.");
+		
+		SessionToken session = super.getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isHost() &&  session.getSessionID().equals(reservation.apartment.hostID)) {
+			if (reservation.status == ReservationStatus.APPROVED) {
+				Calendar endDate = reservation.startingDate;
+				endDate.add(Calendar.DATE, reservation.numberOfNights);
+				// TODO Check if this is correct
+				if (endDate.compareTo(Calendar.getInstance()) < 0) {
+					reservation.status = ReservationStatus.FINISHED;
+					return OK(super.update(reservation));
+				}
+			}
+			else {
+				return ForbiddenRequest("This reservation cannot be finished.");
+			}
+		}
+		
+		return ForbiddenRequest();
 	}
 
 	@GET

@@ -20,7 +20,7 @@ import beans.model.Apartment;
 import beans.model.Review;
 import dao.ApartmentDAO;
 import dao.ReviewDAO;
-import services.interfaces.CRUDServiceInterface;
+import services.interfaces.ResponseCRUDServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -28,7 +28,7 @@ import util.RequestWrapper;
 
 
 @Path("/reviews")
-public class ReviewService extends CRUDService<Review, ReviewDAO> implements CRUDServiceInterface<Review> {
+public class ReviewService extends CRUDService<Review, ReviewDAO> implements ResponseCRUDServiceInterface<Review> {
 
 	@PostConstruct
 	@Override

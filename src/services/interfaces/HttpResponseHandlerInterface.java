@@ -6,6 +6,7 @@ public interface HttpResponseHandlerInterface {
 	public Response BadRequest();
 	public Response BadRequest(Object object);
 	public Response ForbiddenRequest();
+	public Response ForbiddenRequest(Object object);
 	public Response OK(Object object);
 	public Response AuthFailed(Object object);
 }

@@ -55,6 +55,12 @@ public abstract class BaseService implements DatabaseAccessInterface, SessionTra
 	
 	/** Returns a forbidden request response with code 403 */
 	@Override
+	public Response ForbiddenRequest(Object object) {
+		return Response.status(Config.FORBIDDEN).entity(object).build();
+	}
+	
+	/** Returns a forbidden request response with code 403 with an optional object as payload*/
+	@Override
 	public Response ForbiddenRequest() {
 		return Response.status(Config.FORBIDDEN).build();
 	}

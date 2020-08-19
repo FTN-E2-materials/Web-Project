@@ -12,7 +12,7 @@ import util.RequestWrapper;
  * @author Nikola
  * @param <T>
  */
-public interface CRUDServiceInterface<T extends DatabaseEntity> {
+public interface ResponseCRUDServiceInterface<T extends DatabaseEntity> {
 	public Response create(T obj, HttpServletRequest request);
 	public Response update(T obj, HttpServletRequest request);
 	public Response getAll(HttpServletRequest request);
