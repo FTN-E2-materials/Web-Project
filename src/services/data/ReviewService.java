@@ -1,6 +1,4 @@
-package services;
-
-import java.util.Collection;
+package services.data;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import beans.model.Apartment;
 import beans.model.Review;
-import dao.ApartmentDAO;
 import dao.ReviewDAO;
 import services.interfaces.ResponseCRUDServiceInterface;
 import services.templates.CRUDService;
@@ -27,7 +23,7 @@ import util.Config;
 import util.RequestWrapper;
 
 
-@Path("/reviews")
+@Path(Config.REVIEWS_DATA_PATH)
 public class ReviewService extends CRUDService<Review, ReviewDAO> implements ResponseCRUDServiceInterface<Review> {
 
 	@PostConstruct

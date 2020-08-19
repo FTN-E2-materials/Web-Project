@@ -1,6 +1,4 @@
-package services;
-
-import java.util.Collection;
+package services.data;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +23,7 @@ import util.Config;
 import util.RequestWrapper;
 
 
-@Path("/amenities")
+@Path(Config.AMENITIES_DATA_PATH)
 public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements ResponseCRUDServiceInterface<Amenity>{
 
 	@Override

@@ -1,7 +1,5 @@
 package util;
 
-import javax.ws.rs.core.Response.Status;
-
 /** Keeps static constants */
 public class Config {
 	public static final String apartmentDatabaseString = "apartmentDatabase";
@@ -34,4 +32,13 @@ public class Config {
 	public static final int BAD_REQUEST = 400;
 	public static final int FORBIDDEN = 403;
 	public static final int AUTH_FAILED = 412; // Precondition failed status
+	
+	// Annotation paths
+	public static final String dataAnnotationRoot = "/d/";
+	public static final String APARTMENTS_DATA_PATH = dataAnnotationRoot + "apartments";
+	public static final String AMENITIES_DATA_PATH = dataAnnotationRoot + "amenities";
+	public static final String RESERVATIONS_DATA_PATH = dataAnnotationRoot + "reservations";
+	public static final String USERS_DATA_PATH = dataAnnotationRoot + "users";
+	public static final String REVIEWS_DATA_PATH = dataAnnotationRoot + "reviews";
+	public static final String AUTH_DATA_PATH = dataAnnotationRoot + "auth";
 }

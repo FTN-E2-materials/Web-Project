@@ -1,4 +1,4 @@
-package services;
+package services.data;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ import util.Config;
 import util.RequestWrapper;
 
 
-@Path("/apartments")
+@Path(Config.APARTMENTS_DATA_PATH)
 public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> implements ResponseCRUDServiceInterface<Apartment>{
 	
 	@PostConstruct

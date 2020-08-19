@@ -1,7 +1,5 @@
-package services;
+package services.data;
 
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +20,7 @@ import storage.Storage;
 import util.Config;
 
 
-@Path("/users")
+@Path(Config.USERS_DATA_PATH)
 public class UserService extends BaseService {
 
 	@PostConstruct

@@ -1,4 +1,4 @@
-package services;
+package services.data;
 
 import java.util.Calendar;
 
@@ -26,7 +26,7 @@ import util.Config;
 import util.RequestWrapper;
 
 
-@Path("/reservations")
+@Path(Config.RESERVATIONS_DATA_PATH)
 public class ReservationService extends CRUDService<Reservation, ReservationDAO> implements ResponseCRUDServiceInterface<Reservation>{
 
 	@PostConstruct
