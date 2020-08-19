@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 
 import beans.model.Review;
 import dao.ReviewDAO;
-import services.interfaces.ResponseCRUDServiceInterface;
+import services.interfaces.ResponseCRUDInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -24,7 +24,7 @@ import util.RequestWrapper;
 
 
 @Path(Config.REVIEWS_DATA_PATH)
-public class ReviewService extends CRUDService<Review, ReviewDAO> implements ResponseCRUDServiceInterface<Review> {
+public class ReviewService extends CRUDService<Review, ReviewDAO> implements ResponseCRUDInterface<Review> {
 
 	@PostConstruct
 	@Override

@@ -19,7 +19,7 @@ import beans.interfaces.SessionToken;
 import beans.model.Reservation;
 import beans.model.enums.ReservationStatus;
 import dao.ReservationDAO;
-import services.interfaces.ResponseCRUDServiceInterface;
+import services.interfaces.ResponseCRUDInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -27,7 +27,7 @@ import util.RequestWrapper;
 
 
 @Path(Config.RESERVATIONS_DATA_PATH)
-public class ReservationService extends CRUDService<Reservation, ReservationDAO> implements ResponseCRUDServiceInterface<Reservation>{
+public class ReservationService extends CRUDService<Reservation, ReservationDAO> implements ResponseCRUDInterface<Reservation>{
 
 	@PostConstruct
 	@Override

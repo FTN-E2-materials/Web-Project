@@ -18,7 +18,7 @@ import beans.interfaces.SessionToken;
 import beans.model.Apartment;
 import beans.model.enums.ApartmentStatus;
 import dao.ApartmentDAO;
-import services.interfaces.ResponseCRUDServiceInterface;
+import services.interfaces.ResponseCRUDInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -26,7 +26,7 @@ import util.RequestWrapper;
 
 
 @Path(Config.APARTMENTS_DATA_PATH)
-public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> implements ResponseCRUDServiceInterface<Apartment>{
+public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> implements ResponseCRUDInterface<Apartment>{
 	
 	@PostConstruct
 	@Override

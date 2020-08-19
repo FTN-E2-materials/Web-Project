@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 
 import beans.model.Amenity;
 import dao.AmenityDAO;
-import services.interfaces.ResponseCRUDServiceInterface;
+import services.interfaces.ResponseCRUDInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -24,7 +24,7 @@ import util.RequestWrapper;
 
 
 @Path(Config.AMENITIES_DATA_PATH)
-public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements ResponseCRUDServiceInterface<Amenity>{
+public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements ResponseCRUDInterface<Amenity>{
 
 	@Override
 	@PostConstruct
