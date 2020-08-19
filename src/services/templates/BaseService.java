@@ -1,14 +1,11 @@
 package services.templates;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 
-import beans.interfaces.SessionToken;
 import services.interfaces.DatabaseAccessInterface;
+import services.interfaces.SessionHandler;
 import services.interfaces.DataResponseHandler;
-import services.interfaces.SessionTracker;
-import util.Config;
 
 
 /** Abstract template for a basic service class. Contains a ServletContext field,
@@ -17,7 +14,7 @@ import util.Config;
  * @param <T>
  * @param <DAO>
  */
-public abstract class BaseService implements DatabaseAccessInterface, SessionTracker, DataResponseHandler {
+public abstract class BaseService implements DatabaseAccessInterface, SessionHandler, DataResponseHandler {
 	
 	@Context
 	protected ServletContext ctx;

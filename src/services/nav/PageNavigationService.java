@@ -8,7 +8,7 @@ import services.interfaces.NavigationResponseHandler;
 import services.interfaces.SessionTracker;
 
 /** Abstract class for page navigation services. Implements the session tracker methods for tracking
- *  user sessions, and the basic navigation HTTP response methods for forbidding and allowing access.
+ *  user sessions, and the basic navigation HTTP response methods for forbidding and allowing access to pages.
  *  Contains GET method for fetching website pages.
  *  @author Nikola
  */
