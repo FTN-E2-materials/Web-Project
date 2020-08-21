@@ -1,5 +1,7 @@
 package util;
 
+import javax.ws.rs.core.Response.Status;
+
 /** Keeps static constants */
 public class Config {
 	// For storing DAO objects under attribute names in ServletContext objects
@@ -35,9 +37,10 @@ public class Config {
 	public static final int BAD_REQUEST = 400;
 	public static final int FORBIDDEN = 403;
 	public static final int AUTH_FAILED = 412; // Precondition failed status
+	public static final int NOT_FOUND = 404;
 	
 	// Data annotation paths
-	public static final String dataAnnotationRoot = "/d/";
+	public static final String dataAnnotationRoot = "/data/";
 	public static final String APARTMENTS_DATA_PATH = dataAnnotationRoot + "apartments";
 	public static final String AMENITIES_DATA_PATH = dataAnnotationRoot + "amenities";
 	public static final String RESERVATIONS_DATA_PATH = dataAnnotationRoot + "reservations";
@@ -46,9 +49,20 @@ public class Config {
 	public static final String AUTH_DATA_PATH = dataAnnotationRoot + "auth";
 	
 	// Page annotation paths
-	public static final String pageAnnotationRoot = "/";
-	public static final String LANDING_PAGE_PATH = pageAnnotationRoot;
-	public static final String LOGIN_PAGE_PATH = pageAnnotationRoot + "login";
-	public static final String REGISTRATION_PAGE_PATH = pageAnnotationRoot + "registration";
+	public static final String LANDING_PAGE_PATH = "";
+	public static final String LOGIN_PAGE_PATH = "login";
+	public static final String REGISTRATION_PAGE_PATH = "registration";
 	
+	// Scripts annotation path
+	public static final String SCRIPTS_PATH = "/scripts";
+	
+	//WEB FILES
+	public static final String WEB_FILE_ROOT = "/web-files/";
+	
+	// HTML file locations 
+	public static String HTML_FILE_ROOT = WEB_FILE_ROOT + "html-files/";
+	public static final String LANDING_PAGE_FILE_LOCATION = HTML_FILE_ROOT + "index.html";	
+
+	// JS Script root location
+	public static String SCRIPT_FILE_ROOT = WEB_FILE_ROOT + "scripts/";
 }

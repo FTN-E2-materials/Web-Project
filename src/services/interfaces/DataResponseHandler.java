@@ -22,4 +22,8 @@ public interface DataResponseHandler extends NavigationResponseHandler{
 	public default Response AuthFailed(Object object) {
 		return Response.status(Config.AUTH_FAILED).entity(object).build();
 	}
+	
+	public default Response NotFound(Object object) {
+		return Response.status(Config.NOT_FOUND).entity(object).build();
+	}
 }

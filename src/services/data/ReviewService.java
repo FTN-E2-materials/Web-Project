@@ -1,10 +1,14 @@
 package services.data;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotAcceptableException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -78,11 +82,9 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Res
 		return OK(super.getAll());
 	}
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
 	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
-		return OK(super.getByID(key));
+		throw new NotAcceptableException();
+		// This is not allowed for reviews
 	}
 
 	@DELETE
@@ -94,12 +96,11 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Res
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("apartment/{id}")
+	@Path("/{id}")
 	public Response getByApartmentID(@PathParam("id") String id) {
 		// TODO Check if user is Guest or unregistered
 		// Then depending on the type of user, return filtered or not
 		ReviewDAO dao = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
 		return OK(dao.getByApartmentIDForGuest(id));
-		// return dao.getByApartmentIDForHost`(id);
 	}
 }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		
+		<script src="https://unpkg.com/vue"></script>
+		
+		<style>
+			h1 {color: gray;}
+			
+			input {
+				border-style: solid;
+				border-width: 1px;
+				width: 200px
+			}	
+		</style>
+	</head>
+	<body>
+		<div id="vue-app">
+			<h1> {{name}} </h1>
+			<a :href="website">Go to google.com</a>
+	
+
+			<h1> Your age is {{ age }} </h1>
+			<button @click="addYear"> Add year</button>
+			<button @click="removeYear"> Remove year</button>
+			<!-- Register enter clicks -->
+			<input type="text" id="year_input" v-model="age"/>
+
+			<div>
+				<button @click="getApartments">Download apartments</button>
+			</div>
+			<div>
+				<button @click="addReview">Post review</button>
+			</div>
+			<div>
+				Search apartment:  
+				<input type="text" v-model="apartmentID" @keyup.enter="searchApartment"/>
+			</div>
+		</div>
+
+		<!-- Axios -->
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<!-- Vue.js -->
+		<script src="http://localhost:8080/WebProject/scripts/index.js"></script>
+	</body>
+</html>

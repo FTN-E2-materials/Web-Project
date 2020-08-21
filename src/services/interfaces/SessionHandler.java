@@ -11,10 +11,12 @@ import util.Config;
  */
 public interface SessionHandler extends SessionTracker {
 	
+	/** Delete the current session */
 	public default void deleteSession(HttpServletRequest request) {
 		request.setAttribute(Config.userSessionAttributeString, null);
 	}
 	
+	/** Attach the SessionToken object to the current session */
 	public default void createSession(SessionToken obj, HttpServletRequest request) {
 		request.setAttribute(Config.userSessionAttributeString, obj);
 	}
