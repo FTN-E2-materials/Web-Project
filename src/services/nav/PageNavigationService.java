@@ -34,7 +34,7 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 // PathParams for navigation using URL
 	@GET
 	@Path("/{pagePath}")
-	@Produces(MediaType.TEXT_HTML)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response getSubpage(@PathParam("pagePath") String pagePath, @Context HttpServletRequest request) {
 		switch (pagePath) {
 			case Config.LOGIN_PAGE_PATH:
@@ -51,7 +51,7 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 	 *  Url is: 'localhost.webproject/scripts/scriptName'*/
 	@GET
 	@Path(Config.SCRIPTS_PATH + "/{scriptName}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_HTML)
 	public Response getScript(@PathParam("scriptName") String scriptName) {
 		return OK(ScriptService.getScript(scriptName));
 	}

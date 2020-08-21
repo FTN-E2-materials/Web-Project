@@ -1,5 +1,5 @@
 new Vue({
-    el :"#vue-app",
+    el :"#vue-login-register",
     data : {
         name : "Nikola",
         website : "http://www.google.rs",
@@ -16,6 +16,12 @@ new Vue({
         },
         enterAge : function() {
             console.log("You touched something");
+        },
+        openLogin : function() {
+            axios.get("http://localhost:8080/WebProject/login")
+        },
+        openRegistration : function() {
+            axios.get("http://localhost:8080/WebProject/register")
         },
         getApartments : function() {
             axios.get("http://localhost:8080/WebProject/data/apartments")
