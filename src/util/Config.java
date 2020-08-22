@@ -62,6 +62,7 @@ public class Config {
 	// HTML file locations 
 	public static String HTML_FILE_ROOT = WEB_FILE_ROOT + "html-files/";
 	public static final String LANDING_PAGE_FILE_LOCATION = HTML_FILE_ROOT + "index.html";	
+	public static final String LOGIN_PAGE_FILE_LOCATION = HTML_FILE_ROOT + "login.html";
 
 	// JS Script root location
 	public static String SCRIPT_FILE_ROOT = WEB_FILE_ROOT + "scripts/";

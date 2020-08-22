@@ -72,8 +72,11 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 	 */
 	public T getByKey(String key) {
 		T obj = database.getOrDefault(key, null);
+		if (obj == null)
+			return null;
 		if (obj.isDeleted())
 			return null;
+		
 		return obj;
 	}
 	

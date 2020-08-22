@@ -71,6 +71,11 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 		String username = loginInfo.stringArgs.get(0);
 		String password = loginInfo.stringArgs.get(1);
 		
+		if (username.length() < 6)
+			return BadRequest();
+		if (password.length() < 6)
+			return BadRequest();
+		
 		UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);
 		UserAccount account = dao.getByKey(username);
 		if (account == null)

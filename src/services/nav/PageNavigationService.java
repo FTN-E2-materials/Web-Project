@@ -11,6 +11,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import beans.interfaces.SessionToken;
 import services.interfaces.NavigationResponseHandler;
 import services.interfaces.SessionTracker;
 import util.Config;
@@ -34,7 +35,7 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 // PathParams for navigation using URL
 	@GET
 	@Path("/{pagePath}")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_HTML)
 	public Response getSubpage(@PathParam("pagePath") String pagePath, @Context HttpServletRequest request) {
 		switch (pagePath) {
 			case Config.LOGIN_PAGE_PATH:
@@ -66,11 +67,23 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 	}
 	
 	private Response LoginPage(HttpServletRequest request) {
-		return OK("Hello this is the login page.");
+		SessionToken session = getCurrentSession(request);
+		if (session == null) {
+			InputStream stream = PageNavigationService.class.getResourceAsStream(Config.LOGIN_PAGE_FILE_LOCATION);
+			if (stream == null)
+				return OK("The file was not found, sorry.");
+			return OK(stream);
+		}
+		else {
+			return OK("You are already logged in.");
+		}
 	}
 	
 	private Response RegistrationPage(HttpServletRequest request) {
-		return OK("Hello this is the registration page.");
+		SessionToken session = getCurrentSession(request);
+		if (session == null)
+			return OK("Please login to continue");
+		return OK("You are already logged in!");
 	}
 	
 	private Response GuestHome(HttpServletRequest request) {
