@@ -51,7 +51,7 @@ public class Config {
 	// Page annotation paths
 	public static final String LANDING_PAGE_PATH = "";
 	public static final String LOGIN_PAGE_PATH = "login";
-	public static final String REGISTRATION_PAGE_PATH = "registration";
+	public static final String REGISTRATION_PAGE_PATH = "register";
 	
 	// Scripts annotation path
 	public static final String SCRIPTS_PATH = "/scripts";
