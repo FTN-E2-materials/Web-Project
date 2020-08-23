@@ -17,7 +17,7 @@ new Vue({
             axios.post("http://localhost:8080/WebProject/data/auth/login", reqWrapper)
                 .then(function(response) {
                     if (response.status === 200) {// success
-                        window.location.replace("http://localhost:8080/WebProject/registration")
+                        window.location.replace("http://localhost:8080/WebProject/")
                     }
                     else {
                         // Potentially redundant? 

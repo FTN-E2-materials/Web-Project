@@ -51,7 +51,7 @@ public class Config {
 	// Page annotation paths
 	public static final String LANDING_PAGE_PATH = "";
 	public static final String LOGIN_PAGE_PATH = "login";
-	public static final String REGISTRATION_PAGE_PATH = "register";
+	public static final String REGISTRATION_PAGE_PATH = "registration";
 	
 	// Scripts annotation path
 	public static final String SCRIPTS_PATH = "/scripts";
@@ -63,6 +63,10 @@ public class Config {
 	public static String HTML_FILE_ROOT = WEB_FILE_ROOT + "html-files/";
 	public static final String LANDING_PAGE_FILE_LOCATION = HTML_FILE_ROOT + "index.html";	
 	public static final String LOGIN_PAGE_FILE_LOCATION = HTML_FILE_ROOT + "login.html";
+	public static final String GUEST_HOME_FILE_LOCATION = HTML_FILE_ROOT + "guest_home.html";
+	public static final String HOST_HOME_FILE_LOCATION = HTML_FILE_ROOT + "host_home.html";
+	public static final String ADMIN_HOME_FILE_LOCATION = HTML_FILE_ROOT + "admin_home.html";
+	public static final String REGISTRATION_PAGE_FILE_LOCATION = HTML_FILE_ROOT + "registration.html";
 
 	// JS Script root location
 	public static String SCRIPT_FILE_ROOT = WEB_FILE_ROOT + "scripts/";

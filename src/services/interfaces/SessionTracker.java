@@ -17,4 +17,18 @@ public interface SessionTracker {
 		
 		return (SessionToken)session.getAttribute(Config.userSessionAttributeString);
 	}
+	
+	/** Check if user is logged in 
+	 * @param request
+	 * @return True if the user is Admin/Host/Guest, or false if not.
+	 */
+	public default boolean isLoggedIn(HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		System.out.println("Incoming request from: " + ((session == null) ? "Unregistered user" : session.getSessionID()));
+		if (session == null)
+			return false;
+		if (session.isAdmin() || session.isHost() || session.isGuest()) 
+			return true;
+		return false;
+	}
 }

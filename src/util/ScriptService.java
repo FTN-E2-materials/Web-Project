@@ -3,10 +3,9 @@ package util;
 
 import java.io.InputStream;
 
-import services.interfaces.NavigationResponseHandler;
 
 /** Small utility for fetching script files */
-public class ScriptService implements NavigationResponseHandler {
+public class ScriptService {
 	
 	/** Returns the given script as InputStream. 
 	 * @param scriptName

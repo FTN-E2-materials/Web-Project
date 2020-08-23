@@ -1,7 +1,5 @@
 package services.nav;
 
-import java.io.InputStream;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -15,6 +13,7 @@ import beans.interfaces.SessionToken;
 import services.interfaces.NavigationResponseHandler;
 import services.interfaces.SessionTracker;
 import util.Config;
+import util.HTMLService;
 import util.ScriptService;
 
 /** Abstract class for page navigation services. Implements the session tracker methods for tracking
@@ -48,7 +47,7 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 	}
 	
 // Scripts
-	/** Used for fetching CSS/JS scripts that are stored locally 
+	/** Used for fetching JS scripts that are stored locally 
 	 *  Url is: 'localhost.webproject/scripts/scriptName'*/
 	@GET
 	@Path(Config.SCRIPTS_PATH + "/{scriptName}")
@@ -58,43 +57,41 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 	}
 	
 // Page navigation 
-	
+//______________________
 	private Response LandingPage(HttpServletRequest request) {
-		InputStream stream = PageNavigationService.class.getResourceAsStream(Config.LANDING_PAGE_FILE_LOCATION);
-		if (stream == null)
-			return OK("The file was not found, sorry.");
-		return OK(stream);
+		if (!isLoggedIn(request)) {
+			return OK(HTMLService.getInstance().getLandingPage());
+		}
+		return HomePage(request);
+	}
+	
+	private Response HomePage(HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		if (session.isGuest()) {
+			return OK(HTMLService.getInstance().getGuestHomePage());
+		}
+		if (session.isHost()) {
+			return OK(HTMLService.getInstance().getHostHomePage());
+		}
+		if (session.isAdmin()) {
+			return OK(HTMLService.getInstance().getAdminHomePage());
+		}
+		
+		return ForbiddenRequest();
 	}
 	
 	private Response LoginPage(HttpServletRequest request) {
-		SessionToken session = getCurrentSession(request);
-		if (session == null) {
-			InputStream stream = PageNavigationService.class.getResourceAsStream(Config.LOGIN_PAGE_FILE_LOCATION);
-			if (stream == null)
-				return OK("The file was not found, sorry.");
-			return OK(stream);
+		if (!isLoggedIn(request)) {
+			return OK(HTMLService.getInstance().getLoginPage());
 		}
 		else {
-			return OK("You are already logged in.");
+			return Redirect("http://localhost:8080/WebProject");
 		}
 	}
 	
 	private Response RegistrationPage(HttpServletRequest request) {
-		SessionToken session = getCurrentSession(request);
-		if (session == null)
-			return OK("Please login to continue");
-		return OK("You are already logged in!");
-	}
-	
-	private Response GuestHome(HttpServletRequest request) {
-		return OK("Hello this is the guest home page.");
-	}
-	
-	private Response HostHome(HttpServletRequest request) {
-		return OK("Hello this is the registration page.");
-	}
-	
-	private Response AdminHome(HttpServletRequest request) {
-		return OK("Hello this is the registration page.");
+		if (!isLoggedIn(request)) 
+			return OK(HTMLService.getInstance().getRegistrationPage());
+		return Redirect("http://localhost:8080/WebProject");
 	}
 }
