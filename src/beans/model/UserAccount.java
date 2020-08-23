@@ -8,6 +8,7 @@ public class UserAccount extends DatabaseEntity implements SessionToken {
 	// Id from DatabaseEntity acts as a username
    public String password;
    public Person person;
+   public String email;
    protected TypeOfUser type;
    
    public UserAccount() {

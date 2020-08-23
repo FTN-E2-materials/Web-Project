@@ -48,6 +48,9 @@ public class Config {
 	public static final String REVIEWS_DATA_PATH = dataAnnotationRoot + "reviews";
 	public static final String AUTH_DATA_PATH = dataAnnotationRoot + "auth";
 	
+	public static final String LOGIN_PATH = "/login";
+	public static final String REGISTRATION_PATH = "/registration";
+	
 	// Page annotation paths
 	public static final String LANDING_PAGE_PATH = "";
 	public static final String LOGIN_PAGE_PATH = "login";

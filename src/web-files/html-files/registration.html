@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Vue.js script -->
+    <script src="https://unpkg.com/vue"></script>
+
+    <style>
+        
+/* ==========================================================================
+   #FONT
+   ========================================================================== */
+.font-robo {
+  font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
+}
+
+.font-poppins {
+  font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif;
+}
+
+/* ==========================================================================
+   #GRID
+   ========================================================================== */
+.row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.row-space {
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -moz-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.col-2 {
+  width: -webkit-calc((100% - 20px) / 2);
+  width: -moz-calc((100% - 20px) / 2);
+  width: calc((100% - 20px) / 2);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.column-align-right {
+    margin-left: 52%;
+}
+
+@media (max-width: 767px) {
+  .col-2 {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   #BOX-SIZING
+   ========================================================================== */
+/**
+ * More sensible default box-sizing:
+ * css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
+ */
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+/* ==========================================================================
+   #RESET
+   ========================================================================== */
+/**
+ * A very simple reset that sits on top of Normalize.css.
+ */
+body,
+h1, h2, h3, h4, h5, h6,
+blockquote, p, pre,
+dl, dd, ol, ul,
+figure,
+hr,
+fieldset, legend {
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * Remove trailing margins from nested lists.
+ */
+li > ol,
+li > ul {
+  margin-bottom: 0;
+}
+
+/**
+ * Remove default table spacing.
+ */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/**
+ * 1. Reset Chrome and Firefox behaviour which sets a `min-width: min-content;`
+ *    on fieldsets.
+ */
+fieldset {
+  min-width: 0;
+  /* [1] */
+  border: 0;
+}
+
+button {
+  outline: none;
+  background: none;
+  border: none;
+}
+
+/* ==========================================================================
+   #PAGE WRAPPER
+   ========================================================================== */
+.page-wrapper {
+  min-height: 100vh;
+}
+
+body {
+  font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+h5 {
+  font-size: 15px;
+}
+
+h6 {
+  font-size: 13px;
+}
+
+/* ==========================================================================
+   #BACKGROUND
+   ========================================================================== */
+.bg-blue {
+  background: #2c6ed5;
+}
+
+.bg-gra-01 {
+  background: -webkit-linear-gradient(left, #3f97eb, #4fda42);
+		background: -o-linear-gradient(left, #3f97eb, #4fda42);
+		background: -moz-linear-gradient(left, #3f97eb, #4fda42);
+		background: linear-gradient(left, #3f97eb, #4fda42);
+}
+
+.bg-gra-02 {
+  background: -webkit-linear-gradient(left, #3f97eb, #4fda42);
+		background: -o-linear-gradient(left, #3f97eb, #4fda42);
+		background: -moz-linear-gradient(left, #3f97eb, #4fda42);
+		background: linear-gradient(left, #3f97eb, #4fda42);
+}
+
+/* ==========================================================================
+   #SPACING
+   ========================================================================== */
+.p-t-100 {
+  padding-top: 100px;
+}
+
+.p-t-130 {
+  padding-top: 130px;
+}
+
+.p-t-180 {
+  padding-top: 180px;
+}
+
+.p-t-20 {
+  padding-top: 20px;
+}
+
+.p-t-15 {
+  padding-top: 15px;
+}
+
+.p-t-10 {
+  padding-top: 10px;
+}
+
+.p-t-30 {
+  padding-top: 30px;
+}
+
+.p-b-100 {
+  padding-bottom: 100px;
+}
+
+.m-r-45 {
+  margin-right: 45px;
+}
+
+/* ==========================================================================
+   #WRAPPER
+   ========================================================================== */
+.wrapper {
+  margin: 0 auto;
+}
+
+.wrapper--w960 {
+  max-width: 960px;
+}
+
+.wrapper--w780 {
+  max-width: 780px;
+}
+
+.wrapper--w680 {
+  max-width: 680px;
+}
+
+/* ==========================================================================
+   #BUTTON
+   ========================================================================== */
+.btn {
+  display: inline-block;
+  line-height: 50px;
+  padding: 0 50px;
+  -webkit-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  font-size: 18px;
+  color: #fff;
+  font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif;
+}
+
+.btn--radius {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.btn--radius-2 {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin-left: 35%;
+  margin-top: 5%;
+}
+
+.btn--pill {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.btn--green {
+  background: #57b846;
+}
+
+.btn--green:hover {
+  background: #4dae3c;
+}
+
+.btn--blue {
+  background: #4272d7;
+}
+
+.btn--blue:hover {
+  background: #3059b1;
+}
+
+
+/* ==========================================================================
+   #FORM
+   ========================================================================== */
+input {
+  line-height: 40px;
+  border : none;
+  border-bottom: 1px solid rgb(219, 219, 219);
+  padding: 0 7px;
+  font-size: 16px;
+  color: #666;
+  -webkit-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  outline: none;
+}
+
+textarea {
+outline: none;
+border: none;
+}
+
+input:hover {
+  background : rgb(249, 249, 249);
+}
+
+.label {
+  font-size: 16px;
+  color: #555;
+  text-transform: capitalize;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.radio-container {
+  display: inline-block;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.radio-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.radio-container input:checked ~ .checkmark {
+  background-color: #e5e5e5;
+}
+
+.radio-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.radio-container .checkmark:after {
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  background: #57b846;
+}
+
+.checkmark {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #e5e5e5;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+  -moz-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 22px;
+}
+
+.input-group-icon {
+  position: relative;
+}
+
+/* ==========================================================================
+   #SELECT2
+   ========================================================================== */
+.select--no-search .select2-search {
+  display: none !important;
+}
+
+.rs-select2 .select2-container {
+  width: 100% !important;
+  outline: none;
+  background: #fafafa;
+  -webkit-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+  -moz-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.rs-select2 .select2-container .select2-selection--single {
+  outline: none;
+  border: none;
+  height: 50px;
+  background: transparent;
+}
+
+.rs-select2 .select2-container .select2-selection--single .select2-selection__rendered {
+  line-height: 50px;
+  padding-left: 0;
+  color: #555;
+  font-size: 16px;
+  font-family: inherit;
+  padding-left: 22px;
+  padding-right: 50px;
+}
+
+.rs-select2 .select2-container .select2-selection--single .select2-selection__arrow {
+  height: 50px;
+  right: 20px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -moz-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.rs-select2 .select2-container .select2-selection--single .select2-selection__arrow b {
+  display: none;
+}
+
+.rs-select2 .select2-container .select2-selection--single .select2-selection__arrow:after {
+  font-family: "Material-Design-Iconic-Font";
+  content: '\f2f9';
+  font-size: 24px;
+  color: #999;
+  -webkit-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+.rs-select2 .select2-container.select2-container--open .select2-selection--single .select2-selection__arrow::after {
+  -webkit-transform: rotate(-180deg);
+  -moz-transform: rotate(-180deg);
+  -ms-transform: rotate(-180deg);
+  -o-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+}
+
+.select2-container--open .select2-dropdown--below {
+  border: none;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e0e0e0;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+.select2-container--default .select2-results__option {
+  padding-left: 22px;
+}
+
+/* ==========================================================================
+   #TITLE
+   ========================================================================== */
+.title {
+  font-size: 24px;
+  color: #525252;
+  font-weight: 400;
+  margin-bottom: 50px;
+}
+
+/* ==========================================================================
+   #CARD
+   ========================================================================== */
+.card {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #fff;
+}
+
+.card-4 {
+  background: #fff;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+.card-4 .card-body {
+  padding: 57px 70px;
+  padding-bottom: 75px;
+}
+
+@media (max-width: 767px) {
+  .card-4 .card-body {
+    padding: 50px 40px;
+  }
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+        <div class="wrapper wrapper--w680">
+            <div class="card card-4">
+                <div class="card-body" id="vue-registration">
+                    <h2 class="title">Registration Form</h2>
+                    <form >
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">first name</label>
+                                    <input class="input--style-4" type="text" name="first_name" v-model="firstName"> 
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">last name</label>
+                                    <input class="input--style-4" type="text" name="last_name" v-model="lastName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Email</label>
+                                    <div class="input-group-icon">
+                                        <input class="input--style-4 js-datepicker" type="email" name="email" v-model="email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Username</label>
+                                    <div class="input-group-icon">
+                                        <input class="input--style-4 js-datepicker" type="text" name="username" v-model="username">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Password</label>
+                                    <input class="input--style-4" type="password" name="password" v-model="password">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Repeat password</label>
+                                    <input class="input--style-4" type="password" name="repeat_password" v-model="repeatPassword">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2 column-align-right">
+                            <div class="input-group">
+                                <label class="label">Gender</label>
+                                <div class="p-t-10">
+                                    <label class="radio-container m-r-45">Male
+                                        <input type="radio" checked="checked" name="gender">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="radio-container">Female
+                                        <input type="radio" name="gender">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-t-15">
+                            <button class="btn btn--radius-2 btn--blue" type="button" @click="register">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Vue.js implementation -->
+    <script src="http://localhost:8080/WebProject/scripts/registration.js"></script>
+</body>
+
+</html>

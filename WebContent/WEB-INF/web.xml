@@ -28,5 +28,10 @@
     <url-pattern>/*</url-pattern>
   </servlet-mapping>
 
-
+  <!-- 404 Error page override 
+    <error-page>
+      <error-code>404</error-code>
+      <location>/path/to/your/page.html</location>
+    </error-page>
+  -->
 </web-app>

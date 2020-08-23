@@ -50,7 +50,7 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 									));
 	}
 	
-	@Path("/login")
+	@Path(Config.LOGIN_PATH)
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -90,7 +90,7 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 
 	/** Attempts to register the user. Account object must be valid.
 	 *  User must not be logged in already. */
-	@Path("/register")
+	@Path(Config.REGISTRATION_PATH)
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
