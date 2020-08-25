@@ -71,7 +71,8 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		}
 		SessionToken session = super.getCurrentSession(request);
 		if (session == null)
-			return ForbiddenRequest();
+			return OK(super.create(apartment));	
+			//return ForbiddenRequest();
 		if (session.isHost()) {
 			apartment.status = ApartmentStatus.INACTIVE;
 			return OK(super.create(apartment));			

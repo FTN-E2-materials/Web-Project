@@ -6,6 +6,7 @@ import beans.model.enums.ApartmentType;
 
 public class Apartment extends DatabaseEntity {
 	
+   public String title; 
    public ApartmentType type;
    public int numberOfRooms;
    public int numberOfGuests;
