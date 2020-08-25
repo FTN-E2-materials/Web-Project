@@ -19,12 +19,17 @@
 	box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: "Poppins";
+  background: #f5f5f5;
 }
 
 /** Give all elements a transition */
 * {
+  font-family: "Poppins";
 	margin: 0px;
 	transition: all 0.4s;
 	-webkit-transition: all 0.4s;
@@ -43,12 +48,12 @@ a:hover {
 .limiter {
   width: 100%;
   margin: 0 auto;
+  padding-top: 60px;
 }
 
 .container-table100 {
   width: 100%;
   min-height: 100vh;
-  background: #f5f5f5;
 
   display: -webkit-box;
   display: -webkit-flex;
@@ -63,7 +68,7 @@ a:hover {
 
 .wrap-table100 {
   width: 960px;
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: hidden;
 }
 
@@ -140,19 +145,24 @@ a:hover {
 
 .row .cell:nth-child(1) {
   width: 360px;
-  padding-left: 40px;
 }
 
 .row .cell:nth-child(2) {
-  width: 160px;
+  padding-left: 40px;
+  width: 360px;
 }
 
 .row .cell:nth-child(3) {
-  width: 250px;
+  width: 100px;
 }
 
 .row .cell:nth-child(4) {
+  width: 100px;
+}
+
+.row .cell:nth-child(5) {
   width: 190px;
+  padding-right: 20px;
 }
 
 
@@ -211,7 +221,7 @@ a:hover {
 }
 
 .logout-button {
-  background-color: #40D140;
+  background-color: #D92525;
   color: white;
   padding-left: 20px;
   padding-right: 20px;
@@ -220,10 +230,11 @@ a:hover {
   border-style: solid;
   border-radius: 10px;
   border: none;
+  font-family: "Poppins";
 }
 
 .logout-button:hover {
-  background: #069b06;
+  background: #851717;
 }
 
 .header-link:hover {
@@ -261,6 +272,9 @@ a:hover {
         <div class="wrap-table100">
             <table class="table">
               <tr class="row" v-for="apartment in apartments" :key="apartment.id" @click="goToApartment(apartment.id)">
+                <td>
+                  <img style="width: 100%; height: 23%;" src="https://cf.bstatic.com/images/hotel/max1024x768/186/186696050.jpg">
+                </td>
                 <td class="cell" data-title="Full Name">
                   {{ apartment.id }}
                 </td>
