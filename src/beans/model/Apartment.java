@@ -21,6 +21,9 @@ public class Apartment extends DatabaseEntity {
    public Location location;
    public ArrayList<Amenity> amenities;
    
+   public Double rating;
+   public int numberOfRatings;
+   
    public ArrayList<Amenity> getAmenities() {
       if (amenities == null)
          amenities = new ArrayList<Amenity>();

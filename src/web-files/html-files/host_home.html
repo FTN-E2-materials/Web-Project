@@ -27,10 +27,9 @@
           background: #e6e6e6;
         }
         
-        /** Give all elements a transition */
+        /** Give all elements a transition and Poppins font */
         * {
             font-family: "Poppins";
-            margin: 0px;
             transition: all 0.4s;
             -webkit-transition: all 0.4s;
             -o-transition: all 0.4s;
@@ -58,7 +57,7 @@
             background-color: #fafafa;
             border-collapse: collapse;
             width: 80%;
-            margin: 20px auto;
+            margin: 40px auto;
 
             justify-content: space-evenly;
         }
@@ -74,7 +73,8 @@
         }
 
         td {
-            padding-left: 15px;
+            padding-left: 12px;
+            min-width: auto;
         }
 
         .header {
@@ -83,6 +83,7 @@
             color: #f1f1f1;
             width: 100%;
             position: fixed;
+            z-index: 999;
           }
         
         .header-title {
@@ -115,7 +116,7 @@
           padding-top: 6px;
           padding-bottom: 6px;
           margin-right: 50px;
-          margin-top: 100px;
+          margin-top: 90px;
           border-style: solid;
           border-radius: 10px;
           border: none;
@@ -137,6 +138,33 @@
         
         .header-link-active {
           font-weight: 600;
+        }
+
+        .big-bold {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .column-left {
+            float: left;
+        }
+
+        .column-right {
+            float: right;
+        }
+
+        .column {
+            position: relative;
+        }
+
+        .top-left-corner {
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        .top-right-corner {
+            margin-top: 10px;
+            margin-right: 10px;
         }
         
             </style>
@@ -164,23 +192,28 @@
             <div>
                 <table class="table">
                     <tbody>
-                        <tr class="row">
+                        <tr class="row" v-for="apartment in apartments" :key="apartment.id" @click="goToApartment(apartment.id)">
                             <td>
-                                <div>
-                                    <img style="width: 136px; height: 150px; padding-top: 12px; padding-bottom: 7px;" src="https://cf.bstatic.com/images/hotel/max1024x768/186/186696050.jpg">
+                                <div class="column">
+                                    <div class="column-left">
+                                        <div class="column-left">
+                                            <img style="width: auto; height: 150px; padding-top: 12px; padding-bottom: 7px;" src="https://cf.bstatic.com/images/hotel/max1024x768/186/186696050.jpg">
+                                        </div>
+                                        <div class="column-right">
+                                            <div class="big-bold position-top top-left-corner"> 
+                                                {{apartment.title}}
+                                            </div>
+                                            <div class="position-center top-left-corner"> 
+                                                {{apartment.numberOfRooms}} rooms
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column-right">
+                                        <div class="column-right big-bold top-right-corner">
+                                            {{apartment.pricePerNight}}$/night
+                                        </div>
+                                    </div>
                                 </div>
-                            </td>
-                            <td>
-                                Apartment id 
-                            </td>
-                            <td>
-                                Apartment type
-                            </td>
-                            <td>
-                                Number of guests
-                            </td>
-                            <td>
-                                Price per night
                             </td>
                         </tr>
                     </tbody>
