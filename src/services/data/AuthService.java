@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.model.UserAccount;
+import beans.model.enums.TypeOfUser;
 import dao.UserDAO;
 import services.interfaces.AuthenticationInterface;
 import services.templates.BaseService;
@@ -113,6 +114,8 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 		}
 		
 		UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);
+		// Only allow Guest creation through registration. 
+		account.type = TypeOfUser.GUEST;
 		UserAccount result = dao.create(account);
 		if (result == null)
 			return AuthFailed("Account with this username already exists!");
@@ -122,11 +125,11 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 		return OK(result);
 	}
 
-	@Path("/logout")
+	@Path(Config.LOGOUT_PATH)
 	@POST
 	@Override
 	public Response logOut(@Context HttpServletRequest request) {
 		super.deleteSession(request);
-		return OK("Logged out.");
+		return OK("Logged out successfully.");
 	}
 }

@@ -50,6 +50,7 @@ public class Config {
 	
 	public static final String LOGIN_PATH = "/login";
 	public static final String REGISTRATION_PATH = "/registration";
+	public static final String LOGOUT_PATH = "/logout";
 	
 	// Page annotation paths
 	public static final String LANDING_PAGE_PATH = "";

@@ -9,7 +9,7 @@ public class UserAccount extends DatabaseEntity implements SessionToken {
    public String password;
    public Person person;
    public String email;
-   protected TypeOfUser type;
+   public TypeOfUser type;
    
    public UserAccount() {
 	   isCountable = false;

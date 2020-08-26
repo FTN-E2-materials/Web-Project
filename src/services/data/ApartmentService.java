@@ -136,7 +136,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		if (session.isGuest())
 			return OK(dao.getActive());
 		if (session.isHost())
-			return OK(dao.getActiveByHost(session.getSessionID()));	// TODO Return all host's apartments and filter them out using JS?
+			return OK(dao.getByHost(session.getSessionID()));	// TODO Return all host's apartments and filter them out using JS?
 		if (session.isAdmin())
 			return OK(dao.getAll());
 		

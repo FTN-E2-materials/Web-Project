@@ -1,307 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Apartments</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
     <!-- Vue.js script -->
     <script src="https://unpkg.com/vue"></script>
 
     <!-- Google poppins font -->
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
-	<style>
+    <style>
 
-* {
-	margin: 0px; 
-	padding: 0px; 
-	box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background: #f5f5f5;
-}
-
-/** Give all elements a transition */
-* {
-  font-family: "Poppins";
-	margin: 0px;
-	transition: all 0.4s;
-	-webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-}
-
-button:hover {
-	cursor: pointer;
-}
-
-a:hover { 
-  cursor: pointer;
-}
-
-.limiter {
-  width: 100%;
-  margin: 0 auto;
-  padding-top: 60px;
-}
-
-.container-table100 {
-  width: 100%;
-  min-height: 100vh;
-
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  align-items: inherit;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 33px 30px;
-}
-
-.wrap-table100 {
-  width: 960px;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.table {
-  width: 100%;
-  display: table;
-  margin: 0;
-  border-collapse: collapse;
-}
-
-@media screen and (max-width: 768px) {
-  .table {
-    display: block;
-  }
-}
-
-.row {
-  display: table-row;
-  background: #fff;
-}
-
-@media screen and (max-width: 768px) {
-  .row {
-    display: block;
-  }
-
-  .row.header {
-    padding: 0;
-    height: 0px;
-  }
-
-  .row.header .cell {
-    display: none;
-  }
-
-  .row .cell:before {
-    font-size: 12px;
-    color: #808080;
-    line-height: 1.2;
-    text-transform: uppercase;
-    font-weight: unset !important;
-
-    margin-bottom: 13px;
-    content: attr(data-title);
-    min-width: 98px;
-    display: block;
-  }
-}
-
-.cell {
-  display: table-cell;
-}
-
-.row .cell {
-  font-size: 15px;
-  color: #666666;
-  line-height: 1.2;
-  font-weight: unset !important;
-
-  padding-top: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #f2f2f2;
-}
-
-.row.header .cell {
-  font-size: 18px;
-  color: #fff;
-  line-height: 1.2;
-  font-weight: unset !important;
-
-  padding-top: 19px;
-  padding-bottom: 19px;
-}
-
-.row .cell:nth-child(1) {
-  width: 360px;
-}
-
-.row .cell:nth-child(2) {
-  padding-left: 40px;
-  width: 360px;
-}
-
-.row .cell:nth-child(3) {
-  width: 100px;
-}
-
-.row .cell:nth-child(4) {
-  width: 100px;
-}
-
-.row .cell:nth-child(5) {
-  width: 190px;
-  padding-right: 20px;
-}
-
-
-.table, .row {
-  width: 100% !important;
-}
-
-.row:hover {
-  background-color: #efffec;
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .row {
-    border-bottom: 1px solid #f2f2f2;
-    padding-bottom: 25px;
-    padding-top: 30px;
-    padding-right: 15px;
-    margin: 0;
-  }
-  
-  .row .cell {
-    border: none;
-    padding-left: 30px;
-    padding-top: 16px;
-    padding-bottom: 16px;
-  }
-}
-
-.header {
-    padding: 10px 16px;
-    background: #275FCF;
-    color: #f1f1f1;
-    width: 100%;
-    position: fixed;
-  }
-
-.header-title {
-  font-weight: 600;
-  letter-spacing: 1px;
-  font-size: large;
-  float:left;
-  color: white;
-  text-decoration: none;
-}
-
-.header-links {
-  float: right;
-}
-
-.header-link {
-  font-size: small;
-  text-decoration: none;
-  color: white;
-  margin-right: 20px;
-}
-
-.logout-button {
-  background-color: #D92525;
-  color: white;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  border-style: solid;
-  border-radius: 10px;
-  border: none;
-  font-family: "Poppins";
-}
-
-.logout-button:hover {
-  background: #851717;
-}
-
-.header-link:hover {
-  color: white;
-}
-
-.header-link-inactive { 
-  color: #A9BFEB;
-}
-
-.header-link-active {
-  font-weight: 600;
-}
-
-	</style>
-
-</head>
-<body>
-  <div id="vue-apartments">
-    <div class="header">
-      <div>
-        <a class="header-title" href="http://localhost:8080/WebProject">FakeAirbnb</span>
-      </div>
-      <div class="header-links">
+        * {
+            margin: 0px; 
+            padding: 0px; 
+            box-sizing: border-box;
+        }
         
-          <a class="header-link header-link-active" href="http://localhost:8080/WebProject/">Apartments</a>
-          <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/reservations">My reservations</a>
-          <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/account">Account</a>
-          <button type="button" class="logout-button" @click="logOut">Log out</button>
-      </div>
-    </div>
-    
-    <div class="limiter">
-      <div class="container-table100">
-        <div class="wrap-table100">
-            <table class="table">
-              <tr class="row" v-for="apartment in apartments" :key="apartment.id" @click="goToApartment(apartment.id)">
-                <td>
-                  <img style="width: 100%; height: 23%;" src="https://cf.bstatic.com/images/hotel/max1024x768/186/186696050.jpg">
-                </td>
-                <td class="cell" data-title="Full Name">
-                  {{ apartment.id }}
-                </td>
-                <td class="cell" data-title="Age">
-                  {{apartment.numberOfRooms}}
-                </td>
-                <td class="cell" data-title="Job Title">
-                  {{apartment.numberOfGuests}}
-                </td>
-                <td class="cell" data-title="Location">
-                  Here should be the price 
-                </td>
-              </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+        html {
+          scroll-behavior: smooth;
+        }
+        
+        body {
+          background: #e6e6e6;
+        }
+        
+        /** Give all elements a transition */
+        * {
+            font-family: "Poppins";
+            margin: 0px;
+            transition: all 0.4s;
+            -webkit-transition: all 0.4s;
+            -o-transition: all 0.4s;
+            -moz-transition: all 0.4s;
+        }
+        
+        button:hover {
+            cursor: pointer;
+        }
+        
+        a:hover { 
+          cursor: pointer;
+        }
 
-  <!-- Enables smooth scrolling effect -->
-        <script src="http://localhost:8080/WebProject/scripts/smooth-scroll.js"></script>
+        div {
+            width: auto;
+        }
+        
+        .wrapper { 
+            display: grid;
+        }
+
+        .table {
+            display: table;
+            background-color: #fafafa;
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+
+            justify-content: space-evenly;
+        }
+
+        .row {
+            width: 100%;
+            background: #fafafa;
+            height: 50px;
+        }
+
+        .row:hover {
+            background-color: #ecf2fa;
+        }
+
+        td {
+            padding-left: 15px;
+        }
+
+        .header {
+            padding: 10px 16px;
+            background: #275FCF;
+            color: #f1f1f1;
+            width: 100%;
+            position: fixed;
+          }
+        
+        .header-title {
+          font-weight: 600;
+          letter-spacing: 1px;
+          font-size: large;
+          float:left;
+          color: white;
+          text-decoration: none;
+        }
+        
+        .header-links {
+          float: right;
+          margin-right: 25px;
+        }
+        
+        .header-link {
+          font-size: small;
+          text-decoration: none;
+          color: white;
+          margin-right: 25px;
+        }
+        
+        .create-button {
+          float: right;
+          background-color: #009e00;
+          color: white;
+          padding-left: 20px;
+          padding-right: 20px;
+          padding-top: 6px;
+          padding-bottom: 6px;
+          margin-right: 50px;
+          margin-top: 100px;
+          border-style: solid;
+          border-radius: 10px;
+          border: none;
+          font-size: 16px;
+          font-family: "Poppins";
+        }
+        
+        .create-button:hover {
+          background: rgb(10, 141, 10);
+        }
+        
+        .header-link:hover {
+          color: white;
+        }
+        
+        .header-link-inactive { 
+          color: #A9BFEB;
+        }
+        
+        .header-link-active {
+          font-weight: 600;
+        }
+        
+            </style>
+        
+        </head>
+        <body>
+          <div class="wrapper" id="vue-apartments">
+            <div class="header">
+              <div>
+                <a class="header-title" href="http://localhost:8080/WebProject">FakeAirbnb</span>
+              </div>
+              <div class="header-links">
+                
+                  <a class="header-link header-link-active" href="http://localhost:8080/WebProject/">Apartments</a>
+                  <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/reservations">My reservations</a>
+                  <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/account">Account</a>
+              </div>
+            </div>
+
+
+            <div>
+                <button type="button" class="create-button" @click="logOut">Create apartment</button>
+            </div>
+            
+            <div>
+                <table class="table">
+                    <tbody>
+                        <tr class="row" v-for="apartment in apartments" :key="apartment.id" @click="goToApartment(apartment.id)">
+                            <td>
+                                <div>
+                                    <img style="width: 136px; height: 150px; padding-top: 12px; padding-bottom: 7px;" src="https://cf.bstatic.com/images/hotel/max1024x768/186/186696050.jpg">
+                                </div>
+                            </td>
+                            <td>
+                              {{apartment.id}}
+                            </td>
+                            <td>
+                              {{apartment.numberOfRooms}}
+                            </td>
+                            <td>
+                              {{apartment.numberOfGuests}}
+                            </td>
+                            <td>
+                              {{apartment.pricePerNight}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
 
         <!-- Axios -->
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <!-- Vue.js implementation -->
-        <script src="http://localhost:8080/WebProject/scripts/guest_home.js"></script>
-
-
-</body>
+        <script src="http://localhost:8080/WebProject/scripts/host_home.js"></script>
+        
+        
+    </body>
 </html>

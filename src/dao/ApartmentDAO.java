@@ -44,6 +44,17 @@ public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInte
 		return apartments;
 	}
 	
+	public Collection<Apartment> getByHost(String hostID) {
+		Collection<Apartment> apartments = new ArrayList<Apartment>();
+		
+		for (Apartment ap : database.values()) {
+			if (ap.hostID.equals(hostID)  &&  !ap.isDeleted())
+				apartments.add(ap);
+		}
+		
+		return apartments;
+	}
+	
 	public Collection<Apartment> getActiveByHost(String hostID) {
 		Collection<Apartment> apartments = new ArrayList<Apartment>();
 		
