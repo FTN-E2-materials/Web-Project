@@ -146,11 +146,16 @@
             padding-left: 5px;
         }
 
+        .input-very-long {
+            width : 100%;
+        }
+
+        /* Long an short combine to fill out their parent width */
         .input-long {
-            width : 300px;
+            width: 72%;
         }
         .input-short {
-            width : 100px;
+            width : 25%;
         }
 
         input:focus {
@@ -216,7 +221,7 @@
             <div class="content" style="margin-top: 50px;">
                 <div class="left-column">
                     <div class="content-row">
-                        <input class="input-long" type="text" placeholder="Name" v-model="name">
+                        <input class="input-very-long" type="text" placeholder="Name" v-model="name">
                     </div>
                     <div class="content-row">
                         <input type="text" placeholder="Number of guests" v-model="numberOfGuests">
@@ -240,7 +245,7 @@
                         <span style="font-weight: 600; color: #009e00;">$ </span> 
                     </div>
                     <div class="content-row">
-                        <input class="input-long" type="text" placeholder="Link to image" v-model="imageLink">
+                        <input class="input-very-long" type="text" placeholder="Link to image" v-model="imageLink">
                     </div>
                 </div>
                 <div class="right-column">

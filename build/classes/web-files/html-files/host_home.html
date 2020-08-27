@@ -70,6 +70,7 @@
 
         .row:hover {
             background-color: #ecf2fa;
+            cursor: pointer;
         }
 
         td {
@@ -166,9 +167,21 @@
             margin-left: 10px;
         }
 
-        .top-right-corner {
-            margin-top: 10px;
-            margin-right: 10px;
+        .error {
+            color: rgb(218, 49, 49);
+            font-size: medium;
+        }
+
+        .align-content-right {
+            text-align: right;
+            padding-top: 10px;
+            padding-right: 20px;
+        }
+
+        .align-content-left {
+            text-align: left;
+            padding-top: 10px;
+            padding-left: 20px;
         }
         
             </style>
@@ -193,7 +206,7 @@
                 <button type="button" class="create-button" @click="openApartmentCreation">Create apartment</button>
             </div>
             
-            <div>
+            <div v-if="apartmentsDownloaded">
                 <table class="table">
                     <tbody>
                         <tr class="row" v-for="apartment in apartments" :key="apartment.id" @click="goToApartment(apartment.id)">
@@ -204,18 +217,21 @@
                                             <img style="width: auto; height: 150px; padding-top: 12px; padding-bottom: 7px;" 
                                             :src="apartment.imageLink">
                                         </div>
-                                        <div class="column-right">
-                                            <div class="big-bold position-top top-left-corner"> 
+                                        <div class="column-right align-content-left">
+                                            <div class="big-bold"> 
                                                 {{apartment.title}}
                                             </div>
-                                            <div class="position-center top-left-corner"> 
+                                            <div> 
                                                 {{apartment.numberOfRooms}} rooms
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="column-right">
-                                        <div class="column-right big-bold top-right-corner">
+                                    <div class="column-right align-content-right">
+                                        <div class="big-bold">
                                             {{apartment.pricePerNight}}$/night
+                                        </div>
+                                        <div class="error" v-if="apartment.status == 'INACTIVE'">
+                                            INACTIVE
                                         </div>
                                     </div>
                                 </div>

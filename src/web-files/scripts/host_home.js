@@ -1,7 +1,8 @@
 let vue = new Vue({
     el :"#vue-apartments",
     data : {
-        apartments : []
+        apartments : [],
+        apartmentsDownloaded : false
     },
     methods : {
         searchApartments : function() {
@@ -9,6 +10,7 @@ let vue = new Vue({
                 .then(function(response) {
                     if (response.status == 200) {
                         Vue.set(vue, "apartments", response.data)
+                        Vue.set(vue, "apartmentsDownloaded", true);
                     }
                     else {
                         alert("Couldn't load apartments.")
