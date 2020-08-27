@@ -13,7 +13,7 @@
 
     <style>
 
-        * {
+* {
             margin: 0px; 
             padding: 0px; 
             box-sizing: border-box;
@@ -70,6 +70,7 @@
 
         .row:hover {
             background-color: #ecf2fa;
+            cursor: pointer;
         }
 
         td {
@@ -111,15 +112,19 @@
           float: right;
           background-color: #009e00;
           color: white;
+
           padding-left: 20px;
           padding-right: 20px;
           padding-top: 6px;
           padding-bottom: 6px;
           margin-right: 50px;
           margin-top: 90px;
+
+          outline: none;
           border-style: solid;
           border-radius: 10px;
           border: none;
+
           font-size: 16px;
           font-family: "Poppins";
         }
@@ -186,7 +191,7 @@
 
 
             <div>
-                <button type="button" class="create-button" @click="logOut">Create apartment</button>
+                <button type="button" class="create-button" @click="openApartmentCreation">Create apartment</button>
             </div>
             
             <div>
@@ -197,7 +202,8 @@
                                 <div class="column">
                                     <div class="column-left">
                                         <div class="column-left">
-                                            <img style="width: auto; height: 150px; padding-top: 12px; padding-bottom: 7px;" src="https://cf.bstatic.com/images/hotel/max1024x768/186/186696050.jpg">
+                                            <img style="width: auto; height: 150px; padding-top: 12px; padding-bottom: 7px;" 
+                                            :src="apartment.imageLink">
                                         </div>
                                         <div class="column-right">
                                             <div class="big-bold position-top top-left-corner"> 

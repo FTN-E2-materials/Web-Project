@@ -26,6 +26,9 @@ let vue = new Vue({
                     }
                 })
         },
+        openApartmentCreation : function() {
+            window.location.href = "http://localhost:8080/WebProject/createApartment"
+        },
         logOut : function() {
             axios.post("http://localhost:8080/WebProject/data/auth/logout")
                 .then(function(response) {

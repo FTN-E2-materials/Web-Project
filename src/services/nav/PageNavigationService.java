@@ -41,6 +41,8 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 				return LoginPage(request);
 			case Config.REGISTRATION_PAGE_PATH:
 				return RegistrationPage(request);
+			case Config.CREATE_APARTMENT_PAGE_PATH:
+				return CreateApartmentPage(request);
 			default:
 				return OK("There is nothing here, go back.");
 		}
@@ -93,5 +95,14 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 		if (!isLoggedIn(request)) 
 			return OK(HTMLService.getInstance().getRegistrationPage());
 		return Redirect("http://localhost:8080/WebProject");
+	}
+	
+	private Response CreateApartmentPage(HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isHost())
+			return OK(HTMLService.getInstance().getCreateApartmentPage());
+		return ForbiddenRequest();
 	}
 }

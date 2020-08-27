@@ -62,20 +62,22 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@Produces(MediaType.APPLICATION_JSON)
 	/** Check if user is eligible to create an apartment (if user is a host) */
 	public Response create(Apartment apartment, @Context HttpServletRequest request) {
-		try {
-			apartment.validate();
-		}
-		catch (IllegalArgumentException ex) {
-			System.out.println("Attempt to create apartment with invalid field values.");
-			return BadRequest();
-		}
 		SessionToken session = super.getCurrentSession(request);
 		if (session == null)
-			return OK(super.create(apartment));	
-			//return ForbiddenRequest();
+			return ForbiddenRequest();
 		if (session.isHost()) {
+			// Load the predefined values so the user cannot alter the rating, or create an account for another host 
 			apartment.status = ApartmentStatus.INACTIVE;
-			return OK(super.create(apartment));			
+			apartment.numberOfRatings = 0;
+			apartment.rating = 0d;
+			apartment.hostID = session.getSessionID();
+			
+			Apartment validatedApartment = super.create(apartment);
+			if (validatedApartment == null)
+				return BadRequest("Please fill out all the fields correctly");
+			
+			System.out.println("Creating apartment: " + validatedApartment.title);
+			return OK(validatedApartment);
 		}
 
 		return ForbiddenRequest();

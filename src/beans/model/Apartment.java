@@ -20,6 +20,7 @@ public class Apartment extends DatabaseEntity {
    public String hostID;   
    public Location location;
    public ArrayList<Amenity> amenities;
+   public String imageLink;
    
    public Double rating;
    public int numberOfRatings;

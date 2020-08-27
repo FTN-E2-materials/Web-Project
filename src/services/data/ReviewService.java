@@ -18,6 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import beans.interfaces.SessionToken;
 import beans.model.Review;
 import dao.ReviewDAO;
 import services.interfaces.ResponseCRUDInterface;
@@ -78,8 +79,11 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Res
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAll(@Context HttpServletRequest request) {
-		// TODO Check if user is admin, if not, reject 
-		return OK(super.getAll());
+		SessionToken session = getCurrentSession(request);
+		
+		if (session.isAdmin())
+			return OK(super.getAll());
+		return ForbiddenRequest();
 	}
 
 	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
