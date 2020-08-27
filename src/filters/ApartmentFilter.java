@@ -41,17 +41,6 @@ public class ApartmentFilter extends BaseFilter<Apartment> {
 		return this;
 	}
 	
-	/** Return a collection of entities which are located in the given country */
-	public ApartmentFilter filterByCountry(Country country) {
-		
-		for (Apartment ap : entities) {
-			if (!ap.location.address.country.equals(country))
-				entities.remove(ap);
-		}
-		
-		return this;
-	}
-	
 	/** Return a collection of entities which fit in the given price criteria */
 	public ApartmentFilter filterByPriceRange(double lowLimitPrice, double topLimitPrice) {
 		

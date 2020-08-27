@@ -94,8 +94,8 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Res
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
-		return OK(super.delete(requestWrapper));
+	public Response delete(Review review, @Context HttpServletRequest request) {
+		return OK(super.delete(review));
 	}
 	
 	@GET

@@ -103,7 +103,7 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 	}
 	
 	/** Removes an object with the specified key from the database */
-	public T delete(String key) {
+	public T deleteByID(String key) {
 		T entity = database.getOrDefault(key, null);
 		
 		if (entity == null)
@@ -111,6 +111,17 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 		
 		entity.delete();
 		storage.writeAll(database);
+		
+		return entity;
+	}
+	
+	public T delete(T obj) {
+		T entity = database.getOrDefault(obj.getKey(), null);
+		
+		if (entity == null)
+			return null;
+		
+		entity.delete();
 		
 		return entity;
 	}

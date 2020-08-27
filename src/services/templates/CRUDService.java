@@ -43,21 +43,42 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 	 * @param key
 	 * @return DB entity with the given key, or null if it does not exist.
 	 */
-	protected T getByID(String key) {
+	protected T getByID(RequestWrapper requestWrapper) {
+		if (requestWrapper == null)
+			return null;
+		if (requestWrapper.stringKey == null) 
+			return null;
+		String key = requestWrapper.stringKey;
+		
 		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
 		System.out.println("Trying to fetch ID: " + key);
+		
 		return dao.getByKey(key);
 	}
 	
-	/** Deletes the object with the same ID as the stringKey field from the 
-	 * RequestWrapper argument.
-	 * @param requestWrapper
-	 * @return object on success, or null if the object does not exist.
+	/** Fetches an object with the matching ID key.
+	 * @param key
+	 * @return DB entity with the given key, or null if it does not exist.
 	 */
-	protected T delete(RequestWrapper requestWrapper) {
+	protected T getByID(String id) {
+		if (id == null)
+			return null;
+		
+		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
+		System.out.println("Trying to fetch ID: " + id);
+		
+		return dao.getByKey(id);
+	}
+	
+	protected T delete(T object) {
 		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
 		
-		return dao.delete(requestWrapper.stringKey);
+		if (object == null)
+			return null;
+		if (object.getKey() == null)
+			return null;
+		
+		return dao.delete(object);
 	}
 	
 	/** Updates the object from the database with the same key as the given object.

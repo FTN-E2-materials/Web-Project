@@ -87,19 +87,27 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	/** Check if user is eligible to delete an apartment */
-	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
-		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(Config.apartmentDatabaseString);
-		Apartment apartment = dao.getByKey(requestWrapper.stringKey);
-		// TODO Take the whole apartment as argument to avoid DAO lookup?
-		
-		if (apartment == null)
-			return BadRequest();
+	public Response delete(Apartment apartment, @Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
-		
-		if (session.isAdmin())
-			return OK(super.delete(requestWrapper));
-		if (session.isHost()  &&  session.getSessionID().equals(apartment.hostID))
-			return OK(super.delete(requestWrapper));
+		// TODO Does it need to be this complicated?
+		if (session.isAdmin()) {
+			Apartment deletedApartment = super.delete(apartment);
+			if (deletedApartment == null)
+				return BadRequest();
+			return OK(deletedApartment);
+		}
+		if (session.isHost()) {
+			if (apartment == null)
+				return BadRequest();
+			if (!apartment.hostID.equals(session.getSessionID()))
+				return ForbiddenRequest();
+			
+			// Check if there is an apartment which such ID to be deleted
+			Apartment deletedApartment = super.delete(apartment);
+			if (deletedApartment == null)
+				return BadRequest();
+			return OK(deletedApartment);
+		}
 		
 		return ForbiddenRequest();
 	}
@@ -108,13 +116,6 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response update(Apartment apartment, @Context HttpServletRequest request) {
-		try {
-			apartment.validate();
-		}
-		catch (IllegalArgumentException ex) {
-			System.out.println("Attempt to modify apartment with invalid field values.");
-			return BadRequest();
-		}
 		SessionToken session = super.getCurrentSession(request);
 		
 		if (session == null)

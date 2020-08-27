@@ -85,8 +85,8 @@ public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements 
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
-		return OK(super.delete(requestWrapper));
+	public Response delete(Amenity amenity, @Context HttpServletRequest request) {
+		return OK(super.delete(amenity));
 	}
 
 }
