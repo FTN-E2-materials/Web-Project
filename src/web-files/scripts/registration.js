@@ -11,7 +11,7 @@ new Vue({
     methods : {
         register : function() {
             let userAccount = {
-                id : this.username,
+                key : this.username,
                 password : this.password,
                 type : "GUEST", 
                 person : {

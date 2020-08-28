@@ -98,7 +98,8 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 			return null;
 		
 		database.put(obj.key, obj);
-
+		storage.writeAll(database);
+		
 		return obj;
 	}
 	
