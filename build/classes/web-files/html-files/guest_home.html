@@ -205,7 +205,7 @@
             </div>
 
             <div>
-                <input class="search column-right" type="text" placeholder="Search apartments..." v-model="query" v-on:keyup.enter="searchApartments">
+                <input class="search column-right" type="text" placeholder="Search apartments..." v-model="query" @keyup="searchApartments">
             </div>
             
             <div style="margin-top: 3%;">

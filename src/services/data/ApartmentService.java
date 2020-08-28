@@ -10,6 +10,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -95,8 +96,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		if (session.isGuest())
 			return ForbiddenRequest();
 		
-		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
-		Apartment apartment = dao.getByKey(id);
+		Apartment apartment = super.getByID(id);
 		
 		if (apartment == null)
 			return BadRequest();
@@ -167,6 +167,32 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		return OK(null);
 	}
 	
+	@GET
+	@Path("/search")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response search(@QueryParam("name") String word, @Context HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
+		
+		if (word == null)
+			return BadRequest("Empty search query!");
+		
+		if (session == null)
+			return OK(dao.searchAsVisitor(word));
+			
+		if (session.isHost())
+			return OK(dao.searchAsAdmin(word));
+		
+		if (session.isHost())
+			return OK(dao.searchAsHost(word, session.getSessionID()));
+		
+		if (session.isGuest())
+			return OK(dao.searchAsVisitor(word));
+		
+		else
+			return BadRequest();
+	}
+	
 	@PUT
 	@Path("/activate")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -178,15 +204,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		if (session.isGuest())
 			return ForbiddenRequest();
 		
-		if (requestWrapper == null)
-			return BadRequest();
-		if (requestWrapper.stringKey == null)
-			return BadRequest();
-		
-		System.out.println("Activating apartment " + requestWrapper.stringKey);
-		
-		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
-		Apartment apartment = dao.getByKey(requestWrapper.stringKey);
+		Apartment apartment = super.getByID(requestWrapper);
 		
 		if (apartment == null)
 			return BadRequest();
@@ -213,10 +231,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		if (requestWrapper.stringKey == null)
 			return BadRequest();
 		
-		System.out.println("Deactivating apartment " + requestWrapper.stringKey);
-		
-		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
-		Apartment apartment = dao.getByKey(requestWrapper.stringKey);
+		Apartment apartment = super.getByID(requestWrapper);
 		
 		if (apartment == null)
 			return BadRequest();
@@ -226,19 +241,4 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		apartment.status = ApartmentStatus.INACTIVE;
 		return OK(super.update(apartment));
 	}
-/* Could be solved with JS filter functions on getAll for hosts? 	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/inactive")
-	public Collection<Apartment> getInactive(@Context HttpServletRequest request) {
-		SessionToken session = super.getCurrentSession(request);
-		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
-		
-		if (session == null)
-			return new ArrayList<>();
-		if (session.isHost())
-			return dao.getInactiveByHost(session.getSessionID());
-		
-		return new ArrayList<>();
-	} */
 }
