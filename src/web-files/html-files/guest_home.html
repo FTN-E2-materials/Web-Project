@@ -11,6 +11,8 @@
     <!-- Google poppins font -->
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
+    <!-- Font Awesome Icon Library (used for stars) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
 
 * {
@@ -183,6 +185,10 @@
             padding-top: 10px;
             padding-left: 20px;
         }
+
+        .checked {
+            color: rgb(255, 175, 25);
+        }
         
             </style>
         
@@ -224,6 +230,29 @@
                                     <div class="column-right align-content-right">
                                         <div class="big-bold">
                                             {{apartment.pricePerNight}}$/night
+                                        </div>
+                                        <div id="rating">
+                                            <div v-if="apartment.rating > 0">
+                                                <span class="fa fa-star checked"></span>
+
+                                                <span class="fa fa-star checked" v-if="apartment.rating > 1.49"></span>
+                                                <span class="fa fa-star" v-else></span>
+
+                                                <span class="fa fa-star checked" v-if="apartment.rating > 2.49"></span>
+                                                <span class="fa fa-star" v-else></span>
+                                                
+                                                <span class="fa fa-star checked" v-if="apartment.rating > 3.49"></span>
+                                                <span class="fa fa-star" v-else></span>
+                                                
+                                                <span class="fa fa-star checked" v-if="apartment.rating > 4.49"></span>
+                                                <span class="fa fa-star" v-else></span>
+                                            </div>
+                                            <div v-else>
+                                                No ratings.
+                                            </div>
+                                        </div>
+                                        <div v-if="apartment.rating > 0">
+                                            <span style="font-size: small; color:#9b9b9b;">{{apartment.numberOfRatings}} reviewers</span>
                                         </div>
                                     </div>
                                 </div>
