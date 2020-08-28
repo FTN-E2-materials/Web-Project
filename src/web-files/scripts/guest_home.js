@@ -3,7 +3,8 @@ let vue = new Vue({
     data : {
         apartments : [],
         query : "",
-        holder : []
+        holder : [],
+        noApartmentsFound : false
     },
     methods : {
         searchApartments : function() {
@@ -16,6 +17,13 @@ let vue = new Vue({
                                 console.log("Storing previous list...");
                             }
                             Vue.set(vue, "apartments", response.data);
+
+                            if (vue.apartments.length == 0) {
+                                vue.noApartmentsFound = true;
+                            }
+                            else {
+                                vue.noApartmentsFound = false;
+                            }
                         }
                         else {
                             alert("Couldn't search apartments.")
@@ -25,6 +33,7 @@ let vue = new Vue({
             else {
                 if (vue.holder.length > 0){
                     Vue.set(vue, "apartments", vue.holder);
+                    vue.noApartmentsFound = false;
                 }
             }
         },

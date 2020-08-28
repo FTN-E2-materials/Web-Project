@@ -43,6 +43,8 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 				return RegistrationPage(request);
 			case Config.CREATE_APARTMENT_PAGE_PATH:
 				return CreateApartmentPage(request);
+			case Config.ACCOUNT_PAGE_PATH:
+				return AccountPage(request);
 				
 			default:
 				return OK("There is nothing here, go back.");
@@ -60,7 +62,7 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 	}
 	
 	@GET
-	@Path(Config.APARTMENT_PATH + "{apartmentID}")
+	@Path(Config.APARTMENT_PAGE_PATH + "{apartmentID}")
 	@Produces(MediaType.TEXT_HTML)
 	public Response getSingleApartmentPage(@PathParam("apartmentID") String apartmentID, @Context HttpServletRequest request) {
 		SessionToken session = getCurrentSession(request);
@@ -118,6 +120,19 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 			return ForbiddenRequest();
 		if (session.isHost())
 			return OK(HTMLService.getInstance().getCreateApartmentPage());
+		return ForbiddenRequest();
+	}
+	
+	private Response AccountPage(HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isGuest())
+			return OK(HTMLService.getInstance().getGuestAccountPage());
+		if (session.isHost())
+			return OK(HTMLService.getInstance().getHostAccountPage());
+		
 		return ForbiddenRequest();
 	}
 }

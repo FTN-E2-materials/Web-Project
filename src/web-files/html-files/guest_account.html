@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <!-- Vue.js script -->
+    <script src="https://unpkg.com/vue"></script>
+
+    <!-- Google poppins font -->
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+    <!-- Font Awesome Icon Library (used for stars) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+
+* {
+            margin: 0px; 
+            padding: 0px; 
+            box-sizing: border-box;
+        }
+        
+        html {
+          scroll-behavior: smooth;
+        }
+        
+        body {
+          background: #e6e6e6;
+        }
+        
+        /** Give all elements a transition and Poppins font */
+        * {
+            font-family: "Poppins";
+            transition: all 0.4s;
+            -webkit-transition: all 0.4s;
+            -o-transition: all 0.4s;
+            -moz-transition: all 0.4s;
+        }
+        
+        button:hover {
+            cursor: pointer;
+        }
+        
+        a:hover { 
+          cursor: pointer;
+        }
+
+        div {
+            width: auto;
+        }
+        
+        .wrapper { 
+            display: grid;
+        }
+
+        .table {
+            display: table;
+            background-color: #fafafa;
+            border-collapse: collapse;
+            width: 86%;
+            margin: 40px auto;
+
+            justify-content: space-evenly;
+        }
+
+        .row {
+            width: 100%;
+            background: #fafafa;
+            height: 50px;
+        }
+
+        .row:hover {
+            background-color: #ecf2fa;
+            cursor: pointer;
+        }
+
+        td {
+            padding-left: 12px;
+            min-width: auto;
+        }
+
+        .log-out {
+            padding-top: 8px;
+            padding-bottom: 8px;
+            padding-left: 30px;
+            padding-right: 30px;
+
+            background-color: rgb(202, 39, 39);
+            color: white;
+
+            border: none;
+            border-radius: 10px;
+
+            font-size: large;
+        }
+
+        .log-out:hover {
+            background-color: rgb(172, 34, 34);
+            padding-left: 35px;
+            padding-right: 35px;
+        }
+
+        .header {
+            padding: 10px 16px;
+            background: #275FCF;
+            color: #f1f1f1;
+            width: 100%;
+            position: fixed;
+            z-index: 999;
+          }
+        
+        .header-title {
+          font-weight: 600;
+          letter-spacing: 1px;
+          font-size: large;
+          float:left;
+          color: white;
+          text-decoration: none;
+        }
+        
+        .header-links {
+          float: right;
+          margin-right: 25px;
+        }
+        
+        .header-link {
+          font-size: small;
+          text-decoration: none;
+          color: white;
+          margin-right: 25px;
+        }
+        
+        
+        
+        .header-link:hover {
+          color: white;
+        }
+        
+        .header-link-inactive { 
+          color: #A9BFEB;
+        }
+        
+        .header-link-active {
+          font-weight: 600;
+        }
+
+        .big-bold {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .column-left {
+            float: left;
+        }
+
+        .column-right {
+            float: right;
+        }
+
+        .column {
+            position: relative;
+        }
+
+        .error {
+            color: rgb(218, 49, 49);
+            font-size: medium;
+        }
+
+        .align-content-right {
+            text-align: right;
+            padding-top: 10px;
+            padding-right: 20px;
+        }
+
+        .align-content-left {
+            text-align: left;
+            padding-top: 10px;
+            padding-left: 20px;
+        }
+        
+            </style>
+        
+        </head>
+        <body>
+          <div class="wrapper" id="vue-account">
+            <div class="header">
+              <div>
+                <a class="header-title" href="http://localhost:8080/WebProject">FakeAirbnb</span>
+              </div>
+              <div class="header-links">
+                
+                  <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/">Apartments</a>
+                  <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/reservations">My reservations</a>
+                  <a class="header-link header-link-active" href="http://localhost:8080/WebProject/account">Account</a>
+              </div>
+            </div>
+
+            <div>
+                <button class="log-out" style="margin-top: 100px; margin-left: 86%;" type="button" @click="logout">Log out</button>
+            </div>
+        </div>
+        
+
+        <!-- Axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <!-- Vue.js implementation -->
+        <script src="http://localhost:8080/WebProject/scripts/account.js"></script>
+        
+        
+    </body>
+</html>

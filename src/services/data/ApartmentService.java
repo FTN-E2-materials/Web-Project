@@ -180,7 +180,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		if (session == null)
 			return OK(dao.searchAsVisitor(word));
 			
-		if (session.isHost())
+		if (session.isAdmin())
 			return OK(dao.searchAsAdmin(word));
 		
 		if (session.isHost())

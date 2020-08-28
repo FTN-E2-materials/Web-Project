@@ -57,7 +57,8 @@ public class Config {
 	public static final String LOGIN_PAGE_PATH = "login";
 	public static final String REGISTRATION_PAGE_PATH = "registration";
 	public static final String CREATE_APARTMENT_PAGE_PATH = "createApartment";
-	public static final String APARTMENT_PATH = "apartments/";
+	public static final String APARTMENT_PAGE_PATH = "apartments/";
+	public static final String ACCOUNT_PAGE_PATH = "account";
 
 	
 	// Scripts annotation path
@@ -76,7 +77,8 @@ public class Config {
 	public static final String REGISTRATION_PAGE_FILE_LOCATION = HTML_FILE_ROOT + "registration.html";
 	public static final String CREATE_APARTMENT_PAGE_FILE_LOCATION = HTML_FILE_ROOT + "create_apartment.html";
 	public static final String SINGLE_APARTMENT_PAGE_FILE_LOCATION = HTML_FILE_ROOT + "apartment_host.html";
-	
+	public static final String GUEST_ACCOUNT_PAGE_FILE_LOCATION = HTML_FILE_ROOT + "guest_account.html";
+	public static final String HOST_ACCOUNT_PAGE_FILE_LOCATION = HTML_FILE_ROOT + "host_account.html";
 
 	// JS Script root location
 	public static String SCRIPT_FILE_ROOT = WEB_FILE_ROOT + "scripts/";

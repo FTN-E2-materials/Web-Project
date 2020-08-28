@@ -88,9 +88,6 @@
 
             background-color: white;
 
-            margin-right: 7%;
-            margin-top: 7%;
-
             outline: none;
 
             width: 20%;
@@ -168,7 +165,7 @@
 
         .error {
             color: rgb(218, 49, 49);
-            font-size: medium;
+            font-size: small;
         }
 
         .align-content-right {
@@ -204,8 +201,14 @@
               </div>
             </div>
 
-            <div>
-                <input class="search column-right" type="text" placeholder="Search apartments..." v-model="query" @keyup="searchApartments">
+            <div class="wrapper" style="margin-right: 7%; margin-top: 7%;">
+                <div>
+                    <input class="search column-right" type="text" placeholder="Search apartments..." v-model="query" @keyup="searchApartments">
+                </div>
+                <div>
+                    <p class="error column-right"  style="padding-top: 5px;" 
+                        v-if="noApartmentsFound">No apartments found.</p>
+                </div>
             </div>
             
             <div style="margin-top: 3%;">
