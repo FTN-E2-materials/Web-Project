@@ -229,6 +229,7 @@
                                         <div class="column-right align-content-left">
                                             <div class="big-bold"> 
                                                 {{apartment.title}}
+                                                <span class="error" v-if="apartment.status == 'INACTIVE'">(INACTIVE)</span>
                                             </div>
                                             <div> 
                                                 {{apartment.numberOfRooms}} rooms  &middot  {{apartment.numberOfGuests}} guests
