@@ -28,6 +28,8 @@ public class HTMLService {
 	private String HOST_HOME;
 	private String ADMIN_HOME;	
 	private String CREATE_APARTMENT_PAGE;
+	private String SINGLE_APARTMENT_PAGE_HOST;
+	private String SINGLE_APARTMENT_PAGE_GUEST;
 
 	// Load all HTML files into memory as strings on startup
 	private void init() {
@@ -40,6 +42,7 @@ public class HTMLService {
 		HOST_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.HOST_HOME_FILE_LOCATION));
 		ADMIN_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.ADMIN_HOME_FILE_LOCATION));
 		CREATE_APARTMENT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.CREATE_APARTMENT_PAGE_FILE_LOCATION));
+		SINGLE_APARTMENT_PAGE_HOST = streamToString(HTMLService.class.getResourceAsStream(Config.SINGLE_APARTMENT_PAGE_FILE_LOCATION));
 		
 		System.out.println("Completed caching.");
 	}
@@ -84,7 +87,16 @@ public class HTMLService {
 		return ADMIN_HOME;
 	}
 
-	public Object getCreateApartmentPage() {
+	public String getCreateApartmentPage() {
 		return CREATE_APARTMENT_PAGE;
 	}
+
+	public String getSingleApartmentPageHost() {
+		return SINGLE_APARTMENT_PAGE_HOST;
+	}
+	
+	public String getSingleApartmentPageGuest() {
+		return SINGLE_APARTMENT_PAGE_GUEST;
+	}
+	
 }

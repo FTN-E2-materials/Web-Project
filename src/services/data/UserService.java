@@ -83,7 +83,7 @@ public class UserService extends BaseService {
 		
 		if (session == null)
 			return ForbiddenRequest();
-		if (!session.getSessionID().equals(updatedAccount.getKey())) // Only the owner of the account can change the data 
+		if (!session.getSessionID().equals(updatedAccount.key)) // Only the owner of the account can change the data 
 			return ForbiddenRequest();
 		try { updatedAccount.validate(); }
 			catch (IllegalArgumentException ex) {

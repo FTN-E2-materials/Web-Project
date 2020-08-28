@@ -120,7 +120,7 @@ public class AuthService extends BaseService implements AuthenticationInterface 
 		if (result == null)
 			return AuthFailed("Account with this username already exists!");
 		
-		System.out.println("Creating account with the username: " + account.getKey());
+		System.out.println("Creating account with the username: " + account.key);
 		super.createSession(result, request);
 		return OK(result);
 	}

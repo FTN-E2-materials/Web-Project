@@ -70,15 +70,16 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 		return dao.getByKey(id);
 	}
 	
-	protected T delete(T object) {
+	protected T delete(String id) {
 		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
+		T obj = dao.getByKey(id);
 		
-		if (object == null)
+		if (obj == null)
 			return null;
-		if (object.getKey() == null)
+		if (obj.key == null)
 			return null;
 		
-		return dao.delete(object);
+		return dao.delete(obj);
 	}
 	
 	/** Updates the object from the database with the same key as the given object.

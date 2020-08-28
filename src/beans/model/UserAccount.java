@@ -15,10 +15,6 @@ public class UserAccount extends DatabaseEntity implements SessionToken {
 	   isCountable = false;
    }
    
-   public TypeOfUser getType() {
-	   return type;
-   }
-   
    @Override
    public void validate() {
    	// TODO Auto-generated method stub
@@ -27,7 +23,7 @@ public class UserAccount extends DatabaseEntity implements SessionToken {
    
    @Override 
    public String getSessionID() {
-	   return id;
+	   return key;
    }
    
    @Override

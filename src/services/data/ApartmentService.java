@@ -87,29 +87,24 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	/** Check if user is eligible to delete an apartment */
-	public Response delete(Apartment apartment, @Context HttpServletRequest request) {
+	public Response delete(String id, @Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
-		// TODO Does it need to be this complicated?
-		if (session.isAdmin()) {
-			Apartment deletedApartment = super.delete(apartment);
-			if (deletedApartment == null)
-				return BadRequest();
-			return OK(deletedApartment);
-		}
-		if (session.isHost()) {
-			if (apartment == null)
-				return BadRequest();
-			if (!apartment.hostID.equals(session.getSessionID()))
-				return ForbiddenRequest();
-			
-			// Check if there is an apartment which such ID to be deleted
-			Apartment deletedApartment = super.delete(apartment);
-			if (deletedApartment == null)
-				return BadRequest();
-			return OK(deletedApartment);
-		}
 		
-		return ForbiddenRequest();
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isGuest())
+			return ForbiddenRequest();
+		
+		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
+		Apartment apartment = dao.getByKey(id);
+		
+		if (apartment == null)
+			return BadRequest();
+		
+		if (session.isHost()  &&  !session.getSessionID().equals(apartment.hostID))
+			return ForbiddenRequest();
+		
+		return OK(super.delete(id));
 	}
 
 	@PUT
@@ -170,6 +165,66 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		}
 		
 		return OK(null);
+	}
+	
+	@PUT
+	@Path("/activate")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response activate(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isGuest())
+			return ForbiddenRequest();
+		
+		if (requestWrapper == null)
+			return BadRequest();
+		if (requestWrapper.stringKey == null)
+			return BadRequest();
+		
+		System.out.println("Activating apartment " + requestWrapper.stringKey);
+		
+		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
+		Apartment apartment = dao.getByKey(requestWrapper.stringKey);
+		
+		if (apartment == null)
+			return BadRequest();
+		if (!apartment.hostID.equals(session.getSessionID()))
+			return ForbiddenRequest();
+		
+		apartment.status = ApartmentStatus.ACTIVE;
+		return OK(super.update(apartment));
+	}
+	
+	@PUT
+	@Path("/deactivate")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response deactivate(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isGuest())
+			return ForbiddenRequest();
+		
+		if (requestWrapper == null)
+			return BadRequest();
+		if (requestWrapper.stringKey == null)
+			return BadRequest();
+		
+		System.out.println("Deactivating apartment " + requestWrapper.stringKey);
+		
+		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
+		Apartment apartment = dao.getByKey(requestWrapper.stringKey);
+		
+		if (apartment == null)
+			return BadRequest();
+		if (!apartment.hostID.equals(session.getSessionID()))
+			return ForbiddenRequest();
+		
+		apartment.status = ApartmentStatus.INACTIVE;
+		return OK(super.update(apartment));
 	}
 /* Could be solved with JS filter functions on getAll for hosts? 	
 	@GET

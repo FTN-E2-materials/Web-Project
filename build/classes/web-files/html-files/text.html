@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-
+    <title>Apartment</title>
     <!-- Vue.js script -->
     <script src="https://unpkg.com/vue"></script>
 
@@ -24,7 +23,8 @@
         }
         
         body {
-          background: #e6e6e6;
+          background: #fafafa;
+          width: max-content;
         }
         
         /** Give all elements a transition and Poppins font */
@@ -108,7 +108,7 @@
           margin-right: 25px;
         }
         
-        .create-button {
+        .activate-button {
           float: right;
           background-color: #009e00;
           color: white;
@@ -117,8 +117,25 @@
           padding-right: 23px;
           padding-top: 7px;
           padding-bottom: 7px;
-          margin-right: 50px;
-          margin-top: 90px;
+
+          outline: none;
+          border-style: solid;
+          border-radius: 10px;
+          border: none;
+
+          font-size: 17px;
+          font-family: "Poppins";
+        }
+
+        .deactivate-button {
+          float: right;
+          background-color: #c92525;
+          color: white;
+
+          padding-left: 23px;
+          padding-right: 23px;
+          padding-top: 7px;
+          padding-bottom: 7px;
 
           outline: none;
           border-style: solid;
@@ -129,8 +146,12 @@
           font-family: "Poppins";
         }
         
-        .create-button:hover {
+        .activate-button:hover {
           background: rgb(10, 141, 10);
+        }
+
+        .deactivate-button:hover {
+          background: #b31515;
         }
         
         .header-link:hover {
@@ -156,19 +177,20 @@
 
         .column-right {
             float: right;
+            width: max-content;
         }
 
-        .column {
-            position: relative;
-        }
-
-        .top-left-corner {
-            margin-top: 10px;
-            margin-left: 10px;
+        .center-content {
+            text-align: center;
         }
 
         .error {
             color: rgb(218, 49, 49);
+            font-size: medium;
+        }
+
+        .success {
+            color: rgb(61, 199, 43);
             font-size: medium;
         }
 
@@ -183,71 +205,67 @@
             padding-top: 10px;
             padding-left: 20px;
         }
+
+        .body { 
+            margin-top: 3%;
+            text-align: center;
+            width: 100%;
+        }
+
+        .center {
+            margin: 0 auto;
+        }
+
+        .data-row {
+            padding-bottom: 12%;
+        }
         
             </style>
         
-        </head>
-        <body>
-          <div class="wrapper" id="vue-apartments">
+</head>
+    <body>
+        <div class="wrapper" id="vue-apartment">
             <div class="header">
-              <div>
+                <div>
                 <a class="header-title" href="http://localhost:8080/WebProject">FakeAirbnb</span>
-              </div>
-              <div class="header-links">
+                </div>
+                <div class="header-links">
                 
-                  <a class="header-link header-link-active" href="http://localhost:8080/WebProject/">Your apartments</a>
-                  <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/reservations">Reservations</a>
-                  <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/account">Account</a>
-              </div>
+                    <a class="header-link header-link-active" href="http://localhost:8080/WebProject/">Your apartments</a>
+                    <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/reservations">Reservations</a>
+                    <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/account">Account</a>
+                </div>
             </div>
-
-
-            <div>
-                <button type="button" class="create-button" @click="openApartmentCreation">Create apartment</button>
-            </div>
-            
-            <div v-if="apartmentsDownloaded">
-                <table class="table">
-                    <tbody>
-                        <tr class="row" v-for="apartment in apartments" :key="apartment.id" @click="goToApartment(apartment.key)">
-                            <td>
-                                <div class="column">
-                                    <div class="column-left">
-                                        <div class="column-left">
-                                            <img style="width: auto; height: 150px; padding-top: 12px; padding-bottom: 7px;" 
-                                            :src="apartment.imageLink">
-                                        </div>
-                                        <div class="column-right align-content-left">
-                                            <div class="big-bold"> 
-                                                {{apartment.title}}
-                                            </div>
-                                            <div> 
-                                                {{apartment.numberOfRooms}} rooms  &middot  {{apartment.numberOfGuests}} guests
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column-right align-content-right">
-                                        <div class="big-bold">
-                                            {{apartment.pricePerNight}}$/night
-                                        </div>
-                                        <div class="error" v-if="apartment.status == 'INACTIVE'">
-                                            INACTIVE
-                                        </div>
-                                    </div>
+            <div class="body">
+                <div class="column-left" style="width: 50%;">
+                    <div style="background-color: #3d70d6; color: white;">
+                        <br>
+                        <h3>Pictures</h3>
+                        <br>
+                    </div>
+                    <div style="width: 100%;">
+                        <img style="width: inherit;" src="https://www.apartments.com/images/default-source/default-album/small-apt.tmb-featuredim.jpg?sfvrsn=8c1ce53b_0">
+                    </div>
+                </div>
+                <div class="column-right align-content-right" style="width: 50%; padding-top: 4%; padding-left: 5%;">
+                    <div style="width: 130%;">
+                        <div class="data-row">
+                            <h1>Small apartment for a student</h1>
+                            <p>1 rooms  &middot  2guests</p>
+                        </div>
+                        <div class="data-row">
+                            <div v-if="apartment.status == 'INACTIVE'">
+                                <div class="column-left">
+                                    <p class="error">This apartment is currently INACTIVE</p>
                                 </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                <div class="column-right">
+                                    <button class="activate-button">Activate</button>
+                                </div>
+                            </div>
+                        </div>
+                 </div>
+                </div>
             </div>
         </div>
-        
-
-        <!-- Axios -->
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <!-- Vue.js implementation -->
-        <script src="http://localhost:8080/WebProject/scripts/host_home.js"></script>
-        
-        
     </body>
 </html>

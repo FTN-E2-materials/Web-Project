@@ -17,5 +17,5 @@ public interface ResponseCRUDInterface<T extends DatabaseEntity> {
 	public Response update(T obj, HttpServletRequest request);
 	public Response getAll(HttpServletRequest request);
 	public Response getByID(String key, HttpServletRequest request);
-	public Response delete(T obj, HttpServletRequest request);
+	public Response delete(String id, HttpServletRequest request);
 }

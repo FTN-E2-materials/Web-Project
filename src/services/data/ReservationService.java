@@ -218,8 +218,8 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		return OK(super.getByID(key));
 	}
 
-	public Response delete(Reservation reservation, @Context HttpServletRequest request) {
-		return OK(super.delete(reservation));
+	public Response delete(String id, @Context HttpServletRequest request) {
+		return OK(super.delete(id));
 	}
 
 

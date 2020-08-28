@@ -53,13 +53,13 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 	 */
 	public T create(T object) {
 		if (object.isCountable()) {		// Apartments, reservations and such 
-			object.setKey(idHeader + ++entityCounter);
-			database.put(object.getKey(), object);
+			object.key = idHeader + ++entityCounter;
+			database.put(object.key, object);
 			
 			return object;
 		}
-		if (!database.containsKey(object.getKey())) {		// Users
-			database.put(object.getKey(), object);
+		if (!database.containsKey(object.key)) {		// Users
+			database.put(object.key, object);
 			return object;
 		}
 		else
@@ -94,10 +94,10 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 	
 	/** Update an existing object */
 	public T update(T obj) {
-		if (database.getOrDefault(obj.getKey(), null) == null)
+		if (database.getOrDefault(obj.key, null) == null)
 			return null;
 		
-		database.put(obj.getKey(), obj);
+		database.put(obj.key, obj);
 
 		return obj;
 	}
@@ -116,7 +116,7 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 	}
 	
 	public T delete(T obj) {
-		T entity = database.getOrDefault(obj.getKey(), null);
+		T entity = database.getOrDefault(obj.key, null);
 		
 		if (entity == null)
 			return null;
