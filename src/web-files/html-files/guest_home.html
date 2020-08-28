@@ -80,6 +80,26 @@
             min-width: auto;
         }
 
+        .search {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 8px;
+            padding-right: 8px;
+
+            background-color: white;
+
+            margin-right: 7%;
+            margin-top: 7%;
+
+            outline: none;
+
+            width: 20%;
+        }
+
+        .search:hover {
+            background-color: rgb(238, 238, 238);
+        }
+
         .header {
             padding: 10px 16px;
             background: #275FCF;
@@ -110,30 +130,7 @@
           margin-right: 25px;
         }
         
-        .create-button {
-          float: right;
-          background-color: #009e00;
-          color: white;
-
-          padding-left: 23px;
-          padding-right: 23px;
-          padding-top: 7px;
-          padding-bottom: 7px;
-          margin-right: 50px;
-          margin-top: 90px;
-
-          outline: none;
-          border-style: solid;
-          border-radius: 10px;
-          border: none;
-
-          font-size: 17px;
-          font-family: "Poppins";
-        }
         
-        .create-button:hover {
-          background: rgb(10, 141, 10);
-        }
         
         .header-link:hover {
           color: white;
@@ -206,8 +203,12 @@
                   <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/account">Account</a>
               </div>
             </div>
+
+            <div>
+                <input class="search column-right" type="text" placeholder="Search apartments..." v-model="query" v-on:keyup.enter="searchApartments">
+            </div>
             
-            <div style="margin-top: 5%;">
+            <div style="margin-top: 3%;">
                 <table class="table">
                     <tbody>
                         <tr class="row" v-for="apartment in apartments" :key="apartment.key" @click="goToApartment(apartment.key)">

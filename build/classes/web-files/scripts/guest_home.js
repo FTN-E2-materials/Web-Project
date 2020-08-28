@@ -1,10 +1,23 @@
 let vue = new Vue({
     el :"#vue-apartments",
     data : {
-        apartments : []
+        apartments : [],
+        query : ""
     },
     methods : {
         searchApartments : function() {
+            axios.get("http://localhost:8080/WebProject/data/apartments/" + this.query)
+                .then(function(response) {
+                    if (response.status == 200) {
+                        //Vue.set(vue, "apartments", response.data)
+                        console.log(response.data);
+                    }
+                    else {
+                        alert("Couldn't search apartments.")
+                    }
+                })
+        },
+        getApartments : function() {
             axios.get("http://localhost:8080/WebProject/data/apartments/")
                 .then(function(response) {
                     if (response.status == 200) {
@@ -28,6 +41,6 @@ let vue = new Vue({
         },
     },
     beforeMount() {
-        this.searchApartments();
+        this.getApartments();
     }
 });
