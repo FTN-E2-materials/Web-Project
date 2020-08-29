@@ -95,8 +95,6 @@
             background-color: white;
 
             outline: none;
-
-            width: 20%;
         }
 
         .search:hover {
@@ -222,6 +220,33 @@
                     <vuejs-datepicker class="column-left" v-model="dateStart"></vuejs-datepicker>
                     <vuejs-datepicker class="column-left" style="padding-left: 10px;"
                         v-model="dateEnd"></vuejs-datepicker>
+                </div>
+            </div>
+
+            <div style="background-color: rgb(238, 214, 149); padding-top: 1%; padding-bottom: 2%; margin-top: 25px;">
+                <div style="margin-left: 7%; margin-right: 7%">
+                    <p>Filters:</p>
+                    <div class="column-left">
+                        <div class="inline">
+                            <input type="text" class="search" placeholder="City">
+                            <input type="text" class="search" placeholder="Postal code">
+                        </div>
+                        <div style="padding-top: 12%;">
+                            <input type="text" class="search" placeholder="Minimum price">
+                            <input type="text" class="search" placeholder="Maximum price">
+                            <span class="big-bold" style="color : rgb(5, 141, 0)">$</span>
+                        </div>
+                    </div>
+                    <div class="column-left" style="margin-left: 3%;">
+                        <div class="inline">
+                                <input type="number" class="search" placeholder="Number of guests">
+                                <input type="text" class="search" placeholder="Minimum rooms">
+                                <input type="text" class="search" placeholder="Maximum rooms">
+                        </div>
+                    </div>
+                    <div class="column-right">
+                        <button type="button">Hide</button>
+                    </div>
                 </div>
             </div>
             

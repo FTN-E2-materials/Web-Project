@@ -113,7 +113,7 @@ public class ApartmentFilter extends BaseFilter<Apartment> {
 	public ApartmentFilter filterByNumberOfRooms(int minNumber, int maxNumber) {
 		Iterator<Apartment> iterator = entities.iterator();
 		while (iterator.hasNext()) {
-			Apartment ap = iterator.next()
+			Apartment ap = iterator.next();
 			if (ap.numberOfRooms < minNumber  ||  ap.numberOfRooms > maxNumber)
 				iterator.remove();
 		}
