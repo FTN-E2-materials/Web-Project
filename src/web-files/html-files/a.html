@@ -1,0 +1,413 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <!-- Vue.js script -->
+    <script src="https://unpkg.com/vue"></script>
+
+    <script src="https://unpkg.com/vuejs-datepicker"></script>
+
+    <!-- Google poppins font -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+
+    <!-- Font Awesome Icon Library (used for stars) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #e6e6e6;
+        }
+
+        /** Give all elements a transition and Poppins font */
+        * {
+            font-family: "Poppins";
+            transition: all 0.4s;
+            -webkit-transition: all 0.4s;
+            -o-transition: all 0.4s;
+            -moz-transition: all 0.4s;
+        }
+
+        button:hover {
+            cursor: pointer;
+        }
+
+        a:hover {
+            cursor: pointer;
+        }
+
+        div {
+            width: auto;
+        }
+
+        .wrapper {
+            display: grid;
+        }
+
+        .inline {
+            display : inline;
+        }
+
+        .table {
+            display: table;
+            background-color: #fafafa;
+            border-collapse: collapse;
+            width: 86%;
+            margin: 40px auto;
+
+            justify-content: space-evenly;
+        }
+
+        .row {
+            width: 100%;
+            background: #fafafa;
+            height: 50px;
+        }
+
+        .row:hover {
+            background-color: #ecf2fa;
+            cursor: pointer;
+        }
+
+        td {
+            padding-left: 12px;
+            min-width: auto;
+        }
+
+        .search {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 8px;
+            padding-right: 8px;
+
+            background-color: white;
+
+            outline: none;
+
+            width: 20%;
+        }
+
+        .search:hover {
+            background-color: rgb(238, 238, 238);
+        }
+
+        .header {
+            padding: 10px 16px;
+            background: #275FCF;
+            color: #f1f1f1;
+            width: 100%;
+            position: fixed;
+            z-index: 999;
+        }
+
+        .header-title {
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: large;
+            float: left;
+            color: white;
+            text-decoration: none;
+        }
+
+        .header-links {
+            float: right;
+            margin-right: 25px;
+        }
+
+        .header-link {
+            font-size: small;
+            text-decoration: none;
+            color: white;
+            margin-right: 25px;
+        }
+
+
+
+        .header-link:hover {
+            color: white;
+        }
+
+        .header-link-inactive {
+            color: #A9BFEB;
+        }
+
+        .header-link-active {
+            font-weight: 600;
+        }
+
+        .big-bold {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .column-left {
+            float: left;
+        }
+
+        .column-right {
+            float: right;
+        }
+
+        .column {
+            position: relative;
+        }
+
+        .top-left-corner {
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        .error {
+            color: rgb(218, 49, 49);
+            font-size: small;
+        }
+
+        .align-content-right {
+            text-align: right;
+            padding-top: 10px;
+            padding-right: 20px;
+        }
+
+        .align-content-left {
+            text-align: left;
+            padding-top: 10px;
+            padding-left: 20px;
+        }
+
+        .checked {
+            color: rgb(255, 175, 25);
+        }
+
+        img {
+            object-fit: fill;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="vue-apartments" class="wrapper">
+        <div class="header">
+            <div><a href="http://localhost:8080/WebProject" class="header-title">FakeAirbnb
+                </a></div><a href="http://localhost:8080/WebProject" class="header-title"></a>
+            <div class="header-links"><a href="http://localhost:8080/WebProject" class="header-title"></a><a
+                    href="http://localhost:8080/WebProject/" class="header-link header-link-active">Apartments</a> <a
+                    href="http://localhost:8080/WebProject/reservations" class="header-link header-link-inactive">My
+                    reservations</a> <a href="http://localhost:8080/WebProject/account"
+                    class="header-link header-link-inactive">Account</a></div>
+        </div>
+        <div class="inline" style="margin-left: 7%; margin-right: 7%;; margin-top: 7%;">
+            <div class="column-right wrapper" style="width: 20%; text-align: right;">
+                <input type="text" class="search" style="width: 100%" placeholder="Search apartments...">
+                <p class="error" style="padding-top: 5px;">No apartments found  :(</p>
+            </div>
+
+            <div>
+                <vuejs-datepicker class="column-left" :value="state.date"></vuejs-datepicker>
+                <vuejs-datepicker class="column-left" style="padding-left: 10px;"
+                    :value="state.date"></vuejs-datepicker>
+            </div>
+        </div>
+        <div style="margin-top: 3%;">
+            <table class="table">
+                <tbody>
+                    <tr class="row">
+                        <td>
+                            <div class="column">
+                                <div class="column-left">
+                                    <div class="column-left"><img
+                                            src="https://www.apartments.com/images/default-source/default-album/small-apt.tmb-featuredim.jpg?sfvrsn=8c1ce53b_0"
+                                            style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;">
+                                    </div>
+                                    <div class="column-right align-content-left">
+                                        <div class="big-bold">
+                                            Small room for a student
+                                        </div>
+                                        <div>
+                                            1 rooms · 1 guests
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column-right align-content-right">
+                                    <div class="big-bold">
+                                        12$/night
+                                    </div>
+                                    <div id="rating">
+                                        <div><span class="fa fa-star checked"></span> <span
+                                                class="fa fa-star checked"></span> <span
+                                                class="fa fa-star checked"></span> <span
+                                                class="fa fa-star checked"></span> <span
+                                                class="fa fa-star checked"></span></div>
+                                    </div>
+                                    <div><span style="font-size: small; color: rgb(155, 155, 155);">12 reviewers</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row">
+                        <td>
+                            <div class="column">
+                                <div class="column-left">
+                                    <div class="column-left"><img
+                                            src="https://www.energy-plus.org/wp-content/uploads/2019/09/luxurious-apartment.jpg"
+                                            style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;">
+                                    </div>
+                                    <div class="column-right align-content-left">
+                                        <div class="big-bold">
+                                            Luxurious apartment at the top of the city
+                                        </div>
+                                        <div>
+                                            3 rooms · 4 guests
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column-right align-content-right">
+                                    <div class="big-bold">
+                                        120$/night
+                                    </div>
+                                    <div id="rating">
+                                        <div><span class="fa fa-star checked"></span> <span
+                                                class="fa fa-star checked"></span> <span
+                                                class="fa fa-star checked"></span> <span
+                                                class="fa fa-star checked"></span> <span class="fa fa-star"></span>
+                                        </div>
+                                    </div>
+                                    <div><span style="font-size: small; color: rgb(155, 155, 155);">6 reviewers</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row">
+                        <td>
+                            <div class="column">
+                                <div class="column-left">
+                                    <div class="column-left"><img
+                                            src="https://cf.bstatic.com/images/hotel/max1024x768/180/180931971.jpg"
+                                            style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;">
+                                    </div>
+                                    <div class="column-right align-content-left">
+                                        <div class="big-bold">
+                                            Small apartment for a couple
+                                        </div>
+                                        <div>
+                                            1 rooms · 2 guests
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column-right align-content-right">
+                                    <div class="big-bold">
+                                        27$/night
+                                    </div>
+                                    <div id="rating">
+                                        <div><span class="fa fa-star checked"></span> <span
+                                                class="fa fa-star checked"></span> <span
+                                                class="fa fa-star checked"></span> <span
+                                                class="fa fa-star checked"></span> <span
+                                                class="fa fa-star checked"></span></div>
+                                    </div>
+                                    <div><span style="font-size: small; color: rgb(155, 155, 155);">25 reviewers</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row">
+                        <td>
+                            <div class="column">
+                                <div class="column-left">
+                                    <div class="column-left"><img src="https://wallpaperaccess.com/full/1142283.jpg"
+                                            style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;">
+                                    </div>
+                                    <div class="column-right align-content-left">
+                                        <div class="big-bold">
+                                            Modern, luxurious apartment in the new city blocks
+                                        </div>
+                                        <div>
+                                            3 rooms · 4 guests
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column-right align-content-right">
+                                    <div class="big-bold">
+                                        250$/night
+                                    </div>
+                                    <div id="rating">
+                                        <div>
+                                            No ratings.
+                                        </div>
+                                    </div>
+                                    <!---->
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row">
+                        <td>
+                            <div class="column">
+                                <div class="column-left">
+                                    <div class="column-left"><img
+                                            src="https://c.pxhere.com/images/25/c0/8bcf96f1e463e7c0260358bf771d-1452591.jpg!d"
+                                            style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;">
+                                    </div>
+                                    <div class="column-right align-content-left">
+                                        <div class="big-bold">
+                                            Retro apartment in the city centre
+                                        </div>
+                                        <div>
+                                            2 rooms · 3 guests
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column-right align-content-right">
+                                    <div class="big-bold">
+                                        46$/night
+                                    </div>
+                                    <div id="rating">
+                                        <div>
+                                            No ratings.
+                                        </div>
+                                    </div>
+                                    <!---->
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        let vue = new Vue({
+            el: "#vue-apartments",
+            components: {
+                vuejsDatepicker
+            },
+            data: {
+                state: {
+                    date: new Date(2020, 8, 29)
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

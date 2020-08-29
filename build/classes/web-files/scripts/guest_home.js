@@ -4,7 +4,12 @@ let vue = new Vue({
         apartments : [],
         query : "",
         holder : [],
-        noApartmentsFound : false
+        noApartmentsFound : false,
+        dateStart : new Date(),
+        dateEnd : new Date()
+    },
+    components: {
+        vuejsDatepicker
     },
     methods : {
         searchApartments : function() {

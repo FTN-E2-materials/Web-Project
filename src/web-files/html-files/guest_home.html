@@ -7,6 +7,8 @@
 
     <!-- Vue.js script -->
     <script src="https://unpkg.com/vue"></script>
+    <!-- Datepicker script -->
+    <script src="https://unpkg.com/vuejs-datepicker"></script>
 
     <!-- Google poppins font -->
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
@@ -52,6 +54,10 @@
         
         .wrapper { 
             display: grid;
+        }
+
+        .inline {
+            display : inline;
         }
 
         .table {
@@ -205,13 +211,17 @@
               </div>
             </div>
 
-            <div class="wrapper" style="margin-right: 7%; margin-top: 7%;">
-                <div>
-                    <input class="search column-right" type="text" placeholder="Search apartments..." v-model="query" @keyup="searchApartments">
+            <div class="inline" style="margin-left: 7%; margin-right: 7%;; margin-top: 7%;">
+                <div class="column-right wrapper" style="width: 20%; text-align: right;">
+                    <input type="text" class="search" style="width: 100%" placeholder="Search apartments..."
+                        v-model="query" @keyup="searchApartments">
+                    <p class="error" style="padding-top: 5px;" v-if="noApartmentsFound">No apartments found  :(</p>
                 </div>
+    
                 <div>
-                    <p class="error column-right"  style="padding-top: 5px;" 
-                        v-if="noApartmentsFound">No apartments found.</p>
+                    <vuejs-datepicker class="column-left" :value="dateStart"></vuejs-datepicker>
+                    <vuejs-datepicker class="column-left" style="padding-left: 10px;"
+                        :value="dateEnd"></vuejs-datepicker>
                 </div>
             </div>
             

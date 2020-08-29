@@ -1,252 +1,40 @@
-<html lang="en"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
 
-    <!-- Vue.js script -->
-    <script src="https://unpkg.com/vue"></script>
+        <!-- Vue.js script -->
+        <script src="https://unpkg.com/vue"></script>
+        <script src="https://unpkg.com/vuejs-datepicker"></script>
 
-    <!-- Google poppins font -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+        <!-- Google poppins font -->
+        <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 
-    <!-- Font Awesome Icon Library (used for stars) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            * {
+                font-family: "Poppins";
+            }
+        </style>
+    </head>
+    <body>
 
-    <style>
+        <div id="app">
+            <vuejs-datepicker style="width: 100px; height: 100px; border-radius: 10px;" :value="state.date"></vuejs-datepicker>
+        </div>
 
-* {
-            margin: 0px; 
-            padding: 0px; 
-            box-sizing: border-box;
-        }
-        
-        html {
-          scroll-behavior: smooth;
-        }
-        
-        body {
-          background: #e6e6e6;
-        }
-        
-        /** Give all elements a transition and Poppins font */
-        * {
-            font-family: "Poppins";
-            transition: all 0.4s;
-            -webkit-transition: all 0.4s;
-            -o-transition: all 0.4s;
-            -moz-transition: all 0.4s;
-        }
-        
-        button:hover {
-            cursor: pointer;
-        }
-        
-        a:hover { 
-          cursor: pointer;
-        }
-
-        div {
-            width: auto;
-        }
-        
-        .wrapper { 
-            display: grid;
-        }
-
-        .table {
-            display: table;
-            background-color: #fafafa;
-            border-collapse: collapse;
-            width: 86%;
-            margin: 40px auto;
-
-            justify-content: space-evenly;
-        }
-
-        .row {
-            width: 100%;
-            background: #fafafa;
-            height: 50px;
-        }
-
-        .row:hover {
-            background-color: #ecf2fa;
-            cursor: pointer;
-        }
-
-        td {
-            padding-left: 12px;
-            min-width: auto;
-        }
-
-        .header {
-            padding: 10px 16px;
-            background: #275FCF;
-            color: #f1f1f1;
-            width: 100%;
-            position: fixed;
-            z-index: 999;
-          }
-        
-        .header-title {
-          font-weight: 600;
-          letter-spacing: 1px;
-          font-size: large;
-          float:left;
-          color: white;
-          text-decoration: none;
-        }
-        
-        .header-links {
-          float: right;
-          margin-right: 25px;
-        }
-        
-        .header-link {
-          font-size: small;
-          text-decoration: none;
-          color: white;
-          margin-right: 25px;
-        }
-        
-        .create-button {
-          float: right;
-          background-color: #009e00;
-          color: white;
-
-          padding-left: 30px;
-          padding-right: 30px;
-          padding-top: 10px;
-          padding-bottom: 10px;
-          margin-right: 50px;
-          margin-top: 90px;
-
-          outline: none;
-          border-style: solid;
-          border-radius: 10px;
-          border: none;
-
-          font-size: 17px;
-          font-family: "Poppins";
-        }
-        
-        .create-button:hover {
-          background: #008800;
-          padding-left: 35px;
-          padding-right: 35px;
-        }
-        
-        .header-link:hover {
-          color: white;
-        }
-        
-        .header-link-inactive { 
-          color: #A9BFEB;
-        }
-        
-        .header-link-active {
-          font-weight: 600;
-        }
-
-        .big-bold {
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .column-left {
-            float: left;
-        }
-
-        .column-right {
-            float: right;
-        }
-
-        .column {
-            position: relative;
-        }
-
-        .top-left-corner {
-            margin-top: 10px;
-            margin-left: 10px;
-        }
-
-        .error {
-            color: rgb(218, 49, 49);
-            font-size: medium;
-        }
-
-        .align-content-right {
-            text-align: right;
-            padding-top: 10px;
-            padding-right: 20px;
-        }
-
-        .align-content-left {
-            text-align: left;
-            padding-top: 10px;
-            padding-left: 20px;
-        }
-
-        .checked {
-            color: rgb(255, 175, 25);
-        }
-        
-            </style>
-        
-        </head>
-        <body>
-          <div id="vue-apartments" class="wrapper"><div class="header"><div><a href="http://localhost:8080/WebProject" class="header-title">FakeAirbnb
-              </a></div><a href="http://localhost:8080/WebProject" class="header-title"></a><div class="header-links"><a href="http://localhost:8080/WebProject" class="header-title"></a><a href="http://localhost:8080/WebProject/" class="header-link header-link-active">Your apartments</a> <a href="http://localhost:8080/WebProject/reservations" class="header-link header-link-inactive">Reservations</a> <a href="http://localhost:8080/WebProject/account" class="header-link header-link-inactive">Account</a></div></div> <div><button type="button" class="create-button">Create apartment</button></div> 
-              <div><table class="table">
-                  <tbody>
-                      <tr class="row">
-                          <td><div class="column">
-                              <div class="column-left">
-                                    <div class="column-left">
-                                      <img src="https://www.apartments.com/images/default-source/default-album/small-apt.tmb-featuredim.jpg?sfvrsn=8c1ce53b_0" 
-                                            style="min-width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;">
-                                    </div> <div class="column-right align-content-left"><div class="big-bold"> 
-                                                Small room for a student
-                                                <span class="error">(INACTIVE)</span></div> <div> 
-                                                1 rooms  ·  1 guests
-                                            </div></div></div> <div class="column-right align-content-right"><div class="big-bold">
-                                            12$/night
-                                        </div> <div id="rating"><div><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span></div></div> <div><span style="font-size: small; color: rgb(155, 155, 155);">12 reviewers</span></div></div></div></td></tr><tr class="row"><td><div class="column"><div class="column-left"><div class="column-left"><img src="https://www.energy-plus.org/wp-content/uploads/2019/09/luxurious-apartment.jpg" style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div> <div class="column-right align-content-left"><div class="big-bold"> 
-                                                Luxurious apartment at the top of the city
-                                                <!----></div> <div> 
-                                                3 rooms  ·  4 guests
-                                            </div></div></div> <div class="column-right align-content-right"><div class="big-bold">
-                                            120$/night
-                                        </div> <div id="rating"><div><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star"></span></div></div> <div><span style="font-size: small; color: rgb(155, 155, 155);">6 reviewers</span></div></div></div></td></tr><tr class="row"><td><div class="column"><div class="column-left"><div class="column-left"><img src="https://cf.bstatic.com/images/hotel/max1024x768/180/180931971.jpg" style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div> <div class="column-right align-content-left"><div class="big-bold"> 
-                                                Small apartment for a couple 
-                                                <span class="error">(INACTIVE)</span></div> <div> 
-                                                1 rooms  ·  2 guests
-                                            </div></div></div> <div class="column-right align-content-right"><div class="big-bold">
-                                            27$/night
-                                        </div> <div id="rating"><div><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span></div></div> <div><span style="font-size: small; color: rgb(155, 155, 155);">25 reviewers</span></div></div></div></td></tr><tr class="row"><td><div class="column"><div class="column-left"><div class="column-left"><img src="https://pix10.agoda.net/hotelImages/796/7960446/7960446_19061015210075666803.jpg?s=1024x768" style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div> <div class="column-right align-content-left"><div class="big-bold"> 
-                                                Soba na Podbari
-                                                <!----></div> <div> 
-                                                1 rooms  ·  1 guests
-                                            </div></div></div> <div class="column-right align-content-right"><div class="big-bold">
-                                            5$/night
-                                        </div> <div id="rating"><div>
-                                                No ratings.
-                                            </div></div> <!----></div></div></td></tr><tr class="row"><td><div class="column"><div class="column-left"><div class="column-left"><img src="https://cf.bstatic.com/images/hotel/max1024x768/218/218171804.jpg" style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div> <div class="column-right align-content-left"><div class="big-bold"> 
-                                                Stan na Detelinari za dvoje
-                                                <!----></div> <div> 
-                                                1 rooms  ·  2 guests
-                                            </div></div></div> <div class="column-right align-content-right"><div class="big-bold">
-                                            25$/night
-                                        </div> <div id="rating"><div>
-                                                No ratings.
-                                            </div></div> <!----></div></div></td></tr></tbody></table></div></div>
-        
-
-        <!-- Axios -->
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <!-- Vue.js implementation -->
-        <script src="http://localhost:8080/WebProject/scripts/host_home.js"></script>
-        
-        
-    
-</body></html>
+        <script>
+            let vue = new Vue({
+                el : "#app",
+                components : {
+                    vuejsDatepicker
+                },
+                data : {
+                    state : {
+                        date : new Date(2020, 8, 29)
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
