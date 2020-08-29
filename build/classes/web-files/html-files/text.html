@@ -11,6 +11,7 @@
 
     <!-- Font Awesome Icon Library (used for stars) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
 
 * {
@@ -78,26 +79,6 @@
             min-width: auto;
         }
 
-        .search {
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 8px;
-            padding-right: 8px;
-
-            background-color: white;
-
-            margin-right: 7%;
-            margin-top: 7%;
-
-            outline: none;
-
-            width: 20%;
-        }
-
-        .search:hover {
-            background-color: rgb(238, 238, 238);
-        }
-
         .header {
             padding: 10px 16px;
             background: #275FCF;
@@ -128,7 +109,32 @@
           margin-right: 25px;
         }
         
+        .create-button {
+          float: right;
+          background-color: #009e00;
+          color: white;
+
+          padding-left: 30px;
+          padding-right: 30px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          margin-right: 50px;
+          margin-top: 90px;
+
+          outline: none;
+          border-style: solid;
+          border-radius: 10px;
+          border: none;
+
+          font-size: 17px;
+          font-family: "Poppins";
+        }
         
+        .create-button:hover {
+          background: #008800;
+          padding-left: 35px;
+          padding-right: 35px;
+        }
         
         .header-link:hover {
           color: white;
@@ -190,42 +196,44 @@
         </head>
         <body>
           <div id="vue-apartments" class="wrapper"><div class="header"><div><a href="http://localhost:8080/WebProject" class="header-title">FakeAirbnb
-              </a></div><a href="http://localhost:8080/WebProject" class="header-title"></a><div class="header-links"><a href="http://localhost:8080/WebProject" class="header-title"></a><a href="http://localhost:8080/WebProject/" class="header-link header-link-active">Apartments</a> <a href="http://localhost:8080/WebProject/reservations" class="header-link header-link-inactive">My reservations</a> <a href="http://localhost:8080/WebProject/account" class="header-link header-link-inactive">Account</a></div></div> 
-              <div >
-                  <div class="column-right">
-                      <input type="text" placeholder="Search apartments..." class="search">
-                </div>
-                <div class="error ">Error</div>
-            
-            </div> <div style="margin-top: 3%;"><table class="table"><tbody><tr class="row"><td><div class="column"><div class="column-left"><div class="column-left"><img src="https://www.apartments.com/images/default-source/default-album/small-apt.tmb-featuredim.jpg?sfvrsn=8c1ce53b_0" style="width: auto; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div> <div class="column-right align-content-left"><div class="big-bold"> 
+              </a></div><a href="http://localhost:8080/WebProject" class="header-title"></a><div class="header-links"><a href="http://localhost:8080/WebProject" class="header-title"></a><a href="http://localhost:8080/WebProject/" class="header-link header-link-active">Your apartments</a> <a href="http://localhost:8080/WebProject/reservations" class="header-link header-link-inactive">Reservations</a> <a href="http://localhost:8080/WebProject/account" class="header-link header-link-inactive">Account</a></div></div> <div><button type="button" class="create-button">Create apartment</button></div> 
+              <div><table class="table">
+                  <tbody>
+                      <tr class="row">
+                          <td><div class="column">
+                              <div class="column-left">
+                                    <div class="column-left">
+                                      <img src="https://www.apartments.com/images/default-source/default-album/small-apt.tmb-featuredim.jpg?sfvrsn=8c1ce53b_0" 
+                                            style="min-width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;">
+                                    </div> <div class="column-right align-content-left"><div class="big-bold"> 
                                                 Small room for a student
-                                            </div> <div> 
+                                                <span class="error">(INACTIVE)</span></div> <div> 
                                                 1 rooms  ·  1 guests
                                             </div></div></div> <div class="column-right align-content-right"><div class="big-bold">
                                             12$/night
-                                        </div> <div id="rating"><div><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span></div></div> <div><span style="font-size: small; color: rgb(155, 155, 155);">12 reviewers</span></div></div></div></td></tr><tr class="row"><td><div class="column"><div class="column-left"><div class="column-left"><img src="https://www.energy-plus.org/wp-content/uploads/2019/09/luxurious-apartment.jpg" style="width: auto; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div> <div class="column-right align-content-left"><div class="big-bold"> 
+                                        </div> <div id="rating"><div><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span></div></div> <div><span style="font-size: small; color: rgb(155, 155, 155);">12 reviewers</span></div></div></div></td></tr><tr class="row"><td><div class="column"><div class="column-left"><div class="column-left"><img src="https://www.energy-plus.org/wp-content/uploads/2019/09/luxurious-apartment.jpg" style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div> <div class="column-right align-content-left"><div class="big-bold"> 
                                                 Luxurious apartment at the top of the city
-                                            </div> <div> 
+                                                <!----></div> <div> 
                                                 3 rooms  ·  4 guests
                                             </div></div></div> <div class="column-right align-content-right"><div class="big-bold">
                                             120$/night
-                                        </div> <div id="rating"><div><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star"></span></div></div> <div><span style="font-size: small; color: rgb(155, 155, 155);">6 reviewers</span></div></div></div></td></tr><tr class="row"><td><div class="column"><div class="column-left"><div class="column-left"><img src="https://cf.bstatic.com/images/hotel/max1024x768/180/180931971.jpg" style="width: auto; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div> <div class="column-right align-content-left"><div class="big-bold"> 
+                                        </div> <div id="rating"><div><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star"></span></div></div> <div><span style="font-size: small; color: rgb(155, 155, 155);">6 reviewers</span></div></div></div></td></tr><tr class="row"><td><div class="column"><div class="column-left"><div class="column-left"><img src="https://cf.bstatic.com/images/hotel/max1024x768/180/180931971.jpg" style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div> <div class="column-right align-content-left"><div class="big-bold"> 
                                                 Small apartment for a couple 
-                                            </div> <div> 
+                                                <span class="error">(INACTIVE)</span></div> <div> 
                                                 1 rooms  ·  2 guests
                                             </div></div></div> <div class="column-right align-content-right"><div class="big-bold">
                                             27$/night
-                                        </div> <div id="rating"><div><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span></div></div> <div><span style="font-size: small; color: rgb(155, 155, 155);">25 reviewers</span></div></div></div></td></tr><tr class="row"><td><div class="column"><div class="column-left"><div class="column-left"><img src="https://pix10.agoda.net/hotelImages/796/7960446/7960446_19061015210075666803.jpg?s=1024x768" style="width: auto; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div> <div class="column-right align-content-left"><div class="big-bold"> 
+                                        </div> <div id="rating"><div><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span></div></div> <div><span style="font-size: small; color: rgb(155, 155, 155);">25 reviewers</span></div></div></div></td></tr><tr class="row"><td><div class="column"><div class="column-left"><div class="column-left"><img src="https://pix10.agoda.net/hotelImages/796/7960446/7960446_19061015210075666803.jpg?s=1024x768" style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div> <div class="column-right align-content-left"><div class="big-bold"> 
                                                 Soba na Podbari
-                                            </div> <div> 
+                                                <!----></div> <div> 
                                                 1 rooms  ·  1 guests
                                             </div></div></div> <div class="column-right align-content-right"><div class="big-bold">
                                             5$/night
                                         </div> <div id="rating"><div>
                                                 No ratings.
-                                            </div></div> <!----></div></div></td></tr><tr class="row"><td><div class="column"><div class="column-left"><div class="column-left"><img src="https://cf.bstatic.com/images/hotel/max1024x768/218/218171804.jpg" style="width: auto; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div> <div class="column-right align-content-left"><div class="big-bold"> 
+                                            </div></div> <!----></div></div></td></tr><tr class="row"><td><div class="column"><div class="column-left"><div class="column-left"><img src="https://cf.bstatic.com/images/hotel/max1024x768/218/218171804.jpg" style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div> <div class="column-right align-content-left"><div class="big-bold"> 
                                                 Stan na Detelinari za dvoje
-                                            </div> <div> 
+                                                <!----></div> <div> 
                                                 1 rooms  ·  2 guests
                                             </div></div></div> <div class="column-right align-content-right"><div class="big-bold">
                                             25$/night
@@ -237,7 +245,7 @@
         <!-- Axios -->
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <!-- Vue.js implementation -->
-        <script src="http://localhost:8080/WebProject/scripts/guest_home.js"></script>
+        <script src="http://localhost:8080/WebProject/scripts/host_home.js"></script>
         
         
     
