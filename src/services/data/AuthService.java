@@ -17,7 +17,7 @@ import services.interfaces.AuthenticationInterface;
 import services.templates.BaseService;
 import storage.Storage;
 import util.Config;
-import util.RequestWrapper;
+import util.wrappers.RequestWrapper;
 
 @Path(Config.AUTH_DATA_PATH)
 public class AuthService extends BaseService implements AuthenticationInterface {

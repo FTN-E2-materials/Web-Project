@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 
 import beans.model.UserAccount;
-import util.RequestWrapper;
+import util.wrappers.RequestWrapper;
 
 public interface AuthenticationInterface {
 	public Response login(RequestWrapper loginInfo, HttpServletRequest request);

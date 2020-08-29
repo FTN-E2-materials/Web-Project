@@ -4,7 +4,7 @@ import java.util.Collection;
 import beans.model.DatabaseEntity;
 
 import dao.BeanDAO;
-import util.RequestWrapper;
+import util.wrappers.RequestWrapper;
 
 
 /** Abstract template for a CRUD service class with predefined basic CRUD methods

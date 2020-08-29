@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 
 import beans.model.DatabaseEntity;
-import util.RequestWrapper;
+import util.wrappers.RequestWrapper;
 
 /** Offers methods for CRUD services which need to verify the users identity before 
  *  handling the data itself. Every method implemented should add Context annotation next 

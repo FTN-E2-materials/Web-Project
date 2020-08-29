@@ -1,7 +1,9 @@
-package util;
+package util.services;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+
+import util.Config;
 
 
 /** Singleton class which servers as a caching mechanism for HTML pages in order to avoid fetching from files

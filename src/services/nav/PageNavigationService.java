@@ -13,8 +13,8 @@ import beans.interfaces.SessionToken;
 import services.interfaces.NavigationResponseHandler;
 import services.interfaces.SessionTracker;
 import util.Config;
-import util.HTMLService;
-import util.ScriptService;
+import util.services.HTMLService;
+import util.services.ScriptService;
 
 /** Abstract class for page navigation services. Implements the session tracker methods for tracking
  *  user sessions, and the basic navigation HTTP response methods for forbidding and allowing access to pages.

@@ -25,7 +25,7 @@ import services.interfaces.ResponseCRUDInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
-import util.RequestWrapper;
+import util.wrappers.RequestWrapper;
 
 
 @Path(Config.REVIEWS_DATA_PATH)

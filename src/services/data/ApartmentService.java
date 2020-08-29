@@ -19,11 +19,13 @@ import beans.interfaces.SessionToken;
 import beans.model.Apartment;
 import beans.model.enums.ApartmentStatus;
 import dao.ApartmentDAO;
+import filters.ApartmentFilter;
 import services.interfaces.ResponseCRUDInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
-import util.RequestWrapper;
+import util.wrappers.ApartmentFilterWrapper;
+import util.wrappers.RequestWrapper;
 
 
 @Path(Config.APARTMENTS_DATA_PATH)
@@ -240,5 +242,28 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		
 		apartment.status = ApartmentStatus.INACTIVE;
 		return OK(super.update(apartment));
+	}
+	
+	@POST 
+	@Path("/filter")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response filter(ApartmentFilterWrapper wrapper, @Context HttpServletRequest request) {
+		ApartmentFilter filter = ApartmentFilter.instantiateWithDAO((ApartmentDAO)ctx.getAttribute(databaseAttributeString));
+		
+		if (wrapper.city != null)
+			filter.filterByCity(wrapper.city);
+		if (wrapper.numOfVisitors != null)
+			filter.filterByNumberOfGuests(wrapper.numOfVisitors);
+		if (wrapper.minPrice != null  &&  wrapper.maxPrice != null)
+			filter.filterByPriceRange(wrapper.minPrice, wrapper.maxPrice);
+		else if (wrapper.maxPrice == null  && wrapper.minPrice != null)
+			filter.filterByPriceRange(wrapper.minPrice, Double.MAX_VALUE);
+		else if (wrapper.minPrice == null  && wrapper.maxPrice != null)
+			filter.filterByPriceRange(0, wrapper.maxPrice);
+		
+		// rooms, dates missing
+		
+		return OK(filter.getResults());
 	}
 }

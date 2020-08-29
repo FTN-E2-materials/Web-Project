@@ -42,6 +42,10 @@ let vue = new Vue({
                 }
             }
         },
+        printDates : function() {
+            console.log("Starting date: " + vue.dateStart);
+            console.log("Ending date: " + vue.dateEnd);
+        },
         getApartments : function() {
             axios.get("http://localhost:8080/WebProject/data/apartments/")
                 .then(function(response) {

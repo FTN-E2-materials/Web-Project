@@ -12,7 +12,7 @@ public abstract class BaseFilter<T extends DatabaseEntity> {
 	protected Collection<T> entities;
 	
 	/** Initiates a new filtering operation on the database operated by the given DAO object */
-	public BaseFilter<T> initiateFilterOperation(BeanDAO<T> dao) {
+	protected BaseFilter<T> initiateFilterOperation(BeanDAO<T> dao) {
 		entities = dao.getAll();
 		
 		return this;

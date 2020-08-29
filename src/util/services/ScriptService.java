@@ -1,7 +1,9 @@
-package util;
+package util.services;
 
 
 import java.io.InputStream;
+
+import util.Config;
 
 
 /** Small utility for fetching script files */
