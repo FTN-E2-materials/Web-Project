@@ -13,14 +13,14 @@ import javax.ws.rs.core.Response;
 import beans.model.UserAccount;
 import beans.model.enums.TypeOfUser;
 import dao.UserDAO;
-import services.interfaces.AuthenticationInterface;
+import services.interfaces.rest.AuthServiceInterface;
 import services.templates.BaseService;
 import storage.Storage;
 import util.Config;
 import util.wrappers.RequestWrapper;
 
 @Path(Config.AUTH_DATA_PATH)
-public class AuthService extends BaseService implements AuthenticationInterface {
+public class AuthService extends BaseService implements AuthServiceInterface {
 
 	@PostConstruct
 	@Override

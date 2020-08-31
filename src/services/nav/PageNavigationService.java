@@ -10,8 +10,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
-import services.interfaces.NavigationResponseHandler;
-import services.interfaces.SessionTracker;
+import services.interfaces.util.NavigationResponseHandler;
+import services.interfaces.util.SessionTracker;
 import util.Config;
 import util.services.HTMLService;
 import util.services.ScriptService;

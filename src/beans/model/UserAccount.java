@@ -22,7 +22,7 @@ public class UserAccount extends DatabaseEntity implements SessionToken {
    }
    
    @Override 
-   public String getSessionID() {
+   public String getUserID() {
 	   return key;
    }
    

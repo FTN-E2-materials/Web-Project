@@ -39,7 +39,9 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 		return dao.getAll();	
 	}
 	
-	/** Fetches an object with the matching ID key.
+	/** Fetches an object with the key matching value from 'stringKey' attribute of the wrapper argument.
+	 *  If the passed wrapper is null, or 'stringKeys' is null, null is returned.
+	 *  If the appropriate entity is not found, null is returned.
 	 * @param key
 	 * @return DB entity with the given key, or null if it does not exist.
 	 */
@@ -48,12 +50,11 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 			return null;
 		if (requestWrapper.stringKey == null) 
 			return null;
-		String key = requestWrapper.stringKey;
 		
 		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
-		System.out.println("Trying to fetch ID: " + key);
+		System.out.println("Trying to fetch ID: " + requestWrapper.stringKey);
 		
-		return dao.getByKey(key);
+		return dao.getByKey(requestWrapper.stringKey);
 	}
 	
 	/** Fetches an object with the matching ID key.
@@ -70,9 +71,14 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 		return dao.getByKey(id);
 	}
 	
-	protected T delete(String id) {
+	protected T delete(RequestWrapper requestWrapper) {
+		if (requestWrapper == null)
+			return null;
+		if (requestWrapper.stringKey == null)
+			return null;
+					
 		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
-		T obj = dao.getByKey(id);
+		T obj = dao.getByKey(requestWrapper.stringKey);
 		
 		if (obj == null)
 			return null;

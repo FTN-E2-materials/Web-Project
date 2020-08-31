@@ -1,4 +1,4 @@
-package services.interfaces;
+package services.interfaces.util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,7 +24,7 @@ public interface SessionTracker {
 	 */
 	public default boolean isLoggedIn(HttpServletRequest request) {
 		SessionToken session = getCurrentSession(request);
-		System.out.println("Incoming request from: " + ((session == null) ? "Unregistered user" : session.getSessionID()));
+		System.out.println("Incoming request from: " + ((session == null) ? "Unregistered user" : session.getUserID()));
 		if (session == null)
 			return false;
 		if (session.isAdmin() || session.isHost() || session.isGuest()) 

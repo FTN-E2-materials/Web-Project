@@ -1,4 +1,4 @@
-package services.interfaces;
+package services.interfaces.rest;
 
 /** Interface to provide PostConstruct methods for RESTful service classes, through which the services
  *  will be able to communicate with the database and storage. */

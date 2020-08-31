@@ -1,6 +1,7 @@
-package services.interfaces;
+package services.interfaces.rest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import beans.model.DatabaseEntity;
@@ -13,9 +14,10 @@ import util.wrappers.RequestWrapper;
  * @param <T>
  */
 public interface ResponseCRUDInterface<T extends DatabaseEntity> {
+	
 	public Response create(T obj, HttpServletRequest request);
 	public Response update(T obj, HttpServletRequest request);
 	public Response getAll(HttpServletRequest request);
-	public Response getByID(String key, HttpServletRequest request);
-	public Response delete(String id, HttpServletRequest request);
+	public Response getByID(@PathParam("id") String key, HttpServletRequest request);
+	public Response delete(RequestWrapper requestWrapper, HttpServletRequest request);
 }

@@ -1,8 +1,5 @@
 package services.data;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -21,7 +18,7 @@ import javax.ws.rs.core.Response;
 import beans.interfaces.SessionToken;
 import beans.model.Review;
 import dao.ReviewDAO;
-import services.interfaces.ResponseCRUDInterface;
+import services.interfaces.rest.ReviewServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -29,7 +26,7 @@ import util.wrappers.RequestWrapper;
 
 
 @Path(Config.REVIEWS_DATA_PATH)
-public class ReviewService extends CRUDService<Review, ReviewDAO> implements ResponseCRUDInterface<Review> {
+public class ReviewService extends CRUDService<Review, ReviewDAO> implements ReviewServiceInterface {
 
 	@PostConstruct
 	@Override
@@ -63,6 +60,7 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Res
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Override
 	public Response create(Review review, @Context HttpServletRequest request) {
 		// TODO Only guests can create reviews
 		// Guest has to have a FINISHED or REJECTED reservation with the apartment in question
@@ -72,6 +70,7 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Res
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Override
 	public Response update(Review obj, @Context HttpServletRequest request) {
 		return OK(super.update(obj));
 	}
@@ -86,6 +85,7 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Res
 		return ForbiddenRequest();
 	}
 
+	@Override
 	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
 		throw new NotAcceptableException();
 		// This is not allowed for reviews
@@ -94,14 +94,16 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Res
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response delete(String id, @Context HttpServletRequest request) {
-		return OK(super.delete(id));
+	@Override
+	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+		return OK(super.delete(requestWrapper));
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
-	public Response getByApartmentID(@PathParam("id") String id) {
+	@Path("/{apartmentID}")
+	@Override
+	public Response getByApartmentID(@PathParam("apartmentID") String id) {
 		// TODO Check if user is Guest or unregistered
 		// Then depending on the type of user, return filtered or not
 		ReviewDAO dao = (ReviewDAO)ctx.getAttribute(databaseAttributeString);

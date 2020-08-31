@@ -1,4 +1,4 @@
-package services.interfaces;
+package services.interfaces.util;
 
 import java.net.URI;
 

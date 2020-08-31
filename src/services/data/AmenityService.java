@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotAcceptableException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -16,7 +17,7 @@ import javax.ws.rs.core.Response;
 
 import beans.model.Amenity;
 import dao.AmenityDAO;
-import services.interfaces.ResponseCRUDInterface;
+import services.interfaces.rest.ResponseCRUDInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -58,6 +59,7 @@ public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Override
 	public Response create(Amenity obj, @Context HttpServletRequest request) {
 		return OK(super.create(obj));
 	}
@@ -65,28 +67,29 @@ public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Override
 	public Response update(Amenity obj, @Context HttpServletRequest request) {
 		return OK(super.update(obj));
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Override
 	public Response getAll(@Context HttpServletRequest request) {
 		return OK(super.getAll());
 	}
 	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
+	@Override
 	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
-		return OK(super.getByID(key));
+		throw new NotAcceptableException("This method is unsupported.");
 	}
 
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response delete(String id, @Context HttpServletRequest request) {
-		return OK(super.delete(id));
+	@Override
+	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+		return OK(super.delete(requestWrapper));
 	}
 
 }

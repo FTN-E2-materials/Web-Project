@@ -20,7 +20,7 @@ import beans.model.Apartment;
 import beans.model.enums.ApartmentStatus;
 import dao.ApartmentDAO;
 import filters.ApartmentFilter;
-import services.interfaces.ResponseCRUDInterface;
+import services.interfaces.rest.ApartmentServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -29,7 +29,7 @@ import util.wrappers.RequestWrapper;
 
 
 @Path(Config.APARTMENTS_DATA_PATH)
-public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> implements ResponseCRUDInterface<Apartment>{
+public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> implements ApartmentServiceInterface{
 	
 	@PostConstruct
 	@Override
@@ -63,7 +63,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	/** Check if user is eligible to create an apartment (if user is a host) */
+	@Override
 	public Response create(Apartment apartment, @Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		if (session == null)
@@ -73,7 +73,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 			apartment.status = ApartmentStatus.INACTIVE;
 			apartment.numberOfRatings = 0;
 			apartment.rating = 0d;
-			apartment.hostID = session.getSessionID();
+			apartment.hostID = session.getUserID();
 			
 			Apartment validatedApartment = super.create(apartment);
 			if (validatedApartment == null)
@@ -89,8 +89,8 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	/** Check if user is eligible to delete an apartment */
-	public Response delete(String id, @Context HttpServletRequest request) {
+	@Override
+	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		
 		if (session == null)
@@ -98,26 +98,27 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		if (session.isGuest())
 			return ForbiddenRequest();
 		
-		Apartment apartment = super.getByID(id);
+		Apartment apartment = super.getByID(requestWrapper);
 		
 		if (apartment == null)
 			return BadRequest();
 		
-		if (session.isHost()  &&  !session.getSessionID().equals(apartment.hostID))
+		if (session.isHost()  &&  !session.getUserID().equals(apartment.hostID))
 			return ForbiddenRequest();
 		
-		return OK(super.delete(id));
+		return OK(super.delete(requestWrapper));
 	}
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Override
 	public Response update(Apartment apartment, @Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		
 		if (session == null)
 			return ForbiddenRequest();
-		if (session.isHost()  &&  session.getSessionID().equals(apartment.hostID))
+		if (session.isHost()  &&  session.getUserID().equals(apartment.hostID))
 			return OK(super.update(apartment));
 		if (session.isAdmin())
 			return OK(super.update(apartment));
@@ -127,6 +128,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Override
 	public Response getAll(@Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
@@ -136,7 +138,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		if (session.isGuest())
 			return OK(dao.getActive());
 		if (session.isHost())
-			return OK(dao.getByHost(session.getSessionID()));	// TODO Return all host's apartments and filter them out using JS?
+			return OK(dao.getByHost(session.getUserID()));	// TODO Return all host's apartments and filter them out using JS?
 		if (session.isAdmin())
 			return OK(dao.getAll());
 		
@@ -146,6 +148,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
+	@Override
 	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
 		Apartment apartment = super.getByID(key);
 		SessionToken session = super.getCurrentSession(request);
@@ -155,14 +158,14 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		if (apartment.status == ApartmentStatus.ACTIVE) {
 			if (session == null)
 				return OK(apartment);
-			if (session.isHost()  &&  !session.getSessionID().equals(apartment.hostID))
+			if (session.isHost()  &&  !session.getUserID().equals(apartment.hostID))
 				return OK(null);
 			return OK(apartment);
 		}
 		if (apartment.status == ApartmentStatus.INACTIVE) {
 			if (session == null)
 				return OK(null);
-			if (session.isAdmin()  ||  session.getSessionID().equals(apartment.hostID))
+			if (session.isAdmin()  ||  session.getUserID().equals(apartment.hostID))
 				return OK(apartment);
 		}
 		
@@ -172,6 +175,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@GET
 	@Path("/search")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Override
 	public Response search(@QueryParam("name") String word, @Context HttpServletRequest request) {
 		SessionToken session = getCurrentSession(request);
 		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
@@ -186,7 +190,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 			return OK(dao.searchAsAdmin(word));
 		
 		if (session.isHost())
-			return OK(dao.searchAsHost(word, session.getSessionID()));
+			return OK(dao.searchAsHost(word, session.getUserID()));
 		
 		if (session.isGuest())
 			return OK(dao.searchAsVisitor(word));
@@ -198,6 +202,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@PUT
 	@Path("/activate")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Override
 	public Response activate(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
 		SessionToken session = getCurrentSession(request);
 		
@@ -210,7 +215,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		
 		if (apartment == null)
 			return BadRequest();
-		if (!apartment.hostID.equals(session.getSessionID()))
+		if (!apartment.hostID.equals(session.getUserID()))
 			return ForbiddenRequest();
 		
 		apartment.status = ApartmentStatus.ACTIVE;
@@ -220,6 +225,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@PUT
 	@Path("/deactivate")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Override
 	public Response deactivate(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
 		SessionToken session = getCurrentSession(request);
 		
@@ -237,7 +243,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		
 		if (apartment == null)
 			return BadRequest();
-		if (!apartment.hostID.equals(session.getSessionID()))
+		if (!apartment.hostID.equals(session.getUserID()))
 			return ForbiddenRequest();
 		
 		apartment.status = ApartmentStatus.INACTIVE;
@@ -248,6 +254,7 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@Path("/filter")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Override
 	public Response filter(ApartmentFilterWrapper wrapper, @Context HttpServletRequest request) {
 		ApartmentFilter filter = ApartmentFilter.instantiateWithDAO((ApartmentDAO)ctx.getAttribute(databaseAttributeString));
 		

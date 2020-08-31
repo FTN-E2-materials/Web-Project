@@ -1,4 +1,4 @@
-package services.interfaces;
+package services.interfaces.util;
 
 import javax.ws.rs.core.Response;
 

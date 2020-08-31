@@ -15,13 +15,14 @@ import javax.ws.rs.core.Response;
 import beans.interfaces.SessionToken;
 import beans.model.UserAccount;
 import dao.UserDAO;
+import services.interfaces.rest.UserServiceInterface;
 import services.templates.BaseService;
 import storage.Storage;
 import util.Config;
 
 
 @Path(Config.USERS_DATA_PATH)
-public class UserService extends BaseService {
+public class UserService extends BaseService implements UserServiceInterface {
 
 	@PostConstruct
 	@Override
@@ -51,13 +52,14 @@ public class UserService extends BaseService {
 										(Storage<UserAccount>)ctx.getAttribute(storageFileLocation)));
 	}
 	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	/** Returns a collection of all the users of the website. 
 	 * Available only to administrators.
 	 * @param request
-	 * @return
+	 * @return Response with JSON-packaged list of all users if the client is an admin.
+	 * Forbidden request otherwise.
 	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAll(@Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		
@@ -83,7 +85,7 @@ public class UserService extends BaseService {
 		
 		if (session == null)
 			return ForbiddenRequest();
-		if (!session.getSessionID().equals(updatedAccount.key)) // Only the owner of the account can change the data 
+		if (!session.getUserID().equals(updatedAccount.key)) // Only the owner of the account can change the data 
 			return ForbiddenRequest();
 		try { updatedAccount.validate(); }
 			catch (IllegalArgumentException ex) {

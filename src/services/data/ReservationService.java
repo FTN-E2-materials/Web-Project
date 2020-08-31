@@ -19,7 +19,8 @@ import beans.interfaces.SessionToken;
 import beans.model.Reservation;
 import beans.model.enums.ReservationStatus;
 import dao.ReservationDAO;
-import services.interfaces.ResponseCRUDInterface;
+import services.interfaces.rest.ReservationServiceInterface;
+import services.interfaces.rest.ResponseCRUDInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -27,7 +28,7 @@ import util.wrappers.RequestWrapper;
 
 
 @Path(Config.RESERVATIONS_DATA_PATH)
-public class ReservationService extends CRUDService<Reservation, ReservationDAO> implements ResponseCRUDInterface<Reservation>{
+public class ReservationService extends CRUDService<Reservation, ReservationDAO> implements ReservationServiceInterface {
 
 	@PostConstruct
 	@Override
@@ -61,6 +62,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Override
 	public Response create(Reservation reservation, @Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		
@@ -73,15 +75,51 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Override
 	public Response update(Reservation obj, @Context HttpServletRequest request) {
 		return ForbiddenRequest(); // Reservations cannot be updated.
 								   // Only status changes are allowed via separate PUT methods
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Override
+	public Response getAll(@Context HttpServletRequest request) {
+		SessionToken session = super.getCurrentSession(request);
+		ReservationDAO dao = (ReservationDAO)ctx.getAttribute(databaseAttributeString);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		
+		if (session.isGuest())
+			return OK(dao.getByGuestID(session.getUserID()));
+		if (session.isHost())
+			return OK(dao.getByHostID(session.getUserID()));
+		if (session.isAdmin())
+			return OK(dao.getAll());
+		else 
+			return ForbiddenRequest();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	@Override
+	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
+		return OK(super.getByID(key));
+	}
+
+	
+	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
+		//TODO Is deleting like this allowed? 
+		return OK(super.delete(requestWrapper));
 	}
 	
 	@PUT 
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/cancel")
+	@Override
 	public Response cancel(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
 		if (requestWrapper == null)
 			return BadRequest();
@@ -98,7 +136,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		if (session == null)
 			return ForbiddenRequest();
 		// If guest wants to change
-		if (session.isGuest()  &&  session.getSessionID().equals(reservation.guestID)) {
+		if (session.isGuest()  &&  session.getUserID().equals(reservation.guestID)) {
 			if (reservation.status == ReservationStatus.CREATED  ||
 					reservation.status == ReservationStatus.APPROVED) {
 				reservation.status = ReservationStatus.CANCELLED;
@@ -109,7 +147,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 			}
 		}
 		// If host wants to change
-		if (session.isHost() &&  session.getSessionID().equals(reservation.apartment.hostID)) {
+		if (session.isHost() &&  session.getUserID().equals(reservation.apartment.hostID)) {
 			if (reservation.status == ReservationStatus.CREATED  ||
 					reservation.status == ReservationStatus.APPROVED) {
 				reservation.status = ReservationStatus.DENIED;
@@ -127,6 +165,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/approve")
+	@Override
 	public Response approve(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
 		if (requestWrapper == null)
 			return BadRequest();
@@ -142,7 +181,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		
 		if (session == null)
 			return ForbiddenRequest();
-		if (session.isHost() &&  session.getSessionID().equals(reservation.apartment.hostID)) {
+		if (session.isHost() &&  session.getUserID().equals(reservation.apartment.hostID)) {
 			if (reservation.status == ReservationStatus.CREATED) {
 				reservation.status = ReservationStatus.APPROVED;
 				return OK(super.update(reservation));
@@ -159,6 +198,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/finish")
+	@Override
 	public Response finish(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
 		if (requestWrapper == null)
 			return BadRequest();
@@ -174,7 +214,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		
 		if (session == null)
 			return ForbiddenRequest();
-		if (session.isHost() &&  session.getSessionID().equals(reservation.apartment.hostID)) {
+		if (session.isHost() &&  session.getUserID().equals(reservation.apartment.hostID)) {
 			if (reservation.status == ReservationStatus.APPROVED) {
 				Calendar endDate = reservation.startingDate;
 				endDate.add(Calendar.DATE, reservation.numberOfNights);
@@ -191,36 +231,4 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		
 		return ForbiddenRequest();
 	}
-
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAll(@Context HttpServletRequest request) {
-		SessionToken session = super.getCurrentSession(request);
-		ReservationDAO dao = (ReservationDAO)ctx.getAttribute(databaseAttributeString);
-		
-		if (session == null)
-			return ForbiddenRequest();
-		
-		if (session.isGuest())
-			return OK(dao.getByGuestID(session.getSessionID()));
-		if (session.isHost())
-			return OK(dao.getByHostID(session.getSessionID()));
-		if (session.isAdmin())
-			return OK(dao.getAll());
-		else 
-			return ForbiddenRequest();
-	}
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
-	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
-		return OK(super.getByID(key));
-	}
-
-	public Response delete(String id, @Context HttpServletRequest request) {
-		return OK(super.delete(id));
-	}
-
-
 }

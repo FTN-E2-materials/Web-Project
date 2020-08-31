@@ -3,9 +3,9 @@ package services.templates;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 
-import services.interfaces.DatabaseAccessInterface;
-import services.interfaces.SessionHandler;
-import services.interfaces.DataResponseHandler;
+import services.interfaces.rest.DatabaseAccessInterface;
+import services.interfaces.util.DataResponseHandler;
+import services.interfaces.util.SessionHandler;
 
 
 /** Abstract template for a basic service class. Contains a ServletContext field,
