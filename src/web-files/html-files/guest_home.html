@@ -191,6 +191,40 @@
         img {
             object-fit: fill;
         }
+
+        .button {
+          float: right;
+
+          padding-left: 30px;
+          padding-right: 30px;
+          padding-top: 8px;
+          padding-bottom: 8px;
+          margin-right: 15px;
+          margin-top: 80px;
+
+          outline: none;
+          border-style: solid;
+          border-radius: 5px;
+          border: none;
+
+          font-size: 17px;
+          font-family: "Poppins";
+        }
+        
+        .button:hover {
+          padding-left: 35px;
+          padding-right: 35px;
+        }
+
+        .green-button {
+            background-color: #009e00;
+            color: white;
+        }
+
+        .blue-button {
+            background-color: #3b6ccc;
+            color: white;
+        }
         
             </style>
         
@@ -245,7 +279,9 @@
                         </div>
                     </div>
                     <div class="column-right">
-                        <button type="button" @click="filter">Apply</button>
+                        <button class="button green-button" type="button" @click="filter">Apply</button>
+                        <button class="button blue-button" type="button" @click="clearFilters">Clear</button>
+                        <button class="button" type="button" @click="closeFilters">Close</button>
                     </div>
                 </div>
             </div>

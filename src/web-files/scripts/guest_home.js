@@ -13,7 +13,8 @@ let vue = new Vue({
         maxPrice : "",
         numOfGuests : "",
         minRooms : "",
-        maxRooms : ""
+        maxRooms : "",
+        filtersOpened : true
     },
     components: {
         vuejsDatepicker
@@ -103,6 +104,18 @@ let vue = new Vue({
                 .catch(error => {
                     console.log(error.response.data)
                 })
+        },
+        clearFilters : function() {
+            vue.city = ""
+            vue.postalCode = ""
+            vue.minPrice = ""
+            vue.maxPrice = ""
+            vue.minRooms = ""
+            vue.maxRooms = ""
+            vue.numOfGuests = ""
+        },
+        closeFilters : function() {
+            vue.filtersOpened = false
         }
     },
     beforeMount() {
