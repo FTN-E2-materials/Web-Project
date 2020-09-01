@@ -266,10 +266,20 @@
                     <p class="error" style="padding-top: 5px;" v-if="noApartmentsFound">No apartments found  :(</p>
                 </div>
     
-                <div>
-                    <vuejs-datepicker class="column-left" v-model="dateStart"></vuejs-datepicker>
-                    <vuejs-datepicker class="column-left" style="padding-left: 10px;"
-                        v-model="dateEnd"></vuejs-datepicker>
+                <div style="display:inline-block">
+                    <div class="column-left" style="margin-right: 10px;">
+                        <p>From </p>
+                    </div>
+                    <div class="column-left">
+                        <vuejs-datepicker v-model="dateStart"></vuejs-datepicker>
+                    </div>
+                    <div class="column-left" style="margin-left: 25px;">
+                        <p> To </p>
+                    </div>
+                    <div class="column-left">
+                        <vuejs-datepicker style="padding-left: 10px;"   
+                                v-model="dateEnd"></vuejs-datepicker>
+                    </div>
                 </div>
             </div>
 
