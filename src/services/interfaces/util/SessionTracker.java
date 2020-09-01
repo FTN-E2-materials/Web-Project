@@ -9,9 +9,11 @@ import util.Config;
 /** Interface to provide basic session tracking for users. 
  *  Allows identification of the current user via the HttpServletRequest argument. */
 public interface SessionTracker {
+	
 	/** Return the SessionToken object from the current user session */
 	public default SessionToken getCurrentSession(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
+		
 		if (session == null)
 			return null;
 		
@@ -24,10 +26,10 @@ public interface SessionTracker {
 	 */
 	public default boolean isLoggedIn(HttpServletRequest request) {
 		SessionToken session = getCurrentSession(request);
-		System.out.println("Incoming request from: " + ((session == null) ? "Unregistered user" : session.getUserID()));
+		
 		if (session == null)
 			return false;
-		if (session.isAdmin() || session.isHost() || session.isGuest()) 
+		if (session.isGuest() || session.isHost() || session.isAdmin()) 
 			return true;
 		return false;
 	}

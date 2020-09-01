@@ -6,7 +6,14 @@ let vue = new Vue({
         holder : [],
         noApartmentsFound : false,
         dateStart : new Date(),
-        dateEnd : new Date()
+        dateEnd : new Date(),
+        city : "",
+        postalCode : "",
+        minPrice : "",
+        maxPrice : "",
+        numOfGuests : "",
+        minRooms : "",
+        maxRooms : ""
     },
     components: {
         vuejsDatepicker
@@ -42,10 +49,6 @@ let vue = new Vue({
                 }
             }
         },
-        printDates : function() {
-            console.log("Starting date: " + vue.dateStart);
-            console.log("Ending date: " + vue.dateEnd);
-        },
         getApartments : function() {
             axios.get("http://localhost:8080/WebProject/data/apartments/")
                 .then(function(response) {
@@ -68,6 +71,39 @@ let vue = new Vue({
                     }
                 })
         },
+        filter : function() {
+            let filterWrapper = {
+                city : {
+                    name : this.city,
+                    postalCode : this.postalCode,
+                },
+                numOfGuests : this.numOfGuests,
+                minRooms : this.minRooms,
+                maxRooms : this.maxRooms,
+                minPrice : this.minPrice,
+                maxPrice : this.maxPrice
+            }
+
+            axios.post("http://localhost:8080/WebProject/data/apartments/filter", filterWrapper)
+                .then(function(response) {
+                    if (response.status == 200) {
+                        if (response.data.length == 0) {
+                            vue.noApartmentsFound = true;
+                        }
+                        else {
+                            vue.noApartmentsFound = false;
+                            if (vue.holder.length == 0) {
+                                Vue.set(vue, "holder", vue.apartments)
+                            }
+                            Vue.set(vue, "apartments", response.data)
+                        }
+                        
+                    }
+                })
+                .catch(error => {
+                    console.log(error.response.data)
+                })
+        }
     },
     beforeMount() {
         this.getApartments();

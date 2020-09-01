@@ -256,20 +256,32 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Override
 	public Response filter(ApartmentFilterWrapper wrapper, @Context HttpServletRequest request) {
-		ApartmentFilter filter = ApartmentFilter.instantiateWithDAO((ApartmentDAO)ctx.getAttribute(databaseAttributeString));
+		ApartmentFilter filter;
+		ApartmentDAO dao = (ApartmentDAO)ctx.getAttribute(databaseAttributeString);
+		SessionToken session = getCurrentSession(request);
 		
-		if (wrapper.city != null)
+		if (session == null)
+			filter = ApartmentFilter.instantiateWithData(dao.getActive());
+		else if(session.isGuest())
+			filter = ApartmentFilter.instantiateWithData(dao.getActive());
+		else if (session.isHost())
+			filter = ApartmentFilter.instantiateWithData(dao.getActiveByHost(session.getUserID()));
+		else {
+			return ForbiddenRequest();
+		}
+
+		if (wrapper.isCityValid()) 
 			filter.filterByCity(wrapper.city);
-		if (wrapper.numOfVisitors != null)
-			filter.filterByNumberOfGuests(wrapper.numOfVisitors);
-		if (wrapper.minPrice != null  &&  wrapper.maxPrice != null)
-			filter.filterByPriceRange(wrapper.minPrice, wrapper.maxPrice);
-		else if (wrapper.maxPrice == null  && wrapper.minPrice != null)
-			filter.filterByPriceRange(wrapper.minPrice, Double.MAX_VALUE);
-		else if (wrapper.minPrice == null  && wrapper.maxPrice != null)
-			filter.filterByPriceRange(0, wrapper.maxPrice);
 		
-		// rooms, dates missing
+		if (wrapper.numOfGuests != null) 
+			filter.filterByNumberOfGuests(wrapper.numOfGuests);
+		
+		if (wrapper.arePricesValid())
+			filter.filterByPriceRange(wrapper.minPrice, wrapper.maxPrice);
+		
+		if (wrapper.areRoomNumbersValid())
+			filter.filterByNumberOfRooms(wrapper.minRooms, wrapper.maxRooms);
+		// dates missing
 		
 		return OK(filter.getResults());
 	}

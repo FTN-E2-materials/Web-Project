@@ -228,24 +228,24 @@
                     <p>Filters:</p>
                     <div class="column-left">
                         <div class="inline">
-                            <input type="text" class="search" placeholder="City">
-                            <input type="text" class="search" placeholder="Postal code">
+                            <input type="text" class="search" placeholder="City" v-model="city">
+                            <input type="text" class="search" placeholder="Postal code" v-model="postalCode">
                         </div>
                         <div style="padding-top: 12%;">
-                            <input type="text" class="search" placeholder="Minimum price">
-                            <input type="text" class="search" placeholder="Maximum price">
+                            <input type="text" class="search" placeholder="Minimum price" v-model="minPrice">
+                            <input type="text" class="search" placeholder="Maximum price" v-model="maxPrice">
                             <span class="big-bold" style="color : rgb(5, 141, 0)">$</span>
                         </div>
                     </div>
                     <div class="column-left" style="margin-left: 3%;">
                         <div class="inline">
-                                <input type="number" class="search" placeholder="Number of guests">
-                                <input type="text" class="search" placeholder="Minimum rooms">
-                                <input type="text" class="search" placeholder="Maximum rooms">
+                                <input type="text" class="search" placeholder="Number of guests" v-model="numOfGuests">
+                                <input type="text" class="search" placeholder="Minimum rooms" v-model="minRooms">
+                                <input type="text" class="search" placeholder="Maximum rooms" v-model="maxRooms">
                         </div>
                     </div>
                     <div class="column-right">
-                        <button type="button">Hide</button>
+                        <button type="button" @click="filter">Apply</button>
                     </div>
                 </div>
             </div>

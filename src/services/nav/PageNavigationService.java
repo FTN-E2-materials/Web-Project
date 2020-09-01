@@ -78,14 +78,15 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 // Page navigation 
 //______________________
 	private Response LandingPage(HttpServletRequest request) {
-		if (!isLoggedIn(request)) {
+		if (!isLoggedIn(request)) 
 			return OK(HTMLService.getInstance().getLandingPage());
-		}
+		
 		return HomePage(request);
 	}
 	
 	private Response HomePage(HttpServletRequest request) {
 		SessionToken session = getCurrentSession(request);
+		
 		if (session.isGuest()) {
 			return OK(HTMLService.getInstance().getGuestHomePage());
 		}
@@ -111,15 +112,18 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 	private Response RegistrationPage(HttpServletRequest request) {
 		if (!isLoggedIn(request)) 
 			return OK(HTMLService.getInstance().getRegistrationPage());
+		
 		return Redirect("http://localhost:8080/WebProject");
 	}
 	
 	private Response CreateApartmentPage(HttpServletRequest request) {
 		SessionToken session = getCurrentSession(request);
+		
 		if (session == null)
 			return ForbiddenRequest();
 		if (session.isHost())
 			return OK(HTMLService.getInstance().getCreateApartmentPage());
+		
 		return ForbiddenRequest();
 	}
 	

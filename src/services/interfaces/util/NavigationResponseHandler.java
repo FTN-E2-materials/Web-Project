@@ -21,10 +21,10 @@ public interface NavigationResponseHandler {
 		URI url;
 		try {
 			url = new URI(link);
+			return Response.seeOther(url).build();
 		} 
 		catch (Exception ex) {
 			return Response.status(Config.NOT_FOUND).build();
 		}
-		return Response.seeOther(url).build();
 	}
 }

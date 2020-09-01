@@ -54,9 +54,7 @@ public class ApartmentFilter extends BaseFilter<Apartment> {
 	public ApartmentFilter filterByCity(City city) {
 		Iterator<Apartment> iterator = entities.iterator(); 
 		
-		if (city.name == null  &&  city.postalCode == null)
-			return this;
-		else if (city.name == null) {
+		if (city.name == null  ||  city.name.contentEquals("")) {
 			while (iterator.hasNext()) 
 			{ 
 				Apartment ap = iterator.next();
@@ -69,12 +67,12 @@ public class ApartmentFilter extends BaseFilter<Apartment> {
 				}
 			}
 		}
-		else if (city.postalCode == null) {
+		else if (city.postalCode == null  ||  city.postalCode.contentEquals("")) {
 			while (iterator.hasNext())
 			{
 				Apartment ap = iterator.next();
 				try {					// TODO Remove all apartments with NULL locations, then remove this try block
-					if (!ap.location.address.city.name.equals(city.name))
+					if (!ap.location.address.city.name.toLowerCase().contains(city.name.toLowerCase()))
 						iterator.remove();
 					}
 				catch(Exception e) {
@@ -87,7 +85,7 @@ public class ApartmentFilter extends BaseFilter<Apartment> {
 			{ 
 				Apartment ap = iterator.next();
 				try {
-					if (!ap.location.address.city.equals(city))
+					if (!ap.location.address.city.containsFilterParameters(city))
 						iterator.remove();
 				}
 				catch (Exception e) {
@@ -99,18 +97,28 @@ public class ApartmentFilter extends BaseFilter<Apartment> {
 	}
 	
 	/** Return a collection of entities which fit in the given price criteria */
-	public ApartmentFilter filterByPriceRange(double lowLimitPrice, double topLimitPrice) {
+	public ApartmentFilter filterByPriceRange(Double minPrice, Double maxPrice) {
+		if (minPrice == null)
+			minPrice = 0d;
+		if (maxPrice == null)
+			maxPrice = Double.MAX_VALUE;
+		
 		Iterator<Apartment> iterator = entities.iterator();
 		while (iterator.hasNext()) {
 			Apartment ap = iterator.next();
-			if (ap.pricePerNight < lowLimitPrice  ||  ap.pricePerNight > topLimitPrice)
+			if (ap.pricePerNight < minPrice  ||  ap.pricePerNight > maxPrice) 
 				iterator.remove();
 		}
 		return this;
 	}
 	
 	/** Returns a collection of entities which fit the given room number range */
-	public ApartmentFilter filterByNumberOfRooms(int minNumber, int maxNumber) {
+	public ApartmentFilter filterByNumberOfRooms(Integer minNumber, Integer maxNumber) {
+		if (minNumber == null)
+			minNumber = 0;
+		if (maxNumber == null)
+			maxNumber = Integer.MAX_VALUE;
+		
 		Iterator<Apartment> iterator = entities.iterator();
 		while (iterator.hasNext()) {
 			Apartment ap = iterator.next();

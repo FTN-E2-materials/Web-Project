@@ -4,11 +4,10 @@ public class City {
    public String name;
    public String postalCode;
    
-	@Override
-	public boolean equals(Object obj) {
+	public boolean containsFilterParameters(Object obj) {
 		try { 
 			City otherCity = (City)obj;
-			return this.name.equals(otherCity.name) && this.postalCode.equals(otherCity.postalCode);
+			return this.name.toLowerCase().contains(otherCity.name.toLowerCase()) && this.postalCode.equals(otherCity.postalCode);
 		}
 		catch (Exception e) {
 			return false;
