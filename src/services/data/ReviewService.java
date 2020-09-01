@@ -1,5 +1,8 @@
 package services.data;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -55,6 +58,25 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 									new ReviewDAO(
 										(Storage<Review>)ctx.getAttribute(storageFileLocation)
 									));
+	}
+	
+	@GET
+	@Path("/calendar/now")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getTime() {
+		return OK(Calendar.getInstance());
+	}
+	
+	@POST
+	@Path("/calendar/now")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response takeTime(RequestWrapper wrapper) {
+		System.out.println(wrapper.longKey);
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(wrapper.longKey);
+		return OK(calendar.getTime());
 	}
 	
 	@POST

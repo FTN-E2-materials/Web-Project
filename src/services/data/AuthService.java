@@ -58,7 +58,7 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 	@Override
 	public Response login(RequestWrapper loginInfo, @Context HttpServletRequest request) {
 		// If already logged in, deny
-		if (super.getCurrentSession(request) != null)
+		if (getCurrentSession(request) != null)
 			return ForbiddenRequest();
 		
 		// Failsafing

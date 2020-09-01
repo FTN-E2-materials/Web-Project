@@ -101,12 +101,10 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 	}
 	
 	private Response LoginPage(HttpServletRequest request) {
-		if (!isLoggedIn(request)) {
+		if (!isLoggedIn(request))
 			return OK(HTMLService.getInstance().getLoginPage());
-		}
-		else {
-			return Redirect("http://localhost:8080/WebProject");
-		}
+
+		return Redirect("http://localhost:8080/WebProject");
 	}
 	
 	private Response RegistrationPage(HttpServletRequest request) {

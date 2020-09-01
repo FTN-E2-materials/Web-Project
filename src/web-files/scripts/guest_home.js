@@ -90,6 +90,7 @@ let vue = new Vue({
                     if (response.status == 200) {
                         if (response.data.length == 0) {
                             vue.noApartmentsFound = true;
+                            Vue.set(vue, "apartments", response.data)
                         }
                         else {
                             vue.noApartmentsFound = false;
@@ -115,7 +116,10 @@ let vue = new Vue({
             vue.numOfGuests = ""
         },
         closeFilters : function() {
-            vue.filtersOpened = false
+            Vue.set(vue, "filtersOpened", false);
+        },
+        openFilters : function() {
+            Vue.set(vue, "filtersOpened", true);
         }
     },
     beforeMount() {
