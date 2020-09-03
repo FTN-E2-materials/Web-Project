@@ -13,12 +13,20 @@ let vue = new Vue({
         postalCode: "",
         type: "Apartment",
         amenities: [],
-        imageLink : ""
+        imageLink : "",
+        calendar : undefined
     },
     methods : {
         create : function() { 
             let splitCheckIn = this.checkInTime.split(":");
             let splitCheckOut = this.checkOutTime.split(":");
+            let dates = []
+                vue.calendar.values.forEach(date => {
+                    dates.push({
+                        "ticks" : date.getTime()
+                    })      
+                });
+
             let apartment = {
                 title : this.name,
                 type : function() {
@@ -29,6 +37,7 @@ let vue = new Vue({
                         return "ROOM";
                     }
                 },
+                availableDates : dates,
                 numberOfRooms : this.numberOfRooms,
                 numberOfGuests : this.numberOfGuests,
                 pricePerNight : this.pricePerNight,
@@ -64,8 +73,40 @@ let vue = new Vue({
                     else {
                         alert(response.data);
                     }
-                }
-            )
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+        selectAll : function() {
+            let day = 1
+            let currMonth = vue.calendar.currentDate.getMonth()
+            let currYear = vue.calendar.currentDate.getFullYear()
+
+            while(true){
+                let date = new Date(currYear, currMonth, day++)
+                if(date.getMonth() != currMonth)
+                    break;
+                vue.calendar.values.push(date)   
+            }
+
+            vue.calendar.refresh()
+        },
+        clearAll : function() {
+            vue.calendar.values = []
+            vue.calendar.refresh()
         }
+    },
+    beforeMount() {
+        let currentDay = new Date()
+        this.calendar = new ej.calendars.Calendar({
+            isMultiSelection: true,
+            values: [],
+            min : currentDay,
+            showTodayButton : false
+        });
+    },
+    mounted() {
+        this.calendar.appendTo('#element');
     }
 });

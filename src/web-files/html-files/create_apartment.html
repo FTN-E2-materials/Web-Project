@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,17 +12,43 @@
     <!-- Google poppins font -->
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
+    <!-- Syncfusion calendar styles -->
+    <link href="https://cdn.syncfusion.com/ej2/ej2-base/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/ej2-buttons/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/ej2-calendars/styles/material.css" rel="stylesheet">
+
     <style>
-        *{
-            margin: 0px; 
-            padding: 0px; 
+        /* Bottom 3 are related to the syncfusion calendar style */
+        .container {
+            visibility: hidden;
+            max-width: 250px;
+            margin: 0 auto;
+        }
+
+        #loader {
+            color: #008cff;
+            height: 40px;
+            width: 30%;
+            position: absolute;
+            top: 45%;
+            left: 45%;
+        }
+
+        .element {
+            display: block;
+        }
+
+        /** Rest of the document */
+        * {
+            margin: 0px;
+            padding: 0px;
             box-sizing: border-box;
         }
-        
+
         html {
-          scroll-behavior: smooth;
+            scroll-behavior: smooth;
         }
-        
+
         /** Give all elements a transition and Poppins font */
         * {
             font-family: "Poppins";
@@ -30,20 +57,20 @@
             -o-transition: all 0.4s;
             -moz-transition: all 0.4s;
         }
-        
+
         button:hover {
             cursor: pointer;
         }
-        
-        a:hover { 
-          cursor: pointer;
+
+        a:hover {
+            cursor: pointer;
         }
 
         div {
             width: auto;
         }
-        
-        .wrapper { 
+
+        .wrapper {
             display: grid;
         }
 
@@ -54,64 +81,96 @@
             width: 100%;
             position: fixed;
             z-index: 999;
-          }
-        
+        }
+
         .header-title {
-          font-weight: 600;
-          letter-spacing: 1px;
-          font-size: large;
-          float:left;
-          color: white;
-          text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: large;
+            float: left;
+            color: white;
+            text-decoration: none;
         }
-        
+
         .header-links {
-          float: right;
-          margin-right: 25px;
+            float: right;
+            margin-right: 25px;
         }
-        
+
         .header-link {
-          font-size: small;
-          text-decoration: none;
-          color: white;
-          margin-right: 25px;
+            font-size: small;
+            text-decoration: none;
+            color: white;
+            margin-right: 25px;
         }
-        
+
+        .button {
+            padding-left : 15px;
+            padding-right: 15px;
+            padding-top: 6px;
+            padding-bottom: 6px;
+
+            border: none;
+            outline: 0;
+            border-radius: 5px;
+
+            text-align: center;
+        }
+
+        .button:hover {
+            padding-right: 18px;
+            padding-left: 18px;
+        }
+
+        .select-all-dates-button {
+            background-color: #e3165b;
+            color: white;
+        }
+
+        .select-all-dates-button:hover { 
+            background-color: #b8144b ;
+        }
+
+        .clear-all-button {
+            background-color: white;
+            color: gray;
+        }
+
         .create-button {
-          float: right;
-          width: 35%;
-          height: 40%;
+            float: right;
+            width: 35%;
+            height: 40%;
 
-          background-color: #009e00;
-          color: white;
+            background-color: #009e00;
+            color: white;
 
-          margin: 0 auto;
-          margin-top: 50px;
-          margin-bottom: 40px;
+            margin: 0 auto;
+            margin-top: 50px;
+            margin-bottom: 40px;
 
-          outline: none;
-          border-style: solid;
-          border-radius: 10px;
-          border: none;
+            outline: none;
+            border-style: solid;
+            border-radius: 10px;
+            border: none;
 
-          font-size: 16px;
-          font-family: "Poppins";
+            font-size: 16px;
+            font-family: "Poppins";
         }
-        
+
         .create-button:hover {
-          background: rgb(10, 141, 10);
+            background: rgb(10, 141, 10);
         }
-        
+
         .header-link:hover {
-          color: white;
+            color: white;
         }
-        
-        .header-link-inactive { 
-          color: #A9BFEB;
+
+        .header-link-inactive {
+            color: #A9BFEB;
         }
-        
+
         .header-link-active {
-          font-weight: 600;
+            font-weight: 600;
         }
 
         .body {
@@ -129,9 +188,7 @@
             background: linear-gradient(left, #3f97eb, #4fda42);
         }
 
-        .content {
-            
-        }
+        .content {}
 
         .content-row {
             padding-bottom: 20px;
@@ -147,15 +204,16 @@
         }
 
         .input-very-long {
-            width : 100%;
+            width: 100%;
         }
 
         /* Long an short combine to fill out their parent width */
         .input-long {
             width: 72%;
         }
+
         .input-short {
-            width : 25%;
+            width: 25%;
         }
 
         input:focus {
@@ -198,18 +256,22 @@
             min-width: auto;
         }
     </style>
-        
+
+    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
+
 </head>
+
 <body>
     <div class="wrapper" id="vue-create-apartment">
         <div class="header">
             <div>
-            <a class="header-title" href="http://localhost:8080/WebProject">FakeAirbnb</span>
+                <a class="header-title" href="http://localhost:8080/WebProject">FakeAirbnb</span>
             </div>
             <div class="header-links">
-            
+
                 <a class="header-link header-link-active" href="http://localhost:8080/WebProject/">Your apartments</a>
-                <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/reservations">Reservations</a>
+                <a class="header-link header-link-inactive"
+                    href="http://localhost:8080/WebProject/reservations">Reservations</a>
                 <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/account">Account</a>
             </div>
         </div>
@@ -238,14 +300,29 @@
                             <input type="text" placeholder="Check-in time" v-model="checkInTime">
                             <input type="text" placeholder="Check-out time" v-model="checkOutTime">
                         </div>
-                        <span style="font-size: 12px; margin-left: 65px; margin-top: 5px;">Default times are 2pm (check-in) and 10pm (check-out)</span>
+                        <span style="font-size: 12px; margin-left: 65px; margin-top: 5px;">Default times are 10:00
+                            (check-in) and 12:00 (check-out)</span>
                     </div>
                     <div class="content-row">
                         <input type="text" placeholder="Price for 1 night" v-model="pricePerNight">
-                        <span style="font-weight: 600; color: #009e00;">$ </span> 
+                        <span style="font-weight: 600; color: #009e00;">$ </span>
                     </div>
                     <div class="content-row">
                         <input class="input-very-long" type="text" placeholder="Link to image" v-model="imageLink">
+                    </div>
+                    <div class="content-row" style="margin-top: 15px;">
+                        <p style="font-size: small;">Select available dates <br> (If left empty, default is the next 30
+                            days)</p>
+                    </div>
+                    <div class="content-row">
+                        <div class="container left-column" id="container">
+                            <!--element which is going to render the Calendar-->
+                            <div class="element" id="element"></div>
+                        </div>
+                        <div class="column-right">
+                            <button class="button select-all-dates-button" @click="selectAll">Select this month</button>
+                            <button class="button clear-all-button" @click="clearAll" style="margin-top: 15px;">Clear all</button>
+                        </div>
                     </div>
                 </div>
                 <div class="right-column">
@@ -287,12 +364,22 @@
             <button class="create-button" type="button" @click="create">Create</button>
         </div>
     </div>
-            
+
     <!-- Axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Vue.js implementation -->
+    <script>
+        var ele = document.getElementById('container');
+        if (ele) {
+            ele.style.visibility = "visible";
+        }   
+    </script>
     <script src="http://localhost:8080/WebProject/scripts/create-apartment.js"></script>
-        
-        
+
+    <script>
+
+    </script>
+
 </body>
+
 </html>

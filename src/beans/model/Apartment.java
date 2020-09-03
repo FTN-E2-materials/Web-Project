@@ -9,8 +9,8 @@ public class Apartment extends DatabaseEntity {
    public ApartmentType type;
    public int numberOfRooms;
    public int numberOfGuests;
-   public List<Calendar> availableDates;
-   public List<Calendar> workingDates;
+   public List<Date> availableDates;
+   public List<Date> workingDates;
    public Double pricePerNight;
    public List<String> pictures;
    public Time checkInTime;

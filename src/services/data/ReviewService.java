@@ -19,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
+import beans.model.Date;
 import beans.model.Review;
 import dao.ReviewDAO;
 import services.interfaces.rest.ReviewServiceInterface;
@@ -65,6 +66,13 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTime() {
 		return OK(Calendar.getInstance());
+	}
+	
+	@POST
+	@Path("calendar/create")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createCalendar(Date date) {
+		return OK(date);
 	}
 	
 	@POST

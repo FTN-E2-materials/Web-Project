@@ -41,6 +41,7 @@ public class Config {
 	
 	// Data annotation paths
 	public static final String dataAnnotationRoot = "/data/";
+	
 	public static final String APARTMENTS_DATA_PATH = dataAnnotationRoot + "apartments";
 	public static final String AMENITIES_DATA_PATH = dataAnnotationRoot + "amenities";
 	public static final String RESERVATIONS_DATA_PATH = dataAnnotationRoot + "reservations";
@@ -48,6 +49,8 @@ public class Config {
 	public static final String REVIEWS_DATA_PATH = dataAnnotationRoot + "reviews";
 	public static final String AUTH_DATA_PATH = dataAnnotationRoot + "auth";
 	
+	
+	// Web address paths (localhost/project/{path})
 	public static final String LOGIN_PATH = "/login";
 	public static final String REGISTRATION_PATH = "/registration";
 	public static final String LOGOUT_PATH = "/logout";

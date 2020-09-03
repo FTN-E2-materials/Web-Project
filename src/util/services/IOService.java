@@ -31,7 +31,7 @@ public class IOService {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("There was an error while trying to write to file: " + fileLocation);
+			System.out.println("There was an error while trying to read from file: " + fileLocation);
 			
 			return null;
 		}
