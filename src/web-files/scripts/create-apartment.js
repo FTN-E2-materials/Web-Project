@@ -79,6 +79,7 @@ let vue = new Vue({
                 })
         },
         selectAll : function() {
+            /** TODO Call clear values for the current month to avoid duplicates! */
             let day = 1
             let currMonth = vue.calendar.currentDate.getMonth()
             let currYear = vue.calendar.currentDate.getFullYear()

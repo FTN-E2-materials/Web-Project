@@ -20,8 +20,6 @@ public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInte
 	public ApartmentDAO(Storage<Apartment> storage) {
 		super(storage);
 		init();
-		System.out.println("Apartment database size: " + database.size());
-		System.out.println("Next apartment code: " + idHeader + (entityCounter+1));
 	}
 	
 	/** Searches through all the apartments and returns those which contain the given word in their title.

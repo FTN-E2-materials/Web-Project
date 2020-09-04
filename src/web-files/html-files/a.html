@@ -1,63 +1,848 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>Essential JS 2 Calendar control</title>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Typescript UI Controls">
-  <meta name="author" content="Syncfusion">
-  <!--style reference from the Calendar component-->
-  <link href="https://cdn.syncfusion.com/ej2/ej2-base/styles/material.css" rel="stylesheet">
-  <link href="https://cdn.syncfusion.com/ej2/ej2-buttons/styles/material.css" rel="stylesheet">
-  <link href="https://cdn.syncfusion.com/ej2/ej2-calendars/styles/material.css" rel="stylesheet">
-  <!--style reference from app-->
+  <title>Home</title>
 
+  <!-- Vue.js script -->
+  <script src="https://unpkg.com/vue"></script>
+  <!-- Datepicker script -->
+  <script src="https://unpkg.com/vuejs-datepicker"></script>
+
+  <!-- Google poppins font -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+
+  <!-- Font Awesome Icon Library (used for stars) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
-    .container {
-    visibility: hidden;
-    max-width: 250px;
-    margin: 0 auto;
-}
+    * {
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+    }
 
-#loader {
-    color: #008cff;
-    height: 40px;
-    width: 30%;
-    position: absolute;
-    top: 45%;
-    left: 45%;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-.element {
-    display: block;
-}
+    body {
+      background: -webkit-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+      background: -o-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+      background: -moz-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+      background: linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+    }
+
+    /** Give all elements a transition and Poppins font */
+    * {
+      font-family: "Poppins";
+      transition: all 0.4s;
+      -webkit-transition: all 0.4s;
+      -o-transition: all 0.4s;
+      -moz-transition: all 0.4s;
+    }
+
+    button:hover {
+      cursor: pointer;
+    }
+
+    a:hover {
+      cursor: pointer;
+    }
+
+    div {
+      width: auto;
+    }
+
+    .wrapper {
+      display: grid;
+    }
+
+    .inline {
+      display: inline;
+    }
+
+    .table {
+      display: table;
+      background-color: #fafafa;
+      border-collapse: collapse;
+      width: 86%;
+      margin: 40px auto;
+
+      justify-content: space-evenly;
+    }
+
+    .row {
+      width: 100%;
+      background: #fafafa;
+      height: 50px;
+    }
+
+    .row:hover {
+      background-color: #ecf2fa;
+      cursor: pointer;
+    }
+
+    td {
+      padding-left: 12px;
+      min-width: auto;
+    }
+
+    .search {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 8px;
+      padding-right: 8px;
+
+      background-color: white;
+
+      outline: none;
+    }
+
+    .search:hover {
+      background-color: rgb(238, 238, 238);
+    }
+
+    .header {
+      padding: 10px 16px;
+      background: #275FCF;
+      color: #f1f1f1;
+      width: 100%;
+      position: fixed;
+      z-index: 999;
+    }
+
+    .header-title {
+      font-weight: 600;
+      letter-spacing: 1px;
+      font-size: large;
+      float: left;
+      color: white;
+      text-decoration: none;
+    }
+
+    .header-links {
+      float: right;
+      margin-right: 25px;
+    }
+
+    .header-link {
+      font-size: small;
+      text-decoration: none;
+      color: white;
+      margin-right: 25px;
+    }
+
+
+
+    .header-link:hover {
+      color: white;
+    }
+
+    .header-link-inactive {
+      color: #A9BFEB;
+    }
+
+    .header-link-active {
+      font-weight: 600;
+    }
+
+    .big-bold {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .column-left {
+      float: left;
+    }
+
+    .column-right {
+      float: right;
+    }
+
+    .column {
+      position: relative;
+    }
+
+    .top-left-corner {
+      margin-top: 10px;
+      margin-left: 10px;
+    }
+
+    .error {
+      color: rgb(218, 49, 49);
+      font-size: small;
+    }
+
+    .align-content-right {
+      text-align: right;
+      padding-top: 10px;
+      padding-right: 20px;
+    }
+
+    .align-content-left {
+      text-align: left;
+      padding-top: 10px;
+      padding-left: 20px;
+    }
+
+    .checked {
+      color: rgb(255, 175, 25);
+    }
+
+    img {
+      object-fit: fill;
+    }
+
+    .button {
+      float: right;
+
+      padding-left: 30px;
+      padding-right: 30px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      margin-right: 15px;
+      margin-top: 80px;
+
+      outline: none;
+      border-style: solid;
+      border-radius: 5px;
+      border: none;
+
+      font-size: 17px;
+      font-family: "Poppins";
+    }
+
+    .button:hover {
+      padding-left: 35px;
+      padding-right: 35px;
+    }
+
+    .green-button {
+      background-color: #009e00;
+      color: white;
+    }
+
+    .blue-button {
+      background-color: #3b6ccc;
+      color: white;
+    }
+
+    .rose-button {
+      background-color: rgb(221, 60, 168);
+      color: white;
+    }
+
+    .white-button {
+      background-color: rgb(255, 255, 255);
+      color: black;
+    }
+
+    .green-button:hover {
+      background-color: #008100;
+    }
+
+    .blue-button:hover {
+      background-color: #204ca5;
+    }
+
+    .rose-button:hover {
+      background-color: rgb(255, 91, 91);
+    }
   </style>
 
-  <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
+  <style type="text/css">
+    .rtl {
+      direction: rtl;
+    }
+
+    .vdp-datepicker {
+      position: relative;
+      text-align: left;
+    }
+
+    .vdp-datepicker * {
+      box-sizing: border-box;
+    }
+
+    .vdp-datepicker__calendar {
+      position: absolute;
+      z-index: 100;
+      background: #fff;
+      width: 300px;
+      border: 1px solid #ccc;
+    }
+
+    .vdp-datepicker__calendar header {
+      display: block;
+      line-height: 40px;
+    }
+
+    .vdp-datepicker__calendar header span {
+      display: inline-block;
+      text-align: center;
+      width: 71.42857142857143%;
+      float: left;
+    }
+
+    .vdp-datepicker__calendar header .prev,
+    .vdp-datepicker__calendar header .next {
+      width: 14.285714285714286%;
+      float: left;
+      text-indent: -10000px;
+      position: relative;
+    }
+
+    .vdp-datepicker__calendar header .prev:after,
+    .vdp-datepicker__calendar header .next:after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      border: 6px solid transparent;
+    }
+
+    .vdp-datepicker__calendar header .prev:after {
+      border-right: 10px solid #000;
+      margin-left: -5px;
+    }
+
+    .vdp-datepicker__calendar header .prev.disabled:after {
+      border-right: 10px solid #ddd;
+    }
+
+    .vdp-datepicker__calendar header .next:after {
+      border-left: 10px solid #000;
+      margin-left: 5px;
+    }
+
+    .vdp-datepicker__calendar header .next.disabled:after {
+      border-left: 10px solid #ddd;
+    }
+
+    .vdp-datepicker__calendar header .prev:not(.disabled),
+    .vdp-datepicker__calendar header .next:not(.disabled),
+    .vdp-datepicker__calendar header .up:not(.disabled) {
+      cursor: pointer;
+    }
+
+    .vdp-datepicker__calendar header .prev:not(.disabled):hover,
+    .vdp-datepicker__calendar header .next:not(.disabled):hover,
+    .vdp-datepicker__calendar header .up:not(.disabled):hover {
+      background: #eee;
+    }
+
+    .vdp-datepicker__calendar .disabled {
+      color: #ddd;
+      cursor: default;
+    }
+
+    .vdp-datepicker__calendar .flex-rtl {
+      display: flex;
+      width: inherit;
+      flex-wrap: wrap;
+    }
+
+    .vdp-datepicker__calendar .cell {
+      display: inline-block;
+      padding: 0 5px;
+      width: 14.285714285714286%;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      vertical-align: middle;
+      border: 1px solid transparent;
+    }
+
+    .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day,
+    .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month,
+    .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year {
+      cursor: pointer;
+    }
+
+    .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover,
+    .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover,
+    .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+      border: 1px solid #4bd;
+    }
+
+    .vdp-datepicker__calendar .cell.selected {
+      background: #4bd;
+    }
+
+    .vdp-datepicker__calendar .cell.selected:hover {
+      background: #4bd;
+    }
+
+    .vdp-datepicker__calendar .cell.selected.highlighted {
+      background: #4bd;
+    }
+
+    .vdp-datepicker__calendar .cell.highlighted {
+      background: #cae5ed;
+    }
+
+    .vdp-datepicker__calendar .cell.highlighted.disabled {
+      color: #a3a3a3;
+    }
+
+    .vdp-datepicker__calendar .cell.grey {
+      color: #888;
+    }
+
+    .vdp-datepicker__calendar .cell.grey:hover {
+      background: inherit;
+    }
+
+    .vdp-datepicker__calendar .cell.day-header {
+      font-size: 75%;
+      white-space: nowrap;
+      cursor: inherit;
+    }
+
+    .vdp-datepicker__calendar .cell.day-header:hover {
+      background: inherit;
+    }
+
+    .vdp-datepicker__calendar .month,
+    .vdp-datepicker__calendar .year {
+      width: 33.333%;
+    }
+
+    .vdp-datepicker__clear-button,
+    .vdp-datepicker__calendar-button {
+      cursor: pointer;
+      font-style: normal;
+    }
+
+    .vdp-datepicker__clear-button.disabled,
+    .vdp-datepicker__calendar-button.disabled {
+      color: #999;
+      cursor: default;
+    }
+
+    /*# sourceURL=Datepicker.vue */
+    /*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkRhdGVwaWNrZXIudnVlIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsY0FBYztBQUNoQjtBQUNBO0VBQ0Usa0JBQWtCO0VBQ2xCLGdCQUFnQjtBQUNsQjtBQUNBO0VBQ0Usc0JBQXNCO0FBQ3hCO0FBQ0E7RUFDRSxrQkFBa0I7RUFDbEIsWUFBWTtFQUNaLGdCQUFnQjtFQUNoQixZQUFZO0VBQ1osc0JBQXNCO0FBQ3hCO0FBQ0E7RUFDRSxjQUFjO0VBQ2QsaUJBQWlCO0FBQ25CO0FBQ0E7RUFDRSxxQkFBcUI7RUFDckIsa0JBQWtCO0VBQ2xCLHlCQUF5QjtFQUN6QixXQUFXO0FBQ2I7QUFDQTs7RUFFRSwwQkFBMEI7RUFDMUIsV0FBVztFQUNYLHFCQUFxQjtFQUNyQixrQkFBa0I7QUFDcEI7QUFDQTs7RUFFRSxXQUFXO0VBQ1gsa0JBQWtCO0VBQ2xCLFNBQVM7RUFDVCxRQUFRO0VBQ1IsNENBQTRDO0VBQzVDLDZCQUE2QjtBQUMvQjtBQUNBO0VBQ0UsNkJBQTZCO0VBQzdCLGlCQUFpQjtBQUNuQjtBQUNBO0VBQ0UsNkJBQTZCO0FBQy9CO0FBQ0E7RUFDRSw0QkFBNEI7RUFDNUIsZ0JBQWdCO0FBQ2xCO0FBQ0E7RUFDRSw0QkFBNEI7QUFDOUI7QUFDQTs7O0VBR0UsZUFBZTtBQUNqQjtBQUNBOzs7RUFHRSxnQkFBZ0I7QUFDbEI7QUFDQTtFQUNFLFdBQVc7RUFDWCxlQUFlO0FBQ2pCO0FBQ0E7RUFDRSxhQUFhO0VBQ2IsY0FBYztFQUNkLGVBQWU7QUFDakI7QUFDQTtFQUNFLHFCQUFxQjtFQUNyQixjQUFjO0VBQ2QsMEJBQTBCO0VBQzFCLFlBQVk7RUFDWixpQkFBaUI7RUFDakIsa0JBQWtCO0VBQ2xCLHNCQUFzQjtFQUN0Qiw2QkFBNkI7QUFDL0I7QUFDQTs7O0VBR0UsZUFBZTtBQUNqQjtBQUNBOzs7RUFHRSxzQkFBc0I7QUFDeEI7QUFDQTtFQUNFLGdCQUFnQjtBQUNsQjtBQUNBO0VBQ0UsZ0JBQWdCO0FBQ2xCO0FBQ0E7RUFDRSxnQkFBZ0I7QUFDbEI7QUFDQTtFQUNFLG1CQUFtQjtBQUNyQjtBQUNBO0VBQ0UsY0FBYztBQUNoQjtBQUNBO0VBQ0UsV0FBVztBQUNiO0FBQ0E7RUFDRSxtQkFBbUI7QUFDckI7QUFDQTtFQUNFLGNBQWM7RUFDZCxtQkFBbUI7RUFDbkIsZUFBZTtBQUNqQjtBQUNBO0VBQ0UsbUJBQW1CO0FBQ3JCO0FBQ0E7O0VBRUUsY0FBYztBQUNoQjtBQUNBOztFQUVFLGVBQWU7RUFDZixrQkFBa0I7QUFDcEI7QUFDQTs7RUFFRSxXQUFXO0VBQ1gsZUFBZTtBQUNqQiIsImZpbGUiOiJEYXRlcGlja2VyLnZ1ZSIsInNvdXJjZXNDb250ZW50IjpbIi5ydGwge1xuICBkaXJlY3Rpb246IHJ0bDtcbn1cbi52ZHAtZGF0ZXBpY2tlciB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgdGV4dC1hbGlnbjogbGVmdDtcbn1cbi52ZHAtZGF0ZXBpY2tlciAqIHtcbiAgYm94LXNpemluZzogYm9yZGVyLWJveDtcbn1cbi52ZHAtZGF0ZXBpY2tlcl9fY2FsZW5kYXIge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHotaW5kZXg6IDEwMDtcbiAgYmFja2dyb3VuZDogI2ZmZjtcbiAgd2lkdGg6IDMwMHB4O1xuICBib3JkZXI6IDFweCBzb2xpZCAjY2NjO1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciBoZWFkZXIge1xuICBkaXNwbGF5OiBibG9jaztcbiAgbGluZS1oZWlnaHQ6IDQwcHg7XG59XG4udmRwLWRhdGVwaWNrZXJfX2NhbGVuZGFyIGhlYWRlciBzcGFuIHtcbiAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIHdpZHRoOiA3MS40Mjg1NzE0Mjg1NzE0MyU7XG4gIGZsb2F0OiBsZWZ0O1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciBoZWFkZXIgLnByZXYsXG4udmRwLWRhdGVwaWNrZXJfX2NhbGVuZGFyIGhlYWRlciAubmV4dCB7XG4gIHdpZHRoOiAxNC4yODU3MTQyODU3MTQyODYlO1xuICBmbG9hdDogbGVmdDtcbiAgdGV4dC1pbmRlbnQ6IC0xMDAwMHB4O1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG59XG4udmRwLWRhdGVwaWNrZXJfX2NhbGVuZGFyIGhlYWRlciAucHJldjphZnRlcixcbi52ZHAtZGF0ZXBpY2tlcl9fY2FsZW5kYXIgaGVhZGVyIC5uZXh0OmFmdGVyIHtcbiAgY29udGVudDogJyc7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgbGVmdDogNTAlO1xuICB0b3A6IDUwJTtcbiAgdHJhbnNmb3JtOiB0cmFuc2xhdGVYKC01MCUpIHRyYW5zbGF0ZVkoLTUwJSk7XG4gIGJvcmRlcjogNnB4IHNvbGlkIHRyYW5zcGFyZW50O1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciBoZWFkZXIgLnByZXY6YWZ0ZXIge1xuICBib3JkZXItcmlnaHQ6IDEwcHggc29saWQgIzAwMDtcbiAgbWFyZ2luLWxlZnQ6IC01cHg7XG59XG4udmRwLWRhdGVwaWNrZXJfX2NhbGVuZGFyIGhlYWRlciAucHJldi5kaXNhYmxlZDphZnRlciB7XG4gIGJvcmRlci1yaWdodDogMTBweCBzb2xpZCAjZGRkO1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciBoZWFkZXIgLm5leHQ6YWZ0ZXIge1xuICBib3JkZXItbGVmdDogMTBweCBzb2xpZCAjMDAwO1xuICBtYXJnaW4tbGVmdDogNXB4O1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciBoZWFkZXIgLm5leHQuZGlzYWJsZWQ6YWZ0ZXIge1xuICBib3JkZXItbGVmdDogMTBweCBzb2xpZCAjZGRkO1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciBoZWFkZXIgLnByZXY6bm90KC5kaXNhYmxlZCksXG4udmRwLWRhdGVwaWNrZXJfX2NhbGVuZGFyIGhlYWRlciAubmV4dDpub3QoLmRpc2FibGVkKSxcbi52ZHAtZGF0ZXBpY2tlcl9fY2FsZW5kYXIgaGVhZGVyIC51cDpub3QoLmRpc2FibGVkKSB7XG4gIGN1cnNvcjogcG9pbnRlcjtcbn1cbi52ZHAtZGF0ZXBpY2tlcl9fY2FsZW5kYXIgaGVhZGVyIC5wcmV2Om5vdCguZGlzYWJsZWQpOmhvdmVyLFxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciBoZWFkZXIgLm5leHQ6bm90KC5kaXNhYmxlZCk6aG92ZXIsXG4udmRwLWRhdGVwaWNrZXJfX2NhbGVuZGFyIGhlYWRlciAudXA6bm90KC5kaXNhYmxlZCk6aG92ZXIge1xuICBiYWNrZ3JvdW5kOiAjZWVlO1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciAuZGlzYWJsZWQge1xuICBjb2xvcjogI2RkZDtcbiAgY3Vyc29yOiBkZWZhdWx0O1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciAuZmxleC1ydGwge1xuICBkaXNwbGF5OiBmbGV4O1xuICB3aWR0aDogaW5oZXJpdDtcbiAgZmxleC13cmFwOiB3cmFwO1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciAuY2VsbCB7XG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgcGFkZGluZzogMCA1cHg7XG4gIHdpZHRoOiAxNC4yODU3MTQyODU3MTQyODYlO1xuICBoZWlnaHQ6IDQwcHg7XG4gIGxpbmUtaGVpZ2h0OiA0MHB4O1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIHZlcnRpY2FsLWFsaWduOiBtaWRkbGU7XG4gIGJvcmRlcjogMXB4IHNvbGlkIHRyYW5zcGFyZW50O1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciAuY2VsbDpub3QoLmJsYW5rKTpub3QoLmRpc2FibGVkKS5kYXksXG4udmRwLWRhdGVwaWNrZXJfX2NhbGVuZGFyIC5jZWxsOm5vdCguYmxhbmspOm5vdCguZGlzYWJsZWQpLm1vbnRoLFxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciAuY2VsbDpub3QoLmJsYW5rKTpub3QoLmRpc2FibGVkKS55ZWFyIHtcbiAgY3Vyc29yOiBwb2ludGVyO1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciAuY2VsbDpub3QoLmJsYW5rKTpub3QoLmRpc2FibGVkKS5kYXk6aG92ZXIsXG4udmRwLWRhdGVwaWNrZXJfX2NhbGVuZGFyIC5jZWxsOm5vdCguYmxhbmspOm5vdCguZGlzYWJsZWQpLm1vbnRoOmhvdmVyLFxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciAuY2VsbDpub3QoLmJsYW5rKTpub3QoLmRpc2FibGVkKS55ZWFyOmhvdmVyIHtcbiAgYm9yZGVyOiAxcHggc29saWQgIzRiZDtcbn1cbi52ZHAtZGF0ZXBpY2tlcl9fY2FsZW5kYXIgLmNlbGwuc2VsZWN0ZWQge1xuICBiYWNrZ3JvdW5kOiAjNGJkO1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciAuY2VsbC5zZWxlY3RlZDpob3ZlciB7XG4gIGJhY2tncm91bmQ6ICM0YmQ7XG59XG4udmRwLWRhdGVwaWNrZXJfX2NhbGVuZGFyIC5jZWxsLnNlbGVjdGVkLmhpZ2hsaWdodGVkIHtcbiAgYmFja2dyb3VuZDogIzRiZDtcbn1cbi52ZHAtZGF0ZXBpY2tlcl9fY2FsZW5kYXIgLmNlbGwuaGlnaGxpZ2h0ZWQge1xuICBiYWNrZ3JvdW5kOiAjY2FlNWVkO1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciAuY2VsbC5oaWdobGlnaHRlZC5kaXNhYmxlZCB7XG4gIGNvbG9yOiAjYTNhM2EzO1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciAuY2VsbC5ncmV5IHtcbiAgY29sb3I6ICM4ODg7XG59XG4udmRwLWRhdGVwaWNrZXJfX2NhbGVuZGFyIC5jZWxsLmdyZXk6aG92ZXIge1xuICBiYWNrZ3JvdW5kOiBpbmhlcml0O1xufVxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhciAuY2VsbC5kYXktaGVhZGVyIHtcbiAgZm9udC1zaXplOiA3NSU7XG4gIHdoaXRlLXNwYWNlOiBub3dyYXA7XG4gIGN1cnNvcjogaW5oZXJpdDtcbn1cbi52ZHAtZGF0ZXBpY2tlcl9fY2FsZW5kYXIgLmNlbGwuZGF5LWhlYWRlcjpob3ZlciB7XG4gIGJhY2tncm91bmQ6IGluaGVyaXQ7XG59XG4udmRwLWRhdGVwaWNrZXJfX2NhbGVuZGFyIC5tb250aCxcbi52ZHAtZGF0ZXBpY2tlcl9fY2FsZW5kYXIgLnllYXIge1xuICB3aWR0aDogMzMuMzMzJTtcbn1cbi52ZHAtZGF0ZXBpY2tlcl9fY2xlYXItYnV0dG9uLFxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhci1idXR0b24ge1xuICBjdXJzb3I6IHBvaW50ZXI7XG4gIGZvbnQtc3R5bGU6IG5vcm1hbDtcbn1cbi52ZHAtZGF0ZXBpY2tlcl9fY2xlYXItYnV0dG9uLmRpc2FibGVkLFxuLnZkcC1kYXRlcGlja2VyX19jYWxlbmRhci1idXR0b24uZGlzYWJsZWQge1xuICBjb2xvcjogIzk5OTtcbiAgY3Vyc29yOiBkZWZhdWx0O1xufVxuIl19 */
+  </style>
 </head>
 
 <body>
-
-  <div class="container" id="container">
-    <!--element which is going to render the Calendar-->
-    <div class="element" id="element"></div>
+  <div id="vue-apartments" class="wrapper">
+    <div class="header">
+      <div><a href="http://localhost:8080/WebProject" class="header-title">FakeAirbnb
+        </a></div><a href="http://localhost:8080/WebProject" class="header-title"></a>
+      <div class="header-links"><a href="http://localhost:8080/WebProject" class="header-title"></a><a
+          href="http://localhost:8080/WebProject/" class="header-link header-link-active">Apartments</a> <a
+          href="http://localhost:8080/WebProject/reservations" class="header-link header-link-inactive">My
+          reservations</a> <a href="http://localhost:8080/WebProject/account"
+          class="header-link header-link-inactive">Account</a></div>
+    </div>
+    <div class="inline" style="margin-left: 7%; margin-right: 7%; margin-top: 7%;">
+      <div class="column-right wrapper" style="width: 20%; text-align: right;"><input type="text"
+          placeholder="Search apartments..." class="search" style="width: 100%;">
+        <!---->
+      </div>
+      <div style="display: inline-block; background-color: rgba(233, 76, 181, 0.95); padding-top: 15px; padding-bottom: 15px; padding-left: 20px; padding-right: 20px; border-radius: 5px;">
+        <div class="column-left" style="margin-right: 10px;">
+          <p style="color:white; font-weight: 500;">From </p>
+        </div>
+        <div class="column-left">
+          <div class="vdp-datepicker">
+            <div class="">
+              <!----> <input type="text" readonly="readonly" autocomplete="off">
+              <!---->
+            </div>
+            <div class="vdp-datepicker__calendar" style="display: none;">
+              <header><span class="prev">&lt;</span> <span class="day__month_btn up">Sep 2020</span> <span
+                  class="next">&gt;</span></header>
+              <div class=""><span class="cell day-header">Sun</span><span class="cell day-header">Mon</span><span
+                  class="cell day-header">Tue</span><span class="cell day-header">Wed</span><span
+                  class="cell day-header">Thu</span><span class="cell day-header">Fri</span><span
+                  class="cell day-header">Sat</span> <span class="cell day blank"></span><span
+                  class="cell day blank"></span><span class="cell day">1</span><span class="cell day">2</span><span
+                  class="cell day">3</span><span class="cell day selected today">4</span><span
+                  class="cell day weekend sat">5</span><span class="cell day weekend sun">6</span><span
+                  class="cell day">7</span><span class="cell day">8</span><span class="cell day">9</span><span
+                  class="cell day">10</span><span class="cell day">11</span><span
+                  class="cell day weekend sat">12</span><span class="cell day weekend sun">13</span><span
+                  class="cell day">14</span><span class="cell day">15</span><span class="cell day">16</span><span
+                  class="cell day">17</span><span class="cell day">18</span><span
+                  class="cell day weekend sat">19</span><span class="cell day weekend sun">20</span><span
+                  class="cell day">21</span><span class="cell day">22</span><span class="cell day">23</span><span
+                  class="cell day">24</span><span class="cell day">25</span><span
+                  class="cell day weekend sat">26</span><span class="cell day weekend sun">27</span><span
+                  class="cell day">28</span><span class="cell day">29</span><span class="cell day">30</span></div>
+            </div>
+            <div class="vdp-datepicker__calendar" style="display: none;">
+              <header><span class="prev">&lt;</span> <span class="month__year_btn up">2020</span> <span
+                  class="next">&gt;</span></header> <span class="cell month">January</span><span
+                class="cell month">February</span><span class="cell month">March</span><span
+                class="cell month">April</span><span class="cell month">May</span><span
+                class="cell month">June</span><span class="cell month">July</span><span
+                class="cell month">August</span><span class="cell month selected">September</span><span
+                class="cell month">October</span><span class="cell month">November</span><span
+                class="cell month">December</span>
+            </div>
+            <div class="vdp-datepicker__calendar" style="display: none;">
+              <header><span class="prev">&lt;</span> <span>2020 - 2029</span> <span class="next">&gt;</span></header>
+              <span class="cell year selected">2020</span><span class="cell year">2021</span><span
+                class="cell year">2022</span><span class="cell year">2023</span><span class="cell year">2024</span><span
+                class="cell year">2025</span><span class="cell year">2026</span><span class="cell year">2027</span><span
+                class="cell year">2028</span><span class="cell year">2029</span>
+            </div>
+          </div>
+        </div>
+        <div class="column-left" style="margin-left: 25px;">
+          <p style="color:white; font-weight: 500;">  To </p>
+        </div>
+        <div class="column-left">
+          <div class="vdp-datepicker" style="padding-left: 10px;">
+            <div class="">
+              <!----> <input type="text" readonly="readonly" autocomplete="off">
+              <!---->
+            </div>
+            <div class="vdp-datepicker__calendar" style="display: none;">
+              <header><span class="prev">&lt;</span> <span class="day__month_btn up">Sep 2020</span> <span
+                  class="next">&gt;</span></header>
+              <div class=""><span class="cell day-header">Sun</span><span class="cell day-header">Mon</span><span
+                  class="cell day-header">Tue</span><span class="cell day-header">Wed</span><span
+                  class="cell day-header">Thu</span><span class="cell day-header">Fri</span><span
+                  class="cell day-header">Sat</span> <span class="cell day blank"></span><span
+                  class="cell day blank"></span><span class="cell day">1</span><span class="cell day">2</span><span
+                  class="cell day">3</span><span class="cell day selected today">4</span><span
+                  class="cell day weekend sat">5</span><span class="cell day weekend sun">6</span><span
+                  class="cell day">7</span><span class="cell day">8</span><span class="cell day">9</span><span
+                  class="cell day">10</span><span class="cell day">11</span><span
+                  class="cell day weekend sat">12</span><span class="cell day weekend sun">13</span><span
+                  class="cell day">14</span><span class="cell day">15</span><span class="cell day">16</span><span
+                  class="cell day">17</span><span class="cell day">18</span><span
+                  class="cell day weekend sat">19</span><span class="cell day weekend sun">20</span><span
+                  class="cell day">21</span><span class="cell day">22</span><span class="cell day">23</span><span
+                  class="cell day">24</span><span class="cell day">25</span><span
+                  class="cell day weekend sat">26</span><span class="cell day weekend sun">27</span><span
+                  class="cell day">28</span><span class="cell day">29</span><span class="cell day">30</span></div>
+            </div>
+            <div class="vdp-datepicker__calendar" style="display: none;">
+              <header><span class="prev">&lt;</span> <span class="month__year_btn up">2020</span> <span
+                  class="next">&gt;</span></header> <span class="cell month">January</span><span
+                class="cell month">February</span><span class="cell month">March</span><span
+                class="cell month">April</span><span class="cell month">May</span><span
+                class="cell month">June</span><span class="cell month">July</span><span
+                class="cell month">August</span><span class="cell month selected">September</span><span
+                class="cell month">October</span><span class="cell month">November</span><span
+                class="cell month">December</span>
+            </div>
+            <div class="vdp-datepicker__calendar" style="display: none;">
+              <header><span class="prev">&lt;</span> <span>2020 - 2029</span> <span class="next">&gt;</span></header>
+              <span class="cell year selected">2020</span><span class="cell year">2021</span><span
+                class="cell year">2022</span><span class="cell year">2023</span><span class="cell year">2024</span><span
+                class="cell year">2025</span><span class="cell year">2026</span><span class="cell year">2027</span><span
+                class="cell year">2028</span><span class="cell year">2029</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: -2%; position: relative; margin-bottom: 7%;"><button type="button"
+        class="button rose-button" style="position: absolute; right: 6%;">Filters</button></div>
+    <div style="margin-top: 3%;">
+      <table class="table">
+        <tbody>
+          <tr class="row">
+            <td>
+              <div class="column">
+                <div class="column-left">
+                  <div class="column-left"><img
+                      src="https://www.city-break.rs/wp-content/uploads/city-break-apartments-apartman-style-01-1.jpg"
+                      style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div>
+                  <div class="column-right align-content-left">
+                    <div class="big-bold">
+                      Modern apartment near the cathedral
+                    </div>
+                    <div>
+                      1 rooms · 2
+                      guests
+                    </div>
+                  </div>
+                </div>
+                <div class="column-right align-content-right">
+                  <div class="big-bold">
+                    25$/night
+                  </div>
+                  <div id="rating">
+                    <div>
+                      No ratings.
+                    </div>
+                  </div>
+                  <!---->
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr class="row">
+            <td>
+              <div class="column">
+                <div class="column-left">
+                  <div class="column-left"><img
+                      src="https://www.apartments.com/images/default-source/default-album/small-apt.tmb-featuredim.jpg?sfvrsn=8c1ce53b_0"
+                      style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div>
+                  <div class="column-right align-content-left">
+                    <div class="big-bold">
+                      Small room for a student
+                    </div>
+                    <div>
+                      1 rooms · 1
+                      guests
+                    </div>
+                  </div>
+                </div>
+                <div class="column-right align-content-right">
+                  <div class="big-bold">
+                    12$/night
+                  </div>
+                  <div id="rating">
+                    <div><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span
+                        class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span
+                        class="fa fa-star checked"></span></div>
+                  </div>
+                  <div><span style="font-size: small; color: rgb(155, 155, 155);">12
+                      reviewers</span></div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr class="row">
+            <td>
+              <div class="column">
+                <div class="column-left">
+                  <div class="column-left"><img
+                      src="https://www.energy-plus.org/wp-content/uploads/2019/09/luxurious-apartment.jpg"
+                      style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div>
+                  <div class="column-right align-content-left">
+                    <div class="big-bold">
+                      Luxurious apartment at the top of the city
+                    </div>
+                    <div>
+                      3 rooms · 4
+                      guests
+                    </div>
+                  </div>
+                </div>
+                <div class="column-right align-content-right">
+                  <div class="big-bold">
+                    120$/night
+                  </div>
+                  <div id="rating">
+                    <div><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span
+                        class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span
+                        class="fa fa-star"></span></div>
+                  </div>
+                  <div><span style="font-size: small; color: rgb(155, 155, 155);">6
+                      reviewers</span></div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr class="row">
+            <td>
+              <div class="column">
+                <div class="column-left">
+                  <div class="column-left"><img src="https://cf.bstatic.com/images/hotel/max1024x768/180/180931971.jpg"
+                      style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div>
+                  <div class="column-right align-content-left">
+                    <div class="big-bold">
+                      Small apartment for a couple
+                    </div>
+                    <div>
+                      1 rooms · 2
+                      guests
+                    </div>
+                  </div>
+                </div>
+                <div class="column-right align-content-right">
+                  <div class="big-bold">
+                    27$/night
+                  </div>
+                  <div id="rating">
+                    <div><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span
+                        class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span
+                        class="fa fa-star checked"></span></div>
+                  </div>
+                  <div><span style="font-size: small; color: rgb(155, 155, 155);">25
+                      reviewers</span></div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr class="row">
+            <td>
+              <div class="column">
+                <div class="column-left">
+                  <div class="column-left"><img
+                      src="https://i.insider.com/5c48b84f2bdd7f557a0c5255?width=600&amp;format=jpeg&amp;auto=webp"
+                      style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div>
+                  <div class="column-right align-content-left">
+                    <div class="big-bold">
+                      Fancy penthouse at the top of the city
+                    </div>
+                    <div>
+                      5 rooms · 4
+                      guests
+                    </div>
+                  </div>
+                </div>
+                <div class="column-right align-content-right">
+                  <div class="big-bold">
+                    450$/night
+                  </div>
+                  <div id="rating">
+                    <div>
+                      No ratings.
+                    </div>
+                  </div>
+                  <!---->
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr class="row">
+            <td>
+              <div class="column">
+                <div class="column-left">
+                  <div class="column-left"><img
+                      src="https://www.city-break.rs/wp-content/uploads/apartman-u-beogradu-cityzen-001.jpg"
+                      style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div>
+                  <div class="column-right align-content-left">
+                    <div class="big-bold">
+                      Apartman u centru
+                    </div>
+                    <div>
+                      2 rooms · 3
+                      guests
+                    </div>
+                  </div>
+                </div>
+                <div class="column-right align-content-right">
+                  <div class="big-bold">
+                    35$/night
+                  </div>
+                  <div id="rating">
+                    <div>
+                      No ratings.
+                    </div>
+                  </div>
+                  <!---->
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr class="row">
+            <td>
+              <div class="column">
+                <div class="column-left">
+                  <div class="column-left"><img
+                      src="https://media-cdn.tripadvisor.com/media/photo-s/07/00/37/d6/little-india-beach-cottages.jpg"
+                      style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div>
+                  <div class="column-right align-content-left">
+                    <div class="big-bold">
+                      Small cottage for a couple
+                    </div>
+                    <div>
+                      1 rooms · 2
+                      guests
+                    </div>
+                  </div>
+                </div>
+                <div class="column-right align-content-right">
+                  <div class="big-bold">
+                    90$/night
+                  </div>
+                  <div id="rating">
+                    <div>
+                      No ratings.
+                    </div>
+                  </div>
+                  <!---->
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr class="row">
+            <td>
+              <div class="column">
+                <div class="column-left">
+                  <div class="column-left"><img
+                      src="https://d1bvpoagx8hqbg.cloudfront.net/originals/very-cheap-room-kungshamra-7849b4b59d56a9506f35572418f233ef.jpg"
+                      style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div>
+                  <div class="column-right align-content-left">
+                    <div class="big-bold">
+                      Soba na Limanu
+                    </div>
+                    <div>
+                      1 rooms · 1
+                      guests
+                    </div>
+                  </div>
+                </div>
+                <div class="column-right align-content-right">
+                  <div class="big-bold">
+                    10$/night
+                  </div>
+                  <div id="rating">
+                    <div>
+                      No ratings.
+                    </div>
+                  </div>
+                  <!---->
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr class="row">
+            <td>
+              <div class="column">
+                <div class="column-left">
+                  <div class="column-left"><img src="https://cf.bstatic.com/images/hotel/max1024x768/935/93571896.jpg"
+                      style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"></div>
+                  <div class="column-right align-content-left">
+                    <div class="big-bold">
+                      Cozy apartment near the river
+                    </div>
+                    <div>
+                      1 rooms · 2
+                      guests
+                    </div>
+                  </div>
+                </div>
+                <div class="column-right align-content-right">
+                  <div class="big-bold">
+                    35$/night
+                  </div>
+                  <div id="rating">
+                    <div>
+                      No ratings.
+                    </div>
+                  </div>
+                  <!---->
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 
-  <script>
-    var ele = document.getElementById('container');
-    if (ele) {
-      ele.style.visibility = "visible";
-    }   
-  </script>
-  <script>
-    let calendar = new ej.calendars.Calendar({
-      isMultiSelection: true,
-      values: []
-    });
-    calendar.appendTo('#element');
-  </script>
+  <!-- Axios -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- Vue.js implementation -->
+  <script src="http://localhost:8080/WebProject/scripts/guest_home.js"></script>
+
+
+
+
 </body>
 
 </html>

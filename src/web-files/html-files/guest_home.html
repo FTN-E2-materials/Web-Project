@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,21 +17,23 @@
     <!-- Font Awesome Icon Library (used for stars) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-
-* {
-            margin: 0px; 
-            padding: 0px; 
+        * {
+            margin: 0px;
+            padding: 0px;
             box-sizing: border-box;
         }
-        
+
         html {
-          scroll-behavior: smooth;
+            scroll-behavior: smooth;
         }
-        
+
         body {
-          background: #e6e6e6;
+            background: -webkit-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+            background: -o-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+            background: -moz-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+            background: linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
         }
-        
+
         /** Give all elements a transition and Poppins font */
         * {
             font-family: "Poppins";
@@ -39,25 +42,25 @@
             -o-transition: all 0.4s;
             -moz-transition: all 0.4s;
         }
-        
+
         button:hover {
             cursor: pointer;
         }
-        
-        a:hover { 
-          cursor: pointer;
+
+        a:hover {
+            cursor: pointer;
         }
 
         div {
             width: auto;
         }
-        
-        .wrapper { 
+
+        .wrapper {
             display: grid;
         }
 
         .inline {
-            display : inline;
+            display: inline;
         }
 
         .table {
@@ -108,41 +111,41 @@
             width: 100%;
             position: fixed;
             z-index: 999;
-          }
-        
+        }
+
         .header-title {
-          font-weight: 600;
-          letter-spacing: 1px;
-          font-size: large;
-          float:left;
-          color: white;
-          text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: large;
+            float: left;
+            color: white;
+            text-decoration: none;
         }
-        
+
         .header-links {
-          float: right;
-          margin-right: 25px;
+            float: right;
+            margin-right: 25px;
         }
-        
+
         .header-link {
-          font-size: small;
-          text-decoration: none;
-          color: white;
-          margin-right: 25px;
+            font-size: small;
+            text-decoration: none;
+            color: white;
+            margin-right: 25px;
         }
-        
-        
-        
+
+
+
         .header-link:hover {
-          color: white;
+            color: white;
         }
-        
-        .header-link-inactive { 
-          color: #A9BFEB;
+
+        .header-link-inactive {
+            color: #A9BFEB;
         }
-        
+
         .header-link-active {
-          font-weight: 600;
+            font-weight: 600;
         }
 
         .big-bold {
@@ -193,27 +196,27 @@
         }
 
         .button {
-          float: right;
+            float: right;
 
-          padding-left: 30px;
-          padding-right: 30px;
-          padding-top: 8px;
-          padding-bottom: 8px;
-          margin-right: 15px;
-          margin-top: 80px;
+            padding-left: 30px;
+            padding-right: 30px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            margin-right: 15px;
+            margin-top: 80px;
 
-          outline: none;
-          border-style: solid;
-          border-radius: 5px;
-          border: none;
+            outline: none;
+            border-style: solid;
+            border-radius: 5px;
+            border: none;
 
-          font-size: 17px;
-          font-family: "Poppins";
+            font-size: 17px;
+            font-family: "Poppins";
         }
-        
+
         .button:hover {
-          padding-left: 35px;
-          padding-right: 35px;
+            padding-left: 35px;
+            padding-right: 35px;
         }
 
         .green-button {
@@ -226,8 +229,14 @@
             color: white;
         }
 
-        .yellow-button {
-            background-color: rgb(255, 199, 45);
+        .rose-button {
+            background-color: rgb(221, 60, 168);
+            color: white;
+        }
+
+        .white-button {
+            background-color: rgb(255, 255, 255);
+            color: black;
         }
 
         .green-button:hover {
@@ -238,148 +247,150 @@
             background-color: #204ca5;
         }
 
-        .yellow-button:hover {
-            background-color: rgb(219, 168, 28);
+        .rose-button:hover {
+            background-color: rgb(255, 91, 91);
         }
-        
-        </style>
-        
-    </head>
-    <body>
-          <div class="wrapper" id="vue-apartments">
-            <div class="header">
-              <div>
+    </style>
+
+</head>
+
+<body>
+    <div class="wrapper" id="vue-apartments">
+        <div class="header">
+            <div>
                 <a class="header-title" href="http://localhost:8080/WebProject">FakeAirbnb</span>
-              </div>
-              <div class="header-links">
-                
-                  <a class="header-link header-link-active" href="http://localhost:8080/WebProject/">Apartments</a>
-                  <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/reservations">My reservations</a>
-                  <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/account">Account</a>
-              </div>
+            </div>
+            <div class="header-links">
+
+                <a class="header-link header-link-active" href="http://localhost:8080/WebProject/">Apartments</a>
+                <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/reservations">My
+                    reservations</a>
+                <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/account">Account</a>
+            </div>
+        </div>
+
+        <div class="inline" style="margin-left: 7%; margin-right: 7%;; margin-top: 7%;">
+            <div class="column-right wrapper" style="width: 20%; text-align: right; padding-top: 15px;">
+                <input type="text" class="search" style="width: 100%" placeholder="Search apartments..." v-model="query"
+                    @keyup="searchApartments">
+                <p class="error" style="padding-top: 5px;" v-if="noApartmentsFound">No apartments found :(</p>
             </div>
 
-            <div class="inline" style="margin-left: 7%; margin-right: 7%;; margin-top: 7%;">
-                <div class="column-right wrapper" style="width: 20%; text-align: right;">
-                    <input type="text" class="search" style="width: 100%" placeholder="Search apartments..."
-                        v-model="query" @keyup="searchApartments">
-                    <p class="error" style="padding-top: 5px;" v-if="noApartmentsFound">No apartments found  :(</p>
+            <div style="display: inline-block; background-color: rgb(221, 60, 168, 0.95); padding-top: 16px; padding-bottom: 16px; padding-left: 22px; padding-right: 22px; border-radius: 5px;">
+                <div class="column-left" style="margin-right: 10px;">
+                    <p style="color:white; font-weight: 500;">From </p>
                 </div>
-    
-                <div style="display:inline-block">
-                    <div class="column-left" style="margin-right: 10px;">
-                        <p>From </p>
-                    </div>
-                    <div class="column-left">
-                        <vuejs-datepicker v-model="dateStart"></vuejs-datepicker>
-                    </div>
-                    <div class="column-left" style="margin-left: 25px;">
-                        <p> To </p>
-                    </div>
-                    <div class="column-left">
-                        <vuejs-datepicker style="padding-left: 10px;"   
-                                v-model="dateEnd"></vuejs-datepicker>
-                    </div>
+                <div class="column-left">
+                    <vuejs-datepicker v-model="dateStart"></vuejs-datepicker>
+                </div>
+                <div class="column-left" style="margin-left: 25px;">
+                    <p style="color:white; font-weight: 500;"> To </p>
+                </div>
+                <div class="column-left">
+                    <vuejs-datepicker style="padding-left: 10px;" v-model="dateEnd"></vuejs-datepicker>
                 </div>
             </div>
+        </div>
 
-            <div v-if="filtersOpened" 
-                style="background-color: rgb(238, 214, 149); padding-top: 1%; padding-bottom: 2%; margin-top: 25px;">
-                <div style="margin-left: 7%; margin-right: 7%">
-                    <p>Filters:</p>
-                    <div class="column-left">
-                        <div class="inline">
-                            <input type="text" class="search" placeholder="City" v-model="city">
-                            <input type="text" class="search" placeholder="Postal code" v-model="postalCode">
-                        </div>
-                        <div style="padding-top: 12%;">
-                            <input type="text" class="search" placeholder="Minimum price" v-model="minPrice">
-                            <input type="text" class="search" placeholder="Maximum price" v-model="maxPrice">
-                            <span class="big-bold" style="color : rgb(5, 141, 0)">$</span>
-                        </div>
+        <div v-if="filtersOpened"
+            style="background-color: rgb(255, 215, 215); padding-top: 1%; padding-bottom: 2%; margin-top: 40px; margin-left: 6%; margin-right: 6%; border-radius: 5px;">
+            <div style="margin-left: 4%; margin-right: 4%;">
+                <p>Filters:</p>
+                <div class="column-left">
+                    <div class="inline">
+                        <input type="text" placeholder="City" class="search" v-model="city"> 
+                        <input type="text" placeholder="Postal code" class="search" v-model="postalCode">
                     </div>
-                    <div class="column-left" style="margin-left: 3%;">
-                        <div class="inline">
-                                <input type="text" class="search" placeholder="Number of guests" v-model="numOfGuests">
-                                <input type="text" class="search" placeholder="Minimum rooms" v-model="minRooms">
-                                <input type="text" class="search" placeholder="Maximum rooms" v-model="maxRooms">
-                        </div>
-                    </div>
-                    <div class="column-right">
-                        <button class="button green-button" type="button" @click="filter">Apply</button>
-                        <button class="button blue-button" type="button" @click="clearFilters">Clear</button>
-                        <button class="button" type="button" @click="closeFilters">Close</button>
+                    <div style="padding-top: 12%;">
+                        <input type="text" placeholder="Minimum price" class="search" v-model="minPrice"> 
+                        <input type="text" placeholder="Maximum price" class="search" v-model="maxPrice"> 
+                        <span class="big-bold" style="color: rgb(5, 141, 0);">$</span>
                     </div>
                 </div>
-            </div> 
-            <div v-else 
-                 style="position: relative; margin-bottom: 7%; margin-top: -2%;">
-                <button type="button" class="button yellow-button" @click="openFilters"
-                        style="position:absolute; left: 7%;">Filters</button>
+                <div class="column-left" style="margin-left: 3%;">
+                    <div class="inline">
+                        <input type="text" placeholder="Number of guests" class="search" v-model="numOfGuests"> 
+                        <input type="text" placeholder="Minimum rooms" class="search" v-model="minRooms">
+                        <input type="text" placeholder="Maximum rooms" class="search" v-model="maxRooms">
+                    </div>
+                </div>
+                <div class="column-right">
+                    <button type="button" class="button green-button" @click="filter">Apply</button> 
+                    <button type="button" class="button blue-button" @click="clearFilters">Clear</button> 
+                    <button type="button" class="button white-button" @click="closeFilters">Close</button></div>
             </div>
-            
-            <div style="margin-top: 3%;">
-                <table class="table">
-                    <tbody>
-                        <tr class="row" v-for="apartment in apartments" :key="apartment.key" @click="goToApartment(apartment.key)">
-                            <td>
-                                <div class="column">
+        </div>
+        <div v-else style="position: relative; margin-bottom: 7%; margin-top: -2%;">
+            <button type="button" class="button rose-button" @click="openFilters"
+                style="position:absolute; right: 6%;">Filters</button>
+        </div>
+
+        <div style="margin-top: 3%;">
+            <table class="table">
+                <tbody>
+                    <tr class="row" v-for="apartment in apartments" :key="apartment.key"
+                        @click="goToApartment(apartment.key)">
+                        <td>
+                            <div class="column">
+                                <div class="column-left">
                                     <div class="column-left">
-                                        <div class="column-left">
-                                            <img style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;" 
+                                        <img style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"
                                             :src="apartment.imageLink">
-                                        </div>
-                                        <div class="column-right align-content-left">
-                                            <div class="big-bold"> 
-                                                {{apartment.title}}
-                                            </div>
-                                            <div> 
-                                                {{apartment.numberOfRooms}} rooms  &middot  {{apartment.numberOfGuests}} guests
-                                            </div>
-                                        </div>
                                     </div>
-                                    <div class="column-right align-content-right">
+                                    <div class="column-right align-content-left">
                                         <div class="big-bold">
-                                            {{apartment.pricePerNight}}$/night
+                                            {{apartment.title}}
                                         </div>
-                                        <div id="rating">
-                                            <div v-if="apartment.rating > 0">
-                                                <span class="fa fa-star checked"></span>
-
-                                                <span class="fa fa-star checked" v-if="apartment.rating > 1.49"></span>
-                                                <span class="fa fa-star" v-else></span>
-
-                                                <span class="fa fa-star checked" v-if="apartment.rating > 2.49"></span>
-                                                <span class="fa fa-star" v-else></span>
-                                                
-                                                <span class="fa fa-star checked" v-if="apartment.rating > 3.49"></span>
-                                                <span class="fa fa-star" v-else></span>
-                                                
-                                                <span class="fa fa-star checked" v-if="apartment.rating > 4.49"></span>
-                                                <span class="fa fa-star" v-else></span>
-                                            </div>
-                                            <div v-else>
-                                                No ratings.
-                                            </div>
-                                        </div>
-                                        <div v-if="apartment.rating > 0">
-                                            <span style="font-size: small; color:#9b9b9b;">{{apartment.numberOfRatings}} reviewers</span>
+                                        <div>
+                                            {{apartment.numberOfRooms}} rooms &middot {{apartment.numberOfGuests}}
+                                            guests
                                         </div>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
+                                <div class="column-right align-content-right">
+                                    <div class="big-bold">
+                                        {{apartment.pricePerNight}}$/night
+                                    </div>
+                                    <div id="rating">
+                                        <div v-if="apartment.rating > 0">
+                                            <span class="fa fa-star checked"></span>
 
-        <!-- Axios -->
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <!-- Vue.js implementation -->
-        <script src="http://localhost:8080/WebProject/scripts/guest_home.js"></script>
-        
-        
-    </body>
+                                            <span class="fa fa-star checked" v-if="apartment.rating > 1.49"></span>
+                                            <span class="fa fa-star" v-else></span>
+
+                                            <span class="fa fa-star checked" v-if="apartment.rating > 2.49"></span>
+                                            <span class="fa fa-star" v-else></span>
+
+                                            <span class="fa fa-star checked" v-if="apartment.rating > 3.49"></span>
+                                            <span class="fa fa-star" v-else></span>
+
+                                            <span class="fa fa-star checked" v-if="apartment.rating > 4.49"></span>
+                                            <span class="fa fa-star" v-else></span>
+                                        </div>
+                                        <div v-else>
+                                            No ratings.
+                                        </div>
+                                    </div>
+                                    <div v-if="apartment.rating > 0">
+                                        <span style="font-size: small; color:#9b9b9b;">{{apartment.numberOfRatings}}
+                                            reviewers</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Vue.js implementation -->
+    <script src="http://localhost:8080/WebProject/scripts/guest_home.js"></script>
+
+
+</body>
+
 </html>

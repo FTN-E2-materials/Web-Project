@@ -14,7 +14,7 @@ let vue = new Vue({
         numOfGuests : "",
         minRooms : "",
         maxRooms : "",
-        filtersOpened : true
+        filtersOpened : false
     },
     components: {
         vuejsDatepicker
