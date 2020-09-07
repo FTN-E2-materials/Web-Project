@@ -2,7 +2,7 @@ package util.wrappers;
 
 import java.util.Calendar;
 
-import beans.model.City;
+import beans.model.other.City;
 
 /** Wrapper class for processing more complex requests with object datatypes in payload. 
  *  Intended use: filtering by city, location, time, etc. */

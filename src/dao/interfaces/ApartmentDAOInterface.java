@@ -1,7 +1,8 @@
 package dao.interfaces;
 
 import java.util.Collection;
-import beans.model.Apartment;
+
+import beans.model.entities.Apartment;
 
 
 public interface ApartmentDAOInterface {

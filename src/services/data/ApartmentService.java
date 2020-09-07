@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
-import beans.model.Apartment;
+import beans.model.entities.Apartment;
 import beans.model.enums.ApartmentStatus;
 import dao.ApartmentDAO;
 import filters.ApartmentFilter;

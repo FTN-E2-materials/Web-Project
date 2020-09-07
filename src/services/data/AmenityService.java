@@ -15,7 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import beans.model.Amenity;
+import beans.model.entities.Amenity;
 import dao.AmenityDAO;
 import services.interfaces.rest.ResponseCRUDInterface;
 import services.templates.CRUDService;

@@ -3,7 +3,7 @@ package dao;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import beans.model.Apartment;
+import beans.model.entities.Apartment;
 import beans.model.enums.ApartmentStatus;
 import dao.interfaces.ApartmentDAOInterface;
 import storage.Storage;

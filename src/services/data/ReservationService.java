@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
-import beans.model.Reservation;
+import beans.model.entities.Reservation;
 import beans.model.enums.ReservationStatus;
 import dao.ReservationDAO;
 import services.interfaces.rest.ReservationServiceInterface;

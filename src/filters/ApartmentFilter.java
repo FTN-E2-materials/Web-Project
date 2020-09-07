@@ -4,8 +4,8 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 
-import beans.model.Apartment;
-import beans.model.City;
+import beans.model.entities.Apartment;
+import beans.model.other.City;
 import dao.ApartmentDAO;
 
 

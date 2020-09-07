@@ -1,7 +1,9 @@
-package beans.model;
+package beans.model.entities;
 
 import beans.interfaces.SessionToken;
+import beans.model.DatabaseEntity;
 import beans.model.enums.TypeOfUser;
+import beans.model.other.Person;
 
 public class UserAccount extends DatabaseEntity implements SessionToken {
    

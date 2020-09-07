@@ -3,7 +3,7 @@ package dao;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import beans.model.Review;
+import beans.model.entities.Review;
 import storage.Storage;
 import util.Config;
 

@@ -1,6 +1,6 @@
 package dao;
 
-import beans.model.UserAccount;
+import beans.model.entities.UserAccount;
 import storage.Storage;
 import util.Config;
 

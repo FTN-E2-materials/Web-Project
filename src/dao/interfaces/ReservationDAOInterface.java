@@ -2,7 +2,7 @@ package dao.interfaces;
 
 import java.util.Collection;
 
-import beans.model.Reservation;
+import beans.model.entities.Reservation;
 
 public interface ReservationDAOInterface {
 	

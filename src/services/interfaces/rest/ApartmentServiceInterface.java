@@ -5,7 +5,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
-import beans.model.Apartment;
+import beans.model.entities.Apartment;
 import services.interfaces.rest.ResponseCRUDInterface;
 import util.wrappers.ApartmentFilterWrapper;
 import util.wrappers.RequestWrapper;

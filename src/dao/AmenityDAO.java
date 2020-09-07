@@ -1,6 +1,6 @@
 package dao;
 
-import beans.model.Amenity;
+import beans.model.entities.Amenity;
 import storage.Storage;
 import util.Config;
 

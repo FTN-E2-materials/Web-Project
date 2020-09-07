@@ -1,4 +1,4 @@
-package beans.model;
+package beans.model.other;
 
 public class City {
    public String name;

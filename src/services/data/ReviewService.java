@@ -19,8 +19,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
-import beans.model.Date;
-import beans.model.Review;
+import beans.model.entities.Review;
+import beans.model.other.Date;
 import dao.ReviewDAO;
 import services.interfaces.rest.ReviewServiceInterface;
 import services.templates.CRUDService;

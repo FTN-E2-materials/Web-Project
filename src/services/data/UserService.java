@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
-import beans.model.UserAccount;
+import beans.model.entities.UserAccount;
 import dao.UserDAO;
 import services.interfaces.rest.UserServiceInterface;
 import services.templates.BaseService;

@@ -3,7 +3,7 @@ package services.interfaces.rest;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 
-import beans.model.UserAccount;
+import beans.model.entities.UserAccount;
 import util.wrappers.RequestWrapper;
 
 public interface AuthServiceInterface {

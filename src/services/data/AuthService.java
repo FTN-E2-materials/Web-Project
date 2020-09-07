@@ -10,7 +10,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import beans.model.UserAccount;
+import beans.model.entities.UserAccount;
 import beans.model.enums.TypeOfUser;
 import dao.UserDAO;
 import services.interfaces.rest.AuthServiceInterface;

@@ -1,8 +1,13 @@
-package beans.model;
+package beans.model.entities;
 
 import java.util.*;
+
+import beans.model.DatabaseEntity;
 import beans.model.enums.ApartmentStatus;
 import beans.model.enums.ApartmentType;
+import beans.model.other.Date;
+import beans.model.other.Location;
+import beans.model.other.Time;
 
 public class Apartment extends DatabaseEntity {
    public String title; 

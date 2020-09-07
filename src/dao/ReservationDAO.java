@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 
-import beans.model.Reservation;
+import beans.model.entities.Reservation;
 import dao.interfaces.ReservationDAOInterface;
 import storage.Storage;
 import util.Config;

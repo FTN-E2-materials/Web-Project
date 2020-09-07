@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import beans.model.Date;
+import beans.model.other.Date;
 
 /** Deserializer class used for creating custom Date objects from a JSON object */
 public class DateDeserializer extends JsonDeserializer<Date> {

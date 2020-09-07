@@ -10,6 +10,9 @@
     <!-- Google poppins font -->
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
+    <!-- Rating stars lib -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
 
     * {
@@ -234,7 +237,25 @@
             opacity : 1;
         }
         
-            </style>
+        /* Rating star color */
+        .checked {
+            color: rgb(255, 175, 25);
+        }
+
+        .star-size {
+            width : 15px;
+            height : 15px;
+        }
+
+        .left {
+            text-align : left;
+        }
+
+        .right {
+            text-align: right;
+        }
+        
+    </style>
         
 </head>
     <body>
@@ -254,12 +275,45 @@
                 <div class="column-left" style="width: 45%;">
                     <img style="width: 100%;" :src="apartment.imageLink">
                 </div>
-                <div class="column-right align-content-right" style="width: 55%; padding: 5%; padding-left: 8%; padding-top: 3%;">
+                <div class="column-right align-content-right" style="max-width: 55%; width: fit-content; padding: 5%; padding-left: 8%; padding-top: 3%;">
                     <div style="width: 100%">
                         <div class="data-row">
                             <h1>{{apartment.title}}</h1>
                             <p>{{apartment.numberOfRooms}} rooms  &middot  {{apartment.numberOfGuests}} guests</p>
+                        
+                            <div style="margin-top: 15px;">
+                                <div id="rating">
+                                    <div v-if="apartment.rating > 0">
+                                        <span class="fa fa-star checked star-size"></span>
+    
+                                        <span class="fa fa-star checked star-size" v-if="apartment.rating > 1.49"></span>
+                                        <span class="fa fa-star star-size" v-else></span>
+    
+                                        <span class="fa fa-star checked star-size" v-if="apartment.rating > 2.49"></span>
+                                        <span class="fa fa-star star-size" v-else></span>
+    
+                                        <span class="fa fa-star checked star-size" v-if="apartment.rating > 3.49"></span>
+                                        <span class="fa fa-star star-size" v-else></span>
+    
+                                        <span class="fa fa-star checked star-size" v-if="apartment.rating > 4.49"></span>
+                                        <span class="fa fa-star star-size" v-else></span>
+                                    </div>
+                                    <div v-else>
+                                        No ratings.
+                                    </div>
+                                </div>
+                                <div v-if="apartment.rating > 0">
+                                    <span style="font-size: small; color:#9b9b9b;">{{apartment.numberOfRatings}}
+                                        reviewers</span>
+                                </div>
+                            </div>
                         </div>
+
+                        <div class="data-row left">
+                            <h1>{{apartment.pricePerNight}}$</h1>
+                            <span style="font-size: small; color:rgb(155, 155, 155)">*Price per night</span>
+                          </div>
+
                         <div class="data-row">
                             <div v-if="apartment.status == 'INACTIVE'">
                                 <div class="column-left">
@@ -270,7 +324,7 @@
                                 </div>
                             </div>
                             <div v-else>
-                                <div class="column-left" style="padding-top: 4px;">
+                                <div class="column-left" style="padding-top: 4px; margin-right: 35px;">
                                     <p class="success">This apartment is currently ACTIVE</p>
                                 </div>
                                 <div class="column-right">
