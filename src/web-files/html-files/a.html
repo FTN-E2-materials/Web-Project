@@ -110,9 +110,7 @@
       margin-right: 25px;
     }
 
-    .activate-button {
-      float: right;
-      background-color: #009e00;
+    .button {
       color: white;
 
       padding-left: 25px;
@@ -129,23 +127,17 @@
       font-family: "Poppins";
     }
 
+    .activate-button {
+      background-color: #009e00;
+    }
+
     .deactivate-button {
-      float: right;
       background-color: #c92525;
-      color: white;
+    }
 
-      padding-left: 25px;
-      padding-right: 25px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-
-      outline: none;
-      border-style: solid;
-      border-radius: 10px;
-      border: none;
-
-      font-size: 17px;
-      font-family: "Poppins";
+    .edit-button {
+      background-color :rgb(221, 60, 168);
+      color : white;
     }
 
     .activate-button:hover {
@@ -156,6 +148,12 @@
 
     .deactivate-button:hover {
       background: #b31515;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    .edit-button:hover {
+      background-color :rgb(201, 40, 147);
       padding-left: 30px;
       padding-right: 30px;
     }
@@ -253,6 +251,16 @@
       width: 15px;
       height: 15px;
     }
+
+    .hyperlink { 
+      color : rgb(155, 155, 155);
+      text-decoration: none;
+    }
+
+    .hyperlink:hover {
+      color : rgb(129, 129, 129);
+      text-decoration: underline;
+    }
   </style>
 
 </head>
@@ -292,21 +300,20 @@
           </div>
           <div class="data-row">
             <div>
-              <div class="column-right">
-                <button class="deactivate-button">Deactivate</button>
-              </div>
-              <div class="column-right" style="padding-top: 10px; margin-right: 35px;">
-                <p class="success">This apartment is currently ACTIVE</p>
-              </div>
+              <a class="hyperlink" href="google.com">Manage reviews for this apartment</a>
             </div>
+            <div style="height: 10px;"></div>
+            <div>
+              <a class="hyperlink" href="google.com">See reservations for this apartment</a>
+            </div>
+          </div>
+          <div class="data-row" style="text-align: center; margin-top: 100px;">
+            <button class="button edit-button" style="margin-right: 30px;">Edit apartment</button>
+            <button class="button deactivate-button" style="margin-left: 30px;">Deactivate</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div id="moj_vue_js">
-
   </div>
 
   <!-- Axios -->

@@ -48,6 +48,9 @@ let vue = new Vue({
                         alert("Failed to activate apartment.");
                     }
                 })
+        }, 
+        edit : function() {
+            window.location.href = "http://localhost:8080/WebProject/apartments/edit/" + vue.apartment.key;
         }
     },
     beforeMount() {

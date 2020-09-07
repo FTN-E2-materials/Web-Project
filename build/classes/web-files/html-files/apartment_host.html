@@ -111,151 +111,141 @@
           margin-right: 25px;
         }
         
-        .activate-button {
-          float: right;
-          background-color: #009e00;
-          color: white;
+        .button {
+      color: white;
 
-          padding-left: 25px;
-          padding-right: 25px;
-          padding-top: 10px;
-          padding-bottom: 10px;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-top: 10px;
+      padding-bottom: 10px;
 
-          outline: none;
-          border-style: solid;
-          border-radius: 10px;
-          border: none;
+      outline: none;
+      border-style: solid;
+      border-radius: 10px;
+      border: none;
 
-          font-size: 17px;
-          font-family: "Poppins";
-        }
+      font-size: 17px;
+      font-family: "Poppins";
+    }
 
-        .deactivate-button {
-          float: right;
-          background-color: #c92525;
-          color: white;
+    .activate-button {
+      background-color: #009e00;
+    }
 
-          padding-left: 25px;
-          padding-right: 25px;
-          padding-top: 10px;
-          padding-bottom: 10px;
+    .deactivate-button {
+      background-color: #c92525;
+    }
 
-          outline: none;
-          border-style: solid;
-          border-radius: 10px;
-          border: none;
+    .edit-button {
+      background-color :rgb(221, 60, 168);
+      color : white;
+    }
 
-          font-size: 17px;
-          font-family: "Poppins";
-        }
+    .activate-button:hover {
+      background: rgb(10, 141, 10);
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    .deactivate-button:hover {
+      background: #b31515;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    .edit-button:hover {
+      background-color :rgb(201, 40, 147);
+      padding-left: 30px;
+      padding-right: 30px;
+    }
         
-        .activate-button:hover {
-          background: rgb(10, 141, 10);
-          padding-left: 30px;
-          padding-right: 30px;
-        }
+    .header-link:hover {
+        color: white;
+    }
+    
+    .header-link-inactive { 
+        color: #A9BFEB;
+    }
+    
+    .header-link-active {
+        font-weight: 600;
+    }
 
-        .deactivate-button:hover {
-          background: #b31515;
-          padding-left: 30px;
-          padding-right: 30px;
-        }
-        
-        .header-link:hover {
-          color: white;
-        }
-        
-        .header-link-inactive { 
-          color: #A9BFEB;
-        }
-        
-        .header-link-active {
-          font-weight: 600;
-        }
+    .big-bold {
+        font-weight: bold;
+        font-size: 18px;
+    }
 
-        .big-bold {
-            font-weight: bold;
-            font-size: 18px;
-        }
+    .column-left {
+        float: left;
+    }
 
-        .column-left {
-            float: left;
-        }
+    .column-right {
+        float: right;
+        width: max-content;
+    }
 
-        .column-right {
-            float: right;
-            width: max-content;
-        }
+    .center-content {
+        text-align: center;
+    }
 
-        .center-content {
-            text-align: center;
-        }
+    .align-content-right {
+        text-align: right;
+        padding-top: 10px;
+        padding-right: 20px;
+    }
 
-        .error {
-            color: rgb(218, 49, 49);
-            font-size: large;
-            font-weight: 600;
-        }
+    .body { 
+        margin-top: 2%;
+        text-align: center;
+        width: 100%;
+    }
 
-        .success {
-            color: rgb(30, 158, 14);
-            font-size: large;
-            font-weight: 600;
-        }
+    .center {
+        margin: 0 auto;
+    }
 
-        .align-content-right {
-            text-align: right;
-            padding-top: 10px;
-            padding-right: 20px;
-        }
+    .data-row {
+        padding-bottom: 4%;
+    }
 
-        .align-content-left {
-            text-align: left;
-            padding-top: 10px;
-            padding-left: 20px;
-        }
+    img {
+        opacity: 0.75;
+    }
 
-        .body { 
-            margin-top: 2%;
-            text-align: center;
-            width: 100%;
-        }
+    img:hover {
+        opacity : 1;
+    }
+    
+    /* Rating star color */
+    .checked {
+        color: rgb(255, 175, 25);
+    }
 
-        .center {
-            margin: 0 auto;
-        }
+    .star-size {
+        width : 15px;
+        height : 15px;
+    }
 
-        .data-row {
-            padding-bottom: 10%;
-        }
+    .left {
+        text-align : left;
+    }
 
-        img {
-            opacity: 0.75;
-        }
+    .right {
+        text-align: right;
+    }
 
-        img:hover {
-            opacity : 1;
-        }
-        
-        /* Rating star color */
-        .checked {
-            color: rgb(255, 175, 25);
-        }
+    .hyperlink { 
+        color : rgb(155, 155, 155);
+        text-decoration: none;
+    }
 
-        .star-size {
-            width : 15px;
-            height : 15px;
-        }
-
-        .left {
-            text-align : left;
-        }
-
-        .right {
-            text-align: right;
-        }
-        
-    </style>
+    .hyperlink:hover {
+        color : rgb(129, 129, 129);
+        text-decoration: underline;
+    }
+    
+</style>
         
 </head>
     <body>
@@ -314,31 +304,27 @@
                             <span style="font-size: small; color:rgb(155, 155, 155)">*Price per night</span>
                           </div>
 
-                        <div class="data-row">
-                            <div v-if="apartment.status == 'INACTIVE'">
-                                <div class="column-left">
-                                    <p class="error" style="padding-top: 4px;">This apartment is currently INACTIVE</p>
-                                </div>
-                                <div class="column-right">
-                                    <button class="activate-button" @click="activate(apartment.key)">Activate</button>
-                                </div>
+                          <div class="data-row">
+                            <div>
+                              <a class="hyperlink" href="google.com">Manage reviews for this apartment</a>
                             </div>
-                            <div v-else>
-                                <div class="column-left" style="padding-top: 4px; margin-right: 35px;">
-                                    <p class="success">This apartment is currently ACTIVE</p>
-                                </div>
-                                <div class="column-right">
-                                    <button class="deactivate-button" @click="deactivate(apartment.key)">Deactivate</button>
-                                </div>
+                            <div style="height: 10px;"></div>
+                            <div>
+                              <a class="hyperlink" href="google.com">See reservations for this apartment</a>
                             </div>
-                        </div>
+                          </div>
+                          <div class="data-row" style="text-align: center; margin-top: 100px;">
+                            <button @click="edit"
+                                    class="button edit-button" style="margin-right: 30px;">Edit apartment</button>
+
+                            <button v-if="apartment.status=='ACTIVE'" @click="deactivate(apartment.key)"
+                                    class="button deactivate-button" style="margin-left: 30px;">Deactivate</button>
+                            <button v-else @click="activate(apartment.key)"
+                                class="button activate-button" style="margin-left: 30px;">Activate</button>
+                          </div>
                  </div>
                 </div>
             </div>
-        </div>
-
-        <div id="moj_vue_js">
-
         </div>
 
         <!-- Axios -->
