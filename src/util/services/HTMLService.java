@@ -40,16 +40,16 @@ public class HTMLService {
 	private void init() {
 		System.out.println("Starting the caching process");
 		
-		LANDING_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.LANDING_PAGE_FILE_LOCATION));
-		LOGIN_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.LOGIN_PAGE_FILE_LOCATION));
-		REGISTRATION_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.REGISTRATION_PAGE_FILE_LOCATION));
-		GUEST_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.GUEST_HOME_FILE_LOCATION));
-		HOST_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.HOST_HOME_FILE_LOCATION));
-		ADMIN_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.ADMIN_HOME_FILE_LOCATION));
-		CREATE_APARTMENT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.CREATE_APARTMENT_PAGE_FILE_LOCATION));
-		SINGLE_APARTMENT_PAGE_HOST = streamToString(HTMLService.class.getResourceAsStream(Config.SINGLE_APARTMENT_PAGE_FILE_LOCATION));
-		GUEST_ACCOUNT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.GUEST_ACCOUNT_PAGE_FILE_LOCATION));
-		HOST_ACCOUNT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.HOST_ACCOUNT_PAGE_FILE_LOCATION));
+		LANDING_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.LANDING_PAGE_LOCATION));
+		LOGIN_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.LOGIN_PAGE_LOCATION));
+		REGISTRATION_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.REGISTRATION_PAGE_LOCATION));
+		GUEST_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.GUEST_HOME_LOCATION));
+		HOST_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.HOST_HOME_LOCATION));
+		ADMIN_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.ADMIN_HOME_LOCATION));
+		CREATE_APARTMENT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.CREATE_APARTMENT_PAGE_LOCATION));
+		SINGLE_APARTMENT_PAGE_HOST = streamToString(HTMLService.class.getResourceAsStream(Config.APARTMENT_DETAILS_HOST_PAGE_LOCATION));
+		GUEST_ACCOUNT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.GUEST_ACCOUNT_PAGE_LOCATION));
+		HOST_ACCOUNT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.HOST_ACCOUNT_PAGE_LOCATION));
 
 		System.out.println("Completed caching.");
 	}

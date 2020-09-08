@@ -16,9 +16,6 @@ let vue = new Vue({
                         Vue.set(vue, "apartmentLoaded", true);
                         console.log(response.data);
                     }
-                    else {
-                        alert("Couldn't load apartment.")
-                    }
                 })
         },
         activate : function(apartmentID) {

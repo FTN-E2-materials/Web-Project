@@ -154,22 +154,22 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		SessionToken session = super.getCurrentSession(request);
 		
 		if (apartment == null)
-			return OK(null);
+			return BadRequest("Apartment not found.");
 		if (apartment.status == ApartmentStatus.ACTIVE) {
 			if (session == null)
 				return OK(apartment);
 			if (session.isHost()  &&  !session.getUserID().equals(apartment.hostID))
-				return OK(null);
+				return ForbiddenRequest();
 			return OK(apartment);
 		}
 		if (apartment.status == ApartmentStatus.INACTIVE) {
 			if (session == null)
-				return OK(null);
+				return ForbiddenRequest();
 			if (session.isAdmin()  ||  session.getUserID().equals(apartment.hostID))
 				return OK(apartment);
 		}
 		
-		return OK(null);
+		return ForbiddenRequest();
 	}
 	
 	@GET
