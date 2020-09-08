@@ -3,6 +3,7 @@ let vue = new Vue({
     data : {
         key : "",
         name : "",
+        status : "",
         numberOfGuests: "", 
         numberOfRooms: "",
         checkInTime: "",
@@ -41,6 +42,7 @@ let vue = new Vue({
                         vue.postalCode = ap.location.address.city.postalCode
                         vue.type = (ap.type == "APARTMENT" ? "Apartment" : "Room")
                         vue.imageLink = ap.imageLink
+                        vue.status = ap.status;
                         
                         Array.prototype.forEach.call(ap.availableDates, date => {
                             vue.calendar.values.push(new Date(date.calendar))
@@ -71,6 +73,7 @@ let vue = new Vue({
                         return "ROOM";
                     }
                 },
+                status : vue.status,
                 availableDates : dates,
                 numberOfRooms : this.numberOfRooms,
                 numberOfGuests : this.numberOfGuests,

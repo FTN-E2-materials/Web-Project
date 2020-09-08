@@ -2,7 +2,7 @@ package beans.model.entities;
 
 import beans.model.DatabaseEntity;
 
-public class Review extends DatabaseEntity<Review> {
+public class Review extends DatabaseEntity {
 	
    public String text;
    public int rate;
@@ -16,9 +16,5 @@ public class Review extends DatabaseEntity<Review> {
    	
    }
 
-	@Override
-	public void updateAllowedFields(Review newEntity) {
-		// TODO Auto-generated method stub
-		
-	}
+
 }

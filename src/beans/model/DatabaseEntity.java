@@ -2,7 +2,7 @@ package beans.model;
 
 
 /** Parent class for all database entity objects. Provides String id field along with get and set methods */
-public abstract class DatabaseEntity<T> {
+public abstract class DatabaseEntity {
 
 	public String key;
 	protected boolean isCountable = true;
@@ -26,12 +26,4 @@ public abstract class DatabaseEntity<T> {
 	 * @throws IllegalArgumentException if any of the required fields is empty or has a wrong value
 	 */
 	public abstract void validate() throws IllegalArgumentException;
-	
-	/** Method to overwrite specific fields of an existing entity with new values.
-	 * Should be used withing the CRUD - Update method in order to keep constant values in tact.
-	 * Values passed to this method should be validated beforehand, in order to avoid exceptions.
-	 * @param existingEntity
-	 * @param newEntity
-	 */
-	public abstract void updateAllowedFields(T newEntity);
 }

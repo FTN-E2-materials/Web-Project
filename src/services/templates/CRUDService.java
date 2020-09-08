@@ -1,9 +1,14 @@
 package services.templates;
 
 import java.util.Collection;
+
+import beans.interfaces.Cloneable;
+import beans.interfaces.FieldWrapperInterface;
+import beans.interfaces.SessionToken;
 import beans.model.DatabaseEntity;
 
 import dao.BeanDAO;
+import util.services.UpdateService;
 import util.wrappers.RequestWrapper;
 
 
@@ -93,18 +98,18 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 	 * @param obj
 	 * @return modified object on success, or null if failed.
 	 */
-	protected T update(T oldEntity, T updatedEntity) {
-		if (oldEntity == null)
+	protected <K extends DatabaseEntity & Cloneable<K> & FieldWrapperInterface> T update(K oldEntity, K updatedEntity) {
+		try { 
+			updatedEntity.validate(); 
+		}
+		catch (IllegalArgumentException ex) {
+			System.out.println("Trying to update entity with invalid field values.");
 			return null;
-		try { oldEntity.validate(); }
-			catch (IllegalArgumentException ex) {
-				System.out.println("Trying to update entity with invalid field values.");
-				return null;
-			}
-		oldEntity.updateAllowedFields(updatedEntity);
+		}
+		UpdateService.update(oldEntity, updatedEntity);
 		
 		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
-		return dao.update(oldEntity);
+		return dao.update((T)oldEntity);
 	}
 	
 	/** Update method which directly passes the given object to the appropriate DAO class.

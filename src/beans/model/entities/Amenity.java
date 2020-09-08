@@ -2,7 +2,7 @@ package beans.model.entities;
 
 import beans.model.DatabaseEntity;
 
-public class Amenity extends DatabaseEntity<Amenity>{
+public class Amenity extends DatabaseEntity {
 	
    public String name;
 
@@ -12,9 +12,4 @@ public class Amenity extends DatabaseEntity<Amenity>{
 		
 	}
 
-	@Override
-	public void updateAllowedFields(Amenity newEntity) {
-		// TODO Auto-generated method stub
-		
-	}
 }

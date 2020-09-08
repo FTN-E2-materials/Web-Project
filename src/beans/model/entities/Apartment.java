@@ -2,14 +2,18 @@ package beans.model.entities;
 
 import java.util.*;
 
+import beans.interfaces.Cloneable;
+import beans.interfaces.FieldWrapperInterface;
 import beans.model.DatabaseEntity;
 import beans.model.enums.ApartmentStatus;
 import beans.model.enums.AccommodationType;
 import beans.model.other.Date;
 import beans.model.other.Location;
 import beans.model.other.Time;
+import util.wrappers.ApartmentFieldWrapper;
+import util.wrappers.FieldWrapper;
 
-public class Apartment extends DatabaseEntity<Apartment> {
+public class Apartment extends DatabaseEntity implements Cloneable<Apartment>, FieldWrapperInterface{
    public String title; 
    public AccommodationType type;
    public int numberOfRooms;
@@ -42,9 +46,35 @@ public class Apartment extends DatabaseEntity<Apartment> {
    }
 
 	@Override
-	public void updateAllowedFields(Apartment newEntity) {
-		this.title = newEntity.title;
-		this.checkInTime = newEntity.checkInTime;
-		this.checkOutTime = newEntity.checkOutTime;
+	public FieldWrapper createFieldWrapper() {
+		return new ApartmentFieldWrapper(key, hostID, rating, numberOfRatings, workingDates);
+	}
+	
+	@Override
+	public void applyFieldWrapper(FieldWrapper fieldWrapper) {
+		ApartmentFieldWrapper wrapper = (ApartmentFieldWrapper)fieldWrapper;
+		
+		this.key = wrapper.key;
+		this.hostID = wrapper.hostID;
+		this.rating = wrapper.rating;
+		this.numberOfRatings = wrapper.numberOfRatings;
+		this.workingDates = wrapper.workingDates;
+	}
+	
+	@Override
+	public void clone(Apartment obj) {
+		this.title = obj.title;
+		this.type = obj.type;
+		this.numberOfRooms = obj.numberOfRooms;
+		this.numberOfGuests = obj.numberOfGuests;
+		this.availableDates = obj.availableDates;
+		this.pricePerNight = obj.pricePerNight;
+		this.pictures = obj.pictures;
+		this.checkInTime = obj.checkInTime;
+		this.checkOutTime = obj.checkOutTime;
+		this.status = obj.status;
+		this.location = obj.location;
+		this.amenities = obj.amenities;
+		this.imageLink = obj.imageLink;
 	}
 }

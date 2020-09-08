@@ -129,8 +129,6 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		Apartment existingApartment = super.getByID(apartment.key);
 		if (existingApartment == null)
 			return BadRequest();
-		if (existingApartment.key == null)
-			return BadRequest();
 				
 		if (session.isHost()  &&  session.getUserID().equals(existingApartment.hostID))
 			return OK(super.update(existingApartment, apartment));
