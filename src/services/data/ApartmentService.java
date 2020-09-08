@@ -118,10 +118,24 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		
 		if (session == null)
 			return ForbiddenRequest();
-		if (session.isHost()  &&  session.getUserID().equals(apartment.hostID))
-			return OK(super.update(apartment));
+		if (session.isGuest())
+			return ForbiddenRequest();
+		
+		if (apartment == null)
+			return BadRequest();
+		if (apartment.key == null)
+			return BadRequest();
+		
+		Apartment existingApartment = super.getByID(apartment.key);
+		if (existingApartment == null)
+			return BadRequest();
+		if (existingApartment.key == null)
+			return BadRequest();
+				
+		if (session.isHost()  &&  session.getUserID().equals(existingApartment.hostID))
+			return OK(super.update(existingApartment, apartment));
 		if (session.isAdmin())
-			return OK(super.update(apartment));
+			return OK(super.update(existingApartment, apartment));
 		
 		return ForbiddenRequest();
 	}

@@ -1,6 +1,7 @@
 let vue = new Vue({
-    el :"#vue-create-apartment",
+    el :"#vue-edit-apartment",
     data : {
+        key : "",
         name : "",
         numberOfGuests: "", 
         numberOfRooms: "",
@@ -11,13 +12,45 @@ let vue = new Vue({
         streetNumber: "",
         city: "",
         postalCode: "",
-        type: "Apartment",
+        type: "",
         amenities: [],
         imageLink : "",
         calendar : undefined
     },
     methods : {
-        create : function() { 
+        get : function() {
+            let tokens = window.location.href.split("/")
+            let apartmentID = tokens[tokens.length-1]
+            console.log(apartmentID);
+
+            axios.get("/WebProject/data/apartments/" + apartmentID)
+                .then(result => {
+                    if (result.status == 200) {
+                        let ap = result.data
+
+                        vue.key = ap.key
+                        vue.name = ap.title
+                        vue.numberOfGuests = ap.numberOfGuests
+                        vue.numberOfRooms = ap.numberOfRooms
+                        vue.checkInTime = ap.checkInTime.hours + ":" + ap.checkInTime.minutes
+                        vue.checkOutTime = ap.checkOutTime.hours + ":" + ap.checkOutTime.minutes
+                        vue.pricePerNight = ap.pricePerNight
+                        vue.streetName = ap.location.address.streetName
+                        vue.streetNumber = ap.location.address.streetNumber
+                        vue.city = ap.location.address.city.name
+                        vue.postalCode = ap.location.address.city.postalCode
+                        vue.type = (ap.type == "APARTMENT" ? "Apartment" : "Room")
+                        vue.imageLink = ap.imageLink
+                        
+                        Array.prototype.forEach.call(ap.availableDates, date => {
+                            vue.calendar.values.push(new Date(date.calendar))
+                        })
+
+                        vue.calendar.refresh()
+                    }
+                })
+        },
+        update : function() { 
             let splitCheckIn = this.checkInTime.split(":");
             let splitCheckOut = this.checkOutTime.split(":");
             let dates = []
@@ -26,11 +59,18 @@ let vue = new Vue({
                         "ticks" : date.getTime()
                     })      
                 });
-            let accommodationType = (vue.type === "Apartment" ? "APARTMENT" : "ROOM")
 
             let apartment = {
+                key : vue.key,
                 title : this.name,
-                type : accommodationType,
+                type : function() {
+                    if (this.type === "Apartment") {
+                        return "APARTMENT";
+                    }
+                    else {
+                        return "ROOM";
+                    }
+                },
                 availableDates : dates,
                 numberOfRooms : this.numberOfRooms,
                 numberOfGuests : this.numberOfGuests,
@@ -59,10 +99,10 @@ let vue = new Vue({
                 amenities : this.amenities
             }
 
-            axios.post("http://localhost:8080/WebProject/data/apartments", apartment)
+            axios.put("/WebProject/data/apartments", apartment)
                 .then(function(response) {
                     if (response.status === 200) {
-                        window.location.href = "http://localhost:8080/WebProject";
+                        window.location.href = "/WebProject";
                     }
                     else {
                         alert(response.data);
@@ -102,6 +142,7 @@ let vue = new Vue({
         });
     },
     mounted() {
+        this.get();
         this.calendar.appendTo('#element');
     }
 });

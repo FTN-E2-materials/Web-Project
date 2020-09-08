@@ -4,14 +4,14 @@ import java.util.*;
 
 import beans.model.DatabaseEntity;
 import beans.model.enums.ApartmentStatus;
-import beans.model.enums.ApartmentType;
+import beans.model.enums.AccommodationType;
 import beans.model.other.Date;
 import beans.model.other.Location;
 import beans.model.other.Time;
 
-public class Apartment extends DatabaseEntity {
+public class Apartment extends DatabaseEntity<Apartment> {
    public String title; 
-   public ApartmentType type;
+   public AccommodationType type;
    public int numberOfRooms;
    public int numberOfGuests;
    public List<Date> availableDates;
@@ -40,30 +40,11 @@ public class Apartment extends DatabaseEntity {
    	// TODO Auto-generated method stub
    	
    }
-   
-   public void setAmenities(ArrayList<Amenity> newAmenities) {
-      amenities = newAmenities;
-   }
-   
-   public void addAmenities(Amenity newAmenity) {
-      if (newAmenity == null)
-         return;
-      if (this.amenities == null)
-         this.amenities = new ArrayList<Amenity>();
-      if (!this.amenities.contains(newAmenity))
-         this.amenities.add(newAmenity);
-   }
-   
-   public void removeAmenities(Amenity oldAmenity) {
-      if (oldAmenity == null)
-         return;
-      if (this.amenities != null)
-         if (this.amenities.contains(oldAmenity))
-            this.amenities.remove(oldAmenity);
-   }
-   
-   public void removeAllAmenities() {
-      if (amenities != null)
-         amenities.clear();
-   }
+
+	@Override
+	public void updateAllowedFields(Apartment newEntity) {
+		this.title = newEntity.title;
+		this.checkInTime = newEntity.checkInTime;
+		this.checkOutTime = newEntity.checkOutTime;
+	}
 }

@@ -1,7 +1,7 @@
 package beans.model.enums;
 
 
-public enum ApartmentType {
+public enum AccommodationType {
    APARTMENT,
    ROOM;
 }

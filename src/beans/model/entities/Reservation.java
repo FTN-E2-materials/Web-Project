@@ -6,7 +6,7 @@ import beans.model.DatabaseEntity;
 import beans.model.enums.ReservationStatus;
 
 
-public class Reservation extends DatabaseEntity {
+public class Reservation extends DatabaseEntity<Reservation> {
 	
    public Calendar startingDate;
    public int numberOfNights;
@@ -26,4 +26,10 @@ public class Reservation extends DatabaseEntity {
    	// TODO Auto-generated method stub
    	
    }
+
+	@Override
+	public void updateAllowedFields(Reservation newEntity) {
+		// TODO Auto-generated method stub
+		
+	}
 }

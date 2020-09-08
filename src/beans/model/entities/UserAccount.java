@@ -5,7 +5,7 @@ import beans.model.DatabaseEntity;
 import beans.model.enums.TypeOfUser;
 import beans.model.other.Person;
 
-public class UserAccount extends DatabaseEntity implements SessionToken {
+public class UserAccount extends DatabaseEntity<UserAccount> implements SessionToken {
    
 	// Id from DatabaseEntity acts as a username
    public String password;
@@ -15,12 +15,6 @@ public class UserAccount extends DatabaseEntity implements SessionToken {
    
    public UserAccount() {
 	   isCountable = false;
-   }
-   
-   @Override
-   public void validate() {
-   	// TODO Auto-generated method stub
-   	
    }
    
    @Override 
@@ -42,4 +36,16 @@ public class UserAccount extends DatabaseEntity implements SessionToken {
    public boolean isAdmin() {
 	   return type == TypeOfUser.ADMINISTRATOR;
    }
+   
+   @Override
+   public void validate() {
+   	// TODO Auto-generated method stub
+   	
+   }
+
+	@Override
+	public void updateAllowedFields(UserAccount newEntity) {
+		// TODO Auto-generated method stub
+		
+	}
 }

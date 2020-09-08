@@ -79,7 +79,14 @@ public class PageNavigationService implements SessionTracker, NavigationResponse
 	@Path(Config.EDIT_APARTMENT_PAGE_PATH + "{apartmentID}")
 	@Produces(MediaType.TEXT_HTML)
 	public Response EditApartment(@PathParam("apartmentID") String apartmentID, @Context HttpServletRequest request) {
-		return OK("Edit apartment page for apartment: [" + apartmentID + "]");
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isGuest())
+			return ForbiddenRequest();
+		
+		return OK(HTMLService.getInstance().getEditApartmentPage());
 	}
 	
 	

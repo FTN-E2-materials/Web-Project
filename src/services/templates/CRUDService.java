@@ -93,14 +93,28 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 	 * @param obj
 	 * @return modified object on success, or null if failed.
 	 */
-	protected T update(T obj) {
-		if (obj == null)
+	protected T update(T oldEntity, T updatedEntity) {
+		if (oldEntity == null)
 			return null;
-		try { obj.validate(); }
+		try { oldEntity.validate(); }
 			catch (IllegalArgumentException ex) {
 				System.out.println("Trying to update entity with invalid field values.");
 				return null;
 			}
+		oldEntity.updateAllowedFields(updatedEntity);
+		
+		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
+		return dao.update(oldEntity);
+	}
+	
+	/** Update method which directly passes the given object to the appropriate DAO class.
+	 *  Warning: Does not do validation, only a null check. Use carefully.
+	 * @param obj
+	 * @return updated object or null, if the object does not exist
+	 */
+	protected T update(T obj) {
+		if (obj == null)
+			return null;
 		
 		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
 		return dao.update(obj);

@@ -26,17 +26,11 @@ let vue = new Vue({
                         "ticks" : date.getTime()
                     })      
                 });
+            let accommodationType = (vue.type === "Apartment" ? "APARTMENT" : "ROOM")
 
             let apartment = {
                 title : this.name,
-                type : function() {
-                    if (this.type === "Apartment") {
-                        return "APARTMENT";
-                    }
-                    else {
-                        return "ROOM";
-                    }
-                },
+                type : accommodationType,
                 availableDates : dates,
                 numberOfRooms : this.numberOfRooms,
                 numberOfGuests : this.numberOfGuests,
