@@ -170,20 +170,14 @@
 
     .activate-button:hover {
       background: rgb(10, 141, 10);
-      padding-left: 30px;
-      padding-right: 30px;
     }
 
     .deactivate-button:hover {
       background: #b31515;
-      padding-left: 30px;
-      padding-right: 30px;
     }
 
     .edit-button:hover {
       background-color :rgb(201, 40, 147);
-      padding-left: 30px;
-      padding-right: 30px;
     }
         
     .header-link:hover {
@@ -271,6 +265,15 @@
         color : rgb(129, 129, 129);
         text-decoration: underline;
     }
+
+    .cancel-button {
+            background-color : rgb(218, 218, 218);
+            color : black;
+        }
+
+    .cancel-button:hover {
+        background: rgb(190, 190, 190);
+    }
     
 </style>
         
@@ -338,16 +341,17 @@
                         <div style="width: 100%; background-color: rgb(236, 236, 236); border-radius: 10px; text-align: right;
                                 padding-right: 15px; padding-top: 5px; padding-left: 20px; padding-bottom: 5px;">
                             <div style="font-weight: 600; padding-bottom: 3px;">
-                                Location
+                              {{apartment.location.address.city.name}}
                             </div>
                             <div> 
-                                {{apartment.location.address.streetName}} {{apartment.location.address.streetNumber}},  {{apartment.location.address.city.name}} {{apartment.location.address.city.postalCode}}
+                                {{apartment.location.address.streetName}} {{apartment.location.address.streetNumber}} <br> {{apartment.location.address.city.postalCode}}
                             </div>
                         </div>
                         </div>
 
                         <!-- Here goes the calendar + nights + CREATE button-->
-                        <div class="data-row" style="margin-top: 50px; display: flex;">
+                        <div  
+                              class="data-row" style="margin-top: 50px; display: flex;">
                             <div id="container column-left">
                                 <!--element which is going to render the Calendar-->
                                 <div id="element"></div>
@@ -360,7 +364,9 @@
                                     <input type="number" placeholder="Nights">
                                 </div>
                                 <button class="button edit-button"
-                                    style="width: 100%; margin-top: 50px">Book now</button>
+                                    style="width: 100%; margin-top: 50px" @click="createReservation">Book now</button>
+                                <button class="button cancel-button"
+                                    style="width: 100%; margin-top: 20px" @click="hideCalendar">Hide</button>
                             </div>
                         </div>
                  </div>

@@ -3,7 +3,8 @@ let vue = new Vue({
     data : {
         apartment : {},
         apartmentLoaded : false,
-        calendar : undefined
+        calendar : undefined,
+        calendarVisible : false
     },
     methods : {
         getApartment : function() {
@@ -21,6 +22,15 @@ let vue = new Vue({
         },
         goToReviews : function() {
             window.location.href += "/reviews"
+        },
+        createReservation : function() {
+            alert("Creating reservation...")
+        },
+        hideCalendar : function() {
+            Vue.set(vue, "calendarVisible", false);
+        },
+        showCalendar : function() {
+            Vue.set(vue, "calendarVisible", true)
         }
     },
     beforeMount() {
