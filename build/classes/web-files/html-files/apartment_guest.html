@@ -252,13 +252,13 @@
         <div class="wrapper" id="vue-apartment">
             <div class="header">
                 <div>
-                <a class="header-title" href="http://localhost:8080/WebProject">FakeAirbnb</span>
+                <a class="header-title" href="/WebProject">FakeAirbnb</span>
                 </div>
                 <div class="header-links">
                 
-                    <a class="header-link header-link-active" href="http://localhost:8080/WebProject/">Apartments</a>
-                    <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/reservations">My reservations</a>
-                    <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/account">Account</a>
+                    <a class="header-link header-link-active" href="/WebProject">Apartments</a>
+                    <a class="header-link header-link-inactive" href="reservations">My reservations</a>
+                    <a class="header-link header-link-inactive" href="account">Account</a>
                 </div>
             </div>
             <div class="body" v-if="apartmentLoaded">
@@ -268,11 +268,13 @@
                 <div class="column-right align-content-right" style="max-width: 55%; min-width:40%; width: fit-content; padding: 5%; padding-left: 8%; padding-top: 3%;">
                     <div style="width: 100%">
                         <div class="data-row">
-                            <h1>{{apartment.title}}</h1>
-                            <p>{{apartment.numberOfRooms}} rooms  &middot  {{apartment.numberOfGuests}} guests</p>
+                            <div>
+                                <h1>{{apartment.title}}</h1>
+                                <p>{{apartment.numberOfRooms}} rooms  &middot  {{apartment.numberOfGuests}} guests</p>
+                            </div>
                         
-                            <div style="margin-top: 15px;">
-                                <div id="rating">
+                            <div style="margin-top: 25px; position: relative;">
+                                <div style="position: absolute; right: 0px;">
                                     <div v-if="apartment.rating > 0">
                                         <span class="fa fa-star checked star-size"></span>
     
@@ -291,17 +293,31 @@
                                     <div v-else>
                                         No ratings.
                                     </div>
+
+                                    <div v-if="apartment.rating > 0">
+                                        <span style="font-size: small; color:#9b9b9b;">{{apartment.numberOfRatings}}
+                                            reviewers</span>
+                                    </div>
                                 </div>
-                                <div v-if="apartment.rating > 0">
-                                    <span style="font-size: small; color:#9b9b9b;">{{apartment.numberOfRatings}}
-                                        reviewers</span>
+
+                                <div style="position: absolute; left: 0px; text-align: left; top: -10px; background-color: rgb(39, 173, 39); color: white; 
+                                        padding-left: 15px; padding-right: 15px; padding-top: 5px; padding-bottom: 5px; border-radius: 5px;">
+                                    <h1>{{apartment.pricePerNight}}$</h1> 
+                                    <span style="font-size: small; color: rgb(236, 236, 236);">*Price per night</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="data-row left">
-                            <h1>{{apartment.pricePerNight}}$</h1>
-                            <span style="font-size: small; color:rgb(155, 155, 155)">*Price per night</span>
+                          <div class="data-row" style="margin-top: 80px;">
+                            <div style="width: 100%; background-color: rgb(230, 230, 230); border-radius: 10px; text-align: right;
+                                    padding-right: 15px; padding-top: 5px; padding-left: 20px; padding-bottom: 5px;">
+                                <div style="font-weight: 600; padding-bottom: 3px;">
+                                    Location
+                                </div>
+                                <div> 
+                                    {{apartment.location.address.streetName}} {{apartment.location.address.streetNumber}},  {{apartment.location.address.city.name}} {{apartment.location.address.city.postalCode}}
+                                </div>
+                            </div>
                           </div>
 
                           <div class="data-row">
