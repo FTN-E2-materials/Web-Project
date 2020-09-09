@@ -43,15 +43,16 @@ public class HTMLService {
 		
 		LANDING_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.LANDING_PAGE_LOCATION));
 		LOGIN_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.LOGIN_PAGE_LOCATION));
-		REGISTRATION_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.REGISTRATION_PAGE_LOCATION));
+		REGISTRATION_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.REGISTRATION_LOCATION));
 		GUEST_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.GUEST_HOME_LOCATION));
 		HOST_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.HOST_HOME_LOCATION));
 		ADMIN_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.ADMIN_HOME_LOCATION));
-		CREATE_APARTMENT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.CREATE_APARTMENT_PAGE_LOCATION));
-		SINGLE_APARTMENT_PAGE_HOST = streamToString(HTMLService.class.getResourceAsStream(Config.APARTMENT_DETAILS_HOST_PAGE_LOCATION));
-		GUEST_ACCOUNT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.GUEST_ACCOUNT_PAGE_LOCATION));
-		HOST_ACCOUNT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.HOST_ACCOUNT_PAGE_LOCATION));
-		EDIT_APARTMENT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.EDIT_APARTMENT_PAGE_LOCATION));
+		CREATE_APARTMENT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.CREATE_APARTMENT_LOCATION));
+		SINGLE_APARTMENT_PAGE_HOST = streamToString(HTMLService.class.getResourceAsStream(Config.APARTMENT_DETAILS_HOST_LOCATION));
+		SINGLE_APARTMENT_PAGE_GUEST = streamToString(HTMLService.class.getResourceAsStream(Config.APARTMENT_DETAILS_GUEST_LOCATION));
+		GUEST_ACCOUNT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.GUEST_ACCOUNT_LOCATION));
+		HOST_ACCOUNT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.HOST_ACCOUNT_LOCATION));
+		EDIT_APARTMENT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.EDIT_APARTMENT_LOCATION));
 
 		System.out.println("Completed caching.");
 	}

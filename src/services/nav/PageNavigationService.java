@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
-import services.interfaces.util.NavigationResponseHandler;
+import services.interfaces.util.HttpResponseHandler;
 import services.interfaces.util.SessionTracker;
 import util.Config;
 import util.services.HTMLService;
@@ -22,7 +22,7 @@ import util.services.ScriptService;
  *  @author Nikola
  */
 @Path("/")
-public class PageNavigationService implements SessionTracker, NavigationResponseHandler {
+public class PageNavigationService implements SessionTracker, HttpResponseHandler {
 
 // Default path lands on Landing page, or Home if user is logged in
 	@GET

@@ -4,7 +4,7 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 
 import services.interfaces.rest.DatabaseAccessInterface;
-import services.interfaces.util.DataResponseHandler;
+import services.interfaces.util.HttpResponseHandler;
 import services.interfaces.util.SessionHandler;
 
 
@@ -14,7 +14,7 @@ import services.interfaces.util.SessionHandler;
  * @param <T>
  * @param <DAO>
  */
-public abstract class BaseService implements DatabaseAccessInterface, SessionHandler, DataResponseHandler {
+public abstract class BaseService implements DatabaseAccessInterface, SessionHandler, HttpResponseHandler {
 	
 	@Context
 	protected ServletContext ctx;

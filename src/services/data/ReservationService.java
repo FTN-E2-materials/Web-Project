@@ -134,7 +134,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		
 		if (session == null)
 			return ForbiddenRequest();
-		// If guest wants to change
+		// If guest wants to change their own reservation
 		if (session.isGuest()  &&  session.getUserID().equals(reservation.guestID)) {
 			if (reservation.status == ReservationStatus.CREATED  ||
 					reservation.status == ReservationStatus.APPROVED) {
@@ -142,10 +142,10 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 				return OK(super.update(reservation));
 			}
 			else {
-				return ForbiddenRequest("This reservation cannot be cancelled.");
+				return ForbiddenRequest();
 			}
 		}
-		// If host wants to change
+		// If host wants to change their own reservation
 		if (session.isHost() &&  session.getUserID().equals(reservation.apartment.hostID)) {
 			if (reservation.status == ReservationStatus.CREATED  ||
 					reservation.status == ReservationStatus.APPROVED) {
@@ -153,7 +153,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 				return OK(super.update(reservation));
 			}
 			else {
-				return ForbiddenRequest("This reservation cannot be cancelled.");
+				return ForbiddenRequest();
 			}
 		}
 		
@@ -180,13 +180,14 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		
 		if (session == null)
 			return ForbiddenRequest();
+		// If guest wants to approve their own reservation
 		if (session.isHost() &&  session.getUserID().equals(reservation.apartment.hostID)) {
 			if (reservation.status == ReservationStatus.CREATED) {
 				reservation.status = ReservationStatus.APPROVED;
 				return OK(super.update(reservation));
 			}
 			else {
-				return ForbiddenRequest("This reservation cannot be approved.");
+				return ForbiddenRequest();
 			}
 		}
 		
@@ -224,7 +225,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 				}
 			}
 			else {
-				return ForbiddenRequest("This reservation cannot be finished.");
+				return ForbiddenRequest();
 			}
 		}
 		

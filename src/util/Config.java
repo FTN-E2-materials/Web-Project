@@ -78,12 +78,13 @@ public class Config {
 	public static final String GUEST_HOME_LOCATION = HTML_FILE_ROOT + "guest_home.html";
 	public static final String HOST_HOME_LOCATION = HTML_FILE_ROOT + "host_home.html";
 	public static final String ADMIN_HOME_LOCATION = HTML_FILE_ROOT + "admin_home.html";
-	public static final String REGISTRATION_PAGE_LOCATION = HTML_FILE_ROOT + "registration.html";
-	public static final String CREATE_APARTMENT_PAGE_LOCATION = HTML_FILE_ROOT + "create_apartment.html";
-	public static final String APARTMENT_DETAILS_HOST_PAGE_LOCATION = HTML_FILE_ROOT + "apartment_host.html";
-	public static final String EDIT_APARTMENT_PAGE_LOCATION = HTML_FILE_ROOT + "edit_apartment.html";
-	public static final String GUEST_ACCOUNT_PAGE_LOCATION = HTML_FILE_ROOT + "guest_account.html";
-	public static final String HOST_ACCOUNT_PAGE_LOCATION = HTML_FILE_ROOT + "host_account.html";
+	public static final String REGISTRATION_LOCATION = HTML_FILE_ROOT + "registration.html";
+	public static final String CREATE_APARTMENT_LOCATION = HTML_FILE_ROOT + "create_apartment.html";
+	public static final String APARTMENT_DETAILS_HOST_LOCATION = HTML_FILE_ROOT + "apartment_host.html";
+	public static final String APARTMENT_DETAILS_GUEST_LOCATION = HTML_FILE_ROOT + "apartment_guest.html";
+	public static final String EDIT_APARTMENT_LOCATION = HTML_FILE_ROOT + "edit_apartment.html";
+	public static final String GUEST_ACCOUNT_LOCATION = HTML_FILE_ROOT + "guest_account.html";
+	public static final String HOST_ACCOUNT_LOCATION = HTML_FILE_ROOT + "host_account.html";
 
 	// JS Script root location
 	public static String SCRIPT_FILE_ROOT = WEB_FILE_ROOT + "scripts/";

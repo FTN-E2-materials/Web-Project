@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartment</title>
+    <!-- Vue.js script -->
+    <script src="https://unpkg.com/vue"></script>
+
+    <!-- Google poppins font -->
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+    <!-- Rating stars lib -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+
+    * {
+            margin: 0px; 
+            padding: 0px; 
+            box-sizing: border-box;
+        }
+        
+        html {
+          scroll-behavior: smooth;
+        }
+        
+        body {
+          background: #fafafa;
+          width: 100%;
+        }
+        
+        /** Give all elements a transition and Poppins font */
+        * {
+            font-family: "Poppins";
+            transition: all 0.4s;
+            -webkit-transition: all 0.4s;
+            -o-transition: all 0.4s;
+            -moz-transition: all 0.4s;
+        }
+        
+        button:hover {
+            cursor: pointer;
+        }
+        
+        a:hover { 
+          cursor: pointer;
+        }
+
+        div {
+            width: auto;
+        }
+        
+        .wrapper { 
+            display: grid;
+        }
+
+        .table {
+            display: table;
+            background-color: #fafafa;
+            border-collapse: collapse;
+            width: 86%;
+            margin: 40px auto;
+
+            justify-content: space-evenly;
+        }
+
+        .row {
+            width: 100%;
+            background: #fafafa;
+            height: 50px;
+        }
+
+        .row:hover {
+            background-color: #ecf2fa;
+            cursor: pointer;
+        }
+
+        td {
+            padding-left: 12px;
+            min-width: auto;
+        }
+
+        .header {
+            padding: 10px 16px;
+            background: #275FCF;
+            color: #f1f1f1;
+            width: 100%;
+            position: fixed;
+            z-index: 999;
+          }
+        
+        .header-title {
+          font-weight: 600;
+          letter-spacing: 1px;
+          font-size: large;
+          float:left;
+          color: white;
+          text-decoration: none;
+        }
+        
+        .header-links {
+          float: right;
+          margin-right: 25px;
+        }
+        
+        .header-link {
+          font-size: small;
+          text-decoration: none;
+          color: white;
+          margin-right: 25px;
+        }
+        
+        .button {
+      color: white;
+
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+
+      outline: none;
+      border-style: solid;
+      border-radius: 10px;
+      border: none;
+
+      font-size: 17px;
+      font-family: "Poppins";
+    }
+
+    .activate-button {
+      background-color: #009e00;
+    }
+
+    .deactivate-button {
+      background-color: #c92525;
+    }
+
+    .edit-button {
+      background-color :rgb(221, 60, 168);
+      color : white;
+    }
+
+    .activate-button:hover {
+      background: rgb(10, 141, 10);
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    .deactivate-button:hover {
+      background: #b31515;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    .edit-button:hover {
+      background-color :rgb(201, 40, 147);
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+        
+    .header-link:hover {
+        color: white;
+    }
+    
+    .header-link-inactive { 
+        color: #A9BFEB;
+    }
+    
+    .header-link-active {
+        font-weight: 600;
+    }
+
+    .big-bold {
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .column-left {
+        float: left;
+    }
+
+    .column-right {
+        float: right;
+        width: max-content;
+    }
+
+    .center-content {
+        text-align: center;
+    }
+
+    .align-content-right {
+        text-align: right;
+        padding-top: 10px;
+        padding-right: 20px;
+    }
+
+    .body { 
+        margin-top: 2%;
+        text-align: center;
+        width: 100%;
+    }
+
+    .center {
+        margin: 0 auto;
+    }
+
+    .data-row {
+        padding-bottom: 4%;
+    }
+
+    img {
+        opacity: 0.75;
+    }
+
+    img:hover {
+        opacity : 1;
+    }
+    
+    /* Rating star color */
+    .checked {
+        color: rgb(255, 175, 25);
+    }
+
+    .star-size {
+        width : 15px;
+        height : 15px;
+    }
+
+    .left {
+        text-align : left;
+    }
+
+    .right {
+        text-align: right;
+    }
+
+    .hyperlink { 
+        color : rgb(155, 155, 155);
+        text-decoration: none;
+    }
+
+    .hyperlink:hover {
+        color : rgb(129, 129, 129);
+        text-decoration: underline;
+    }
+    
+</style>
+        
+</head>
+    <body>
+        <div class="wrapper" id="vue-apartment">
+            <div class="header">
+                <div>
+                <a class="header-title" href="http://localhost:8080/WebProject">FakeAirbnb</span>
+                </div>
+                <div class="header-links">
+                
+                    <a class="header-link header-link-active" href="http://localhost:8080/WebProject/">Apartments</a>
+                    <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/reservations">My reservations</a>
+                    <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/account">Account</a>
+                </div>
+            </div>
+            <div class="body" v-if="apartmentLoaded">
+                <div class="column-left" style="width: 45%;">
+                    <img style="width: 100%;" :src="apartment.imageLink">
+                </div>
+                <div class="column-right align-content-right" style="max-width: 55%; min-width:40%; width: fit-content; padding: 5%; padding-left: 8%; padding-top: 3%;">
+                    <div style="width: 100%">
+                        <div class="data-row">
+                            <h1>{{apartment.title}}</h1>
+                            <p>{{apartment.numberOfRooms}} rooms  &middot  {{apartment.numberOfGuests}} guests</p>
+                        
+                            <div style="margin-top: 15px;">
+                                <div id="rating">
+                                    <div v-if="apartment.rating > 0">
+                                        <span class="fa fa-star checked star-size"></span>
+    
+                                        <span class="fa fa-star checked star-size" v-if="apartment.rating > 1.49"></span>
+                                        <span class="fa fa-star star-size" v-else></span>
+    
+                                        <span class="fa fa-star checked star-size" v-if="apartment.rating > 2.49"></span>
+                                        <span class="fa fa-star star-size" v-else></span>
+    
+                                        <span class="fa fa-star checked star-size" v-if="apartment.rating > 3.49"></span>
+                                        <span class="fa fa-star star-size" v-else></span>
+    
+                                        <span class="fa fa-star checked star-size" v-if="apartment.rating > 4.49"></span>
+                                        <span class="fa fa-star star-size" v-else></span>
+                                    </div>
+                                    <div v-else>
+                                        No ratings.
+                                    </div>
+                                </div>
+                                <div v-if="apartment.rating > 0">
+                                    <span style="font-size: small; color:#9b9b9b;">{{apartment.numberOfRatings}}
+                                        reviewers</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="data-row left">
+                            <h1>{{apartment.pricePerNight}}$</h1>
+                            <span style="font-size: small; color:rgb(155, 155, 155)">*Price per night</span>
+                          </div>
+
+                          <div class="data-row">
+                            <div>
+                              <a class="hyperlink" @click="goToReviews">See reviews for this apartment</a>
+                            </div>
+                          </div>
+                          <!-- Here goes the calendar + nights + CREATE button-->
+                 </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <!-- Vue.js implementation -->
+        <script src="http://localhost:8080/WebProject/scripts/apartment_guest.js"></script>  
+    </body>
+</html>
