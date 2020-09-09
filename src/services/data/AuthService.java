@@ -73,9 +73,9 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 		String password = loginInfo.stringArgs.get(1);
 		
 		if (username.length() < 6)
-			return BadRequest();
+			return BadRequest("Username too short.");
 		if (password.length() < 6)
-			return BadRequest();
+			return BadRequest("Password too short.");
 		
 		UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);
 		UserAccount account = dao.getByKey(username);
@@ -89,8 +89,6 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 		return OK(account);
 	}
 
-	/** Attempts to register the user. Account object must be valid.
-	 *  User must not be logged in already. */
 	@Path(Config.REGISTRATION_PATH)
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -102,7 +100,7 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 			System.out.println("This session is already logged in.");
 			return ForbiddenRequest();	
 		}
-				
+		
 		if (account == null)
 			return BadRequest();
 		try {
@@ -117,6 +115,7 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 		// Only allow Guest creation through registration. 
 		account.type = TypeOfUser.GUEST;
 		UserAccount result = dao.create(account);
+		// DAO will return null if an object with such a key already exists (same username)
 		if (result == null)
 			return AuthFailed("Account with this username already exists!");
 		

@@ -3,10 +3,12 @@ package storage;
 import java.util.Map;
 
 import com.google.gson.*;
+
+import beans.model.template.DatabaseEntity;
+
 import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
 
-import beans.model.DatabaseEntity;
 import util.services.IOService;
 
 /** Template class whose instance is in charge of reading and writing JSON formatted files to and from the files given to it.
@@ -21,6 +23,8 @@ public class Storage<T extends DatabaseEntity> {
 	 *  Defines which type of object is tied to this class at runtime. */
 	private TypeToken<Map<String, T>> targetType;
 	
+	/** Template class whose instance is in charge of reading and writing JSON formatted files to and from the files given to it.
+	 *  On construction requires an database object type related to it, and the location of the storage where the data will be kept. */
 	public Storage(Class<T> dataType, String fileStorageLocation) {
 		this.fileStorageLocation = fileStorageLocation;
 		

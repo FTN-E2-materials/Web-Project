@@ -2,7 +2,7 @@ package filters;
 
 import java.util.Collection;
 
-import beans.model.DatabaseEntity;
+import beans.model.template.DatabaseEntity;
 import dao.BeanDAO;
 
 

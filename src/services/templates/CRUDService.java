@@ -5,8 +5,7 @@ import java.util.Collection;
 import beans.interfaces.Cloneable;
 import beans.interfaces.FieldWrapperInterface;
 import beans.interfaces.SessionToken;
-import beans.model.DatabaseEntity;
-
+import beans.model.template.DatabaseEntity;
 import dao.BeanDAO;
 import util.services.UpdateService;
 import util.wrappers.RequestWrapper;
@@ -93,12 +92,19 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 		return dao.delete(obj);
 	}
 	
-	/** Updates the object from the database with the same key as the given object.
-	 *  Given argument object must be valid.
-	 * @param obj
-	 * @return modified object on success, or null if failed.
+	/** Updates the first object with the values from the seconds one, while keeping
+	    the FieldWrapper-defined field values constant. Constant field values are specified through the implementation of 
+	    the FieldWrapperInterface in each specific class.
+	 * @param <K>
+	 * @param oldEntity object to be updated 
+	 * @param updatedEntity object whose values are used for updating the old one
+	 * @return
 	 */
-	protected <K extends DatabaseEntity & Cloneable<K> & FieldWrapperInterface> T update(K oldEntity, K updatedEntity) {
+	protected <K extends DatabaseEntity & 
+							Cloneable<K> & 
+							FieldWrapperInterface> 
+		T update(K oldEntity, K updatedEntity) 
+	{
 		try { 
 			updatedEntity.validate(); 
 		}

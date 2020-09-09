@@ -12,7 +12,6 @@ public class ApartmentFieldWrapper extends FieldWrapper {
 	public List<Date> workingDates;
 	
 	public ApartmentFieldWrapper(String key, String hostID, Double rating, Integer numberOfRatings, List<Date> workingDates) {
-		super();
 		this.key = key;
 		this.hostID = hostID;
 		this.rating = rating;

@@ -2,8 +2,8 @@ package beans.model.entities;
 
 import java.util.Calendar;
 
-import beans.model.DatabaseEntity;
 import beans.model.enums.ReservationStatus;
+import beans.model.template.DatabaseEntity;
 
 
 public class Reservation extends DatabaseEntity {

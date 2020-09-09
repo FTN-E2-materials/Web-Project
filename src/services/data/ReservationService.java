@@ -20,7 +20,6 @@ import beans.model.entities.Reservation;
 import beans.model.enums.ReservationStatus;
 import dao.ReservationDAO;
 import services.interfaces.rest.ReservationServiceInterface;
-import services.interfaces.rest.ResponseCRUDInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
@@ -97,8 +96,8 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 			return OK(dao.getByHostID(session.getUserID()));
 		if (session.isAdmin())
 			return OK(dao.getAll());
-		else 
-			return ForbiddenRequest();
+
+		return ForbiddenRequest();
 	}
 	
 	@GET
@@ -106,7 +105,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	@Path("/{id}")
 	@Override
 	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
-		return OK(super.getByID(key));
+		return ForbiddenRequest(); // TODO Reservations should not be fetched like this?
 	}
 
 	

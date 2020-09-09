@@ -1,7 +1,7 @@
 package dao;
 
 import java.util.ArrayList;
-import beans.model.DatabaseEntity;
+
 import javafx.collections.MapChangeListener;
 import storage.Storage;
 import util.Config;
@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sun.javafx.collections.ObservableMapWrapper;
+
+import beans.model.template.DatabaseEntity;
 
 
 /** Template DAO class for basic CRUD operations with DatabaseEntity classes. 

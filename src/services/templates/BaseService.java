@@ -9,7 +9,7 @@ import services.interfaces.util.SessionHandler;
 
 
 /** Abstract template for a basic service class. Contains a ServletContext field,
- *  database access and storage access.
+ *  database access string and storage access string fields.
  * @author Nikola
  * @param <T>
  * @param <DAO>

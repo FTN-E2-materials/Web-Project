@@ -1,6 +1,6 @@
 package beans.model.entities;
 
-import beans.model.DatabaseEntity;
+import beans.model.template.DatabaseEntity;
 
 public class Review extends DatabaseEntity {
 	

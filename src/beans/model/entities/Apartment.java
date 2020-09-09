@@ -4,12 +4,12 @@ import java.util.*;
 
 import beans.interfaces.Cloneable;
 import beans.interfaces.FieldWrapperInterface;
-import beans.model.DatabaseEntity;
 import beans.model.enums.ApartmentStatus;
 import beans.model.enums.AccommodationType;
 import beans.model.other.Date;
 import beans.model.other.Location;
 import beans.model.other.Time;
+import beans.model.template.DatabaseEntity;
 import util.wrappers.ApartmentFieldWrapper;
 import util.wrappers.FieldWrapper;
 
