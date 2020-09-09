@@ -2,7 +2,8 @@ let vue = new Vue({
     el :"#vue-apartment",
     data : {
         apartment : {},
-        apartmentLoaded : false
+        apartmentLoaded : false,
+        calendar : undefined
     },
     methods : {
         getApartment : function() {
@@ -24,5 +25,16 @@ let vue = new Vue({
     },
     beforeMount() {
         this.getApartment();
+
+        let currentDay = new Date()
+        this.calendar = new ej.calendars.Calendar({
+            isMultiSelection: false,
+            values: [],
+            min : currentDay,
+            showTodayButton : false
+        });
+    },
+    updated() {
+        this.calendar.appendTo('#element');
     }
 });
