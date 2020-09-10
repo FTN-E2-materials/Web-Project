@@ -361,16 +361,18 @@
                         <!-- Here goes the calendar + nights + CREATE button-->
                         <div  v-if="calendarVisible"
                               class="data-row" style="margin-top: 50px; display: flex;">
-                            <div id="container column-left">
-                                <!--element which is going to render the Calendar-->
-                                <div id="element"></div>
+                            <div class="column-left">
+                                <div id="container">
+                                    <!--element which is going to render the Calendar-->
+                                    <div id="element"></div>
+                                </div>
                             </div>
-                            <div class="column-left" style="margin-left: 30px; text-align: left;"> 
+                            <div class="column-right" style="margin-left: 30px; text-align: left;"> 
                                 <div>
                                     <span>How many nights?</span>
                                 </div>
                                 <div style="margin-top: 3px;">
-                                    <input type="number" placeholder="Nights">
+                                    <input type="number" placeholder="Nights" v-model="numberOfNights">
                                 </div>
                                 <button class="button edit-button"
                                     style="width: 100%; margin-top: 50px" @click="createReservation">Book now</button>

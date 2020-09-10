@@ -12,5 +12,4 @@ public interface ReservationServiceInterface extends ResponseCRUDInterface<Reser
 	public Response cancel(RequestWrapper requestWrapper, @Context HttpServletRequest request);
 	public Response approve(RequestWrapper requestWrapper, @Context HttpServletRequest request);
 	public Response finish(RequestWrapper requestWrapper, @Context HttpServletRequest request);
-
 }

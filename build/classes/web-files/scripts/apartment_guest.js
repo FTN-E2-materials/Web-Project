@@ -5,7 +5,9 @@ let vue = new Vue({
         apartmentLoaded : false,
         calendar : undefined,
         calendarVisible : false,
-        availableDates : []
+        availableDates : [],
+        numberOfNights : 1,
+        calendarRendered : false
     },
     methods : {
         getApartment : function() {
@@ -27,19 +29,47 @@ let vue = new Vue({
             window.location.href += "/reviews"
         },
         createReservation : function() {
-            alert("Creating reservation...")
+            let reservation = {
+                startingDate : vue.calendar.value,
+                numberOfNights : vue.numberOfNights,
+                price : vue.apartment.pricePerNight * vue.numberOfNights,
+                reservationMessage : "Hello there, this is a reservation message",
+                status : "CREATED",
+                apartment : {
+                    key : vue.apartment.key,
+                    title : vue.apartment.title,
+                    numberOfRooms : vue.apartment.numberOfRooms,
+                    numberOfGuests : vue.apartment.numberOfGuests,
+                    imageLink : vue.apartment.imageLink,
+                    rating : vue.apartment.rating,
+                    numberOfRatings : vue.apartment.numberOfRatings,
+                    hostID : vue.apartment.hostID
+                }
+            }
+            
+            axios.post("/WebProject/data/reservations", reservation)
+                .then(response => {
+                    if (response.status === 200) {
+                        alert("Successfully created reservation!")
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         },
         hideCalendar : function() {
             Vue.set(vue, "calendarVisible", false);
         },
         showCalendar : function() {
             Vue.set(vue, "calendarVisible", true)
-        }
+
+
+        },
     },
-    beforeMount() {
+    beforeMount : function() {
         this.getApartment();
     },
-    updated() {
+    mounted : function() {
         let currentDay = new Date()
         this.calendar = new ej.calendars.Calendar({
             isMultiSelection: false,
@@ -48,18 +78,21 @@ let vue = new Vue({
             showTodayButton : false,
             renderDayCell: disabledDate,
         });
-
-        this.calendar.appendTo('#element');
-
+        
         function disabledDate(args) {
             for (let i = 0; i < vue.availableDates.length; i++) {
                 if (vue.availableDates[i].toDateString() === args.date.toDateString()) {
-                    console.log("Available: " + vue.availableDates[i].toDateString())
                     return
                 }
             }
-            console.log("Unavailable: " + args.date.toDateString())
             args.isDisabled = true 
+        }
+    },
+    updated : function() {
+        if (vue.calendarRendered === false  &&  vue.calendarVisible === true){
+            vue.calendar.appendTo('#element');
+            alert("appended")
+            vue.calendarRendered = true
         }
     }
 });

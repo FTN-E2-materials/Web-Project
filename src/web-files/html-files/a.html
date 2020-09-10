@@ -357,11 +357,12 @@
                                 <div id="element"></div>
                             </div>
                             <div class="column-left" style="margin-left: 30px; text-align: left;"> 
-                                <div>
-                                    <span>How many nights?</span>
-                                </div>
-                                <div style="margin-top: 3px;">
-                                    <input type="number" placeholder="Nights">
+                                <div style="display: flex;"> 
+                                    <button class="button" style="margin-right: 15px;">-1</button>
+
+                                    <p style="margin-right: 15px;">1</p>
+
+                                    <button class="button" style="margin-right: 15px;">+1</button>
                                 </div>
                                 <button class="button edit-button"
                                     style="width: 100%; margin-top: 50px" @click="createReservation">Book now</button>

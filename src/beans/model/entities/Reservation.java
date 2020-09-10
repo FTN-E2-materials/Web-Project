@@ -3,6 +3,7 @@ package beans.model.entities;
 import java.util.Calendar;
 
 import beans.model.enums.ReservationStatus;
+import beans.model.other.ApartmentPreview;
 import beans.model.template.DatabaseEntity;
 
 
@@ -15,7 +16,8 @@ public class Reservation extends DatabaseEntity {
    public ReservationStatus status;
    
    public String guestID;
-   public Apartment apartment;
+   public ApartmentPreview apartment;
+   
    
    public Reservation() {
 	   status = ReservationStatus.CREATED;
@@ -24,7 +26,6 @@ public class Reservation extends DatabaseEntity {
    @Override
    public void validate() {
    	// TODO Auto-generated method stub
-   	
    }
 
 

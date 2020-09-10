@@ -65,10 +65,13 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	public Response create(Reservation reservation, @Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		
-		if (session.isGuest())
-			super.create(reservation);
+		if (session.isGuest()) {
+			reservation.guestID = session.getUserID();
+			reservation.status = ReservationStatus.CREATED;
+			return OK(super.create(reservation));
+		}
 			
-		return null;					
+		return ForbiddenRequest();					
 	}
 	
 	@PUT
