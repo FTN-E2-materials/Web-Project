@@ -36,7 +36,7 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 
 			@Override
 			public void onChanged(Change<? extends String, ? extends T> change) {
-				storage.writeAll(database);
+				forceUpdate();
 			}
 		});
 		
@@ -100,7 +100,7 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 			return null;
 		
 		database.put(obj.key, obj);
-		storage.writeAll(database);
+		forceUpdate();
 		
 		return obj;
 	}
@@ -113,7 +113,7 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 			return null;
 		
 		entity.delete();
-		storage.writeAll(database);
+		forceUpdate();
 		
 		return entity;
 	}
@@ -127,5 +127,10 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 		entity.delete();
 		
 		return entity;
+	}
+	
+	/** Forces a database update, and writes the whole database to the file */
+	public void forceUpdate() {
+		storage.writeAll(database);
 	}
 }

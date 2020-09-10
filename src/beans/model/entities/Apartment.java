@@ -18,8 +18,8 @@ public class Apartment extends DatabaseEntity implements Cloneable<Apartment>, F
    public AccommodationType type;
    public int numberOfRooms;
    public int numberOfGuests;
-   public List<Date> availableDates;
-   public List<Date> workingDates;
+   public List<Date> availableDates = new ArrayList<Date>();
+   public List<Date> workingDates = new ArrayList<Date>();
    public Double pricePerNight;
    public List<String> pictures;
    public Time checkInTime;
@@ -32,12 +32,6 @@ public class Apartment extends DatabaseEntity implements Cloneable<Apartment>, F
    
    public Double rating;
    public int numberOfRatings;
-   
-   public ArrayList<Amenity> getAmenities() {
-      if (amenities == null)
-         amenities = new ArrayList<Amenity>();
-      return amenities;
-   }
    
    @Override
    public void validate() {

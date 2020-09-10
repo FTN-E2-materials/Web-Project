@@ -1,5 +1,8 @@
 package services.data;
 
+
+import java.util.ArrayList;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -18,6 +21,7 @@ import javax.ws.rs.core.Response;
 import beans.interfaces.SessionToken;
 import beans.model.entities.Apartment;
 import beans.model.enums.ApartmentStatus;
+import beans.model.other.Date;
 import dao.ApartmentDAO;
 import filters.ApartmentFilter;
 import services.interfaces.rest.ApartmentServiceInterface;

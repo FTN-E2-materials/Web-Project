@@ -17,7 +17,7 @@ import util.wrappers.RequestWrapper;
  * @param <T>
  * @param <DAO>
  */
-public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<T>> extends BaseService {
+public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<T>> extends DatabaseService {
 	
 	/** Checks if an object is valid, and if yes, adds it to the database.
 	 * @param DatabaseEntity

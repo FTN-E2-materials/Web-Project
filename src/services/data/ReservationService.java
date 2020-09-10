@@ -16,14 +16,18 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
+import beans.model.entities.Apartment;
 import beans.model.entities.Reservation;
 import beans.model.enums.ReservationStatus;
 import beans.model.other.Date;
+import dao.ApartmentDAO;
 import dao.ReservationDAO;
+import javassist.NotFoundException;
 import services.interfaces.rest.ReservationServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
+import util.services.SchedulingService;
 import util.wrappers.RequestWrapper;
 
 
@@ -70,16 +74,21 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 			return ForbiddenRequest();
 		
 		if (session.isGuest()) {
-			if (reservation.numberOfNights > 14)
-				return BadRequest("Maximum amount of nights is 14!");
-			if (!reservation.startingDate.isFuture())
-				return BadRequest("Reservation must be made in the future!");
-			if (reservation.reservationMessage.length() > 200)
-				return BadRequest("Reservation message too long!");
-						
 			reservation.guestID = session.getUserID();
 			reservation.status = ReservationStatus.CREATED;
-			return OK(super.create(reservation));
+			Reservation createdRes = super.create(reservation);
+			
+			if (createdRes == null)
+				return BadRequest();
+			
+			try {
+				SchedulingService.getInstance(ctx).applyDateChanges(createdRes);
+				return OK(createdRes);
+			}
+			catch (NotFoundException e) {
+				e.printStackTrace();
+				return BadRequest(e.getMessage());
+			}
 		}
 			
 		return ForbiddenRequest();					
