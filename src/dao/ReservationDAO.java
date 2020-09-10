@@ -27,7 +27,7 @@ public class ReservationDAO extends BeanDAO<Reservation> implements ReservationD
 		Collection<Reservation> reservations = new ArrayList<Reservation>();
 		
 		for (Reservation res : database.values()) {
-			if (res.guestID.contentEquals(guestID)  &&  res.startingDate.after(Calendar.getInstance()))
+			if (res.guestID.contentEquals(guestID))
 				reservations.add(res);
 		}
 		

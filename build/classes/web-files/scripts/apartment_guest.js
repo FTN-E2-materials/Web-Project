@@ -7,6 +7,7 @@ let vue = new Vue({
         calendarVisible : false,
         availableDates : [],
         numberOfNights : 1,
+        reservationMessage : "",
         calendarRendered : false
     },
     methods : {
@@ -30,10 +31,12 @@ let vue = new Vue({
         },
         createReservation : function() {
             let reservation = {
-                startingDate : vue.calendar.value,
+                startingDate : {
+                    ticks : vue.calendar.value.getTime()
+                },
                 numberOfNights : vue.numberOfNights,
                 price : vue.apartment.pricePerNight * vue.numberOfNights,
-                reservationMessage : "Hello there, this is a reservation message",
+                reservationMessage : vue.reservationMessage,
                 status : "CREATED",
                 apartment : {
                     key : vue.apartment.key,
@@ -59,11 +62,10 @@ let vue = new Vue({
         },
         hideCalendar : function() {
             Vue.set(vue, "calendarVisible", false);
+            vue.calendarRendered = false;
         },
         showCalendar : function() {
             Vue.set(vue, "calendarVisible", true)
-
-
         },
     },
     beforeMount : function() {
@@ -91,7 +93,6 @@ let vue = new Vue({
     updated : function() {
         if (vue.calendarRendered === false  &&  vue.calendarVisible === true){
             vue.calendar.appendTo('#element');
-            alert("appended")
             vue.calendarRendered = true
         }
     }

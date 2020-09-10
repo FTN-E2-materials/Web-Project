@@ -1,15 +1,14 @@
 package beans.model.entities;
 
-import java.util.Calendar;
-
 import beans.model.enums.ReservationStatus;
 import beans.model.other.ApartmentPreview;
+import beans.model.other.Date;
 import beans.model.template.DatabaseEntity;
 
 
 public class Reservation extends DatabaseEntity {
 	
-   public Calendar startingDate;
+   public Date startingDate;
    public int numberOfNights;
    public Double price;
    public String reservationMessage;

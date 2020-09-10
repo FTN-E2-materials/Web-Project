@@ -372,7 +372,8 @@
                                     <span>How many nights?</span>
                                 </div>
                                 <div style="margin-top: 3px;">
-                                    <input type="number" placeholder="Nights" v-model="numberOfNights">
+                                    <input type="number" placeholder="Nights" v-model="numberOfNights"
+                                            style="padding-left: 5px; font-size: 15px;">
                                 </div>
                                 <button class="button edit-button"
                                     style="width: 100%; margin-top: 50px" @click="createReservation">Book now</button>
@@ -382,6 +383,12 @@
                         </div>
                         <div v-else>
                             <button class="button edit-button" style="width: 25%;" @click="showCalendar">Book now</button>
+                        </div>
+                        <div class="left" style="width: 81%;" v-if="calendarVisible">
+                            <textarea placeholder="Add a message for the host..." v-model="reservationMessage"
+                                    style="width: inherit; height: 60px; padding-left: 5px; padding-top: 2px;
+                                            border: 1px solid rgb(172, 172, 172);
+                                            font-size: 14px;"></textarea>
                         </div>
                  </div>
                 </div>

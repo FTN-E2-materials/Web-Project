@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import beans.interfaces.SessionToken;
 import beans.model.entities.Reservation;
 import beans.model.enums.ReservationStatus;
+import beans.model.other.Date;
 import dao.ReservationDAO;
 import services.interfaces.rest.ReservationServiceInterface;
 import services.templates.CRUDService;
@@ -65,7 +66,17 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	public Response create(Reservation reservation, @Context HttpServletRequest request) {
 		SessionToken session = super.getCurrentSession(request);
 		
+		if (session == null)
+			return ForbiddenRequest();
+		
 		if (session.isGuest()) {
+			if (reservation.numberOfNights > 14)
+				return BadRequest("Maximum amount of nights is 14!");
+			if (!reservation.startingDate.isFuture())
+				return BadRequest("Reservation must be made in the future!");
+			if (reservation.reservationMessage.length() > 200)
+				return BadRequest("Reservation message too long!");
+						
 			reservation.guestID = session.getUserID();
 			reservation.status = ReservationStatus.CREATED;
 			return OK(super.create(reservation));
@@ -219,16 +230,18 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 			return ForbiddenRequest();
 		if (session.isHost() &&  session.getUserID().equals(reservation.apartment.hostID)) {
 			if (reservation.status == ReservationStatus.APPROVED) {
-				Calendar endDate = reservation.startingDate;
-				endDate.add(Calendar.DATE, reservation.numberOfNights);
+				Date endDate = reservation.startingDate;
+				endDate.calendar.add(Calendar.DATE, reservation.numberOfNights);
 				// TODO Check if this is correct
-				if (endDate.compareTo(Calendar.getInstance()) < 0) {
+				if (!endDate.isFuture()) {
 					reservation.status = ReservationStatus.FINISHED;
 					return OK(super.update(reservation));
 				}
+				else 
+					return BadRequest("Cannot finish a reservation that has not yet ended.");
 			}
 			else {
-				return ForbiddenRequest();
+				return BadRequest("Cannot finish a reservation that was not approved.");
 			}
 		}
 		

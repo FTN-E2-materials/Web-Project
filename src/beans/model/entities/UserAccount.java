@@ -42,5 +42,4 @@ public class UserAccount extends DatabaseEntity implements SessionToken {
    	// TODO Auto-generated method stub
    	
    }
-
 }
