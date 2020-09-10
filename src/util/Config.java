@@ -1,9 +1,10 @@
 package util;
 
-import javax.ws.rs.core.Response.Status;
+import util.services.HTMLService;
 
 /** Keeps static constants */
 public class Config {
+	
 	// For storing DAO objects under attribute names in ServletContext objects
 	public static final String apartmentDatabaseString = "apartmentDatabase";
 	public static final String reviewDatabaseString = "reviewDatabase";

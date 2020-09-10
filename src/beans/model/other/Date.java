@@ -15,4 +15,11 @@ public class Date {
 			calendar.setTimeInMillis(ticks);
 		}
 	}
+	
+	/** Check whether this date is in the future 
+	 * @return true if date is in the future, false if it's in the past
+	 */
+	public boolean isFuture() {
+		return (this.calendar.compareTo(Calendar.getInstance()) > 0);
+	}
 }

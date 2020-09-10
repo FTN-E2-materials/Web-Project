@@ -4,7 +4,8 @@ let vue = new Vue({
         apartment : {},
         apartmentLoaded : false,
         calendar : undefined,
-        calendarVisible : false
+        calendarVisible : false,
+        availableDates : []
     },
     methods : {
         getApartment : function() {
@@ -16,7 +17,9 @@ let vue = new Vue({
                     if (response.status == 200) {
                         Vue.set(vue, "apartment", response.data);
                         Vue.set(vue, "apartmentLoaded", true);
-                        console.log(response.data);
+                        response.data.availableDates.forEach(date => {
+                            vue.availableDates.push(new Date(date.calendar))
+                        })
                     }
                 })
         },
@@ -35,16 +38,26 @@ let vue = new Vue({
     },
     beforeMount() {
         this.getApartment();
-
+    },
+    updated() {
         let currentDay = new Date()
         this.calendar = new ej.calendars.Calendar({
             isMultiSelection: false,
             values: [],
             min : currentDay,
-            showTodayButton : false
+            showTodayButton : false,
+            renderDayCell: disabledDate,
         });
-    },
-    updated() {
+
         this.calendar.appendTo('#element');
+
+        function disabledDate(args) {
+            for (let i = 0; i < vue.availableDates.length; i++) {
+                if (vue.availableDates[i].toDateString() === args.date.toDateString()) {
+                    return
+                }
+            }
+            args.isDisabled = true 
+        }
     }
 });
