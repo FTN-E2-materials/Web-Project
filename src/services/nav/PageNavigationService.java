@@ -45,6 +45,8 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 				return CreateApartmentPage(request);
 			case Config.ACCOUNT_PAGE_PATH:
 				return AccountPage(request);
+			case Config.RESERVATIONS_PAGE_PATH:
+				return ReservationsPage(request);
 				
 			default:
 				return OK("There is nothing here, go back.");
@@ -162,6 +164,21 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 			return OK(HTMLService.getInstance().getGuestAccountPage());
 		if (session.isHost())
 			return OK(HTMLService.getInstance().getHostAccountPage());
+		
+		return ForbiddenRequest();
+	}
+	
+	private Response ReservationsPage(HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isGuest())
+			return OK(HTMLService.getInstance().getReservationsPageGuest());
+		if (session.isHost())
+			return OK(HTMLService.getInstance().getReservationsPageHost());
+		if (session.isAdmin())
+			return OK(HTMLService.getInstance().getReservationsPageAdmin());
 		
 		return ForbiddenRequest();
 	}

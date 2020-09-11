@@ -64,6 +64,7 @@ public class Config {
 	public static final String APARTMENT_PAGE_PATH = "apartments/";
 	public static final String EDIT_APARTMENT_PAGE_PATH = "apartments/edit/";
 	public static final String ACCOUNT_PAGE_PATH = "account";
+	public static final String RESERVATIONS_PAGE_PATH = "reservations";
 
 	
 	// Scripts annotation path
@@ -88,6 +89,8 @@ public class Config {
 	public static final String HOST_ACCOUNT_LOCATION = HTML_FILE_ROOT + "host_account.html";
 	public static final String REVIEWS_HOST_LOCATION = HTML_FILE_ROOT + "reviews_host.html";
 	public static final String REVIEWS_GUEST_LOCATION = HTML_FILE_ROOT + "reviews_guest.html";
+	public static final String RESERVATIONS_GUEST_LOCATION = HTML_FILE_ROOT + "reservations_guest.html";
+	public static final String RESERVATIONS_HOST_LOCATION = HTML_FILE_ROOT + "reservations_host.html";
 
 	// JS Script root location
 	public static String SCRIPT_FILE_ROOT = WEB_FILE_ROOT + "scripts/";
