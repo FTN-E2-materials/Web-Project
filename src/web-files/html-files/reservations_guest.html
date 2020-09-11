@@ -196,27 +196,18 @@
         }
 
         .button {
-            float: right;
-
-            padding-left: 30px;
-            padding-right: 30px;
-            padding-top: 8px;
-            padding-bottom: 8px;
-            margin-right: 15px;
-            margin-top: 80px;
+            padding-left: 13px;
+            padding-right: 13px;
+            padding-top: 4px;
+            padding-bottom: 4px;
 
             outline: none;
             border-style: solid;
             border-radius: 5px;
             border: none;
 
-            font-size: 17px;
+            font-size: 15px;
             font-family: "Poppins";
-        }
-
-        .button:hover {
-            padding-left: 35px;
-            padding-right: 35px;
         }
 
         .green-button {
@@ -286,7 +277,7 @@
             <table class="table">
                 <tbody>
                     <tr class="row" v-for="reservation in reservations" :key="reservation.key"
-                        @click="goToApartment(reservation.apartment.key)">
+                        >
                         <td>
                             <div class="column">
                                 <div class="column-left">
@@ -297,12 +288,22 @@
                                     <div class="column-right align-content-left">
                                         <div class="big-bold" style="display: flex;">
                                             {{reservation.apartment.title}}
-                                            <p style="padding-left: 30px; font-weight: bold; color:rgb(30, 63, 173)"> {{reservation.status}}</p>
+                                            </div>
+                                        <div style="display: flex">
+                                            <p>{{reservation.apartment.numberOfRooms}} rooms &middot {{reservation.apartment.numberOfGuests}}
+                                            guests &middot</p>
+                                            
+                                            <div style="margin-left: 8px;">
+                                                <p style="font-weight: bold; color:rgb(11, 52, 185)" v-if="reservation.status == 'CREATED'"> {{reservation.status}}</p>
+                                                <p style="font-weight: bold; color:rgb(14, 155, 21)" v-else-if="reservation.status == 'APPROVED'"> {{reservation.status}}</p>
+                                                <p style="font-weight: bold; color:rgb(173, 19, 19)" v-else-if="reservation.status == 'DENIED'"> {{reservation.status}}</p>
+                                                <p style="font-weight: bold; color:rgb(126, 126, 126)" v-else-if="reservation.status == 'CANCELLED'"> {{reservation.status}}</p>
+                                                <p style="font-weight: bold; color:rgb(107, 121, 184)" v-else-if="reservation.status == 'FINISHED'"> {{reservation.status}}</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            {{reservation.apartment.numberOfRooms}} rooms &middot {{reservation.apartment.numberOfGuests}}
-                                            guests
-                                        </div>
+                                        <button v-if="reservation.status == 'CREATED'  ||  reservation.status == 'APPROVED'"
+                                                class="button blue-button" style="margin-top: 10%;"
+                                                @click="cancel(reservation.key)">Cancel</button>
                                     </div>
                                 </div>
                                 <div class="column-right align-content-right">

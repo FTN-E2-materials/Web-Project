@@ -21,7 +21,19 @@ let vue = new Vue({
             window.location.href = "/WebProject/apartments/" + apartmentID
         },
         cancel : function(reservationID) {
-            
+            let wrapper = {
+                stringKey : reservationID
+            }
+
+            axios.put("/WebProject/data/reservations/cancel", wrapper)
+                .then(response => {
+                    if (response.status == 200) {
+                        window.location.href = ""   // This means refresh?
+                    }
+                })
+                .catch (error => {
+                    console.log(error);
+                })
         }
     },
     beforeMount() {
