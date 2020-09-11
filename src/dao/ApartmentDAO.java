@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import beans.model.entities.Apartment;
+import beans.model.entities.Review;
 import beans.model.enums.ApartmentStatus;
 import dao.interfaces.ApartmentDAOInterface;
 import storage.Storage;
@@ -116,5 +117,13 @@ public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInte
 		}
 		
 		return apartments;
+	}
+	
+	/** Update the rating for the apartment from the Review object */
+	public void updateRating(Review review) {
+		Apartment apartment = database.getOrDefault(review.apartmentID, null);
+		apartment.rating = ((apartment.rating * apartment.numberOfRatings) + review.rating)/(++apartment.numberOfRatings);
+		
+		forceUpdate();
 	}
 }

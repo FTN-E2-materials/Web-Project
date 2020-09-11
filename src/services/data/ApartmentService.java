@@ -21,7 +21,6 @@ import javax.ws.rs.core.Response;
 import beans.interfaces.SessionToken;
 import beans.model.entities.Apartment;
 import beans.model.enums.ApartmentStatus;
-import beans.model.other.Date;
 import dao.ApartmentDAO;
 import filters.ApartmentFilter;
 import services.interfaces.rest.ApartmentServiceInterface;
@@ -33,7 +32,7 @@ import util.wrappers.RequestWrapper;
 
 
 @Path(Config.APARTMENTS_DATA_PATH)
-public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> implements ApartmentServiceInterface{
+public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> implements ApartmentServiceInterface {
 	
 	@PostConstruct
 	@Override

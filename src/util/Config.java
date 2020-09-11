@@ -86,6 +86,8 @@ public class Config {
 	public static final String EDIT_APARTMENT_LOCATION = HTML_FILE_ROOT + "edit_apartment.html";
 	public static final String GUEST_ACCOUNT_LOCATION = HTML_FILE_ROOT + "guest_account.html";
 	public static final String HOST_ACCOUNT_LOCATION = HTML_FILE_ROOT + "host_account.html";
+	public static final String REVIEWS_HOST_LOCATION = HTML_FILE_ROOT + "reviews_host.html";
+	public static final String REVIEWS_GUEST_LOCATION = HTML_FILE_ROOT + "reviews_guest.html";
 
 	// JS Script root location
 	public static String SCRIPT_FILE_ROOT = WEB_FILE_ROOT + "scripts/";

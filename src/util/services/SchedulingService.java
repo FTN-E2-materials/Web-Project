@@ -41,7 +41,7 @@ public class SchedulingService {
 		Date date = reservation.startingDate;
 		
 		while (dayCounter > 0) {
-			apartment.availableDates.remove(date);
+			apartment.availableDates.remove(date);		// TODO Check if available date is not removed (missing), that means that it cannot be reserved!
 			apartment.workingDates.add(new Date(date));	// Create a deep copy, to avoid placing the same reference every time
 			date.addDays(1);
 			dayCounter--;

@@ -16,11 +16,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
-import beans.model.entities.Apartment;
 import beans.model.entities.Reservation;
 import beans.model.enums.ReservationStatus;
 import beans.model.other.Date;
-import dao.ApartmentDAO;
 import dao.ReservationDAO;
 import javassist.NotFoundException;
 import services.interfaces.rest.ReservationServiceInterface;

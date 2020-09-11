@@ -89,6 +89,19 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 		return OK(HTMLService.getInstance().getEditApartmentPage());
 	}
 	
+	@GET
+	@Path("reviews/{apartmentID}")
+	@Produces(MediaType.TEXT_HTML)
+	public Response Reviews(@PathParam("apartmentID") String apartmentID, @Context HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		if (session == null)
+			return OK(HTMLService.getInstance().getReviewsForGuestPage());
+		if (session.isGuest())
+			return OK(HTMLService.getInstance().getReviewsForGuestPage());
+		
+		return OK(HTMLService.getInstance().getReviewsForHostPage());
+	}
+	
 	
 // Page navigation 
 //______________________

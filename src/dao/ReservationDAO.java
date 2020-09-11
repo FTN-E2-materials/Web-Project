@@ -45,4 +45,20 @@ public class ReservationDAO extends BeanDAO<Reservation> implements ReservationD
 		
 		return reservations;
 	}
+	
+	/** Returns a collection of reservations which are made for the given apartment, by the given guest
+	 * @param apartmentID
+	 * @param guestID
+	 * @return Collection of reservations which fit the query.
+	 */
+	public Collection<Reservation> getByApartmentAndGuest(String apartmentID, String guestID) {
+		Collection<Reservation> reservations = new ArrayList<Reservation>();
+		
+		for (Reservation res : database.values()) {
+			if (res.guestID.contentEquals(guestID)  &&  res.apartment.key.contentEquals(apartmentID))
+				reservations.add(res);
+		}
+		
+		return reservations;
+	}
 }

@@ -26,6 +26,12 @@ public class Reservation extends DatabaseEntity {
    public void validate() {
    	// TODO Auto-generated method stub
    }
-
-
+   
+   public boolean isDenied() {
+	   return status == ReservationStatus.DENIED;
+   }
+   
+   public boolean isFinished() {
+	   return status == ReservationStatus.FINISHED;
+   }
 }

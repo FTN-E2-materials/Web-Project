@@ -14,13 +14,13 @@ import beans.model.entities.UserAccount;
 import beans.model.enums.TypeOfUser;
 import dao.UserDAO;
 import services.interfaces.rest.AuthServiceInterface;
-import services.templates.DatabaseService;
+import services.templates.BaseService;
 import storage.Storage;
 import util.Config;
 import util.wrappers.RequestWrapper;
 
 @Path(Config.AUTH_DATA_PATH)
-public class AuthService extends DatabaseService implements AuthServiceInterface {
+public class AuthService extends BaseService implements AuthServiceInterface {
 
 	@PostConstruct
 	@Override

@@ -16,13 +16,13 @@ import beans.interfaces.SessionToken;
 import beans.model.entities.UserAccount;
 import dao.UserDAO;
 import services.interfaces.rest.UserServiceInterface;
-import services.templates.DatabaseService;
+import services.templates.BaseService;
 import storage.Storage;
 import util.Config;
 
 
 @Path(Config.USERS_DATA_PATH)
-public class UserService extends DatabaseService implements UserServiceInterface {
+public class UserService extends BaseService implements UserServiceInterface {
 
 	@PostConstruct
 	@Override

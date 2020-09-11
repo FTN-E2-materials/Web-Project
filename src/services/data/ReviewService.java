@@ -19,8 +19,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
+import beans.model.entities.Reservation;
 import beans.model.entities.Review;
+import beans.model.enums.ReservationStatus;
 import beans.model.other.Date;
+import dao.ApartmentDAO;
+import dao.ReservationDAO;
 import dao.ReviewDAO;
 import services.interfaces.rest.ReviewServiceInterface;
 import services.templates.CRUDService;
@@ -92,9 +96,31 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Response create(Review review, @Context HttpServletRequest request) {
-		// TODO Only guests can create reviews
-		// Guest has to have a FINISHED or REJECTED reservation with the apartment in question
-		return OK(super.create(review));
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isGuest()) {
+			String apartmentID = review.apartmentID;
+			if (apartmentID == null) 
+				return BadRequest("Please attach a key to the review object.");
+			
+			 ApartmentDAO apartmentDAO = (ApartmentDAO)ctx.getAttribute(Config.apartmentDatabaseString);
+			 if (apartmentDAO.getByKey(apartmentID) == null)
+				 return BadRequest("Apartment not found");
+			
+			if (hasPermission(apartmentID, session.getUserID())) {
+					 Review createdReview = super.create(review);
+					 if (createdReview == null)
+						 return BadRequest();
+					 
+					 apartmentDAO.updateRating(createdReview);
+					 
+					 return OK(createdReview);
+				}
+		}
+		
+		return ForbiddenRequest();
 	}
 
 	@PUT
@@ -110,6 +136,9 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 	public Response getAll(@Context HttpServletRequest request) {
 		SessionToken session = getCurrentSession(request);
 		
+		if (session == null)
+			return ForbiddenRequest();
+		
 		if (session.isAdmin())
 			return OK(super.getAll());
 		return ForbiddenRequest();
@@ -117,8 +146,7 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 
 	@Override
 	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
-		throw new NotAcceptableException();
-		// This is not allowed for reviews
+		throw new NotAcceptableException();  // This is not allowed for reviews
 	}
 
 	@DELETE
@@ -126,17 +154,65 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
-		return OK(super.delete(requestWrapper));
+		return ForbiddenRequest();  // No deleting reviews?
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{apartmentID}")
 	@Override
-	public Response getByApartmentID(@PathParam("apartmentID") String id) {
-		// TODO Check if user is Guest or unregistered
-		// Then depending on the type of user, return filtered or not
+	public Response getByApartmentID(@PathParam("apartmentID") String apartmentID, @Context HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
 		ReviewDAO dao = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
-		return OK(dao.getByApartmentIDForGuest(id));
+
+		if (session == null)
+			return OK(dao.getByApartmentIDForGuest(apartmentID));
+		if (session.isGuest())
+			return OK(dao.getByApartmentIDForGuest(apartmentID));
+		
+		return OK(dao.getByApartmentIDForHost(apartmentID));
+	}
+	
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/permission")
+	public Response checkReviewPermission(RequestWrapper wrapper, @Context HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isGuest()) {
+			if (wrapper == null)
+				return BadRequest();
+			if (wrapper.stringKey == null)
+				return BadRequest();
+			
+			String apartmentID = wrapper.stringKey;
+			if (apartmentID.isEmpty()) 
+				return BadRequest();
+			
+			if (hasPermission(apartmentID, session.getUserID()))
+				return OK("You are fit to create a review.");
+			
+			return BadRequest("You do not have a fitting reservation for this apartment.");
+		}
+		
+		return ForbiddenRequest();
+	}
+	
+	/** Check whether the given user has a permission to create a review for the given apartment 
+	 * @param apartmentID
+	 * @param guestID
+	 * @return True if the user can create a review, false if not.
+	 */
+	private boolean hasPermission(String apartmentID, String guestID) {
+		ReservationDAO reservationDAO = (ReservationDAO)ctx.getAttribute(Config.reservationDatabaseString);
+		for (Reservation reservation : reservationDAO.getByApartmentAndGuest(apartmentID, guestID)) {
+			if (reservation.isFinished()  ||  reservation.isDenied()) {
+				 return true;
+			}
+		}
+		return false;
 	}
 }

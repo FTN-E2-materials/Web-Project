@@ -27,7 +27,10 @@ let vue = new Vue({
                 })
         },
         goToReviews : function() {
-            window.location.href += "/reviews"
+            let tokens = window.location.href.split("/")
+            let apartmentID = tokens[tokens.length-1]
+
+            window.location.href = "/WebProject/reviews/" + apartmentID
         },
         createReservation : function() {
             let reservation = {
