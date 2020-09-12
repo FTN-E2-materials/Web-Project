@@ -28,10 +28,10 @@
         }
 
         body {
-            background: -webkit-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
-            background: -o-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
-            background: -moz-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
-            background: linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+            background: -webkit-linear-gradient(left, rgb(63, 151, 235, 0.75), rgb(79, 218, 66, 0.5));
+            background: -o-linear-gradient(left, rgb(63, 151, 235, 0.75), rgb(79, 218, 66, 0.5));
+            background: -moz-linear-gradient(left, rgb(63, 151, 235, 0.75), rgb(79, 218, 66, 0.5));
+            background: linear-gradient(left, rgb(63, 151, 235, 0.75), rgb(79, 218, 66, 0.5));
         }
 
         /** Give all elements a transition and Poppins font */
@@ -47,50 +47,7 @@
             cursor: pointer;
         }
 
-        a:hover {
-            cursor: pointer;
-        }
-
-        .wrapper {
-            display: grid;
-        } 
-        
-        .table {
-            display: table;
-            background-color: #fafafa;
-            border-collapse: collapse;
-            width: 100%;
-            margin: 40px auto;
-
-            justify-content: space-evenly;
-        }
-
-        .row {
-            width: 100%;
-            background: #fafafa;
-            height: 50px;
-
-            display: flexbox;
-        }
-
-        .left {
-            left: 0px;
-        }
-
-        .right {
-            right: 0px;
-        }
-
-        .row:hover {
-            background-color: #ecf2fa;
-            cursor:auto;
-        }
-
-        td {
-            padding-left: 12px;
-            padding-right: 12px;
-            min-width: auto;
-        }
+    
 
         .header {
             padding: 10px 16px;
@@ -144,14 +101,6 @@
             font-size: 16px;
         }
 
-        .column-left {
-            float: left;
-        }
-
-        .column-right {
-            float: right;
-        }
-
         .checked {
             color: rgb(255, 175, 25);
         }
@@ -161,14 +110,8 @@
         }
 
         .button {
-            float: right;
-
             padding-left: 30px;
             padding-right: 30px;
-            padding-top: 8px;
-            padding-bottom: 8px;
-            margin-right: 15px;
-            margin-top: 80px;
 
             outline: none;
             border-style: solid;
@@ -177,11 +120,6 @@
 
             font-size: 17px;
             font-family: "Poppins";
-        }
-
-        .button:hover {
-            padding-left: 35px;
-            padding-right: 35px;
         }
 
         .green-button {
@@ -216,31 +154,19 @@
             background-color: rgb(255, 91, 91);
         }
 
-        .apartment-header {
-            background-color: white;
-            
-            padding-top: 15px;
-            padding-bottom: 15px;
-            padding-left: 15px;
-            padding-right: 15px;
-
-            height: fit-content;
-            min-width: 30%;
-            max-width: 80%;
-
-            border: none;
-            border-radius: 10px;
-
-            margin: 0 auto;
-            margin-top: 6%;
-            margin-bottom: 5%;
+        .shadow {
+            -webkit-box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
+            -moz-box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
+            box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
         }
     </style>
 
 </head>
 
 <body>
-    <div class="wrapper" id="vue-reviews" v-if="apartmentLoaded  &&  reviewsLoaded">
+    <div id="vue-reviews" v-if="apartmentLoaded  &&  reviewsLoaded"
+        style="display: block;">
+
         <div class="header">
             <div>
                 <a class="header-title" href="http://localhost:8080/WebProject">FakeAirbnb</span>
@@ -254,58 +180,62 @@
             </div>
         </div>
 
-        <div class="apartment-header" style="display: block;">
-            <img src="https://cdn.home-designing.com/wp-content/uploads/2019/01/Small-apartment-design.jpg"
-                style="width: 20%; height: 15%; float:left;">
-                
-            <div style="display: grid;
-                        grid-template-columns: 1fr;
-                        grid-template-rows: repeat(3, 1fr);
-                        grid-column-gap: 0px;
-                        grid-row-gap: 0px;
-                        overflow: hidden;
-                        float: right;
-                        padding-left: 20px;
-                        ">
+        <div style="padding-top: 100px; width: 80%; margin: 0 auto; overflow: hidden;">
+            <div class="shadow" style="background-color: white; border-radius: 3px; max-width: 100%; width: fit-content;
+                        padding-top: 10px; padding-left: 10px; padding-bottom: 10px; padding-right: 20px; margin: 0 auto;">
+                <div style="display: grid;
+                            grid-template-columns: repeat(3, 1fr);
+                            grid-template-rows: 1fr;
+                            grid-column-gap: 0px;
+                            grid-row-gap: 0px;">
 
-                <h2 style="grid-area: 1 / 1 / 3 / 4;">{{apartment.title}}</h2>
+                    <div style="grid-area: 1 / 1 / 2 / 2; max-width: 250px; max-height: 250px;">
+                        <img :src="apartment.imageLink" style="max-width: inherit; max-height: inherit;"> 
+                    </div>
 
-                <div style="grid-area: 3 / 1 / 4 / 2;">
-                    <div class="column-right">
-                        <span class="fa fa-star checked"></span>
-
-                        <span class="fa fa-star checked" v-if="apartment.rating >= 2"></span>
-                        <span class="fa fa-star" v-else></span>
-
-                        <span class="fa fa-star checked" v-if="apartment.rating >= 3"></span>
-                        <span class="fa fa-star" v-else></span>
-
-                        <span class="fa fa-star checked" v-if="apartment.rating >= 4"></span>
-                        <span class="fa fa-star" v-else></span>
-
-                        <span class="fa fa-star checked" v-if="apartment.rating == 5"></span>
-                        <span class="fa fa-star" v-else></span>
+                    <div style="grid-area: 1 / 2 / 2 / 4; margin-left: 50px; text-align: right;">
+                            <div >
+                                <h2> {{apartment.title}} </h2>
+                            </div>
+                            <div style="margin-top: 4px;">
+                                {{apartment.numberOfRooms}} room &middot; {{apartment.numberOfGuests}} people
+                            </div>
+                            <div style="margin-top: 7px;">
+                                <p> {{apartment.location.address.streetName}} {{apartment.location.address.streetNumber}}, {{apartment.location.address.city.name}} </p>
+                            </div>
+                            <div style="margin-top: 30px;">
+                                <div style="background-color: #1ead02; border-radius: 5px; width: fit-content; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px; float: right;">
+                                    <h4 style="color: white;">{{apartment.rating}}</h4>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div style="margin: 0 auto; width: 80%; height: fit-content; 
-                    padding-top: 10px; padding-bottom: 10px;">
-            <table class="table">
+        <div style="margin: 0px auto; width: 80%; height: fit-content; margin-bottom: 100px; padding-top: 100px;">
+            <table style="width: 100%;">
                 <tbody>
                     <tr class="row" v-for="review in reviews" :key="review.key">
-                        <td>
-                            <div>
-                                <div class="column-left">
-                                    <div>
-                                        <div class="small-bold">
-                                            {{review.guestID}}
-                                        </div>
-                                    </div>
+                        <td style="display: grid;
+                                grid-template-columns: repeat(2, 1fr);
+                                grid-template-rows: repeat(2, 1fr);
+                                grid-column-gap: 0px;
+                                grid-row-gap: 5px; 
+                                width: 100%;
+                                margin-bottom: 10px;
+                                background-color: white;
+                                border-radius: 3px;
+                                padding-left: 20px;
+                                padding-right: 20px;
+                                padding-top: 10px;
+                                padding-bottom: 10px;">
+
+                                <div class="small-bold" style="grid-area: 1 / 1 / 2 / 2;">
+                                    {{review.guestID}}
                                 </div>
-                                <div class="column-right">
-                                    <div id="rating">
+                                <div style="grid-area: 1 / 2 / 2 / 3; position: relative;">
+                                    <div style="position:absolute; right:0px;">
                                             <span class="fa fa-star checked"></span>
 
                                             <span class="fa fa-star checked" v-if="review.rating >= 2"></span>
@@ -322,7 +252,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="column-left" style="margin-left: 30px;">
+                            <div style="grid-area: 2 / 1 / 3 / 3;">
                                 {{review.text}}
                             </div>
                         </td>
