@@ -1,40 +1,270 @@
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Home</title>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Reservations</title>
+      <!-- Vue.js script -->
+      <script src="https://unpkg.com/vue"></script>
+      <!-- Datepicker script -->
+      <script src="https://unpkg.com/vuejs-datepicker"></script>
+      <!-- Google poppins font -->
+      <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+      <!-- Font Awesome Icon Library (used for stars) -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <style>
+         * {
+         margin: 0px;
+         padding: 0px;
+         box-sizing: border-box;
+         }
+         html {
+         scroll-behavior: smooth;
+         }
+         body {
+         background: -webkit-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+         background: -o-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+         background: -moz-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+         background: linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+         }
+         /** Give all elements a transition and Poppins font */
+         * {
+         font-family: "Poppins";
+         transition: all 0.4s;
+         -webkit-transition: all 0.4s;
+         -o-transition: all 0.4s;
+         -moz-transition: all 0.4s;
+         }
+         button:hover {
+         cursor: pointer;
+         }
+         a:hover {
+         cursor: pointer;
+         }
+         div {
+         width: auto;
+         }
+         .wrapper {
+         display: grid;
+         }
+         .inline {
+         display: inline;
+         }
+         .table {
+         display: table;
+         background-color: #fafafa;
+         border-collapse: collapse;
+         width: 86%;
+         margin: 40px auto;
+         justify-content: space-evenly;
+         }
+         .row {
+         width: 100%;
+         background: #fafafa;
+         height: 50px;
+         }
+         .row:hover {
+         background-color: #ecf2fa;
+         cursor: pointer;
+         }
+         td {
+         padding-left: 12px;
+         min-width: auto;
+         }
+         .search {
+         padding-top: 5px;
+         padding-bottom: 5px;
+         padding-left: 8px;
+         padding-right: 8px;
+         background-color: white;
+         outline: none;
+         }
+         .search:hover {
+         background-color: rgb(238, 238, 238);
+         }
+         .header {
+         padding: 10px 16px;
+         background: #275FCF;
+         color: #f1f1f1;
+         width: 100%;
+         position: fixed;
+         z-index: 999;
+         }
+         .header-title {
+         font-weight: 600;
+         letter-spacing: 1px;
+         font-size: large;
+         float: left;
+         color: white;
+         text-decoration: none;
+         }
+         .header-links {
+         float: right;
+         margin-right: 25px;
+         }
+         .header-link {
+         font-size: small;
+         text-decoration: none;
+         color: white;
+         margin-right: 25px;
+         }
+         .header-link:hover {
+         color: white;
+         }
+         .header-link-inactive {
+         color: #A9BFEB;
+         }
+         .header-link-active {
+         font-weight: 600;
+         }
+         .big-bold {
+         font-weight: bold;
+         font-size: 18px;
+         }
+         .column-left {
+         float: left;
+         }
+         .column-right {
+         float: right;
+         }
+         .column {
+         position: relative;
+         }
+         .top-left-corner {
+         margin-top: 10px;
+         margin-left: 10px;
+         }
+         .error {
+         color: rgb(218, 49, 49);
+         font-size: small;
+         }
+         .align-content-right {
+         text-align: right;
+         padding-top: 10px;
+         padding-right: 20px;
+         }
+         .align-content-left {
+         text-align: left;
+         padding-top: 10px;
+         padding-left: 20px;
+         }
+         .checked {
+         color: rgb(255, 175, 25);
+         }
+         img {
+         object-fit: fill;
+         }
+         .button {
+         padding-left: 13px;
+         padding-right: 13px;
+         padding-top: 4px;
+         padding-bottom: 4px;
+         outline: none;
+         border-style: solid;
+         border-radius: 5px;
+         border: none;
+         font-size: 15px;
+         font-family: "Poppins";
+         }
+         .green-button {
+         background-color: #009e00;
+         color: white;
+         }
+         .blue-button {
+         background-color: #3b6ccc;
+         color: white;
+         }
+         .rose-button {
+         background-color: rgb(221, 60, 168);
+         color: white;
+         }
+         .white-button {
+         background-color: rgb(255, 255, 255);
+         color: black;
+         }
+         .green-button:hover {
+         background-color: #008100;
+         }
+         .blue-button:hover {
+         background-color: #204ca5;
+         }
+         .rose-button:hover {
+         background-color: rgb(255, 91, 91);
+         }
+      </style>
+   </head>
+   <body>
+      <div id="vue-reservations" class="wrapper">
+         <div class="header">
+            <div><a href="http://localhost:8080/WebProject" class="header-title">FakeAirbnb
+               </a>
+            </div>
+            <a href="http://localhost:8080/WebProject" class="header-title"></a>
+            <div class="header-links"><a href="http://localhost:8080/WebProject" class="header-title"></a><a href="http://localhost:8080/WebProject/" class="header-link header-link-inactive">Apartments</a> <a href="http://localhost:8080/WebProject/reservations" class="header-link header-link-active">My
+               reservations</a> <a href="http://localhost:8080/WebProject/account" class="header-link header-link-inactive">Account</a>
+            </div>
+         </div>
+         <div class="inline" style="margin-left: 7%; margin-right: 7%; margin-top: 7%;">
+            <div style="display: inline-block; background-color: rgba(221, 60, 168, 0.95); padding: 16px 22px; border-radius: 5px;">
+               <div class="column-left" style="margin-right: 10px;">
+                  <p style="color: white; font-weight: 500;">From lowest </p>
+               </div>
+               <div class="column-left" style="margin-left: 25px;">
+                  <p style="color: white; font-weight: 500;"> From highest </p>
+               </div>
+            </div>
+         </div>
+         <div>
+            <table style="width: 80%; margin: 3% auto;">
+               <tbody>
+                  <tr style="background-color: white;">
+                     <td style="display: grid;
+                                grid-template-columns: repeat(5, 1fr);
+                                grid-template-rows: 1fr;
+                                grid-column-gap: 0px;
+                                grid-row-gap: 0px;
+                                padding-left: 7px;
+                                padding-right: 10px;
+                                padding-top: 7px;
+                                padding-bottom: 7px;">
 
-        <!-- Vue.js script -->
-        <script src="https://unpkg.com/vue"></script>
-        <script src="https://unpkg.com/vuejs-datepicker"></script>
+                                <div style="grid-area: 1 / 1 / 2 / 2;"> 
+                                    <img src="https://cf.bstatic.com/images/hotel/max1024x768/201/201854375.jpg" style="max-width: 90%; max-height: 90%;">
+                                </div>
+                                
+                                <!-- LEft part of the grid (image, name)-->
+                                <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                                    <div>
+                                        <h4>Small room for a student</h4>
+                                    </div>
+                                    <div style="display: inline;">
+                                        <span > 1 rooms &middot; 1 guest &middot; 3 nights &middot; </span>
+                                        <span style="font-size: 16px; color: #204ca5; font-weight: bold; margin-left: 3px;">CREATED</span>
+                                    </div>
+                                    <div style="position: absolute; bottom:0; left:0;">
+                                        <button class="button blue-button">Cancel</button>
+                                    </div> 
+                                </div>
 
-        <!-- Google poppins font -->
-        <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-
-        <style>
-            * {
-                font-family: "Poppins";
-            }
-        </style>
-    </head>
-    <body>
-
-        <div id="app">
-            <vuejs-datepicker style="width: 100px; height: 100px; border-radius: 10px;" :value="state.date"></vuejs-datepicker>
-        </div>
-
-        <script>
-            let vue = new Vue({
-                el : "#app",
-                components : {
-                    vuejsDatepicker
-                },
-                data : {
-                    state : {
-                        date : new Date(2020, 8, 29)
-                    }
-                }
-            });
-        </script>
-    </body>
+                                <!-- Right part of grid (price, reviews) -->
+                                <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position:relative;">
+                                    <div> 
+                                        <h3>Total: 12$</h3>
+                                    </div>
+                                    <div style="position: absolute; right: 0; bottom: 6; display: block;">
+                                        <span style="background-color: #09af09; color:white; border-radius: 5px; width: fit-content;
+                                                    font-weight: bold;
+                                                    padding-top: 5px; padding-left: 10px; padding-right: 10px; padding-bottom: 5px;">4.8</span>
+                                    </div>
+                                </div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+      <!-- Axios -->
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+      <!-- Vue.js implementation -->
+      <script src="http://localhost:8080/WebProject/scripts/reservations-guest.js"></script>  
+   </body>
 </html>

@@ -19,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
+import beans.model.entities.Apartment;
 import beans.model.entities.Reservation;
 import beans.model.entities.Review;
 import beans.model.enums.ReservationStatus;
@@ -65,32 +66,6 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 									));
 	}
 	
-	@GET
-	@Path("/calendar/now")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTime() {
-		return OK(Calendar.getInstance());
-	}
-	
-	@POST
-	@Path("calendar/create")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response createCalendar(Date date) {
-		return OK(date);
-	}
-	
-	@POST
-	@Path("/calendar/now")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response takeTime(RequestWrapper wrapper) {
-		System.out.println(wrapper.longKey);
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(wrapper.longKey);
-		return OK(calendar.getTime());
-	}
-	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -106,10 +81,14 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 				return BadRequest("Please attach a key to the review object.");
 			
 			 ApartmentDAO apartmentDAO = (ApartmentDAO)ctx.getAttribute(Config.apartmentDatabaseString);
-			 if (apartmentDAO.getByKey(apartmentID) == null)
+			 Apartment apartment = apartmentDAO.getByKey(apartmentID);
+			 if (apartment == null)
 				 return BadRequest("Apartment not found");
 			
 			if (hasPermission(apartmentID, session.getUserID())) {
+					 review.apartmentID = apartment.key;
+					 review.guestID = session.getUserID();
+					 
 					 Review createdReview = super.create(review);
 					 if (createdReview == null)
 						 return BadRequest();
@@ -173,7 +152,7 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 		return OK(dao.getByApartmentIDForHost(apartmentID));
 	}
 	
-	@GET
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/permission")
@@ -212,7 +191,7 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 			if (reservation.isFinished()  ||  reservation.isDenied()) {
 				 return true;
 			}
-		}
+		}	// TODO Allow only 1 review per person? 
 		return false;
 	}
 }

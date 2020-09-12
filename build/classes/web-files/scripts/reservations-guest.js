@@ -9,6 +9,9 @@ let vue = new Vue({
             axios.get("/WebProject/data/reservations/")
                 .then(response => {
                     if (response.status === 200) {
+                        response.data.forEach(reservation => {      // Cut ratings to 2 decimals short
+                            reservation.apartment.rating = Math.round(reservation.apartment.rating * 100)/100
+                        })
                         Vue.set(vue, "reservations", response.data);
                         Vue.set(vue, "reservationsLoaded", true);
                     }

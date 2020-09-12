@@ -90,6 +90,8 @@
          .button {
          padding-left: 30px;
          padding-right: 30px;
+         padding-top: 10px;
+         padding-bottom: 10px;
          outline: none;
          border-style: solid;
          border-radius: 5px;
@@ -125,8 +127,14 @@
 
          .shadow {
             -webkit-box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
--moz-box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
-box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
+            -moz-box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
+            box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
+         }
+
+         .small-shadow {
+            -webkit-box-shadow: -6px 10px 65px -45px rgba(0,0,0,1);
+            -moz-box-shadow: -6px 10px 65px -45px rgba(0,0,0,1);
+            box-shadow: -6px 10px 65px -45px rgba(0,0,0,1);
          }
       </style>
    </head>
@@ -175,7 +183,48 @@ box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
             </div>
         </div>
 
-         <div style="margin: 0px auto 100px; width: 80%; height: fit-content; padding-top: 70px;">
+        <div style="width: 90%; margin-top: 60px;">
+            <div>
+                <button class="button blue-button" style="float: right;">Add review</button>
+            </div>
+        </div>
+
+        <div style="width: 80%; padding-top: 120px; margin: 0 auto;">
+            <div class="small-shadow"
+                        style="display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        grid-template-rows: repeat(5, 1fr);
+                        grid-column-gap: 0px;
+                        grid-row-gap: 20px;
+                        background-color: #f5f5f5;
+                        padding-top: 30px;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                        padding-bottom: 30px;
+                        border-radius: 5px;
+                        text-align: center;">
+
+                <div style="grid-area: 1 / 1 / 2 / 6; width: 50%; margin: 0 auto; background-color: orange;">
+                
+                </div>
+                
+                <div style="grid-area: 2 / 1 / 5 / 4;">
+                    <textarea style="width: 100%; outline:none; height: 150px; font-size: 16px; border-color: rgb(177, 177, 177);
+                                padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;" 
+                                placeholder="Write your review here..."></textarea>
+                </div>
+
+                <div style="grid-area: 5 / 2 / 6 / 3;">
+                    <button class="button blue-button">Finish</button>
+                </div>
+
+                <div style="grid-area: 5 / 3 / 6 / 4;">
+                    <button class="button" style="float:right;">Hide</button>
+                </div>
+            </div>
+        </div>
+
+         <div style="margin: 0px auto 100px; width: 80%; height: fit-content; padding-top: 5%;">
             <table style="width: 100%;">
                <tbody>
                   <tr class="row">

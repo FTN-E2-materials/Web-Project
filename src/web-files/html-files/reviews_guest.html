@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Reviews</title>
 
     <!-- Vue.js script -->
     <script src="https://unpkg.com/vue"></script>
@@ -112,12 +112,12 @@
         .button {
             padding-left: 30px;
             padding-right: 30px;
-
+            padding-top: 10px;
+            padding-bottom: 10px;
             outline: none;
             border-style: solid;
             border-radius: 5px;
             border: none;
-
             font-size: 17px;
             font-family: "Poppins";
         }
@@ -159,6 +159,12 @@
             -moz-box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
             box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
         }
+
+        .small-shadow {
+            -webkit-box-shadow: -6px 10px 65px -45px rgba(0,0,0,1);
+            -moz-box-shadow: -6px 10px 65px -45px rgba(0,0,0,1);
+            box-shadow: -6px 10px 65px -45px rgba(0,0,0,1);
+         }
     </style>
 
 </head>
@@ -180,9 +186,10 @@
             </div>
         </div>
 
+        <!-- APARTMENT HEADER -->
         <div style="padding-top: 100px; width: 80%; margin: 0 auto; overflow: hidden;">
             <div class="shadow" style="background-color: white; border-radius: 3px; max-width: 100%; width: fit-content;
-                        padding-top: 10px; padding-left: 10px; padding-bottom: 10px; padding-right: 20px; margin: 0 auto;">
+                        padding-top: 9px; padding-left: 10px; padding-bottom: 5px; padding-right: 20px; margin: 0 auto;">
                 <div style="display: grid;
                             grid-template-columns: repeat(3, 1fr);
                             grid-template-rows: 1fr;
@@ -193,7 +200,7 @@
                         <img :src="apartment.imageLink" style="max-width: inherit; max-height: inherit;"> 
                     </div>
 
-                    <div style="grid-area: 1 / 2 / 2 / 4; margin-left: 50px; text-align: right;">
+                    <div style="grid-area: 1 / 2 / 2 / 4; margin-left: 50px; text-align: right; position:relative;">
                             <div >
                                 <h2> {{apartment.title}} </h2>
                             </div>
@@ -203,15 +210,71 @@
                             <div style="margin-top: 7px;">
                                 <p> {{apartment.location.address.streetName}} {{apartment.location.address.streetNumber}}, {{apartment.location.address.city.name}} </p>
                             </div>
-                            <div style="margin-top: 30px;">
-                                <div style="background-color: #1ead02; border-radius: 5px; width: fit-content; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px; float: right;">
+                            <div v-if="apartment.rating > 0"
+                                 style="position:absolute; bottom:5px; right:0;">
+                                <div style="background-color: #1ead02; border-radius: 5px; width: fit-content; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px;">
                                     <h4 style="color: white;">{{apartment.rating}}</h4>
                                 </div>
                             </div>
+                            <div v-else
+                                style="background-color: #919191; border-radius: 5px; width: fit-content; position:absolute; bottom:5px; right:0;
+                                        padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px;">
+                                 <h4 style="color: white;">No ratings</h4>
+                             </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- BUTTONS FOR OPENING THE FORM -->
+
+        <div style="width: 90%; margin-top: 70px;">
+            <div v-if="qualifiedForReview  &&  !formVisible">
+                <button class="button blue-button" style="float: right;" @click="openForm">Add review</button>
+            </div>
+            <div v-else-if="!qualifiedForReview">
+                <button class="button" style="float:right">Add review</button>
+                <p style="float:right; color:red; margin-right: 30px; padding-top: 9px;">You are not qualified to review this apartment.</p>
+            </div>
+        </div>
+
+        <!-- CREATE REVIEW -->
+        <div style="width: 80%; padding-top: 120px; margin: 0 auto;" v-if="formVisible">
+            <div class="small-shadow"
+                        style="display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        grid-template-rows: repeat(5, 1fr);
+                        grid-column-gap: 0px;
+                        grid-row-gap: 30px;
+                        background-color: #f5f5f5;
+                        padding-top: 30px;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                        padding-bottom: 30px;
+                        border-radius: 5px;
+                        text-align: center;">
+
+                <div style="grid-area: 1 / 1 / 2 / 6; width: 50%; margin: 0 auto; background-color: orange;">
+                
+                </div>
+                
+                <div style="grid-area: 2 / 1 / 5 / 4;">
+                    <textarea style="width: 100%; outline:none; height: 150px; font-size: 16px; border-color: rgb(177, 177, 177);
+                                padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;" 
+                                placeholder="Write your review here..." v-model="reviewText"></textarea>
+                </div>
+
+                <div style="grid-area: 5 / 2 / 6 / 3;">
+                    <button class="button blue-button" @click="createReview">Finish</button>
+                </div>
+
+                <div style="grid-area: 5 / 3 / 6 / 4;">
+                    <button class="button" style="float:right;" @click="closeForm">Hide</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- LIST OF REVIEWS-->
 
         <div style="margin: 0px auto; width: 80%; height: fit-content; margin-bottom: 100px; padding-top: 100px;">
             <table style="width: 100%;">
@@ -221,15 +284,15 @@
                                 grid-template-columns: repeat(2, 1fr);
                                 grid-template-rows: repeat(2, 1fr);
                                 grid-column-gap: 0px;
-                                grid-row-gap: 5px; 
+                                grid-row-gap: 15px; 
                                 width: 100%;
                                 margin-bottom: 10px;
                                 background-color: white;
                                 border-radius: 3px;
                                 padding-left: 20px;
                                 padding-right: 20px;
-                                padding-top: 10px;
-                                padding-bottom: 10px;">
+                                padding-top: 15px;
+                                padding-bottom: 15px;">
 
                                 <div class="small-bold" style="grid-area: 1 / 1 / 2 / 2;">
                                     {{review.guestID}}
