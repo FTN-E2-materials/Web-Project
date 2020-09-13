@@ -7,6 +7,7 @@ import beans.interfaces.FieldWrapperInterface;
 import beans.interfaces.SessionToken;
 import beans.model.template.DatabaseEntity;
 import dao.BeanDAO;
+import util.exceptions.EntityValidationException;
 import util.services.UpdateService;
 import util.wrappers.RequestWrapper;
 
@@ -28,7 +29,7 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 			return null;
 		}
 		try { object.validate(); }
-			catch (IllegalArgumentException ex) {
+			catch (EntityValidationException e) {
 				System.out.println("Attempt to create invalid object.");
 				return null;
 			}
@@ -108,7 +109,7 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 		try { 
 			updatedEntity.validate(); 
 		}
-		catch (IllegalArgumentException ex) {
+		catch (EntityValidationException e) {
 			System.out.println("Trying to update entity with invalid field values.");
 			return null;
 		}

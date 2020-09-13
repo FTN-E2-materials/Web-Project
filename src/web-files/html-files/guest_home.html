@@ -63,30 +63,15 @@
             display: inline;
         }
 
-        .table {
-            display: table;
-            background-color: #fafafa;
-            border-collapse: collapse;
-            width: 86%;
-            margin: 40px auto;
-
-            justify-content: space-evenly;
-        }
-
         .row {
-            width: 100%;
-            background: #fafafa;
-            height: 50px;
+            background-color: white; 
+            width: 100%; 
+            height: 190px;
         }
 
         .row:hover {
-            background-color: #ecf2fa;
+            background-color: #d8ffd6;
             cursor: pointer;
-        }
-
-        td {
-            padding-left: 12px;
-            min-width: auto;
         }
 
         .search {
@@ -192,7 +177,7 @@
         }
 
         img {
-            object-fit: fill;
+            object-fit: cover;
         }
 
         .button {
@@ -269,7 +254,7 @@
             </div>
         </div>
 
-        <div class="inline" style="margin-left: 7%; margin-right: 7%;; margin-top: 7%;">
+        <div class="inline" style="margin-left: 10%; margin-right: 10%;; margin-top: 7%;">
             <div class="column-right wrapper" style="width: 20%; text-align: right; padding-top: 15px;">
                 <input type="text" class="search" style="width: 100%" placeholder="Search apartments..." v-model="query"
                     @keyup="searchApartments">
@@ -322,66 +307,82 @@
         </div>
         <div v-else style="position: relative; margin-bottom: 7%; margin-top: -2%;">
             <button type="button" class="button rose-button" @click="openFilters"
-                style="position:absolute; right: 6%;">Filters</button>
+                style="position:absolute; right: 10%;">Filters</button>
         </div>
 
-        <div style="margin-top: 3%;">
-            <table class="table">
-                <tbody>
-                    <tr class="row" v-for="apartment in apartments" :key="apartment.key"
+        <div v-if="apartmentsLoaded"
+               style="width: 80%; margin: 3% auto;">
+            <table>
+               <tbody>
+                  <tr v-for="apartment in apartments" :key="apartment.key"
+                        class="row"
                         @click="goToApartment(apartment.key)">
-                        <td>
-                            <div class="column">
-                                <div class="column-left">
-                                    <div class="column-left">
-                                        <img style="width: 200px; height: 150px; padding-top: 12px; padding-bottom: 7px;"
-                                            :src="apartment.imageLink">
+                     <td style="display: grid;
+                                grid-template-columns: repeat(5, 1fr);
+                                grid-template-rows: 1fr;
+                                grid-column-gap: 0px;
+                                grid-row-gap: 0px;
+                                padding-left: 10px;
+                                padding-right: 15px;
+                                padding-top: 12px;
+                                padding-bottom: 12px;
+                                height: 210px;
+                                width: 100%;"> 
+
+                                <div style="grid-area: 1 / 1 / 2 / 2;"> 
+                                    <img :src="apartment.imageLink" style="width: 95%; height: 185px;">
+                                </div>
+                                
+                                <!-- LEft part of the grid (image, name)-->
+                                <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                                    <div>
+                                        <h3>{{apartment.title}}</h3>
                                     </div>
-                                    <div class="column-right align-content-left">
-                                        <div class="big-bold">
-                                            {{apartment.title}}
-                                        </div>
-                                        <div>
-                                            {{apartment.numberOfRooms}} rooms &middot {{apartment.numberOfGuests}}
-                                            guests
-                                        </div>
+                                    <div style="display: inline;">
+                                        <span > {{apartment.numberOfRooms}} rooms &middot; {{apartment.numberOfGuests}} guests </span>
+                                    </div>
+                                    <div style="margin-top: 3px;">
+                                        <span>{{apartment.location.address.city.name}}</span>
                                     </div>
                                 </div>
-                                <div class="column-right align-content-right">
-                                    <div class="big-bold">
-                                        {{apartment.pricePerNight}}$/night
+
+                                <!-- Right part of grid (price, reviews) -->
+                                <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position:relative;">
+                                    <div> 
+                                        <h3>{{apartment.pricePerNight}}$/night</h3>
                                     </div>
-                                    <div id="rating">
+                                    <div style="position: absolute; right: 0; bottom: 15px; display: block;">
+                                        
                                         <div v-if="apartment.rating > 0">
-                                            <span class="fa fa-star checked"></span>
+                                            <span v-if="apartment.rating > 4.0"
+                                                    style="background-color: #09af09; color:white; border-radius: 5px; width: fit-content;
+                                            font-weight: bold; font-size: 16px; float:right;
+                                            padding-top: 7px; padding-left: 12px; padding-right: 12px; padding-bottom: 7px;">{{apartment.rating}}</span>
 
-                                            <span class="fa fa-star checked" v-if="apartment.rating > 1.49"></span>
-                                            <span class="fa fa-star" v-else></span>
+                                            <span v-else-if="apartment.rating > 2.5"
+                                                style="background-color: #e7cd37; color:white; border-radius: 5px; width: fit-content;
+                                            font-weight: bold; font-size: 16px; float:right;
+                                            padding-top: 7px; padding-left: 12px; padding-right: 12px; padding-bottom: 7px;">{{apartment.rating}}</span>
 
-                                            <span class="fa fa-star checked" v-if="apartment.rating > 2.49"></span>
-                                            <span class="fa fa-star" v-else></span>
-
-                                            <span class="fa fa-star checked" v-if="apartment.rating > 3.49"></span>
-                                            <span class="fa fa-star" v-else></span>
-
-                                            <span class="fa fa-star checked" v-if="apartment.rating > 4.49"></span>
-                                            <span class="fa fa-star" v-else></span>
+                                            <span v-else
+                                                style="background-color: #af0909; color:white; border-radius: 5px; width: fit-content;
+                                            font-weight: bold; font-size: 16px; float:right;
+                                            padding-top: 7px; padding-left: 12px; padding-right: 12px; padding-bottom: 7px;">{{apartment.rating}}</span>
+                                        
+                                            <span style="float:right; margin-right: 15px; padding-top:5px; color:rgb(163, 163, 163);"> {{apartment.numberOfRatings}}</span>
                                         </div>
-                                        <div v-else>
-                                            No ratings.
-                                        </div>
-                                    </div>
-                                    <div v-if="apartment.rating > 0">
-                                        <span style="font-size: small; color:#9b9b9b;">{{apartment.numberOfRatings}}
-                                            reviews</span>
+                                    
+                                        <span v-else
+                                            style="background-color: #818181; color:white; border-radius: 5px; width: fit-content;
+                                            font-weight: bold; font-size: 16px;
+                                            padding-top: 7px; padding-left: 12px; padding-right: 12px; padding-bottom: 7px;">No rating</span>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
+                     </td>
+                  </tr>
+               </tbody>
             </table>
-        </div>
+         </div>
     </div>
 
 

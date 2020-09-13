@@ -74,13 +74,13 @@
         }
 
         .row {
-            width: 100%;
-            background: #fafafa;
-            height: 50px;
+            background-color: white; 
+            width: 100%; 
+            height: 210px;
         }
 
         .row:hover {
-            background-color: #ecf2fa;
+            background-color: #d8ffd6;
             cursor: pointer;
         }
 
@@ -271,9 +271,8 @@
             </div>
             <div class="header-links">
 
-                <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/">Apartments</a>
-                <a class="header-link header-link-active" href="http://localhost:8080/WebProject/reservations">My
-                    reservations</a>
+                <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/">Your apartments</a>
+                <a class="header-link header-link-active" href="http://localhost:8080/WebProject/reservations">Reservations</a>
                 <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/account">Account</a>
             </div>
         </div>
@@ -295,7 +294,7 @@
             <table style="width: 80%; margin: 3% auto;">
                <tbody>
                   <tr   v-for="reservation in reservations" :key="reservation.key"
-                        style="background-color: white; width: 100%; height: 210px;">
+                        class="row">
                      <td style="display: grid;
                                 grid-template-columns: repeat(5, 1fr);
                                 grid-template-rows: 1fr;
@@ -334,19 +333,32 @@
                                     <div> Starting date: -</div>
 
                                     <div style="position: absolute; bottom:5px; left:0;">
-                                        <div v-if="new Date(reservation.startingDate.calendar + reservation.numberOfNights * 86400000) > new Date()">
+                                        <div v-if="new Date(reservation.startingDate.calendar + reservation.numberOfNights * 86400000) > new Date()"
+                                            style="float: left;">
                                             <div v-if="reservation.status == 'CREATED'" 
                                                 style="float: left; margin-right: 10px;">
                                                 <button class="button green-button" @click="approve(reservation.key)">Approve</button>
                                             </div>
 
                                             <div v-if="reservation.status == 'CREATED'  ||  reservation.status == 'APPROVED'" 
-                                                style="float: left;">
+                                                style="float: left; margin-right: 10px;">
                                                 <button class="button red-button" @click="cancel(reservation.key)">Deny</button>
                                             </div>
                                         </div>
-                                        <div v-else-if="reservation.status == 'APPROVED'"> 
+                                        <div v-else-if="reservation.status == 'APPROVED'" 
+                                            style="margin-right: 10px; float: left;;"> 
                                             <button class="button orange-button" @click="finish(reservation.key)">Finish</button>
+                                        </div>
+
+                                        <div  v-if="reservation.reservationMessage.length > 0"
+                                              style="float: left; border-radius: 1px; 
+                                              background: rgb(165, 165, 165); color: white;
+                                              padding-left: 15px;
+                                              padding-right: 15px;
+                                              padding-top: 5px;
+                                              padding-bottom: 5px;
+                                              font-size: 14px;">
+                                            {{reservation.reservationMessage}}
                                         </div>
                                     </div> 
                                 </div>

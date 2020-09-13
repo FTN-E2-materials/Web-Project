@@ -2,6 +2,7 @@ let vue = new Vue({
     el :"#vue-apartments",
     data : {
         apartments : [],
+        apartmentsLoaded : false,
         query : "",
         holder : [],
         noApartmentsFound : false,
@@ -55,6 +56,7 @@ let vue = new Vue({
                 .then(function(response) {
                     if (response.status == 200) {
                         Vue.set(vue, "apartments", response.data)
+                        Vue.set(vue, "apartmentsLoaded", true)
                     }
                     else {
                         alert("Couldn't load apartments.")
