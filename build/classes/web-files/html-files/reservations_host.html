@@ -220,6 +220,16 @@
             color: white;
         }
 
+        .red-button {
+            background-color: #c72323;
+            color: white;
+        }
+
+        .orange-button {
+            background-color: rgb(224, 159, 39);
+            color:white;
+        }
+
         .rose-button {
             background-color: rgb(221, 60, 168);
             color: white;
@@ -234,8 +244,16 @@
             background-color: #008100;
         }
 
+        .orange-button:hover {
+            background-color: rgb(201, 139, 25);;
+        }
+
         .blue-button:hover {
             background-color: #204ca5;
+        }
+
+        .red-button:hover { 
+            background-color: #be1919;
         }
 
         .rose-button:hover {
@@ -310,12 +328,26 @@
                                     </div>
 
                                     <div>
-                                        Starting from: *Put date here*
+                                        Guest: {{reservation.guestID}}
                                     </div>
 
-                                    <div v-if="reservation.status == 'CREATED'  ||  reservation.status == 'APPROVED'" 
-                                        style="position: absolute; bottom:5px; left:0;">
-                                        <button class="button blue-button" @click="cancel(reservation.key)">Cancel</button>
+                                    <div> Starting date: -</div>
+
+                                    <div style="position: absolute; bottom:5px; left:0;">
+                                        <div v-if="new Date(reservation.startingDate.calendar + reservation.numberOfNights * 86400000) > new Date()">
+                                            <div v-if="reservation.status == 'CREATED'" 
+                                                style="float: left; margin-right: 10px;">
+                                                <button class="button green-button" @click="approve(reservation.key)">Approve</button>
+                                            </div>
+
+                                            <div v-if="reservation.status == 'CREATED'  ||  reservation.status == 'APPROVED'" 
+                                                style="float: left;">
+                                                <button class="button red-button" @click="cancel(reservation.key)">Deny</button>
+                                            </div>
+                                        </div>
+                                        <div v-else-if="reservation.status == 'APPROVED'"> 
+                                            <button class="button orange-button" @click="finish(reservation.key)">Finish</button>
+                                        </div>
                                     </div> 
                                 </div>
 
@@ -349,7 +381,7 @@
     <!-- Axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Vue.js implementation -->
-    <script src="http://localhost:8080/WebProject/scripts/reservations-guest.js"></script>  
+    <script src="http://localhost:8080/WebProject/scripts/reservations-host.js"></script>  
 
 </body>
 

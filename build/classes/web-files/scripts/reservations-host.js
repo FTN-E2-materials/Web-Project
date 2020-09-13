@@ -40,7 +40,37 @@ let vue = new Vue({
             axios.put("/WebProject/data/reservations/cancel", wrapper)
                 .then(response => {
                     if (response.status == 200) {
-                        window.location.href = ""   // This means refresh?
+                        window.location.href = ""   
+                    }
+                })
+                .catch (error => {
+                    console.log(error);
+                })
+        },
+        approve : function(reservationID) {
+            let wrapper = {
+                stringKey : reservationID
+            }
+
+            axios.put("/WebProject/data/reservations/approve", wrapper)
+                .then(response => {
+                    if (response.status == 200) {
+                        window.location.href = ""   
+                    }
+                })
+                .catch (error => {
+                    console.log(error);
+                })
+        },
+        finish : function(reservationID) {
+            let wrapper = {
+                stringKey : reservationID
+            }
+
+            axios.put("/WebProject/data/reservations/finish", wrapper)
+                .then(response => {
+                    if (response.status == 200) {
+                        window.location.href = ""   
                     }
                 })
                 .catch (error => {

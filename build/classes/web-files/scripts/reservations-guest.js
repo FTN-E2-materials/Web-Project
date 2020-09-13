@@ -14,6 +14,15 @@ let vue = new Vue({
                         })
                         Vue.set(vue, "reservations", response.data);
                         Vue.set(vue, "reservationsLoaded", true);
+
+                        vue.reservations.forEach(reservation => {
+                            axios.get("/WebProject/data/apartments/" + reservation.apartment.key)
+                                .then(response => {
+                                    if (response.status == 200) {
+                                        reservation.apartment.rating = Math.round(response.data.rating * 100)/100
+                                    }
+                                })
+                        })
                     }
                 })
                 .catch (error => {

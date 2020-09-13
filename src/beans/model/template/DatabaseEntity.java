@@ -1,5 +1,6 @@
 package beans.model.template;
 
+import util.exceptions.EntityValidationException;
 
 /** Parent class for all database entity objects. Provides String id field along with get and set methods */
 public abstract class DatabaseEntity {
@@ -25,5 +26,5 @@ public abstract class DatabaseEntity {
 	/** Validates object fields. 
 	 * @throws IllegalArgumentException if any of the required fields is empty or has a wrong value
 	 */
-	public abstract void validate() throws IllegalArgumentException;
+	public abstract void validate() throws EntityValidationException;
 }

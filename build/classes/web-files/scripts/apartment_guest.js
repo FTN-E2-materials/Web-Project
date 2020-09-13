@@ -98,5 +98,12 @@ let vue = new Vue({
             vue.calendar.appendTo('#element');
             vue.calendarRendered = true
         }
+    },
+    getYMD : function(date) {
+        let month = dateObj.getUTCMonth() + 1; //months from 1-12
+        let day = dateObj.getUTCDate();
+        let year = dateObj.getUTCFullYear();
+
+        return day + "/" + month + "/" + year
     }
 });

@@ -26,7 +26,6 @@ import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
 import util.exceptions.BaseException;
-import util.exceptions.DateValidationException;
 import util.services.SchedulingService;
 import util.wrappers.RequestWrapper;
 
@@ -76,17 +75,20 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		if (session.isGuest()) {
 			reservation.guestID = session.getUserID();
 			reservation.status = ReservationStatus.CREATED;
-			Reservation createdRes = super.create(reservation);
-			
-			if (createdRes == null)
-				return BadRequest();
 			
 			try {
-				SchedulingService.getInstance(ctx).applyDateChanges(createdRes);
+				reservation.validate();
+				SchedulingService.getInstance(ctx).applyDateChanges(reservation);
+				
+				Reservation createdRes = super.create(reservation);
+				if (createdRes == null)
+					return BadRequest();
+				
 				return OK(createdRes);
 			}
 			catch (BaseException e) {
-				return BadRequest(e.getMessage());
+				System.out.println("Throwing creation exception: " + e.message);
+				return BadRequest(e.message);
 			}
 		}
 			
@@ -170,7 +172,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 				}
 			}
 			else {
-				return ForbiddenRequest();
+				return BadRequest("This reservation cannot be cancelled");
 			}
 		}
 		// If host wants to change their own reservation
@@ -181,7 +183,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 				return OK(super.update(reservation));
 			}
 			else {
-				return ForbiddenRequest();
+				return BadRequest("This reservation cannot be cancelled");
 			}
 		}
 		
