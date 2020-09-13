@@ -8,6 +8,8 @@ import beans.model.other.Date;
 import dao.ApartmentDAO;
 import javassist.NotFoundException;
 import util.Config;
+import util.exceptions.ApartmentNotFoundException;
+import util.exceptions.DateValidationException;
 
 public class SchedulingService {
 	
@@ -28,21 +30,49 @@ public class SchedulingService {
 	
 	/** Changes the working and available dates for the apartment of this reservation, 
 	 * in order to properly display available dates for future clients.
+	 * Intended use for creating reservations.
 	 * @param reservation
 	 */
-	public void applyDateChanges(Reservation reservation) throws NotFoundException {
+	public void applyDateChanges(Reservation reservation) throws ApartmentNotFoundException, DateValidationException {
 		ApartmentDAO apartmentDAO = (ApartmentDAO)ctx.getAttribute(Config.apartmentDatabaseString);
 		Apartment apartment = apartmentDAO.getByKey(reservation.apartment.key);
 		
 		if (apartment == null)
-			throw new NotFoundException("Apartment not found!");
+			throw new ApartmentNotFoundException();
 		
 		int dayCounter = reservation.numberOfNights;
 		Date date = reservation.startingDate;
 		
 		while (dayCounter > 0) {
-			apartment.availableDates.remove(date);		// TODO Check if available date is not removed (missing), that means that it cannot be reserved!
-			apartment.workingDates.add(new Date(date));	// Create a deep copy, to avoid placing the same reference every time
+			if (!apartment.availableDates.remove(date))		// If remove returns false, it means that the given date was not found, thus the apartment is not available at that time
+				throw new DateValidationException("The selected dates are currently unavailable.");
+			apartment.workingDates.add(new Date(date));	// Creates a deep copy, to avoid placing the same reference every time
+			date.addDays(1);
+			dayCounter--;
+		}
+		
+		apartmentDAO.forceUpdate();
+	}
+	
+	/** Changes the working and available dates for the apartment of this reservation, 
+	 * in order to properly display available dates for future clients.
+	 * Intended use for cancelling/denying reservations.
+	 * @param reservation
+	 */
+	public void reverseDateChanges(Reservation reservation) throws ApartmentNotFoundException, DateValidationException {
+		ApartmentDAO apartmentDAO = (ApartmentDAO)ctx.getAttribute(Config.apartmentDatabaseString);
+		Apartment apartment = apartmentDAO.getByKey(reservation.apartment.key);
+		
+		if (apartment == null)
+			throw new ApartmentNotFoundException();
+		
+		int dayCounter = reservation.numberOfNights;
+		Date date = reservation.startingDate;
+		
+		while (dayCounter > 0) {
+			if (!apartment.workingDates.remove(date))		
+				throw new DateValidationException("No reservation available for this date range.");
+			apartment.availableDates.add(new Date(date));	// Creates a deep copy, to avoid placing the same reference every time
 			date.addDays(1);
 			dayCounter--;
 		}

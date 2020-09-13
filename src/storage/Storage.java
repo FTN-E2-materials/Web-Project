@@ -34,7 +34,7 @@ public class Storage<T extends DatabaseEntity> {
 	
 	/** Return a Map of all the JSON objects which were saved in the specified file. */
 	public Map<String, T> readAll() {
-		String objectsJSON = IOService.readFromFile(fileStorageLocation);	// This fetches the JSON-format objects from the text file 
+		String objectsJSON = IOService.readFile(fileStorageLocation);	// This fetches the JSON-format objects from the text file 
 		
         return GSON.fromJson(objectsJSON, targetType.getType());		// This deserializes the JSON string into a List of objects
 	}

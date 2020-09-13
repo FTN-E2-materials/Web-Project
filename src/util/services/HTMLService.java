@@ -45,41 +45,24 @@ public class HTMLService {
 	private void init() {
 		System.out.println("Starting the caching process");
 		
-		LANDING_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.LANDING_PAGE_LOCATION));
-		LOGIN_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.LOGIN_PAGE_LOCATION));
-		REGISTRATION_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.REGISTRATION_LOCATION));
-		GUEST_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.GUEST_HOME_LOCATION));
-		HOST_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.HOST_HOME_LOCATION));
-		ADMIN_HOME = streamToString(HTMLService.class.getResourceAsStream(Config.ADMIN_HOME_LOCATION));
-		CREATE_APARTMENT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.CREATE_APARTMENT_LOCATION));
-		SINGLE_APARTMENT_PAGE_HOST = streamToString(HTMLService.class.getResourceAsStream(Config.APARTMENT_DETAILS_HOST_LOCATION));
-		SINGLE_APARTMENT_PAGE_GUEST = streamToString(HTMLService.class.getResourceAsStream(Config.APARTMENT_DETAILS_GUEST_LOCATION));
-		GUEST_ACCOUNT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.GUEST_ACCOUNT_LOCATION));
-		HOST_ACCOUNT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.HOST_ACCOUNT_LOCATION));
-		EDIT_APARTMENT_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.EDIT_APARTMENT_LOCATION));
-		REVIEWS_GUEST_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.REVIEWS_GUEST_LOCATION));
-		REVIEWS_HOST_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.REVIEWS_HOST_LOCATION));
-		RESERVATIONS_GUEST_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.RESERVATIONS_GUEST_LOCATION));
-		RESERVATIONS_HOST_PAGE = streamToString(HTMLService.class.getResourceAsStream(Config.RESERVATIONS_HOST_LOCATION));
-
+		LANDING_PAGE = IOService.readSourceFile(Config.LANDING_PAGE_LOCATION);
+		LOGIN_PAGE = IOService.readSourceFile(Config.LOGIN_PAGE_LOCATION);
+		REGISTRATION_PAGE = IOService.readSourceFile(Config.REGISTRATION_LOCATION);
+		GUEST_HOME = IOService.readSourceFile(Config.GUEST_HOME_LOCATION);
+		HOST_HOME = IOService.readSourceFile(Config.HOST_HOME_LOCATION);
+		ADMIN_HOME = IOService.readSourceFile(Config.ADMIN_HOME_LOCATION);
+		CREATE_APARTMENT_PAGE = IOService.readSourceFile(Config.CREATE_APARTMENT_LOCATION);
+		SINGLE_APARTMENT_PAGE_HOST = IOService.readSourceFile(Config.APARTMENT_DETAILS_HOST_LOCATION);
+		SINGLE_APARTMENT_PAGE_GUEST = IOService.readSourceFile(Config.APARTMENT_DETAILS_GUEST_LOCATION);
+		GUEST_ACCOUNT_PAGE = IOService.readSourceFile((Config.GUEST_ACCOUNT_LOCATION));
+		HOST_ACCOUNT_PAGE = IOService.readSourceFile(Config.HOST_ACCOUNT_LOCATION);
+		EDIT_APARTMENT_PAGE = IOService.readSourceFile(Config.EDIT_APARTMENT_LOCATION);
+		REVIEWS_GUEST_PAGE = IOService.readSourceFile(Config.REVIEWS_GUEST_LOCATION);
+		REVIEWS_HOST_PAGE = IOService.readSourceFile(Config.REVIEWS_HOST_LOCATION);
+		RESERVATIONS_GUEST_PAGE = IOService.readSourceFile(Config.RESERVATIONS_GUEST_LOCATION);
+		RESERVATIONS_HOST_PAGE = IOService.readSourceFile(Config.RESERVATIONS_HOST_LOCATION);
 
 		System.out.println("Completed caching.");
-	}
-	
-	/** Convert the given InputStream to a String. If an error occurrs, returns an empty String */
-	private String streamToString(InputStream stream) {
-		try {
-			ByteArrayOutputStream result = new ByteArrayOutputStream();
-			byte[] buffer = new byte[1024];
-			int length;
-			while ((length = stream.read(buffer)) != -1) 
-			    result.write(buffer, 0, length);
-			
-			return result.toString();
-		}
-		catch (Exception e) {
-			return "";
-		}
 	}
 	
 	public String getLandingPage() {

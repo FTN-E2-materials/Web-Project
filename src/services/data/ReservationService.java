@@ -25,6 +25,8 @@ import services.interfaces.rest.ReservationServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
+import util.exceptions.BaseException;
+import util.exceptions.DateValidationException;
 import util.services.SchedulingService;
 import util.wrappers.RequestWrapper;
 
@@ -83,8 +85,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 				SchedulingService.getInstance(ctx).applyDateChanges(createdRes);
 				return OK(createdRes);
 			}
-			catch (NotFoundException e) {
-				e.printStackTrace();
+			catch (BaseException e) {
 				return BadRequest(e.getMessage());
 			}
 		}
@@ -159,8 +160,14 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		if (session.isGuest()  &&  session.getUserID().equals(reservation.guestID)) {
 			if (reservation.status == ReservationStatus.CREATED  ||
 					reservation.status == ReservationStatus.APPROVED) {
-				reservation.status = ReservationStatus.CANCELLED;
-				return OK(super.update(reservation));
+				try {
+					reservation.status = ReservationStatus.CANCELLED;
+					SchedulingService.getInstance(ctx).reverseDateChanges(reservation);
+					return OK(super.update(reservation));
+				}
+				catch (BaseException e) {
+					return BadRequest(e.message);
+				}
 			}
 			else {
 				return ForbiddenRequest();

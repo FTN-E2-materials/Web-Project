@@ -60,7 +60,7 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 	@Path(Config.SCRIPTS_PATH + "/{scriptName}")
 	@Produces(MediaType.TEXT_HTML)
 	public Response getScript(@PathParam("scriptName") String scriptName) {
-		return OK(ScriptService.getScript(scriptName));
+		return OK(ScriptService.getInstance().getScript(scriptName));
 	}
 	
 	@GET
