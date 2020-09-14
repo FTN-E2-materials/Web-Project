@@ -1,5 +1,7 @@
 package util.services;
 
+import java.util.List;
+
 import javax.servlet.ServletContext;
 
 import beans.model.entities.Apartment;
@@ -41,11 +43,13 @@ public class SchedulingService {
 			throw new ApartmentNotFoundException();
 		
 		int dayCounter = reservation.numberOfNights;
-		Date date = reservation.startingDate;
+		Date date = new Date(reservation.startingDate);
 		
 		while (dayCounter > 0) {
-			if (!apartment.availableDates.remove(date))		// If remove returns false, it means that the given date was not found, thus the apartment is not available at that time
+			if (!apartment.availableDates.remove(date))	{	// If remove returns false, it means that the given date was not found, thus the apartment is not available at that time
+				rollbackAvailable(date, dayCounter, reservation.numberOfNights, apartment.workingDates, apartment.availableDates);
 				throw new DateValidationException("The selected dates are currently unavailable.");
+			}
 			apartment.workingDates.add(new Date(date));	// Creates a deep copy, to avoid placing the same reference every time
 			date.addDays(1);
 			dayCounter--;
@@ -67,17 +71,37 @@ public class SchedulingService {
 			throw new ApartmentNotFoundException();
 		
 		int dayCounter = reservation.numberOfNights;
-		Date date = reservation.startingDate;
+		Date date = new Date(reservation.startingDate);
 		
 		while (dayCounter > 0) {
-			if (!apartment.workingDates.remove(date))		
+			if (!apartment.workingDates.remove(date)) {
+				rollbackWorking(date, dayCounter, reservation.numberOfNights, apartment.workingDates, apartment.availableDates);
 				throw new DateValidationException("No reservation available for this date range.");
+			}
 			apartment.availableDates.add(new Date(date));	// Creates a deep copy, to avoid placing the same reference every time
 			date.addDays(1);
 			dayCounter--;
 		}
 		
 		apartmentDAO.forceUpdate();
+	}
+	
+	public void rollbackAvailable(Date date, int counter, int maxCount, List<Date> workingDates, List<Date> availableDates) {
+		while (counter != maxCount) {
+			date.addDays(-1);
+			workingDates.remove(date);
+			availableDates.add(new Date(date));
+			counter++;
+		}
+	}
+	
+	public void rollbackWorking(Date date, int counter, int maxCount, List<Date> workingDates, List<Date> availableDates) {
+		while (counter != maxCount) {
+			date.addDays(-1);
+			availableDates.remove(date);
+			workingDates.add(new Date(date));
+			counter++;
+		}
 	}
 
 }

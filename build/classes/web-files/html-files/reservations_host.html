@@ -293,7 +293,7 @@
         <div v-if="reservationsLoaded">
             <table style="width: 80%; margin: 3% auto;">
                <tbody>
-                  <tr   v-for="reservation in reservations" :key="reservation.key"
+                  <tr   v-for="(reservation, index) in reservations" :key="reservation.key"
                         class="row">
                      <td style="display: grid;
                                 grid-template-columns: repeat(5, 1fr);
@@ -337,17 +337,17 @@
                                             style="float: left;">
                                             <div v-if="reservation.status == 'CREATED'" 
                                                 style="float: left; margin-right: 10px;">
-                                                <button class="button green-button" @click="approve(reservation.key)">Approve</button>
+                                                <button class="button green-button" @click="approve(reservation.key, index)">Approve</button>
                                             </div>
 
                                             <div v-if="reservation.status == 'CREATED'  ||  reservation.status == 'APPROVED'" 
                                                 style="float: left; margin-right: 10px;">
-                                                <button class="button red-button" @click="cancel(reservation.key)">Deny</button>
+                                                <button class="button red-button" @click="cancel(reservation.key, index)">Deny</button>
                                             </div>
                                         </div>
                                         <div v-else-if="reservation.status == 'APPROVED'" 
                                             style="margin-right: 10px; float: left;;"> 
-                                            <button class="button orange-button" @click="finish(reservation.key)">Finish</button>
+                                            <button class="button orange-button" @click="finish(reservation.key, index)">Finish</button>
                                         </div>
 
                                         <div  v-if="reservation.reservationMessage.length > 0"

@@ -16,14 +16,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
+import beans.model.entities.Apartment;
 import beans.model.entities.Reservation;
 import beans.model.enums.ReservationStatus;
 import beans.model.other.Date;
+import dao.ApartmentDAO;
 import dao.ReservationDAO;
 import javassist.NotFoundException;
 import services.interfaces.rest.ReservationServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
+import sun.util.locale.provider.AvailableLanguageTags;
 import util.Config;
 import util.exceptions.BaseException;
 import util.services.SchedulingService;
@@ -163,8 +166,8 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 			if (reservation.status == ReservationStatus.CREATED  ||
 					reservation.status == ReservationStatus.APPROVED) {
 				try {
-					reservation.status = ReservationStatus.CANCELLED;
 					SchedulingService.getInstance(ctx).reverseDateChanges(reservation);
+					reservation.status = ReservationStatus.CANCELLED;
 					return OK(super.update(reservation));
 				}
 				catch (BaseException e) {

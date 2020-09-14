@@ -2,6 +2,7 @@ package dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import beans.model.entities.Apartment;
 import beans.model.entities.Review;
@@ -21,6 +22,15 @@ public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInte
 	public ApartmentDAO(Storage<Apartment> storage) {
 		super(storage);
 		init();
+		
+		/** Hard wipe of all available dates and working dates
+		Iterator<Apartment> iterator = database.values().iterator();
+		while(iterator.hasNext()) {
+			Apartment a = iterator.next();
+			a.workingDates = new ArrayList<>();
+			a.availableDates = new ArrayList<>();
+		}
+		forceUpdate(); */
 	}
 	
 	/** Searches through all the apartments and returns those which contain the given word in their title.

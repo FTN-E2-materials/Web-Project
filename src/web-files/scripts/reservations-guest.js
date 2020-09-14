@@ -32,7 +32,7 @@ let vue = new Vue({
         goToApartment : function(apartmentID) {
             window.location.href = "/WebProject/apartments/" + apartmentID
         },
-        cancel : function(reservationID) {
+        cancel : function(reservationID, index) {
             let wrapper = {
                 stringKey : reservationID
             }
@@ -40,7 +40,7 @@ let vue = new Vue({
             axios.put("/WebProject/data/reservations/cancel", wrapper)
                 .then(response => {
                     if (response.status == 200) {
-                        window.location.href = ""   // This means refresh?
+                        vue.reservations[index].status = "CANCELLED"
                     }
                 })
                 .catch (error => {

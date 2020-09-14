@@ -21,7 +21,7 @@ public class Date {
 		this.calendar.setTimeInMillis(date.calendar.getTimeInMillis());
 	}
 
-	/** Adds the given amount of days to the current Date. 
+	/** Adds or removes (+, -) the given amount of days to the current Date. 
 	 * @param days
 	 */
 	public void addDays(int days) {
@@ -43,5 +43,10 @@ public class Date {
 		Date otherDate = (Date)obj;
 		return this.calendar.get(Calendar.YEAR) == otherDate.calendar.get(Calendar.YEAR)  
 					&& this.calendar.get(Calendar.DAY_OF_YEAR) == otherDate.calendar.get(Calendar.DAY_OF_YEAR);
+	}
+	
+	@Override
+	public String toString() {
+		return calendar.get(Calendar.DATE) + "/" + calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.YEAR);
 	}
 }

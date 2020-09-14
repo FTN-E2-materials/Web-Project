@@ -32,7 +32,7 @@ let vue = new Vue({
         goToApartment : function(apartmentID) {
             window.location.href = "/WebProject/apartments/" + apartmentID
         },
-        cancel : function(reservationID) {
+        cancel : function(reservationID, index) {
             let wrapper = {
                 stringKey : reservationID
             }
@@ -40,14 +40,14 @@ let vue = new Vue({
             axios.put("/WebProject/data/reservations/cancel", wrapper)
                 .then(response => {
                     if (response.status == 200) {
-                        window.location.href = ""   
+                        vue.reservations[index].status = "CANCELLED"   
                     }
                 })
                 .catch (error => {
                     console.log(error);
                 })
         },
-        approve : function(reservationID) {
+        approve : function(reservationID, index) {
             let wrapper = {
                 stringKey : reservationID
             }
@@ -55,14 +55,14 @@ let vue = new Vue({
             axios.put("/WebProject/data/reservations/approve", wrapper)
                 .then(response => {
                     if (response.status == 200) {
-                        window.location.href = ""   
+                        vue.reservations[index].status = "APPROVED"
                     }
                 })
                 .catch (error => {
                     console.log(error);
                 })
         },
-        finish : function(reservationID) {
+        finish : function(reservationID, index) {
             let wrapper = {
                 stringKey : reservationID
             }
@@ -70,7 +70,7 @@ let vue = new Vue({
             axios.put("/WebProject/data/reservations/finish", wrapper)
                 .then(response => {
                     if (response.status == 200) {
-                        window.location.href = ""   
+                        vue.reservations[index].status = "FINISHED"   
                     }
                 })
                 .catch (error => {

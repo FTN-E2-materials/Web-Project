@@ -276,7 +276,7 @@
         <div v-if="reservationsLoaded">
             <table style="width: 80%; margin: 3% auto;">
                <tbody>
-                  <tr   v-for="reservation in reservations" :key="reservation.key"
+                  <tr   v-for="(reservation, index) in reservations" :key="reservation.key"
                         class="row">
                      <td style="display: grid;
                                 grid-template-columns: repeat(5, 1fr);
@@ -315,7 +315,7 @@
 
                                     <div v-if="reservation.status == 'CREATED'  ||  reservation.status == 'APPROVED'" 
                                         style="position: absolute; bottom:5px; left:0;">
-                                        <button class="button blue-button" @click="cancel(reservation.key)">Cancel</button>
+                                        <button class="button blue-button" @click="cancel(reservation.key, index)">Cancel</button>
                                     </div> 
                                 </div>
 
