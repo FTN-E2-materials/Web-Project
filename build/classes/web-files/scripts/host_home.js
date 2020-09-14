@@ -2,7 +2,7 @@ let vue = new Vue({
     el :"#vue-apartments",
     data : {
         apartments : [],
-        apartmentsDownloaded : false
+        apartmentsLoaded : false
     },
     methods : {
         searchApartments : function() {
@@ -10,7 +10,7 @@ let vue = new Vue({
                 .then(function(response) {
                     if (response.status == 200) {
                         Vue.set(vue, "apartments", response.data)
-                        Vue.set(vue, "apartmentsDownloaded", true);
+                        Vue.set(vue, "apartmentsLoaded", true);
                     }
                     else {
                         alert("Couldn't load apartments.")
@@ -33,6 +33,9 @@ let vue = new Vue({
                         alert("Couldn't log out.")
                     }
                 })
+        },
+        createApartment : function() {
+            window.location.href = "/WebProject/createApartment"
         }
     },
     beforeMount() {
