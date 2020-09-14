@@ -333,7 +333,7 @@
                                     <img :src="apartment.imageLink" style="width: 95%; height: 185px;">
                                 </div>
                                 
-                                <!-- LEft part of the grid (image, name)-->
+                                <!-- LEft part of the grid (name, rooms, location, ...)-->
                                 <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
                                     <div>
                                         <h3>{{apartment.title}}</h3>
@@ -344,6 +344,14 @@
                                     <div style="margin-top: 3px;">
                                         <span>{{apartment.location.address.city.name}}</span>
                                     </div>
+                                    <div style="position: absolute; bottom: 5px; left:0; width: 100%; overflow: hidden;">
+                                        <div v-for="amenity in apartment.amenities" :key="amenity.key">
+                                            <div style="float:left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px;
+                                                padding-top: 5px; padding-bottom: 5px; padding-left: 10px; padding-right: 10px;">
+                                                {{amenity.name}}    
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Right part of grid (price, reviews) -->
@@ -351,7 +359,7 @@
                                     <div> 
                                         <h3>{{apartment.pricePerNight}}$/night</h3>
                                     </div>
-                                    <div style="position: absolute; right: 0; bottom: 15px; display: block;">
+                                    <div style="position: absolute; right: 0; bottom: 8px; display: block;">
                                         
                                         <div v-if="apartment.rating > 0">
                                             <span v-if="apartment.rating > 4.0"
@@ -369,7 +377,7 @@
                                             font-weight: bold; font-size: 16px; float:right;
                                             padding-top: 7px; padding-left: 12px; padding-right: 12px; padding-bottom: 7px;">{{apartment.rating}}</span>
                                         
-                                            <span style="float:right; margin-right: 15px; padding-top:5px; color:rgb(163, 163, 163);"> {{apartment.numberOfRatings}} reviews</span>
+                                            <span style="float:right; margin-right: 15px; padding-top:6px; color:rgb(163, 163, 163);"> {{apartment.numberOfRatings}} reviews</span>
                                         </div>
                                     
                                         <span v-else

@@ -51,6 +51,7 @@ let vue = new Vue({
                             for (let j = 0; j < ap.amenities.length; j++) {
                                 if (vue.allAmenities[i].key == ap.amenities[j].key) {
                                     vue.selectedAmenities.push(vue.allAmenities[i]);
+                                    break;
                                 }
                             }
                         }
