@@ -18,9 +18,9 @@ let vue = new Vue({
                     }
                 })
         },
-        activate : function(apartmentID) {
+        activate : function() {
             let requestWrapper = {
-                stringKey : apartmentID
+                stringKey : vue.apartment.key
             }
             axios.put("http://localhost:8080/WebProject/data/apartments/activate", requestWrapper)
                 .then(function(response) {
@@ -32,9 +32,9 @@ let vue = new Vue({
                     }
                 })
         },
-        deactivate : function(apartmentID) {
+        deactivate : function() {
             let requestWrapper = {
-                stringKey : apartmentID
+                stringKey : vue.apartment.key
             }
             axios.put("http://localhost:8080/WebProject/data/apartments/deactivate", requestWrapper)
                 .then(function(response) {
@@ -48,6 +48,12 @@ let vue = new Vue({
         }, 
         edit : function() {
             window.location.href = "http://localhost:8080/WebProject/apartments/edit/" + vue.apartment.key;
+        },
+        goToReviews : function() {
+            let addressBarTokens = window.location.href.split("/");
+            let apartmentID = addressBarTokens[addressBarTokens.length-1];
+
+            window.location.href = "/WebProject/reviews/" + apartmentID
         }
     },
     beforeMount() {

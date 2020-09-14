@@ -264,7 +264,7 @@
         </div>
 
         <div v-if="apartmentsLoaded"
-               style="width: 80%; margin: 0 auto;">
+               style="width: 80%; margin: 0 auto; margin-bottom: 100px;">
             <table>
                <tbody>
                   <tr v-for="apartment in apartments" :key="apartment.key"
@@ -287,11 +287,12 @@
                                 </div>
                                 
                                 <!-- LEft part of the grid (image, name)-->
-                                <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
-                                    <div>
-                                        <h3>{{apartment.title}}</h3>
+                                <div style="grid-area: 1 / 2 / 2 / 5; display: block;">
+                                    <div class="big-bold">
+                                        {{apartment.title}}
+                                        <span v-if="apartment.status == 'INACTIVE'" style="margin-left:6px; color:rgb(190, 18, 18)">(INACTIVE)</span>
                                     </div>
-                                    <div style="display: inline;">
+                                    <div>
                                         <span > {{apartment.numberOfRooms}} rooms &middot; {{apartment.numberOfGuests}} guests </span>
                                     </div>
                                     <div style="margin-top: 3px;">

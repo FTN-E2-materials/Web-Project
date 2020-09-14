@@ -152,6 +152,78 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 		return OK(dao.getByApartmentIDForHost(apartmentID));
 	}
 	
+	@Override
+	@Path("/hide")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response hideReview(RequestWrapper wrapper, @Context HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isHost()) {
+			if (wrapper == null)
+				return BadRequest("Missing request wrapper.");
+			if (wrapper.stringKey == null)
+				return BadRequest("Missing review ID.");
+			
+			ReviewDAO reviewDAO = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
+			Review review = reviewDAO.getByKey(wrapper.stringKey);
+			if (review == null)
+				return BadRequest("Review not found");
+			
+			ApartmentDAO apartmentDAO = (ApartmentDAO)ctx.getAttribute(Config.apartmentDatabaseString);
+			Apartment reviewedApartment = apartmentDAO.getByKey(review.apartmentID);
+			if (reviewedApartment == null)
+				return BadRequest("Apartment for that review was not found.");
+			
+			if (!reviewedApartment.hostID.equals(session.getUserID()))
+				return ForbiddenRequest();
+			
+			review.visibleToGuests = false;
+			return OK(reviewDAO.update(review));
+		}
+		
+		return ForbiddenRequest();
+	}
+
+	@Override
+	@Path("/show")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response showReview(RequestWrapper wrapper, @Context HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isHost()) {
+			if (wrapper == null)
+				return BadRequest("Missing request wrapper.");
+			if (wrapper.stringKey == null)
+				return BadRequest("Missing review ID.");
+			
+			ReviewDAO reviewDAO = (ReviewDAO)ctx.getAttribute(databaseAttributeString);
+			Review review = reviewDAO.getByKey(wrapper.stringKey);
+			if (review == null)
+				return BadRequest("Review not found");
+			
+			ApartmentDAO apartmentDAO = (ApartmentDAO)ctx.getAttribute(Config.apartmentDatabaseString);
+			Apartment reviewedApartment = apartmentDAO.getByKey(review.apartmentID);
+			if (reviewedApartment == null)
+				return BadRequest("Apartment for that review was not found.");
+			
+			if (!reviewedApartment.hostID.equals(session.getUserID()))
+				return ForbiddenRequest();
+			
+			review.visibleToGuests = true;
+			return OK(reviewDAO.update(review));
+		}
+		
+		return ForbiddenRequest();
+	}
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
