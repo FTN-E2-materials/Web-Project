@@ -31,6 +31,7 @@ import services.interfaces.rest.ReviewServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
+import util.exceptions.EntityValidationException;
 import util.wrappers.RequestWrapper;
 
 
@@ -86,17 +87,18 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 				 return BadRequest("Apartment not found");
 			
 			if (hasPermission(apartmentID, session.getUserID())) {
-					 review.apartmentID = apartment.key;
-					 review.guestID = session.getUserID();
-					 
-					 Review createdReview = super.create(review);
-					 if (createdReview == null)
-						 return BadRequest();
-					 
-					 apartmentDAO.updateRating(createdReview);
-					 
-					 return OK(createdReview);
-				}
+				 review.apartmentID = apartment.key;
+				 review.guestID = session.getUserID();
+				 
+				 try {
+					 Review validatedReview = super.create(review);
+					 apartmentDAO.updateRating(validatedReview);
+					 return OK(validatedReview);
+				 }
+				 catch (EntityValidationException e) {
+					 return BadRequest(e.message);
+				 }
+			}
 		}
 		
 		return ForbiddenRequest();
@@ -107,7 +109,7 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Response update(Review obj, @Context HttpServletRequest request) {
-		return OK(super.update(obj));
+		return NotAllowed();	// Updating reviews is not allowed
 	}
 	
 	@GET
@@ -124,8 +126,10 @@ public class ReviewService extends CRUDService<Review, ReviewDAO> implements Rev
 	}
 
 	@Override
-	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
-		throw new NotAcceptableException();  // This is not allowed for reviews
+	@Path("/{reviewID}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getByID(@PathParam("reviewID") String key, @Context HttpServletRequest request) {
+		return ForbiddenRequest();
 	}
 
 	@DELETE

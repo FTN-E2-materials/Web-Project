@@ -15,12 +15,14 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import beans.interfaces.SessionToken;
 import beans.model.entities.Amenity;
 import dao.AmenityDAO;
 import services.interfaces.rest.ResponseCRUDInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
+import util.exceptions.EntityValidationException;
 import util.wrappers.RequestWrapper;
 
 
@@ -61,7 +63,20 @@ public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements 
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Response create(Amenity obj, @Context HttpServletRequest request) {
-		return OK(super.create(obj));
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isAdmin()) {
+			try {
+				return OK(super.create(obj));
+			}
+			catch (EntityValidationException e) {
+				return BadRequest(e.message);
+			}
+		}
+		
+		return ForbiddenRequest();
 	}
 
 	@PUT
@@ -69,7 +84,21 @@ public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements 
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Response update(Amenity obj, @Context HttpServletRequest request) {
-		return OK(super.update(obj));
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isAdmin()) {
+			try {
+				obj.validate();
+				super.update(obj);
+			}
+			catch (EntityValidationException e) {
+				return BadRequest(e.message);
+			}
+		}
+		
+		return ForbiddenRequest();
 	}
 	
 	@GET
@@ -79,9 +108,12 @@ public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements 
 		return OK(super.getAll());
 	}
 	
+	@GET
+	@Path("{amenityID}")
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Response getByID(@PathParam("id") String key, @Context HttpServletRequest request) {
-		throw new NotAcceptableException("This method is unsupported.");
+	public Response getByID(@PathParam("amenityID") String key, @Context HttpServletRequest request) {
+		return NotAllowed();
 	}
 
 	@DELETE
@@ -89,7 +121,14 @@ public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements 
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Response delete(RequestWrapper requestWrapper, @Context HttpServletRequest request) {
-		return OK(super.delete(requestWrapper));
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isAdmin())
+			return OK(super.delete(requestWrapper));
+		
+		return ForbiddenRequest();
 	}
 
 }

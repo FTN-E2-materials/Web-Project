@@ -330,7 +330,9 @@
                                         Guest: {{reservation.guestID}}
                                     </div>
 
-                                    <div> Starting date: -</div>
+                                    <div> 
+                                        Starting date: {{new Date(reservation.startingDate.calendar).toLocaleDateString()}}
+                                    </div>
 
                                     <div style="position: absolute; bottom:5px; left:0;">
                                         <div v-if="new Date(reservation.startingDate.calendar + reservation.numberOfNights * 86400000) > new Date()"

@@ -14,7 +14,9 @@ let vue = new Vue({
         type: "Apartment",
         amenities: [],
         imageLink : "",
-        calendar : undefined
+        calendar : undefined,
+        allAmenities : [],
+        selectedAmenities : []
     },
     methods : {
         create : function() { 
@@ -56,7 +58,7 @@ let vue = new Vue({
                     }
                 },
                 imageLink : this.imageLink,
-                amenities : this.amenities
+                amenities : vue.selectedAmenities
             }
 
             axios.post("http://localhost:8080/WebProject/data/apartments", apartment)
@@ -90,6 +92,22 @@ let vue = new Vue({
         clearAll : function() {
             vue.calendar.values = []
             vue.calendar.refresh()
+        },
+        getAmenities : function() {
+            axios.get("/WebProject/data/amenities")
+                .then(response => {
+                    if (response.status == 200) {
+                        Vue.set(vue, "allAmenities", response.data)
+                    }
+                })
+        },
+        addAmenity : function(amenityID, index) {
+            vue.selectedAmenities.push(vue.allAmenities[index]);
+        },
+        removeAmenity : function(amenityID) {
+            vue.selectedAmenities = vue.selectedAmenities.filter(function(element) {
+                return element.key != amenityID;
+            })
         }
     },
     beforeMount() {
@@ -103,5 +121,6 @@ let vue = new Vue({
     },
     mounted() {
         this.calendar.appendTo('#element');
+        this.getAmenities();
     }
 });

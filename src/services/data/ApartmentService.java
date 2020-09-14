@@ -27,6 +27,7 @@ import services.interfaces.rest.ApartmentServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
+import util.exceptions.EntityValidationException;
 import util.wrappers.ApartmentFilterWrapper;
 import util.wrappers.RequestWrapper;
 
@@ -78,12 +79,12 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 			apartment.rating = 0d;
 			apartment.hostID = session.getUserID();
 			
-			Apartment validatedApartment = super.create(apartment);
-			if (validatedApartment == null)
-				return BadRequest("Please fill out all the fields correctly");
-			
-			System.out.println("Creating apartment: " + validatedApartment.title);
-			return OK(validatedApartment);
+			try {
+				return OK(super.create(apartment));
+			}
+			catch (EntityValidationException e) {
+				return BadRequest(e.message);
+			}
 		}
 
 		return ForbiddenRequest();

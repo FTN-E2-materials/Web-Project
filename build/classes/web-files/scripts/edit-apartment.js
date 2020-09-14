@@ -16,7 +16,9 @@ let vue = new Vue({
         type: "",
         amenities: [],
         imageLink : "",
-        calendar : undefined
+        calendar : undefined,
+        allAmenities : [],
+        selectedAmenities : []
     },
     methods : {
         get : function() {
@@ -43,7 +45,16 @@ let vue = new Vue({
                         vue.type = (ap.type == "APARTMENT" ? "Apartment" : "Room")
                         vue.imageLink = ap.imageLink
                         vue.status = ap.status;
-                        
+
+                        // Put element references from allAmenities into selectedAmenities so they can be highlighted!
+                        for (let i = 0; i < vue.allAmenities.length; i++) {
+                            for (let j = 0; j < ap.amenities.length; j++) {
+                                if (vue.allAmenities[i].key == ap.amenities[j].key) {
+                                    vue.selectedAmenities.push(vue.allAmenities[i]);
+                                }
+                            }
+                        }
+
                         Array.prototype.forEach.call(ap.availableDates, date => {
                             vue.calendar.values.push(new Date(date.calendar))
                         })
@@ -99,7 +110,7 @@ let vue = new Vue({
                     }
                 },
                 imageLink : this.imageLink,
-                amenities : this.amenities
+                amenities : vue.selectedAmenities
             }
 
             axios.put("/WebProject/data/apartments", apartment)
@@ -133,6 +144,27 @@ let vue = new Vue({
         clearAll : function() {
             vue.calendar.values = []
             vue.calendar.refresh()
+        },
+        getAmenities : function() {
+            axios.get("/WebProject/data/amenities")
+                .then(response => {
+                    if (response.status == 200) {
+                        response.data.forEach(amenity => {
+                            vue.allAmenities.push({
+                                "name" : amenity.name,
+                                "key" : amenity.key
+                            })
+                        })
+                    }
+                })
+        },
+        addAmenity : function(amenityID, index) {
+            vue.selectedAmenities.push(vue.allAmenities[index]);
+        },
+        removeAmenity : function(amenityID) {
+            vue.selectedAmenities = vue.selectedAmenities.filter(function(element) {
+                return element.key != amenityID;
+            })
         }
     },
     beforeMount() {
@@ -145,6 +177,7 @@ let vue = new Vue({
         });
     },
     mounted() {
+        this.getAmenities();
         this.get();
         this.calendar.appendTo('#element');
     }

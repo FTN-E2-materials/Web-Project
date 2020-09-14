@@ -309,8 +309,8 @@
                                         <span style="font-weight: bold; color:rgb(107, 121, 184)" v-else-if="reservation.status == 'FINISHED'"> {{reservation.status}}</span>
                                     </div>
 
-                                    <div>
-                                        Starting from: *Put date here*
+                                    <div style="margin-top: 3px;">
+                                        Starting from: {{new Date(reservation.startingDate.calendar).toLocaleDateString()}}
                                     </div>
 
                                     <div v-if="reservation.status == 'CREATED'  ||  reservation.status == 'APPROVED'" 

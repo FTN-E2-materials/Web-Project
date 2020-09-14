@@ -103,7 +103,7 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Response update(Reservation obj, @Context HttpServletRequest request) {
-		return ForbiddenRequest(); // Reservations cannot be updated.
+		return NotAllowed(); // Reservations cannot be updated.
 								   // Only status changes are allowed via separate PUT methods
 	}
 	

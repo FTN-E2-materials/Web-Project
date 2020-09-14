@@ -236,19 +236,20 @@
             border-collapse: collapse;
             width: 80%;
             margin: 0;
+            max-height: 600px;
 
             justify-content: space-evenly;
+        }
+
+        .row:hover {
+            background-color: #d6ffd6;
+            cursor : pointer;
         }
 
         .row {
             width: 100%;
             background: #fafafa;
             height: 50px;
-        }
-
-        .row:hover {
-            background-color: #e2ecfa;
-            cursor: pointer;
         }
 
         td {
@@ -333,26 +334,26 @@
                         <input type="text" placeholder="City" v-model="city">
                         <input type="text" placeholder="Postal code" v-model="postalCode">
                     </div>
+                    
+                    <!-- Amenities -->
                     <div class="content-row" style="padding-top: 20px;">
                         <span>List of amenities:</span>
                     </div>
                     <div class="content-row">
                         <table class="table">
                             <tbody>
-                                <tr class="row">
-                                    <td> Ja</td>
-                                </tr>
-                                <tr class="row">
-                                    <td> Sam</td>
-                                </tr>
-                                <tr class="row">
-                                    <td> Spisak</td>
-                                </tr>
-                                <tr class="row">
-                                    <td> Sadrzaja </td>
-                                </tr>
-                                <tr class="row">
-                                    <td> Poooooooz </td>
+                                <tr v-for="(amenity, index) in allAmenities" :key="amenity.key"
+                                    class="row">
+                                    <td v-if="selectedAmenities.indexOf(amenity) != -1"
+                                        style="overflow: hidden; color: white; background-color: green;" 
+                                        @click="removeAmenity(amenity.key)">
+                                        {{amenity.name}}
+                                    </td>
+                                    <td v-else
+                                        style="overflow: hidden;" 
+                                        @click="addAmenity(amenity.key, index)">
+                                        {{amenity.name}}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

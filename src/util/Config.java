@@ -39,6 +39,7 @@ public class Config {
 	public static final int FORBIDDEN = 403;
 	public static final int AUTH_FAILED = 412; // Precondition failed status
 	public static final int NOT_FOUND = 404;
+	public static final int NOT_ALLOWED = 405;
 	
 	// Data annotation paths
 	public static final String dataAnnotationRoot = "/data/";

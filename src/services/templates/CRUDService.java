@@ -24,15 +24,11 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 	 * @param DatabaseEntity
 	 * @return JSON format Entity if added, or null if failed.
 	 */
-	protected T create(T object) {
+	protected T create(T object) throws EntityValidationException {
 		if (object == null) {
 			return null;
 		}
-		try { object.validate(); }
-			catch (EntityValidationException e) {
-				System.out.println("Attempt to create invalid object.");
-				return null;
-			}
+		object.validate();
 		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);
 		return dao.create(object);
 	}

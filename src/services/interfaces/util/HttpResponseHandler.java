@@ -34,6 +34,10 @@ public interface HttpResponseHandler {
 		return Response.status(Config.AUTH_FAILED).entity(object).build();
 	}
 	
+	public default Response NotAllowed() {
+		return Response.status(Config.NOT_ALLOWED).build();
+	}
+	
 	/** Returns a status 404 response with the given object as body */
 	public default Response NotFound(Object object) {
 		return Response.status(Config.NOT_FOUND).entity(object).build();
