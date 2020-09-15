@@ -73,6 +73,8 @@ let vue = new Vue({
             window.location.href = "http://localhost:8080/WebProject/apartments/" + apartmentID
         },
         filter : function() {
+            /** Do checks of everything here!  */
+
             let filterWrapper = {
                 city : {
                     name : this.city,
@@ -82,7 +84,13 @@ let vue = new Vue({
                 minRooms : this.minRooms,
                 maxRooms : this.maxRooms,
                 minPrice : this.minPrice,
-                maxPrice : this.maxPrice
+                maxPrice : this.maxPrice,
+                startingDate : {
+                    ticks : vue.calendarStart.value.getTime()
+                },
+                endingDate : {
+                    ticks : vue.calendarEnd.value.getTime()
+                }
             }
 
             axios.post("http://localhost:8080/WebProject/data/apartments/filter", filterWrapper)

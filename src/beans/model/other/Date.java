@@ -45,8 +45,21 @@ public class Date {
 					&& this.calendar.get(Calendar.DAY_OF_YEAR) == otherDate.calendar.get(Calendar.DAY_OF_YEAR);
 	}
 	
+	/** Checks whether the date of this Date is after the date of the otherDate (argument) */
+	public boolean greaterThan(Date otherDate) {
+		return this.calendar.compareTo(otherDate.calendar) > 0;
+	}
+	
 	@Override
 	public String toString() {
 		return calendar.get(Calendar.DATE) + "/" + calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.YEAR);
+	}
+	
+	public int getYear() {
+		return this.calendar.get(Calendar.YEAR);
+	}
+	
+	public int getDayOfYear() {
+		return this.calendar.get(Calendar.DAY_OF_YEAR);
 	}
 }

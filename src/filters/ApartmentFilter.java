@@ -6,7 +6,9 @@ import java.util.Iterator;
 
 import beans.model.entities.Apartment;
 import beans.model.other.City;
+import beans.model.other.Date;
 import dao.ApartmentDAO;
+import util.DateRange;
 
 
 /** Database filtering class used for fetching specific entities based on their details */
@@ -37,12 +39,21 @@ public class ApartmentFilter extends BaseFilter<Apartment> {
 	}
 	
 	/** Return a collection of entities which are available on the given dates */
-	public ApartmentFilter filterByDates(Calendar checkInDate, Calendar checkoutDate) {
+	public ApartmentFilter filterByDates(Date checkInDate, Date checkoutDate) {
+		DateRange range = new DateRange(checkInDate, checkoutDate);
 		
 		Iterator<Apartment> iterator = entities.iterator(); 
 		while (iterator.hasNext()) { 
 			Apartment ap = iterator.next();
-			// TODO Figure out how available dates work 
+			int daysToFind = range.daySpan;
+			for (Date date : ap.availableDates) {
+				if (daysToFind == 0) 
+					break;
+				if (range.contains(date))
+					daysToFind--;
+			}
+			if (daysToFind != 0)
+				iterator.remove();
 		}
 		
 		return this;

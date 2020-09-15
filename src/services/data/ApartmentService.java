@@ -297,7 +297,9 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		
 		if (wrapper.areRoomNumbersValid())
 			filter.filterByNumberOfRooms(wrapper.minRooms, wrapper.maxRooms);
-		// dates missing
+
+		if (wrapper.areDatesValid())
+			filter.filterByDates(wrapper.startingDate, wrapper.endingDate);
 		
 		return OK(filter.getResults());
 	}
