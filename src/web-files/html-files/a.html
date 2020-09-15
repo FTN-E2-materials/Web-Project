@@ -1,265 +1,1349 @@
 <html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Home</title>
-      <!-- Vue.js script -->
-      <script src="https://unpkg.com/vue"></script>
-      <!-- Datepicker script -->
-      <script src="https://unpkg.com/vuejs-datepicker"></script>
-      <!-- Google poppins font -->
-      <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-      <!-- Font Awesome Icon Library (used for stars) -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      <style>
-         * {
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Home</title>
+
+   <!-- Vue.js script -->
+   <script src="https://unpkg.com/vue"></script>
+   <!-- Datepicker script -->
+   <script src="https://unpkg.com/vuejs-datepicker"></script>
+
+   <!-- Google poppins font -->
+   <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+
+   <!-- Font Awesome Icon Library (used for stars) -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+   <!--style reference from the Calendar component-->
+   <link href="https://cdn.syncfusion.com/ej2/ej2-base/styles/material.css" rel="stylesheet">
+   <link href="https://cdn.syncfusion.com/ej2/ej2-buttons/styles/material.css" rel="stylesheet">
+   <link href="https://cdn.syncfusion.com/ej2/ej2-calendars/styles/material.css" rel="stylesheet">
+
+   <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
+
+   <style>
+      #containerStart {
+         width: min-content;
+         visibility: hidden;
+      }
+
+      #loader {
+         color: #008cff;
+         height: 40px;
+      }
+
+      #elementStart {
+         display: block;
+      }
+
+      #containerEnd {
+         visibility: hidden;
+         width: min-content;
+      }
+
+      #loader {
+         color: #008cff;
+         height: 40px;
+      }
+
+      #elementEnd {
+         display: block;
+      }
+
+      /** Rest of the styles */
+      * {
          margin: 0px;
          padding: 0px;
          box-sizing: border-box;
-         }
-         html {
+      }
+
+      html {
          scroll-behavior: smooth;
-         }
-         body {
-         background: -webkit-linear-gradient(left, rgb(63, 151, 235, 0.75), rgb(79, 218, 66, 0.5));
-         background: -o-linear-gradient(left, rgb(63, 151, 235, 0.75), rgb(79, 218, 66, 0.5));
-         background: -moz-linear-gradient(left, rgb(63, 151, 235, 0.75), rgb(79, 218, 66, 0.5));
-         background: linear-gradient(left, rgb(63, 151, 235, 0.75), rgb(79, 218, 66, 0.5));
-         }
-         /** Give all elements a transition and Poppins font */
-         * {
+      }
+
+      body {
+         background: -webkit-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+         background: -o-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+         background: -moz-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+         background: linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+      }
+
+      /** Give all elements a transition and Poppins font */
+      * {
          font-family: "Poppins";
          transition: all 0.4s;
          -webkit-transition: all 0.4s;
          -o-transition: all 0.4s;
          -moz-transition: all 0.4s;
-         }
-         button:hover {
+      }
+
+      button:hover {
          cursor: pointer;
-         }
-         .header {
+      }
+
+      a:hover {
+         cursor: pointer;
+      }
+
+      .wrapper {
+         display: grid;
+      }
+
+      .inline {
+         display: inline;
+      }
+
+      .row {
+         background-color: white;
+         width: 100%;
+         height: 190px;
+      }
+
+      .row:hover {
+         background-color: #d8ffd6;
+         cursor: pointer;
+      }
+
+      input {
+         padding-top: 3px;
+         padding-bottom: 3px;
+         padding-left: 5px;
+         padding-right: 5px;
+
+         margin-right: 10px;
+
+         background-color: white;
+
+         outline: none;
+      }
+
+      input:hover {
+         background-color: rgb(238, 238, 238);
+      }
+
+      select {
+         padding-top: 4px;
+         padding-bottom: 4px;
+         padding-left: 8px;
+         padding-right: 8px;
+
+         background-color: white;
+
+         outline: none;
+      }
+
+      .header {
          padding: 10px 16px;
          background: #275FCF;
          color: #f1f1f1;
          width: 100%;
          position: fixed;
          z-index: 999;
-         display: block;
-         }
-         .header-title {
+      }
+
+      .header-title {
          font-weight: 600;
          letter-spacing: 1px;
          font-size: large;
          float: left;
          color: white;
          text-decoration: none;
-         }
-         .header-links {
+      }
+
+      .header-links {
          float: right;
          margin-right: 25px;
-         }
-         .header-link {
+      }
+
+      .header-link {
          font-size: small;
          text-decoration: none;
          color: white;
          margin-right: 25px;
-         }
-         .header-link:hover {
+      }
+
+
+
+      .header-link:hover {
          color: white;
-         }
-         .header-link-inactive {
+      }
+
+      .header-link-inactive {
          color: #A9BFEB;
-         }
-         .header-link-active {
+      }
+
+      .header-link-active {
          font-weight: 600;
-         }
-         .big-bold {
+      }
+
+      .big-bold {
          font-weight: bold;
          font-size: 18px;
-         }
-         .small-bold {
-         font-weight: bold;
-         font-size: 16px;
-         }
-         .checked {
+      }
+
+      .column-left {
+         float: left;
+      }
+
+      .column-right {
+         float: right;
+      }
+
+      .column {
+         position: relative;
+      }
+
+      .top-left-corner {
+         margin-top: 10px;
+         margin-left: 10px;
+      }
+
+      .error {
+         color: rgb(218, 49, 49);
+         font-size: small;
+      }
+
+      .align-content-right {
+         text-align: right;
+         padding-top: 10px;
+         padding-right: 20px;
+      }
+
+      .align-content-left {
+         text-align: left;
+         padding-top: 10px;
+         padding-left: 20px;
+      }
+
+      .checked {
          color: rgb(255, 175, 25);
-         }
-         img {
-         object-fit: scale-down;
-         }
-         .button {
+      }
+
+      img {
+         object-fit: cover;
+      }
+
+      .button {
          padding-left: 30px;
          padding-right: 30px;
-         padding-top: 10px;
-         padding-bottom: 10px;
+         padding-top: 8px;
+         padding-bottom: 8px;
+
          outline: none;
          border-style: solid;
          border-radius: 5px;
          border: none;
+
          font-size: 17px;
          font-family: "Poppins";
-         }
-         .green-button {
+      }
+
+      .green-button {
          background-color: #009e00;
          color: white;
-         }
-         .blue-button {
+      }
+
+      .blue-button {
          background-color: #3b6ccc;
          color: white;
-         }
-         .rose-button {
+      }
+
+      .red-button {
+         background-color: #d13535;
+         color: white;
+      }
+
+      .rose-button {
          background-color: rgb(221, 60, 168);
          color: white;
-         }
-         .white-button {
+      }
+
+      .white-button {
          background-color: rgb(255, 255, 255);
          color: black;
-         }
-         .green-button:hover {
+      }
+
+      .green-button:hover {
          background-color: #008100;
-         }
-         .blue-button:hover {
+      }
+
+      .red-button:hover {
+         background-color: #b62121;
+      }
+
+      .blue-button:hover {
          background-color: #204ca5;
-         }
-         .rose-button:hover {
+      }
+
+      .rose-button:hover {
          background-color: rgb(255, 91, 91);
-         }
+      }
+   </style>
 
-         .shadow {
-            -webkit-box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
-            -moz-box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
-            box-shadow: -6px 10px 70px -34px rgba(0,0,0,1);
-         }
+</head>
 
-         .small-shadow {
-            -webkit-box-shadow: -6px 10px 65px -45px rgba(0,0,0,1);
-            -moz-box-shadow: -6px 10px 65px -45px rgba(0,0,0,1);
-            box-shadow: -6px 10px 65px -45px rgba(0,0,0,1);
-         }
-      </style>
-   </head>
-   <body>
-      <div id="vue-reviews">
-         <div class="header">
-            <div><a href="http://localhost:8080/WebProject" class="header-title">FakeAirbnb
-               </a>
+<body>
+   <div id="vue-apartments" class="wrapper">
+      <div class="header">
+         <div><a href="http://localhost:8080/WebProject" class="header-title">FakeAirbnb
+            </a></div><a href="http://localhost:8080/WebProject" class="header-title"></a>
+         <div class="header-links"><a href="http://localhost:8080/WebProject" class="header-title"></a><a
+               href="http://localhost:8080/WebProject/" class="header-link header-link-active">Apartments</a> <a
+               href="http://localhost:8080/WebProject/reservations" class="header-link header-link-inactive">My
+               reservations</a> <a href="http://localhost:8080/WebProject/account"
+               class="header-link header-link-inactive">Account</a></div>
+      </div>
+      <div style="width: 80%; margin: 8% auto 0%;">
+         <div
+            style="background-color: rgb(255, 206, 206); height: 550px; width: fit-content; padding: 15px 20px; border-radius: 10px; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 15px 40px;">
+            <div style="grid-area: 1 / 1 / 2 / 2;">
+               <div id="cityName" style="float: left;">
+                  <div>City</div> <input type="text" placeholder="City name">
+               </div>
+               <div id="cityPostalCode" style="float: left;">
+                  <div>Postal code</div> <input type="text" placeholder="Postal code">
+               </div>
             </div>
-            <a href="http://localhost:8080/WebProject" class="header-title"></a>
-            <div class="header-links"><a href="http://localhost:8080/WebProject" class="header-title"></a><a href="http://localhost:8080/WebProject/" class="header-link header-link-active">Apartments</a> <a href="http://localhost:8080/WebProject/reservations" class="header-link header-link-inactive">My
-               reservations</a> <a href="http://localhost:8080/WebProject/account" class="header-link header-link-inactive">Account</a>
+            <div style="grid-area: 1 / 2 / 2 / 3;">
+               <div style="float: left;">
+                  <div>Min rooms</div> <input type="text" placeholder="Min rooms">
+               </div>
+               <div style="float: left;">
+                  <div>Max rooms</div> <input type="text" placeholder="Max rooms">
+               </div>
             </div>
-         </div>
-
-         <div style="padding-top: 100px; width: 80%; margin: 0 auto; overflow: hidden;">
-            <div class="shadow" style="background-color: white; border-radius: 3px; max-width: 100%; width: fit-content;
-                        padding-top: 10px; padding-left: 10px; padding-bottom: 10px; padding-right: 20px; margin: 0 auto;">
-                <div style="display: grid;
-                            grid-template-columns: repeat(3, 1fr);
-                            grid-template-rows: 1fr;
-                            grid-column-gap: 0px;
-                            grid-row-gap: 0px;">
-
-                    <div style="grid-area: 1 / 1 / 2 / 2; max-width: 250px; max-height: 250px;">
-                        <img src="https://cf.bstatic.com/images/hotel/max1024x768/201/201854375.jpg" style="max-width: inherit; max-height: inherit;"> 
-                    </div>
-
-                    <div style="grid-area: 1 / 2 / 2 / 4; margin-left: 50px; text-align: right;">
-                            <div >
-                                <h2> This is some imaginary apartment </h2>
-                            </div>
-                            <div style="margin-top: 4px;">
-                                1 room &middot; 2 people
-                            </div>
-                            <div style="margin-top: 7px;">
-                                <p> Bulevar oslobodjenja, Novi sad </p>
-                            </div>
-                            <div style="margin-top: 30px;">
-                                <div style="background-color: #1ead02; border-radius: 5px; width: fit-content; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px; float: right;">
-                                    <h4 style="color: white;">4.8</h4>
-                                </div>
-                            </div>
-                    </div>
-                </div>
+            <div style="grid-area: 1 / 3 / 2 / 4;">
+               <div style="float: left;">
+                  <div>Number of guests</div> <input type="text" placeholder="Number of guests">
+               </div>
             </div>
-        </div>
-
-        <div style="width: 90%; margin-top: 60px;">
-            <div>
-                <button class="button blue-button" style="float: right;">Add review</button>
+            <div style="grid-area: 2 / 3 / 3 / 4;">
+               <p style="color:rgb(212, 20, 20);">Please enter the field values correctly!</p>
             </div>
-        </div>
-
-        <div style="width: 80%; padding-top: 120px; margin: 0 auto;">
-            <div class="small-shadow"
-                        style="display: grid;
-                        grid-template-columns: repeat(3, 1fr);
-                        grid-template-rows: repeat(5, 1fr);
-                        grid-column-gap: 0px;
-                        grid-row-gap: 20px;
-                        background-color: #f5f5f5;
-                        padding-top: 30px;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        padding-bottom: 30px;
-                        border-radius: 5px;
-                        text-align: center;">
-
-                <div style="grid-area: 1 / 1 / 2 / 6; width: 50%; margin: 0 auto; background-color: orange;">
-                
-                </div>
-                
-                <div style="grid-area: 2 / 1 / 5 / 4;">
-                    <textarea style="width: 100%; outline:none; height: 150px; font-size: 16px; border-color: rgb(177, 177, 177);
-                                padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;" 
-                                placeholder="Write your review here..."></textarea>
-                </div>
-
-                <div style="grid-area: 5 / 2 / 6 / 3;">
-                    <button class="button blue-button">Finish</button>
-                </div>
-
-                <div style="grid-area: 5 / 3 / 6 / 4;">
-                    <button class="button" style="float:right;">Hide</button>
-                </div>
+            <div style="grid-area: 2 / 1 / 3 / 2;">
+               <div style="float: left;">
+                  <div>Min price</div> <input type="text" placeholder="Min price">
+               </div>
+               <div style="float: left;">
+                  <div>Max price</div> <input type="text" placeholder="Max price">
+               </div>
             </div>
-        </div>
-
-         <div style="margin: 0px auto 100px; width: 80%; height: fit-content; padding-top: 5%;">
-            <table style="width: 100%;">
-               <tbody>
-                  <tr class="row">
-                     <td style="display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 5px 0px; width: 100%; margin-bottom: 10px; background-color: white; border-radius: 3px; padding: 10px 20px;">
-                        <div class="small-bold" style="grid-area: 1 / 1 / 2 / 2;">
-                           hankwhite
-                        </div>
-                        <div style="grid-area: 1 / 2 / 2 / 3; position: relative;">
-                           <div style="position: absolute; right: 0px;"><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span></div>
-                        </div>
-                        <div style="grid-area: 2 / 1 / 3 / 3;">
-                           Beautiful little room, loved it.
-                        </div>
-                     </td>
-                  </tr>
-                  <tr class="row">
-                     <td style="display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 5px 0px; width: 100%; margin-bottom: 10px; background-color: white; border-radius: 3px; padding: 10px 20px;">
-                        <div class="small-bold" style="grid-area: 1 / 1 / 2 / 2;">
-                           michaelwallace
-                        </div>
-                        <div style="grid-area: 1 / 2 / 2 / 3; position: relative;">
-                           <div style="position: absolute; right: 0px;"><span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star"></span></div>
-                        </div>
-                        <div style="grid-area: 2 / 1 / 3 / 3;">
-                           Nice place, though the street can be loud during the day.
-                        </div>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
+            <div style="grid-area: 2 / 2 / 3 / 3;">
+               <div>Select amenities</div> <select>
+                  <option value="1">Wi-fi</option>
+                  <option value="2">AC</option>
+                  <option value="3">Frige</option>
+                  <option value="4">Free parking</option>
+               </select>
+            </div>
+            <div style="grid-area: 3 / 1 / 4 / 2;">
+               <div>Starting date</div>
+               <div id="containerStart" style="visibility: visible;">
+                  <div id="elementStart" class="e-control e-calendar e-lib e-keyboard" data-role="calendar"
+                     tabindex="0">
+                     <div class="e-header e-month">
+                        <div class="e-day e-title" aria-atomic="true" aria-live="assertive" aria-label="title">September
+                           2020</div>
+                        <div class="e-icon-container"><button class="e-prev e-disabled e-overlay" type="button"
+                              aria-disabled="true" aria-label="previous month"><span
+                                 class="e-date-icon-prev e-icons"></span></button><button class="e-next" type="button"
+                              aria-disabled="false" aria-label="next month"><span
+                                 class="e-date-icon-next  e-icons"></span></button></div>
+                     </div>
+                     <div class="e-content e-month">
+                        <table tabindex="0" role="grid" aria-activedescendant="1600179422000_16">
+                           <thead class="e-week-header">
+                              <tr>
+                                 <th class="">Su</th>
+                                 <th class="">Mo</th>
+                                 <th class="">Tu</th>
+                                 <th class="">We</th>
+                                 <th class="">Th</th>
+                                 <th class="">Fr</th>
+                                 <th class="">Sa</th>
+                              </tr>
+                           </thead>
+                           <tbody class="">
+                              <tr role="row">
+                                 <td class="e-cell e-disabled e-overlay e-other-month e-weekend" id="1598797022000_0"
+                                    aria-selected="false" role="gridcell"><span class="e-day">30</span></td>
+                                 <td class="e-cell e-disabled e-overlay e-other-month" id="1598883422000_1"
+                                    aria-selected="false" role="gridcell"><span class="e-day">31</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1598969822000_2" aria-selected="false"
+                                    role="gridcell"><span class="e-day">1</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599056222000_3" aria-selected="false"
+                                    role="gridcell"><span class="e-day">2</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599142622000_4" aria-selected="false"
+                                    role="gridcell"><span class="e-day">3</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599229022000_5" aria-selected="false"
+                                    role="gridcell"><span class="e-day">4</span></td>
+                                 <td class="e-cell e-disabled e-overlay e-weekend" id="1599315422000_6"
+                                    aria-selected="false" role="gridcell"><span class="e-day">5</span></td>
+                              </tr>
+                              <tr role="row">
+                                 <td class="e-cell e-disabled e-overlay e-weekend" id="1599401822000_7"
+                                    aria-selected="false" role="gridcell"><span class="e-day">6</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599488222000_8" aria-selected="false"
+                                    role="gridcell"><span class="e-day">7</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599574622000_9" aria-selected="false"
+                                    role="gridcell"><span class="e-day">8</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599661022000_10" aria-selected="false"
+                                    role="gridcell"><span class="e-day">9</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599747422000_11" aria-selected="false"
+                                    role="gridcell"><span class="e-day">10</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599833822000_12" aria-selected="false"
+                                    role="gridcell"><span class="e-day">11</span></td>
+                                 <td class="e-cell e-disabled e-overlay e-weekend" id="1599920222000_13"
+                                    aria-selected="false" role="gridcell"><span class="e-day">12</span></td>
+                              </tr>
+                              <tr role="row">
+                                 <td class="e-cell e-disabled e-overlay e-weekend" id="1600006622000_14"
+                                    aria-selected="false" role="gridcell"><span class="e-day">13</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1600093022000_15" aria-selected="false"
+                                    role="gridcell"><span class="e-day">14</span></td>
+                                 <td class="e-cell e-today e-selected" id="1600179422000_16" aria-selected="true"
+                                    role="gridcell" aria-label="Tuesday, September 15, 2020"><span
+                                       title="Tuesday, September 15, 2020" class="e-day">15</span></td>
+                                 <td class="e-cell" id="1600265822000_17" aria-selected="false" role="gridcell"><span
+                                       title="Wednesday, September 16, 2020" class="e-day">16</span></td>
+                                 <td class="e-cell" id="1600352222000_18" aria-selected="false" role="gridcell"><span
+                                       title="Thursday, September 17, 2020" class="e-day">17</span></td>
+                                 <td class="e-cell" id="1600438622000_19" aria-selected="false" role="gridcell"><span
+                                       title="Friday, September 18, 2020" class="e-day">18</span></td>
+                                 <td class="e-cell e-weekend" id="1600525022000_20" aria-selected="false"
+                                    role="gridcell"><span title="Saturday, September 19, 2020" class="e-day">19</span>
+                                 </td>
+                              </tr>
+                              <tr role="row">
+                                 <td class="e-cell e-weekend" id="1600611422000_21" aria-selected="false"
+                                    role="gridcell"><span title="Sunday, September 20, 2020" class="e-day">20</span>
+                                 </td>
+                                 <td class="e-cell" id="1600697822000_22" aria-selected="false" role="gridcell"><span
+                                       title="Monday, September 21, 2020" class="e-day">21</span></td>
+                                 <td class="e-cell" id="1600784222000_23" aria-selected="false" role="gridcell"><span
+                                       title="Tuesday, September 22, 2020" class="e-day">22</span></td>
+                                 <td class="e-cell" id="1600870622000_24" aria-selected="false" role="gridcell"><span
+                                       title="Wednesday, September 23, 2020" class="e-day">23</span></td>
+                                 <td class="e-cell" id="1600957022000_25" aria-selected="false" role="gridcell"><span
+                                       title="Thursday, September 24, 2020" class="e-day">24</span></td>
+                                 <td class="e-cell" id="1601043422000_26" aria-selected="false" role="gridcell"><span
+                                       title="Friday, September 25, 2020" class="e-day">25</span></td>
+                                 <td class="e-cell e-weekend" id="1601129822000_27" aria-selected="false"
+                                    role="gridcell"><span title="Saturday, September 26, 2020" class="e-day">26</span>
+                                 </td>
+                              </tr>
+                              <tr role="row">
+                                 <td class="e-cell e-weekend" id="1601216222000_28" aria-selected="false"
+                                    role="gridcell"><span title="Sunday, September 27, 2020" class="e-day">27</span>
+                                 </td>
+                                 <td class="e-cell" id="1601302622000_29" aria-selected="false" role="gridcell"><span
+                                       title="Monday, September 28, 2020" class="e-day">28</span></td>
+                                 <td class="e-cell" id="1601389022000_30" aria-selected="false" role="gridcell"><span
+                                       title="Tuesday, September 29, 2020" class="e-day">29</span></td>
+                                 <td class="e-cell" id="1601475422000_31" aria-selected="false" role="gridcell"><span
+                                       title="Wednesday, September 30, 2020" class="e-day">30</span></td>
+                                 <td class="e-cell e-other-month" id="1601561822000_32" aria-selected="false"
+                                    role="gridcell"><span title="Thursday, October 1, 2020" class="e-day">1</span></td>
+                                 <td class="e-cell e-other-month" id="1601648222000_33" aria-selected="false"
+                                    role="gridcell"><span title="Friday, October 2, 2020" class="e-day">2</span></td>
+                                 <td class="e-cell e-other-month e-weekend" id="1601734622000_34" aria-selected="false"
+                                    role="gridcell"><span title="Saturday, October 3, 2020" class="e-day">3</span></td>
+                              </tr>
+                              <tr role="row" class="e-month-hide">
+                                 <td class="e-cell e-other-month e-weekend" id="1601821022000_35" aria-selected="false"
+                                    role="gridcell"><span title="Sunday, October 4, 2020" class="e-day">4</span></td>
+                                 <td class="e-cell e-other-month" id="1601907422000_36" aria-selected="false"
+                                    role="gridcell"><span title="Monday, October 5, 2020" class="e-day">5</span></td>
+                                 <td class="e-cell e-other-month" id="1601993822000_37" aria-selected="false"
+                                    role="gridcell"><span title="Tuesday, October 6, 2020" class="e-day">6</span></td>
+                                 <td class="e-cell e-other-month" id="1602080222000_38" aria-selected="false"
+                                    role="gridcell"><span title="Wednesday, October 7, 2020" class="e-day">7</span></td>
+                                 <td class="e-cell e-other-month" id="1602166622000_39" aria-selected="false"
+                                    role="gridcell"><span title="Thursday, October 8, 2020" class="e-day">8</span></td>
+                                 <td class="e-cell e-other-month" id="1602253022000_40" aria-selected="false"
+                                    role="gridcell"><span title="Friday, October 9, 2020" class="e-day">9</span></td>
+                                 <td class="e-cell e-other-month e-weekend" id="1602339422000_41" aria-selected="false"
+                                    role="gridcell"><span title="Saturday, October 10, 2020" class="e-day">10</span>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div style="grid-area: 3 / 2 / 4 / 3;">
+               <div>Ending date</div>
+               <div id="containerEnd" style="visibility: visible;">
+                  <div id="elementEnd" class="e-control e-calendar e-lib e-keyboard" data-role="calendar" tabindex="0">
+                     <div class="e-header e-month">
+                        <div class="e-day e-title" aria-atomic="true" aria-live="assertive" aria-label="title">September
+                           2020</div>
+                        <div class="e-icon-container"><button class="e-prev e-disabled e-overlay" type="button"
+                              aria-disabled="true" aria-label="previous month"><span
+                                 class="e-date-icon-prev e-icons"></span></button><button class="e-next" type="button"
+                              aria-disabled="false" aria-label="next month"><span
+                                 class="e-date-icon-next  e-icons"></span></button></div>
+                     </div>
+                     <div class="e-content e-month">
+                        <table tabindex="0" role="grid" aria-activedescendant="1600265822000_59">
+                           <thead class="e-week-header">
+                              <tr>
+                                 <th class="">Su</th>
+                                 <th class="">Mo</th>
+                                 <th class="">Tu</th>
+                                 <th class="">We</th>
+                                 <th class="">Th</th>
+                                 <th class="">Fr</th>
+                                 <th class="">Sa</th>
+                              </tr>
+                           </thead>
+                           <tbody class="">
+                              <tr role="row">
+                                 <td class="e-cell e-disabled e-overlay e-other-month e-weekend" id="1598797022000_42"
+                                    aria-selected="false" role="gridcell"><span class="e-day">30</span></td>
+                                 <td class="e-cell e-disabled e-overlay e-other-month" id="1598883422000_43"
+                                    aria-selected="false" role="gridcell"><span class="e-day">31</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1598969822000_44" aria-selected="false"
+                                    role="gridcell"><span class="e-day">1</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599056222000_45" aria-selected="false"
+                                    role="gridcell"><span class="e-day">2</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599142622000_46" aria-selected="false"
+                                    role="gridcell"><span class="e-day">3</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599229022000_47" aria-selected="false"
+                                    role="gridcell"><span class="e-day">4</span></td>
+                                 <td class="e-cell e-disabled e-overlay e-weekend" id="1599315422000_48"
+                                    aria-selected="false" role="gridcell"><span class="e-day">5</span></td>
+                              </tr>
+                              <tr role="row">
+                                 <td class="e-cell e-disabled e-overlay e-weekend" id="1599401822000_49"
+                                    aria-selected="false" role="gridcell"><span class="e-day">6</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599488222000_50" aria-selected="false"
+                                    role="gridcell"><span class="e-day">7</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599574622000_51" aria-selected="false"
+                                    role="gridcell"><span class="e-day">8</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599661022000_52" aria-selected="false"
+                                    role="gridcell"><span class="e-day">9</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599747422000_53" aria-selected="false"
+                                    role="gridcell"><span class="e-day">10</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1599833822000_54" aria-selected="false"
+                                    role="gridcell"><span class="e-day">11</span></td>
+                                 <td class="e-cell e-disabled e-overlay e-weekend" id="1599920222000_55"
+                                    aria-selected="false" role="gridcell"><span class="e-day">12</span></td>
+                              </tr>
+                              <tr role="row">
+                                 <td class="e-cell e-disabled e-overlay e-weekend" id="1600006622000_56"
+                                    aria-selected="false" role="gridcell"><span class="e-day">13</span></td>
+                                 <td class="e-cell e-disabled e-overlay" id="1600093022000_57" aria-selected="false"
+                                    role="gridcell"><span class="e-day">14</span></td>
+                                 <td class="e-cell e-disabled e-overlay e-today" id="1600179422000_58"
+                                    aria-selected="false" role="gridcell"><span class="e-day">15</span></td>
+                                 <td class="e-cell e-focused-date" id="1600265822000_59" aria-selected="false"
+                                    role="gridcell" aria-label="Wednesday, September 16, 2020"><span
+                                       title="Wednesday, September 16, 2020" class="e-day">16</span></td>
+                                 <td class="e-cell" id="1600352222000_60" aria-selected="false" role="gridcell"><span
+                                       title="Thursday, September 17, 2020" class="e-day">17</span></td>
+                                 <td class="e-cell" id="1600438622000_61" aria-selected="false" role="gridcell"><span
+                                       title="Friday, September 18, 2020" class="e-day">18</span></td>
+                                 <td class="e-cell e-weekend" id="1600525022000_62" aria-selected="false"
+                                    role="gridcell"><span title="Saturday, September 19, 2020" class="e-day">19</span>
+                                 </td>
+                              </tr>
+                              <tr role="row">
+                                 <td class="e-cell e-weekend" id="1600611422000_63" aria-selected="false"
+                                    role="gridcell"><span title="Sunday, September 20, 2020" class="e-day">20</span>
+                                 </td>
+                                 <td class="e-cell" id="1600697822000_64" aria-selected="false" role="gridcell"><span
+                                       title="Monday, September 21, 2020" class="e-day">21</span></td>
+                                 <td class="e-cell" id="1600784222000_65" aria-selected="false" role="gridcell"><span
+                                       title="Tuesday, September 22, 2020" class="e-day">22</span></td>
+                                 <td class="e-cell" id="1600870622000_66" aria-selected="false" role="gridcell"><span
+                                       title="Wednesday, September 23, 2020" class="e-day">23</span></td>
+                                 <td class="e-cell" id="1600957022000_67" aria-selected="false" role="gridcell"><span
+                                       title="Thursday, September 24, 2020" class="e-day">24</span></td>
+                                 <td class="e-cell" id="1601043422000_68" aria-selected="false" role="gridcell"><span
+                                       title="Friday, September 25, 2020" class="e-day">25</span></td>
+                                 <td class="e-cell e-weekend" id="1601129822000_69" aria-selected="false"
+                                    role="gridcell"><span title="Saturday, September 26, 2020" class="e-day">26</span>
+                                 </td>
+                              </tr>
+                              <tr role="row">
+                                 <td class="e-cell e-weekend" id="1601216222000_70" aria-selected="false"
+                                    role="gridcell"><span title="Sunday, September 27, 2020" class="e-day">27</span>
+                                 </td>
+                                 <td class="e-cell" id="1601302622000_71" aria-selected="false" role="gridcell"><span
+                                       title="Monday, September 28, 2020" class="e-day">28</span></td>
+                                 <td class="e-cell" id="1601389022000_72" aria-selected="false" role="gridcell"><span
+                                       title="Tuesday, September 29, 2020" class="e-day">29</span></td>
+                                 <td class="e-cell" id="1601475422000_73" aria-selected="false" role="gridcell"><span
+                                       title="Wednesday, September 30, 2020" class="e-day">30</span></td>
+                                 <td class="e-cell e-other-month" id="1601561822000_74" aria-selected="false"
+                                    role="gridcell"><span title="Thursday, October 1, 2020" class="e-day">1</span></td>
+                                 <td class="e-cell e-other-month" id="1601648222000_75" aria-selected="false"
+                                    role="gridcell"><span title="Friday, October 2, 2020" class="e-day">2</span></td>
+                                 <td class="e-cell e-other-month e-weekend" id="1601734622000_76" aria-selected="false"
+                                    role="gridcell"><span title="Saturday, October 3, 2020" class="e-day">3</span></td>
+                              </tr>
+                              <tr role="row" class="e-month-hide">
+                                 <td class="e-cell e-other-month e-weekend" id="1601821022000_77" aria-selected="false"
+                                    role="gridcell"><span title="Sunday, October 4, 2020" class="e-day">4</span></td>
+                                 <td class="e-cell e-other-month" id="1601907422000_78" aria-selected="false"
+                                    role="gridcell"><span title="Monday, October 5, 2020" class="e-day">5</span></td>
+                                 <td class="e-cell e-other-month" id="1601993822000_79" aria-selected="false"
+                                    role="gridcell"><span title="Tuesday, October 6, 2020" class="e-day">6</span></td>
+                                 <td class="e-cell e-other-month" id="1602080222000_80" aria-selected="false"
+                                    role="gridcell"><span title="Wednesday, October 7, 2020" class="e-day">7</span></td>
+                                 <td class="e-cell e-other-month" id="1602166622000_81" aria-selected="false"
+                                    role="gridcell"><span title="Thursday, October 8, 2020" class="e-day">8</span></td>
+                                 <td class="e-cell e-other-month" id="1602253022000_82" aria-selected="false"
+                                    role="gridcell"><span title="Friday, October 9, 2020" class="e-day">9</span></td>
+                                 <td class="e-cell e-other-month e-weekend" id="1602339422000_83" aria-selected="false"
+                                    role="gridcell"><span title="Saturday, October 10, 2020" class="e-day">10</span>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div style="grid-area: 3 / 3 / 4 / 4; position: relative;">
+               <div style="position: absolute; top: 10%; left: 0px;"><button type="button" class="button green-button"
+                     style="margin-left: 10px; float: right;">Apply</button> <button type="button"
+                     class="button blue-button" style="margin-left: 10px; float: right;">Clear</button> <button
+                     type="button" class="button white-button" style="float: right;">Close</button></div>
+               <div style="position:absolute; left:0; bottom:40%">
+                  <p style="color:red" >Please select both dates on the calendar.</p>
+               </div>
+            </div>
          </div>
       </div>
-      <!-- Axios -->
-      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-      <!-- Vue.js implementation -->
-      <script src="http://localhost:8080/WebProject/scripts/reviews_guest.js"></script>
-   </body>
+      <div style="width: 80%; margin: 3% auto;">
+         <table>
+            <tbody>
+               <tr class="row">
+                  <td
+                     style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: 1fr; gap: 0px; padding: 12px 15px 12px 10px; height: 210px; width: 100%;">
+                     <div style="grid-area: 1 / 1 / 2 / 2;"><img
+                           src="https://www.city-break.rs/wp-content/uploads/city-break-apartments-apartman-style-01-1.jpg"
+                           style="width: 95%; height: 185px;"></div>
+                     <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                        <div>
+                           <h3>Modern apartment near the cathedral</h3>
+                        </div>
+                        <div style="display: inline;"><span> 1 rooms · 2 guests </span></div>
+                        <div style="margin-top: 3px;"><span>Novi Sad</span></div>
+                        <div style="position: absolute; bottom: 5px; left: 0px; width: 100%; overflow: hidden;">
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Satellite TV
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Landline phone
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Wi-Fi
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 AC
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Refrigerator
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position: relative;">
+                        <div>
+                           <h3>25$/night</h3>
+                        </div>
+                        <div style="position: absolute; right: 0px; bottom: 8px; display: block;"><span
+                              style="background-color: rgb(129, 129, 129); color: white; border-radius: 5px; width: fit-content; font-weight: bold; font-size: 16px; padding: 7px 12px;">No
+                              rating</span></div>
+                     </div>
+                  </td>
+               </tr>
+               <tr class="row">
+                  <td
+                     style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: 1fr; gap: 0px; padding: 12px 15px 12px 10px; height: 210px; width: 100%;">
+                     <div style="grid-area: 1 / 1 / 2 / 2;"><img
+                           src="https://www.apartments.com/images/default-source/default-album/small-apt.tmb-featuredim.jpg?sfvrsn=8c1ce53b_0"
+                           style="width: 95%; height: 185px;"></div>
+                     <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                        <div>
+                           <h3>Small room for a student</h3>
+                        </div>
+                        <div style="display: inline;"><span> 1 rooms · 1 guests </span></div>
+                        <div style="margin-top: 3px;"><span>Novi Sad</span></div>
+                        <div style="position: absolute; bottom: 5px; left: 0px; width: 100%; overflow: hidden;">
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Wi-Fi
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 AC
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Central heating
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Coffee maker
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Microwave
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position: relative;">
+                        <div>
+                           <h3>12$/night</h3>
+                        </div>
+                        <div style="position: absolute; right: 0px; bottom: 8px; display: block;">
+                           <div><span
+                                 style="background-color: rgb(9, 175, 9); color: white; border-radius: 5px; width: fit-content; font-weight: bold; font-size: 16px; float: right; padding: 7px 12px;">4.8</span>
+                              <span
+                                 style="float: right; margin-right: 15px; padding-top: 6px; color: rgb(163, 163, 163);">
+                                 12 reviews</span></div>
+                        </div>
+                     </div>
+                  </td>
+               </tr>
+               <tr class="row">
+                  <td
+                     style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: 1fr; gap: 0px; padding: 12px 15px 12px 10px; height: 210px; width: 100%;">
+                     <div style="grid-area: 1 / 1 / 2 / 2;"><img
+                           src="https://www.energy-plus.org/wp-content/uploads/2019/09/luxurious-apartment.jpg"
+                           style="width: 95%; height: 185px;"></div>
+                     <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                        <div>
+                           <h3>Luxurious apartment at the top of the city</h3>
+                        </div>
+                        <div style="display: inline;"><span> 3 rooms · 6 guests </span></div>
+                        <div style="margin-top: 3px;"><span>Novi Sad</span></div>
+                        <div style="position: absolute; bottom: 5px; left: 0px; width: 100%; overflow: hidden;">
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Free parking
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Wi-Fi
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 AC
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Satellite TV
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Fridge
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Elevator
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Central heating
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Coffee maker
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Iron
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Refrigerator
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Landline phone
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Baby crib
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Dishwasher
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Microwave
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position: relative;">
+                        <div>
+                           <h3>120$/night</h3>
+                        </div>
+                        <div style="position: absolute; right: 0px; bottom: 8px; display: block;">
+                           <div><span
+                                 style="background-color: rgb(9, 175, 9); color: white; border-radius: 5px; width: fit-content; font-weight: bold; font-size: 16px; float: right; padding: 7px 12px;">4.4</span>
+                              <span
+                                 style="float: right; margin-right: 15px; padding-top: 6px; color: rgb(163, 163, 163);">
+                                 15 reviews</span></div>
+                        </div>
+                     </div>
+                  </td>
+               </tr>
+               <tr class="row">
+                  <td
+                     style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: 1fr; gap: 0px; padding: 12px 15px 12px 10px; height: 210px; width: 100%;">
+                     <div style="grid-area: 1 / 1 / 2 / 2;"><img
+                           src="https://thumbs.dreamstime.com/b/small-bed-room-cheap-hotel-taipei-taiwan-74313241.jpg"
+                           style="width: 95%; height: 185px;"></div>
+                     <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                        <div>
+                           <h3>Soba za jednu osobu u dvoristu kuce</h3>
+                        </div>
+                        <div style="display: inline;"><span> 1 rooms · 1 guests </span></div>
+                        <div style="margin-top: 3px;"><span>Novi Sad</span></div>
+                        <div style="position: absolute; bottom: 5px; left: 0px; width: 100%; overflow: hidden;">
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Central heating
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Satellite TV
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Iron
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position: relative;">
+                        <div>
+                           <h3>9$/night</h3>
+                        </div>
+                        <div style="position: absolute; right: 0px; bottom: 8px; display: block;"><span
+                              style="background-color: rgb(129, 129, 129); color: white; border-radius: 5px; width: fit-content; font-weight: bold; font-size: 16px; padding: 7px 12px;">No
+                              rating</span></div>
+                     </div>
+                  </td>
+               </tr>
+               <tr class="row">
+                  <td
+                     style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: 1fr; gap: 0px; padding: 12px 15px 12px 10px; height: 210px; width: 100%;">
+                     <div style="grid-area: 1 / 1 / 2 / 2;"><img
+                           src="https://i.insider.com/5c48b84f2bdd7f557a0c5255?width=600&amp;format=jpeg&amp;auto=webp"
+                           style="width: 95%; height: 185px;"></div>
+                     <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                        <div>
+                           <h3>Fancy penthouse at the top of the city</h3>
+                        </div>
+                        <div style="display: inline;"><span> 5 rooms · 4 guests </span></div>
+                        <div style="margin-top: 3px;"><span>Some city</span></div>
+                        <div style="position: absolute; bottom: 5px; left: 0px; width: 100%; overflow: hidden;">
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Free parking
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Wi-Fi
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 AC
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Fridge
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Elevator
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Central heating
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Refrigerator
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position: relative;">
+                        <div>
+                           <h3>450$/night</h3>
+                        </div>
+                        <div style="position: absolute; right: 0px; bottom: 8px; display: block;"><span
+                              style="background-color: rgb(129, 129, 129); color: white; border-radius: 5px; width: fit-content; font-weight: bold; font-size: 16px; padding: 7px 12px;">No
+                              rating</span></div>
+                     </div>
+                  </td>
+               </tr>
+               <tr class="row">
+                  <td
+                     style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: 1fr; gap: 0px; padding: 12px 15px 12px 10px; height: 210px; width: 100%;">
+                     <div style="grid-area: 1 / 1 / 2 / 2;"><img
+                           src="https://www.city-break.rs/wp-content/uploads/apartman-u-beogradu-cityzen-001.jpg"
+                           style="width: 95%; height: 185px;"></div>
+                     <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                        <div>
+                           <h3>Apartman u centru</h3>
+                        </div>
+                        <div style="display: inline;"><span> 2 rooms · 3 guests </span></div>
+                        <div style="margin-top: 3px;"><span>Novi Sad</span></div>
+                        <div style="position: absolute; bottom: 5px; left: 0px; width: 100%; overflow: hidden;">
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Wi-Fi
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 AC
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Coffee maker
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position: relative;">
+                        <div>
+                           <h3>35$/night</h3>
+                        </div>
+                        <div style="position: absolute; right: 0px; bottom: 8px; display: block;"><span
+                              style="background-color: rgb(129, 129, 129); color: white; border-radius: 5px; width: fit-content; font-weight: bold; font-size: 16px; padding: 7px 12px;">No
+                              rating</span></div>
+                     </div>
+                  </td>
+               </tr>
+               <tr class="row">
+                  <td
+                     style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: 1fr; gap: 0px; padding: 12px 15px 12px 10px; height: 210px; width: 100%;">
+                     <div style="grid-area: 1 / 1 / 2 / 2;"><img
+                           src="https://media-cdn.tripadvisor.com/media/photo-s/07/00/37/d6/little-india-beach-cottages.jpg"
+                           style="width: 95%; height: 185px;"></div>
+                     <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                        <div>
+                           <h3>Small cottage for a couple </h3>
+                        </div>
+                        <div style="display: inline;"><span> 1 rooms · 2 guests </span></div>
+                        <div style="margin-top: 3px;"><span>A village</span></div>
+                        <div style="position: absolute; bottom: 5px; left: 0px; width: 100%; overflow: hidden;">
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Baby crib
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Satellite TV
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Landline phone
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Wi-Fi
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Dishwasher
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position: relative;">
+                        <div>
+                           <h3>90$/night</h3>
+                        </div>
+                        <div style="position: absolute; right: 0px; bottom: 8px; display: block;"><span
+                              style="background-color: rgb(129, 129, 129); color: white; border-radius: 5px; width: fit-content; font-weight: bold; font-size: 16px; padding: 7px 12px;">No
+                              rating</span></div>
+                     </div>
+                  </td>
+               </tr>
+               <tr class="row">
+                  <td
+                     style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: 1fr; gap: 0px; padding: 12px 15px 12px 10px; height: 210px; width: 100%;">
+                     <div style="grid-area: 1 / 1 / 2 / 2;"><img
+                           src="https://d1bvpoagx8hqbg.cloudfront.net/originals/very-cheap-room-kungshamra-7849b4b59d56a9506f35572418f233ef.jpg"
+                           style="width: 95%; height: 185px;"></div>
+                     <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                        <div>
+                           <h3>Soba za studenta na Limanu</h3>
+                        </div>
+                        <div style="display: inline;"><span> 1 rooms · 1 guests </span></div>
+                        <div style="margin-top: 3px;"><span>Novi Sad</span></div>
+                        <div style="position: absolute; bottom: 5px; left: 0px; width: 100%; overflow: hidden;">
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Wi-Fi
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Satellite TV
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Central heating
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Coffee maker
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position: relative;">
+                        <div>
+                           <h3>10$/night</h3>
+                        </div>
+                        <div style="position: absolute; right: 0px; bottom: 8px; display: block;"><span
+                              style="background-color: rgb(129, 129, 129); color: white; border-radius: 5px; width: fit-content; font-weight: bold; font-size: 16px; padding: 7px 12px;">No
+                              rating</span></div>
+                     </div>
+                  </td>
+               </tr>
+               <tr class="row">
+                  <td
+                     style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: 1fr; gap: 0px; padding: 12px 15px 12px 10px; height: 210px; width: 100%;">
+                     <div style="grid-area: 1 / 1 / 2 / 2;"><img
+                           src="https://cf.bstatic.com/images/hotel/max1024x768/935/93571896.jpg"
+                           style="width: 95%; height: 185px;"></div>
+                     <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                        <div>
+                           <h3>Cozy apartment near the river</h3>
+                        </div>
+                        <div style="display: inline;"><span> 1 rooms · 2 guests </span></div>
+                        <div style="margin-top: 3px;"><span>Some city</span></div>
+                        <div style="position: absolute; bottom: 5px; left: 0px; width: 100%; overflow: hidden;">
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Free parking
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Wi-Fi
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 AC
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Landline phone
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Satellite TV
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position: relative;">
+                        <div>
+                           <h3>35$/night</h3>
+                        </div>
+                        <div style="position: absolute; right: 0px; bottom: 8px; display: block;"><span
+                              style="background-color: rgb(129, 129, 129); color: white; border-radius: 5px; width: fit-content; font-weight: bold; font-size: 16px; padding: 7px 12px;">No
+                              rating</span></div>
+                     </div>
+                  </td>
+               </tr>
+               <tr class="row">
+                  <td
+                     style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: 1fr; gap: 0px; padding: 12px 15px 12px 10px; height: 210px; width: 100%;">
+                     <div style="grid-area: 1 / 1 / 2 / 2;"><img
+                           src="https://i.pinimg.com/originals/84/fc/e5/84fce517155a0245aacff16a9b269eff.jpg"
+                           style="width: 95%; height: 185px;"></div>
+                     <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                        <div>
+                           <h3>Small cozy apartment for 3 </h3>
+                        </div>
+                        <div style="display: inline;"><span> 2 rooms · 3 guests </span></div>
+                        <div style="margin-top: 3px;"><span>Some city somewhere</span></div>
+                        <div style="position: absolute; bottom: 5px; left: 0px; width: 100%; overflow: hidden;">
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Free parking
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Wi-Fi
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 AC
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Central heating
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Coffee maker
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Dishwasher
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Microwave
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Refrigerator
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position: relative;">
+                        <div>
+                           <h3>32$/night</h3>
+                        </div>
+                        <div style="position: absolute; right: 0px; bottom: 8px; display: block;"><span
+                              style="background-color: rgb(129, 129, 129); color: white; border-radius: 5px; width: fit-content; font-weight: bold; font-size: 16px; padding: 7px 12px;">No
+                              rating</span></div>
+                     </div>
+                  </td>
+               </tr>
+               <tr class="row">
+                  <td
+                     style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: 1fr; gap: 0px; padding: 12px 15px 12px 10px; height: 210px; width: 100%;">
+                     <div style="grid-area: 1 / 1 / 2 / 2;"><img
+                           src="https://cf.bstatic.com/images/hotel/max1024x768/238/238751575.jpg"
+                           style="width: 95%; height: 185px;"></div>
+                     <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                        <div>
+                           <h3>Soba na Detelinari</h3>
+                        </div>
+                        <div style="display: inline;"><span> 1 rooms · 1 guests </span></div>
+                        <div style="margin-top: 3px;"><span>Novi Sad</span></div>
+                        <div style="position: absolute; bottom: 5px; left: 0px; width: 100%; overflow: hidden;">
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Free parking
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Wi-Fi
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 AC
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Fridge
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Central heating
+                              </div>
+                           </div>
+                           <div>
+                              <div
+                                 style="float: left; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px; padding: 5px 10px;">
+                                 Coffee maker
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position: relative;">
+                        <div>
+                           <h3>9$/night</h3>
+                        </div>
+                        <div style="position: absolute; right: 0px; bottom: 8px; display: block;"><span
+                              style="background-color: rgb(129, 129, 129); color: white; border-radius: 5px; width: fit-content; font-weight: bold; font-size: 16px; padding: 7px 12px;">No
+                              rating</span></div>
+                     </div>
+                  </td>
+               </tr>
+               <tr class="row">
+                  <td
+                     style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: 1fr; gap: 0px; padding: 12px 15px 12px 10px; height: 210px; width: 100%;">
+                     <div style="grid-area: 1 / 1 / 2 / 2;"><img
+                           src="https://i.pinimg.com/originals/07/f9/6e/07f96ea2c52f9c6cbd1ace134524ae90.jpg"
+                           style="width: 95%; height: 185px;"></div>
+                     <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                        <div>
+                           <h3>Apartment for a family</h3>
+                        </div>
+                        <div style="display: inline;"><span> 3 rooms · 4 guests </span></div>
+                        <div style="margin-top: 3px;"><span>Washington DC</span></div>
+                        <div style="position: absolute; bottom: 5px; left: 0px; width: 100%; overflow: hidden;"></div>
+                     </div>
+                     <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position: relative;">
+                        <div>
+                           <h3>95$/night</h3>
+                        </div>
+                        <div style="position: absolute; right: 0px; bottom: 8px; display: block;"><span
+                              style="background-color: rgb(129, 129, 129); color: white; border-radius: 5px; width: fit-content; font-weight: bold; font-size: 16px; padding: 7px 12px;">No
+                              rating</span></div>
+                     </div>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </div>
+
+   <script>
+      var eleStart = document.getElementById('containerStart');
+      if (eleStart) {
+         eleStart.style.visibility = "visible";
+      }
+      var eleEnd = document.getElementById('containerEnd');
+      if (eleEnd) {
+         eleEnd.style.visibility = "visible";
+      }   
+   </script>
+
+   <!-- Axios -->
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+   <!-- Vue.js implementation -->
+   <script src="http://localhost:8080/WebProject/scripts/guest_home.js"></script>
+
+
+
+
+</body>
+
 </html>

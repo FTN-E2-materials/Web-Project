@@ -15,7 +15,13 @@ let vue = new Vue({
         numOfGuests : "",
         minRooms : "",
         maxRooms : "",
-        filtersOpened : false
+        filtersOpened : false,
+        calendarStart : undefined,
+        calendarEnd : undefined,
+        errorMsg : "",
+        calendarErrorMsg : "",
+        calendarRendered : false,
+        calendarsVisible : false
     },
     components: {
         vuejsDatepicker
@@ -111,13 +117,34 @@ let vue = new Vue({
         },
         closeFilters : function() {
             Vue.set(vue, "filtersOpened", false);
+            vue.calendarsVisible = false;
+            vue.calendarRendered = false;
         },
         openFilters : function() {
             Vue.set(vue, "filtersOpened", true);
+            vue.calendarsVisible = true;
         }
     },
     beforeMount() {
         this.getApartments();
         this.holder = new Array();
-    }
+
+        this.calendarStart = new ej.calendars.Calendar({
+            min: new Date(),
+            value: new Date(),
+            showTodayButton : false
+        });
+
+        this.calendarEnd = new ej.calendars.Calendar({
+            min: new Date(this.calendarStart.value.getTime() + 86400000),
+            showTodayButton : false
+        });
+    },
+    updated() {
+        if (vue.calendarRendered === false  &&  vue.calendarsVisible === true){
+            vue.calendarRendered = true
+            this.calendarStart.appendTo('#elementStart');
+            this.calendarEnd.appendTo('#elementEnd');
+        }
+    } 
 });
