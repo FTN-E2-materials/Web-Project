@@ -41,7 +41,7 @@ public class ApartmentFilter extends BaseFilter<Apartment> {
 	/** Return a collection of entities which are available on the given dates */
 	public ApartmentFilter filterByDates(Date checkInDate, Date checkoutDate) {
 		DateRange range = new DateRange(checkInDate, checkoutDate);
-		
+
 		Iterator<Apartment> iterator = entities.iterator(); 
 		while (iterator.hasNext()) { 
 			Apartment ap = iterator.next();
@@ -52,7 +52,7 @@ public class ApartmentFilter extends BaseFilter<Apartment> {
 				if (range.contains(date))
 					daysToFind--;
 			}
-			if (daysToFind != 0)
+			if (daysToFind != 0) 
 				iterator.remove();
 		}
 		

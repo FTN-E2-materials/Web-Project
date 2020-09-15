@@ -5,7 +5,6 @@ let vue = new Vue({
         apartmentsLoaded : false,
         query : "",
         holder : [],
-        noApartmentsFound : false,
         dateStart : new Date(),
         dateEnd : new Date(),
         city : "",
@@ -70,10 +69,28 @@ let vue = new Vue({
                 })
         },
         goToApartment : function(apartmentID) {
-            window.location.href = "http://localhost:8080/WebProject/apartments/" + apartmentID
+            window.location.href = "/WebProject/apartments/" + apartmentID
+        },
+        openNewTab : function(apartmentID) {
+            window.open("/WebProject/apartments/" + apartmentID, "_blank")
         },
         filter : function() {
+            vue.calendarErrorMsg = "";
             /** Do checks of everything here!  */
+            let sDate = (vue.calendarStart.value == null ? 
+                                        {
+                                            ticks : -1
+                                        } : 
+                                        {
+                                            ticks : vue.calendarStart.value.getTime()
+                                        })
+            let eDate = (vue.calendarEnd.value == null ?  
+                                    {
+                                        ticks : -1
+                                    } : 
+                                    { 
+                                        ticks : vue.calendarEnd.value.getTime()
+                                    })
 
             let filterWrapper = {
                 city : {
@@ -85,23 +102,18 @@ let vue = new Vue({
                 maxRooms : this.maxRooms,
                 minPrice : this.minPrice,
                 maxPrice : this.maxPrice,
-                startingDate : {
-                    ticks : vue.calendarStart.value.getTime()
-                },
-                endingDate : {
-                    ticks : vue.calendarEnd.value.getTime()
-                }
+                startingDate : sDate,
+                endingDate : eDate
             }
 
             axios.post("http://localhost:8080/WebProject/data/apartments/filter", filterWrapper)
                 .then(function(response) {
                     if (response.status == 200) {
                         if (response.data.length == 0) {
-                            vue.noApartmentsFound = true;
+                            vue.calendarErrorMsg = "No apartments found for your criteria."
                             Vue.set(vue, "apartments", response.data)
                         }
                         else {
-                            vue.noApartmentsFound = false;
                             if (vue.holder.length == 0) {
                                 Vue.set(vue, "holder", vue.apartments)
                             }
@@ -115,6 +127,8 @@ let vue = new Vue({
                 })
         },
         clearFilters : function() {
+            vue.calendarErrorMsg = "";
+
             vue.city = ""
             vue.postalCode = ""
             vue.minPrice = ""
@@ -138,8 +152,8 @@ let vue = new Vue({
         this.holder = new Array();
 
         this.calendarStart = new ej.calendars.Calendar({
-            min: new Date(),
-            value: new Date(),
+            min: new Date((new Date()).getTime() + 86400000),
+            value: new Date((new Date()).getTime() + 86400000),
             showTodayButton : false
         });
 

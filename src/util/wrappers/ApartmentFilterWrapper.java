@@ -45,6 +45,8 @@ public class ApartmentFilterWrapper {
 	public boolean areDatesValid() {
 		if (startingDate == null  ||  endingDate == null)
 			return false;
+		if (startingDate.calendar == null  ||  endingDate.calendar == null)
+			return false;
 		if (startingDate.greaterThan(endingDate))
 			return false;
 		if (!startingDate.isFuture()  ||  !endingDate.isFuture())

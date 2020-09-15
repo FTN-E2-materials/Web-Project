@@ -400,7 +400,8 @@
                <tbody>
                   <tr v-for="apartment in apartments" :key="apartment.key"
                         class="row"
-                        @click="goToApartment(apartment.key)">
+                        @click="goToApartment(apartment.key)"
+                        @click.middle="openNewTab(apartment.key)">
                      <td style="display: grid;
                                 grid-template-columns: repeat(5, 1fr);
                                 grid-template-rows: 1fr;
