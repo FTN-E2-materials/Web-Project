@@ -21,7 +21,7 @@ import storage.Storage;
 import util.Config;
 
 
-@Path(Config.USERS_DATA_PATH)
+@Path(Config.USERS_SERVICE_PATH)
 public class UserService extends BaseService implements UserServiceInterface {
 
 	@PostConstruct

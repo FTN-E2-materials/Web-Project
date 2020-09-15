@@ -26,7 +26,7 @@ import util.exceptions.EntityValidationException;
 import util.wrappers.RequestWrapper;
 
 
-@Path(Config.AMENITIES_DATA_PATH)
+@Path(Config.AMENITIES_SERVICE_PATH)
 public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements ResponseCRUDInterface<Amenity>{
 
 	@Override

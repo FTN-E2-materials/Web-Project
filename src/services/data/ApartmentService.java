@@ -32,7 +32,7 @@ import util.wrappers.ApartmentFilterWrapper;
 import util.wrappers.RequestWrapper;
 
 
-@Path(Config.APARTMENTS_DATA_PATH)
+@Path(Config.APARTMENTS_SERVICE_PATH)
 public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> implements ApartmentServiceInterface {
 	
 	@PostConstruct

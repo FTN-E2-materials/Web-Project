@@ -35,7 +35,7 @@ import util.exceptions.EntityValidationException;
 import util.wrappers.RequestWrapper;
 
 
-@Path(Config.REVIEWS_DATA_PATH)
+@Path(Config.REVIEWS_SERVICE_PATH)
 public class ReviewService extends CRUDService<Review, ReviewDAO> implements ReviewServiceInterface {
 
 	@PostConstruct

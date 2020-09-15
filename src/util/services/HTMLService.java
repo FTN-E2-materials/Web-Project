@@ -39,6 +39,8 @@ public class HTMLService {
 	private String REVIEWS_HOST_PAGE;
 	private String RESERVATIONS_GUEST_PAGE;
 	private String RESERVATIONS_HOST_PAGE;
+	
+	private String TEST_PAGE;
 
 
 	// Load all HTML files into memory as strings on startup
@@ -62,6 +64,8 @@ public class HTMLService {
 		RESERVATIONS_GUEST_PAGE = IOService.readSourceFile(Config.RESERVATIONS_GUEST_LOCATION);
 		RESERVATIONS_HOST_PAGE = IOService.readSourceFile(Config.RESERVATIONS_HOST_LOCATION);
 
+		TEST_PAGE = IOService.readSourceFile("/web-files/html-files/text.html");
+		
 		System.out.println("Completed caching.");
 	}
 	
@@ -131,5 +135,9 @@ public class HTMLService {
 	
 	public String getReservationsPageAdmin() {
 		return "Coming soon";
+	}
+	
+	public String getTestPage() {
+		return TEST_PAGE;
 	}
 }

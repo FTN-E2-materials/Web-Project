@@ -19,7 +19,7 @@ import storage.Storage;
 import util.Config;
 import util.wrappers.RequestWrapper;
 
-@Path(Config.AUTH_DATA_PATH)
+@Path(Config.AUTH_SERVICE_PATH)
 public class AuthService extends BaseService implements AuthServiceInterface {
 
 	@PostConstruct

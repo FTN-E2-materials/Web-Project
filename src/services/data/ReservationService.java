@@ -33,7 +33,7 @@ import util.services.SchedulingService;
 import util.wrappers.RequestWrapper;
 
 
-@Path(Config.RESERVATIONS_DATA_PATH)
+@Path(Config.RESERVATIONS_SERVICE_PATH)
 public class ReservationService extends CRUDService<Reservation, ReservationDAO> implements ReservationServiceInterface {
 
 	@PostConstruct

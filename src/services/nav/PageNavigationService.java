@@ -47,7 +47,8 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 				return AccountPage(request);
 			case Config.RESERVATIONS_PAGE_PATH:
 				return ReservationsPage(request);
-				
+			case "test":
+				return TestPage();
 			default:
 				return OK("There is nothing here, go back.");
 		}
@@ -181,5 +182,9 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 			return OK(HTMLService.getInstance().getReservationsPageAdmin());
 		
 		return ForbiddenRequest();
+	}
+	
+	private Response TestPage() {
+		return OK(HTMLService.getInstance().getTestPage());
 	}
 }
