@@ -26,7 +26,7 @@ public abstract class CRUDService<T extends DatabaseEntity, DAO extends BeanDAO<
 	 */
 	protected T create(T object) throws EntityValidationException {
 		if (object == null) {
-			return null;
+			throw new EntityValidationException("Object must not be null");
 		}
 		object.validate();
 		DAO dao = (DAO)ctx.getAttribute(databaseAttributeString);

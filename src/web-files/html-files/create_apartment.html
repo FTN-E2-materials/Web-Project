@@ -309,11 +309,20 @@
                         <span style="font-weight: 600; color: #009e00;">$ </span>
                     </div>
                     <div class="content-row">
-                        <input class="input-very-long" type="text" placeholder="Link to image" v-model="imageLink">
+                        <div>
+                            <p style="font-size: 13px; margin-left: 5px; margin-bottom: 3px;">Select up to 5 images</p>
+                            <input type="file" id="imagesToLoad" multiple="multiple" onchange="encodeImagesAsURL();">
+                         </div>
+                         <div style="width: 450px; height: 80px; background-color: #b1b1b1;">
+                            <img id="img1" style="float: left; height: 100%; width: 20%; object-fit: cover;">
+                            <img id="img2" style="float: left; height: 100%; width: 20%; object-fit: cover;">
+                            <img id="img3" style="float: left; height: 100%; width: 20%; object-fit: cover;">
+                            <img id="img4" style="float: left; height: 100%; width: 20%; object-fit: cover;">
+                            <img id="img5" style="float: left; height: 100%; width: 20%; object-fit: cover;">
+                         </div>
                     </div>
                     <div class="content-row" style="margin-top: 15px;">
-                        <p style="font-size: small;">Select available dates <br> (If left empty, default is the next 30
-                            days)</p>
+                        <p style="font-size: small;">Select available dates </p>
                     </div>
                     <div class="content-row">
                         <div class="container left-column" id="container">
@@ -366,20 +375,43 @@
         </div>
     </div>
 
-    <!-- Axios -->
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Vue.js implementation -->
     <script>
         var ele = document.getElementById('container');
         if (ele) {
             ele.style.visibility = "visible";
         }   
+
+        // Image functions
+        function toBase(file) {
+            return new Promise((resolve, reject) => {
+                let reader = new FileReader();
+                reader.onload = () => {
+                    resolve(reader.result)
+                };
+                reader.readAsDataURL(file);
+            })
+        }
+
+    function encodeImagesAsURL() {
+        vue.base64_array = new Array();     // Empty previously existing images
+
+        let filesSelected = document.getElementById("imagesToLoad").files;
+            if (filesSelected.length > 0) {
+                let promise = Promise.resolve();
+                Array.prototype.forEach.call(filesSelected, file => {
+                toBase(file).then(result => {
+                    vue.base64_array.push(result)
+                    vue.displayAvailableImages()
+                    })
+                })
+            }
+        }
     </script>
+
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="http://localhost:8080/WebProject/scripts/create-apartment.js"></script>
-
-    <script>
-
-    </script>
 
 </body>
 

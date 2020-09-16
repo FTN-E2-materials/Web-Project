@@ -78,7 +78,11 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 			apartment.numberOfRatings = 0;
 			apartment.rating = 0d;
 			apartment.hostID = session.getUserID();
-			
+			if (apartment.images != null) {
+				if (apartment.images.size() > 0) {
+					apartment.mainImage = apartment.images.get(0);
+				}
+			}
 			try {
 				return OK(super.create(apartment));
 			}

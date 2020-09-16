@@ -7,6 +7,7 @@ import java.util.Iterator;
 import beans.model.entities.Apartment;
 import beans.model.entities.Review;
 import beans.model.enums.ApartmentStatus;
+import beans.model.other.Date;
 import dao.interfaces.ApartmentDAOInterface;
 import storage.Storage;
 import util.Config;
@@ -23,14 +24,11 @@ public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInte
 		super(storage);
 		init();
 		
-		/** Hard wipe of all available dates and working dates
-		Iterator<Apartment> iterator = database.values().iterator();
-		while(iterator.hasNext()) {
-			Apartment a = iterator.next();
-			a.workingDates = new ArrayList<>();
-			a.availableDates = new ArrayList<>();
+		for(Apartment ap : database.values()) {
+			ap.numberOfRatings = 0;
+			ap.rating = 0d;
 		}
-		forceUpdate(); */
+		super.forceUpdate();
 	}
 	
 	/** Searches through all the apartments and returns those which contain the given word in their title.
@@ -135,5 +133,13 @@ public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInte
 		apartment.rating = ((apartment.rating * apartment.numberOfRatings) + review.rating)/(++apartment.numberOfRatings);
 		
 		forceUpdate();
+	}
+	
+	public Apartment getByName(String name) {
+		for (Apartment ap : database.values()) {
+			if (ap.title.contentEquals(name))
+				return ap;
+		}
+		return null;
 	}
 }

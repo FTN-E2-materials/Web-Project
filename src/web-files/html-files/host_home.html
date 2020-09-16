@@ -267,7 +267,7 @@
                style="width: 80%; margin: 0 auto; margin-bottom: 100px;">
             <table>
                <tbody>
-                  <tr v-for="apartment in apartments" :key="apartment.key"
+                  <tr v-for="(apartment, index) in apartments" :key="apartment.key"
                         class="row"
                         @click="goToApartment(apartment.key)">
                      <td style="display: grid;
@@ -283,16 +283,17 @@
                                 width: 100%;"> 
 
                                 <div style="grid-area: 1 / 1 / 2 / 2;"> 
-                                    <img :src="apartment.imageLink" style="width: 95%; height: 185px;">
+                                    <img :src="apartmentImages.get(apartment.key)" style="width: 95%; height: 185px;">
                                 </div>
                                 
                                 <!-- LEft part of the grid (name, rooms, location, ...)-->
-                                <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                                <div style="grid-area: 1 / 2 / 2 / 5; position: relative; display: block;">
                                     <div>
-                                        <h3>{{apartment.title}}</h3>
+                                        <span style="float: left; font-size: 16px; font-weight: bold;">{{apartment.title}}</span>
+                                        <span style="float: left; margin-left: 6px; color: rgb(204, 27, 27); font-weight: bold;" v-if="apartment.status == 'INACTIVE'">(INACTIVE)</span>
                                     </div>
-                                    <div style="display: inline;">
-                                        <span > {{apartment.numberOfRooms}} rooms &middot; {{apartment.numberOfGuests}} guests </span>
+                                    <div>
+                                        <p > <br>{{apartment.numberOfRooms}} rooms &middot; {{apartment.numberOfGuests}} guests </p>
                                     </div>
                                     <div style="margin-top: 3px;">
                                         <span>{{apartment.location.address.city.name}}</span>

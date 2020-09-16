@@ -9,6 +9,11 @@ import util.Config;
 /** Interface with provided default methods for generating Http Response objects.  */
 public interface HttpResponseHandler {
 	
+	/** Returns an empty HTTP 200 response */
+	public default Response OK() {
+		return Response.ok().build();
+	}
+	
 	/** Returns a status 200 response with the given object as body */
 	public default Response OK(Object object) {
 		return Response.ok(object).build();

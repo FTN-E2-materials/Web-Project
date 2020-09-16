@@ -20,53 +20,42 @@ let vue = new Vue({
         errorMsg : "",
         calendarErrorMsg : "",
         calendarRendered : false,
-        calendarsVisible : false
+        calendarsVisible : false,
+        apartmentImages : new Map()
     },
     components: {
         vuejsDatepicker
     },
     methods : {
-        searchApartments : function() {
-            if (this.query) {    // Do not query on empty 
-                axios.get("http://localhost:8080/WebProject/data/apartments/search/?name=" + this.query)
-                    .then(function(response) {
-                        if (response.status == 200) {
-                            if (vue.holder.length == 0) {
-                                vue.holder = vue.apartments;   // Store all the previously downloaded apartments
-                                console.log("Storing previous list...");
-                            }
-                            Vue.set(vue, "apartments", response.data);
-
-                            if (vue.apartments.length == 0) {
-                                vue.noApartmentsFound = true;
-                            }
-                            else {
-                                vue.noApartmentsFound = false;
-                            }
-                        }
-                        else {
-                            alert("Couldn't search apartments.")
-                        }
-                    })
-            }
-            else {
-                if (vue.holder.length > 0){
-                    Vue.set(vue, "apartments", vue.holder);
-                    vue.noApartmentsFound = false;
-                }
-            }
-        },
         getApartments : function() {
             axios.get("http://localhost:8080/WebProject/data/apartments/")
                 .then(function(response) {
                     if (response.status == 200) {
+                        Array.prototype.forEach.call(response.data, apartment => {
+                            apartment.rating = Math.round(apartment.rating * 100)/100
+                        })
                         Vue.set(vue, "apartments", response.data)
                         Vue.set(vue, "apartmentsLoaded", true)
+                        vue.getApartmentImages()
                     }
                     else {
                         alert("Couldn't load apartments.")
                     }
                 })
+        },
+        getApartmentImages : function() {
+            Array.prototype.forEach.call(vue.apartments, apartment => {
+
+                this.getImage(apartment.mainImage)
+                    .then(response => {
+                        if (response.status == 200) {
+                            Vue.set(vue, "apartmentImages", new Map(vue.apartmentImages.set(apartment.key, response.data.base64_string)))
+                        }
+                })
+            })
+        },
+        getImage : function(imageID) {
+            return axios.get("/WebProject/data/images/" + imageID)
         },
         goToApartment : function(apartmentID) {
             window.location.href = "/WebProject/apartments/" + apartmentID

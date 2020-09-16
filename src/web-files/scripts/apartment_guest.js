@@ -8,18 +8,27 @@ let vue = new Vue({
         availableDates : [],
         numberOfNights : 1,
         reservationMessage : "",
-        calendarRendered : false
+        calendarRendered : false,
+        apartmentImage : ""
     },
     methods : {
-        getApartment : function() {
+        loadData : function() {
             let addressBarTokens = window.location.href.split("/");
             let apartmentID = addressBarTokens[addressBarTokens.length-1];
 
-            axios.get("http://localhost:8080/WebProject/data/apartments/" + apartmentID)
+            this.getApartment(apartmentID)
                 .then(function(response) {
                     if (response.status == 200) {
                         Vue.set(vue, "apartment", response.data);
                         Vue.set(vue, "apartmentLoaded", true);
+
+                        vue.getImage(response.data.mainImage)
+                            .then(response => {
+                                if (response.status == 200) {
+                                    vue.apartmentImage = response.data.base64_string
+                                }
+                            })
+
                         response.data.availableDates.forEach(date => {
                             vue.availableDates.push(new Date(date.calendar))
                         })
@@ -31,6 +40,12 @@ let vue = new Vue({
             let apartmentID = tokens[tokens.length-1]
 
             window.location.href = "/WebProject/reviews/" + apartmentID
+        },
+        getImage : function(imageID) {
+            return axios.get("/WebProject/data/images/" + imageID)
+        },
+        getApartment : function(apartmentID) {
+            return axios.get("/WebProject/data/apartments/" + apartmentID)
         },
         createReservation : function() {
             let reservation = {
@@ -46,7 +61,7 @@ let vue = new Vue({
                     title : vue.apartment.title,
                     numberOfRooms : vue.apartment.numberOfRooms,
                     numberOfGuests : vue.apartment.numberOfGuests,
-                    imageLink : vue.apartment.imageLink,
+                    mainImage : vue.apartment.mainImage,
                     rating : vue.apartment.rating,
                     numberOfRatings : vue.apartment.numberOfRatings,
                     hostID : vue.apartment.hostID
@@ -72,7 +87,7 @@ let vue = new Vue({
         },
     },
     beforeMount : function() {
-        this.getApartment();
+        this.loadData();
     },
     mounted : function() {
         let currentDay = new Date()

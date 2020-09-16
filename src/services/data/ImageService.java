@@ -60,11 +60,11 @@ public class ImageService extends CRUDService<Image, ImageDAO> implements Respon
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(Image image, @Context HttpServletRequest request) {
 		try {
-			return OK(super.create(image));
+			Image createdImage = super.create(image);
+			return OK(createdImage.key);	// Return a key through which to access the image in the database
 		}
 		catch (EntityValidationException e) {
-			e.printStackTrace();
-			return BadRequest(e.message);
+			return OK();	// TODO Change this
 		}
 	}
 
@@ -84,7 +84,7 @@ public class ImageService extends CRUDService<Image, ImageDAO> implements Respon
 	@Override
 	@Path("{imageID}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getByID(@PathParam("imageID") String key, HttpServletRequest request) {
+	public Response getByID(@PathParam("imageID") String key, @Context HttpServletRequest request) {
 		return OK(super.getByID(key));
 	}
 

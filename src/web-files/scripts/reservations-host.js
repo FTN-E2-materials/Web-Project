@@ -2,7 +2,8 @@ let vue = new Vue({
     el :"#vue-reservations",
     data : {
         reservations : [],
-        reservationsLoaded : false
+        reservationsLoaded : false,
+        apartmentImages : new Map()
     },
     methods : {
         getReservations : function() {
@@ -16,7 +17,14 @@ let vue = new Vue({
                         Vue.set(vue, "reservationsLoaded", true);
 
                         vue.reservations.forEach(reservation => {
-                            axios.get("/WebProject/data/apartments/" + reservation.apartment.key)
+                            this.getImage(reservation.apartment.mainImage)
+                                .then(response => {
+                                    if (response.status == 200) {
+                                        Vue.set(vue, "apartmentImages", new Map(vue.apartmentImages.set(reservation.apartment.key, response.data.base64_string)))
+                                    }
+                                })
+
+                            this.getApartment(reservation.apartment.key)
                                 .then(response => {
                                     if (response.status == 200) {
                                         reservation.apartment.rating = Math.round(response.data.rating * 100)/100
@@ -32,6 +40,12 @@ let vue = new Vue({
         goToApartment : function(apartmentID) {
             window.location.href = "/WebProject/apartments/" + apartmentID
         },
+        getImage : function(imageID) {
+            return axios.get("/WebProject/data/images/" + imageID)
+        },
+        getApartment : function(apartmentID) {
+            return axios.get("/WebProject/data/apartments/" + apartmentID)
+        },
         cancel : function(reservationID, index) {
             let wrapper = {
                 stringKey : reservationID
@@ -40,7 +54,7 @@ let vue = new Vue({
             axios.put("/WebProject/data/reservations/cancel", wrapper)
                 .then(response => {
                     if (response.status == 200) {
-                        vue.reservations[index].status = "CANCELLED"   
+                        vue.reservations[index].status = "DENIED"   
                     }
                 })
                 .catch (error => {

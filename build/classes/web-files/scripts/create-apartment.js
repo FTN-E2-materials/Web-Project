@@ -13,10 +13,11 @@ let vue = new Vue({
         postalCode: "",
         type: "Apartment",
         amenities: [],
-        imageLink : "",
         calendar : undefined,
         allAmenities : [],
-        selectedAmenities : []
+        selectedAmenities : [],
+        base64_array : [],
+        apartmentForUpload : undefined
     },
     methods : {
         create : function() { 
@@ -30,7 +31,7 @@ let vue = new Vue({
                 });
             let accommodationType = (vue.type === "Apartment" ? "APARTMENT" : "ROOM")
 
-            let apartment = {
+            vue.apartmentForUpload = {
                 title : this.name,
                 type : accommodationType,
                 availableDates : dates,
@@ -57,11 +58,23 @@ let vue = new Vue({
                         }
                     }
                 },
-                imageLink : this.imageLink,
+                images : [],
+                mainImage : undefined,
                 amenities : vue.selectedAmenities
             }
 
-            axios.post("http://localhost:8080/WebProject/data/apartments", apartment)
+            // Create a promise for each image upload, then wait for those promises in order to continue 
+            
+            axios.all([
+                vue.uploadImage(vue.base64_array[0]),
+                vue.uploadImage(vue.base64_array[1]),
+                vue.uploadImage(vue.base64_array[2]),
+                vue.uploadImage(vue.base64_array[3]),
+                vue.uploadImage(vue.base64_array[4])
+            ])
+            .then(() => {
+                vue.apartmentForUpload.mainImage = vue.apartmentForUpload.images[0].key // First image is the main one
+                axios.post("http://localhost:8080/WebProject/data/apartments", vue.apartmentForUpload)
                 .then(function(response) {
                     if (response.status === 200) {
                         window.location.href = "http://localhost:8080/WebProject";
@@ -73,6 +86,7 @@ let vue = new Vue({
                 .catch(error => {
                     console.log(error)
                 })
+            })
         },
         selectAll : function() {
             /** TODO Call clear values for the current month to avoid duplicates! */
@@ -97,7 +111,14 @@ let vue = new Vue({
             axios.get("/WebProject/data/amenities")
                 .then(response => {
                     if (response.status == 200) {
-                        Vue.set(vue, "allAmenities", response.data)
+                        let amenities = []
+                        Array.prototype.forEach.call(response.data, amenity => {
+                            amenities.push({
+                                key : amenity.key,
+                                name : amenity.name
+                            })
+                        })
+                        Vue.set(vue, "allAmenities", amenities)
                     }
                 })
         },
@@ -108,7 +129,54 @@ let vue = new Vue({
             vue.selectedAmenities = vue.selectedAmenities.filter(function(element) {
                 return element.key != amenityID;
             })
-        }
+        },
+         displayAvailableImages() {
+            vue.base64_array = vue.base64_array.filter(function (el) {
+                return el != null;
+              });
+
+            if (vue.base64_array[0]) {
+                img1.src = vue.base64_array[0]
+             }
+             else {
+                 img1.src = "https://www.htmlcsscolor.com/preview/gallery/B1B1B1.png"
+             }
+             if (vue.base64_array[1]) {
+                img2.src = vue.base64_array[1]
+             }
+             else {
+                 img2.src = "https://www.htmlcsscolor.com/preview/gallery/B1B1B1.png"
+             }
+             if (vue.base64_array[2]) {
+                img3.src = vue.base64_array[2]
+             }
+             else {
+                 img3.src = "https://www.htmlcsscolor.com/preview/gallery/B1B1B1.png"
+             }
+             if (vue.base64_array[3]) {
+                img4.src = vue.base64_array[3]
+             }
+             else {
+                 img4.src = "https://www.htmlcsscolor.com/preview/gallery/B1B1B1.png"
+             }
+             if (vue.base64_array[4]) {
+                img5.src = vue.base64_array[4]
+             }
+             else {
+                 img5.src = "https://www.htmlcsscolor.com/preview/gallery/B1B1B1.png"
+             }
+         },
+         uploadImage(image64) {
+             let imageObj = {
+                 base64_string : image64
+             }
+             return axios.post("/WebProject/data/images", imageObj)
+             .then(response => {
+                 if (response.data) {
+                    vue.apartmentForUpload.images.push(response.data)
+                 }
+             })
+         }
     },
     beforeMount() {
         let currentDay = new Date()

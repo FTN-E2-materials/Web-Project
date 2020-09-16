@@ -8,7 +8,8 @@ let vue = new Vue({
         qualifiedForReview : false,
         formVisible : false,
         reviewText : "",
-        reviewRating : ""
+        reviewRating : "",
+        apartmentImage : ""
     },
     methods : {
         createReview : function() {
@@ -56,11 +57,21 @@ let vue = new Vue({
                         response.data.rating = Math.round(response.data.rating * 100)/100
                         Vue.set(vue, "apartment", response.data);
                         vue.apartmentLoaded = true;
+
+                        vue.getImage(response.data.mainImage)
+                            .then(response => {
+                                if (response.data) {
+                                    vue.apartmentImage = response.data.base64_string
+                                }
+                            })
                     }
                 })
                 .catch (error => {
                     console.log(error);
                 })
+        },
+        getImage : function(imageID) {
+            return axios.get("/WebProject/data/images/" + imageID)
         },
         isQualifiedForReview : function() {
             let tokens = window.location.href.split("/");

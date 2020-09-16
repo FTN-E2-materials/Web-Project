@@ -15,10 +15,14 @@ let vue = new Vue({
         postalCode: "",
         type: "",
         amenities: [],
-        imageLink : "",
+        mainImage : "",
         calendar : undefined,
         allAmenities : [],
-        selectedAmenities : []
+        selectedAmenities : [],
+        base64_array : [],
+        oldImageLinks : [],
+        imagesChanged : false,
+        apartmentForUpload : undefined
     },
     methods : {
         get : function() {
@@ -45,6 +49,7 @@ let vue = new Vue({
                         vue.type = (ap.type == "APARTMENT" ? "Apartment" : "Room")
                         vue.imageLink = ap.imageLink
                         vue.status = ap.status;
+                        vue.oldImageLinks = ap.images;
 
                         // Put element references from allAmenities into selectedAmenities so they can be highlighted!
                         for (let i = 0; i < vue.allAmenities.length; i++) {
@@ -61,30 +66,42 @@ let vue = new Vue({
                         })
 
                         vue.calendar.refresh()
+
+                        // Images
+                        axios.all([
+                            vue.downloadImage(vue.oldImageLinks[0]),
+                            vue.downloadImage(vue.oldImageLinks[1]),
+                            vue.downloadImage(vue.oldImageLinks[2]),
+                            vue.downloadImage(vue.oldImageLinks[3]),
+                            vue.downloadImage(vue.oldImageLinks[4])
+                        ])
+                        .then(() => {
+                            vue.displayAvailableImages();
+                            console.log("Displaying images")
+                        })
+
                     }
                 })
         },
         update : function() { 
+            // Split time input
             let splitCheckIn = this.checkInTime.split(":");
             let splitCheckOut = this.checkOutTime.split(":");
+            // Take selected calendar values
             let dates = []
                 vue.calendar.values.forEach(date => {
                     dates.push({
                         "ticks" : date.getTime()
                     })      
                 });
+            let accommodationType = (vue.type == "Apartment" ? "APARTMENT" : "ROOM")
 
-            let apartment = {
+
+            // Create an object to upload
+            vue.apartmentForUpload = {
                 key : vue.key,
                 title : this.name,
-                type : function() {
-                    if (this.type === "Apartment") {
-                        return "APARTMENT";
-                    }
-                    else {
-                        return "ROOM";
-                    }
-                },
+                type : accommodationType,
                 status : vue.status,
                 availableDates : dates,
                 numberOfRooms : this.numberOfRooms,
@@ -110,22 +127,44 @@ let vue = new Vue({
                         }
                     }
                 },
-                imageLink : this.imageLink,
+                images : [],
                 amenities : vue.selectedAmenities
             }
 
-            axios.put("/WebProject/data/apartments", apartment)
-                .then(function(response) {
-                    if (response.status === 200) {
-                        window.location.href = "/WebProject";
-                    }
-                    else {
-                        alert(response.data);
-                    }
+            // Array of images to be uploaded if there was a change
+            if (vue.imagesChanged) {
+                let jsonImages = []
+                Array.prototype.forEach.call(vue.base64_array, base64Image => {
+                    jsonImages.push({
+                        base64_string : base64Image
+                    })
                 })
-                .catch(error => {
-                    console.log(error)
+
+                console.log("Updated apartment images before: " + vue.apartmentForUpload.images.length)
+                axios.all([
+                    vue.uploadImage(jsonImages[0]),
+                    vue.uploadImage(jsonImages[1]),
+                    vue.uploadImage(jsonImages[2]),
+                    vue.uploadImage(jsonImages[3]),
+                    vue.uploadImage(jsonImages[4])
+                ])
+                .then(() => {
+                    console.log("Updated apartment images after: " + vue.apartmentForUpload.images.length)
+                    vue.uploadApartment(vue.apartmentForUpload)
+                        .then(() => {
+                            window.location.href = "/WebProject"
+                        })
+                        .catch(error => console.log(error.data))
                 })
+            }
+            else {
+                vue.apartmentForUpload.images = vue.oldImageLinks
+                vue.uploadApartment(vue.apartmentForUpload)
+                .then(() => {
+                    window.location.href = "/WebProject"
+                })
+                .catch(error => console.log(error.data))
+            }
         },
         selectAll : function() {
             /** TODO Call clear values for the current month to avoid duplicates! */
@@ -166,7 +205,66 @@ let vue = new Vue({
             vue.selectedAmenities = vue.selectedAmenities.filter(function(element) {
                 return element.key != amenityID;
             })
-        }
+        },
+        uploadApartment(apartment) {
+            return axios.put("/WebProject/data/apartments", apartment)
+        },
+        displayAvailableImages() {
+             vue.base64_array = vue.base64_array.filter(function (el) {
+                return el != null;
+              });
+
+            if (vue.base64_array[0]) {
+               img1.src = vue.base64_array[0]
+            }
+            else {
+                img1.src = "https://www.htmlcsscolor.com/preview/gallery/B1B1B1.png"
+            }
+            if (vue.base64_array[1]) {
+               img2.src = vue.base64_array[1]
+            }
+            else {
+                img2.src = "https://www.htmlcsscolor.com/preview/gallery/B1B1B1.png"
+            }
+            if (vue.base64_array[2]) {
+               img3.src = vue.base64_array[2]
+            }
+            else {
+                img3.src = "https://www.htmlcsscolor.com/preview/gallery/B1B1B1.png"
+            }
+            if (vue.base64_array[3]) {
+               img4.src = vue.base64_array[3]
+            }
+            else {
+                img4.src = "https://www.htmlcsscolor.com/preview/gallery/B1B1B1.png"
+            }
+            if (vue.base64_array[4]) {
+               img5.src = vue.base64_array[4]
+            }
+            else {
+                img5.src = "https://www.htmlcsscolor.com/preview/gallery/B1B1B1.png"
+            }
+         },
+         uploadImage(image) {
+             return axios.post("/WebProject/data/images", image)
+             .then(response => {
+                 if (response.data) {
+                    vue.apartmentForUpload.images.push(response.data)
+                    console.log("Pushed " + response.data + " to the updated apartment object.");
+                 }
+             })
+         },
+         downloadImage(image) {
+             return axios.get("/WebProject/data/images/" + image)
+                .then (response => {
+                    if (response.status == 200  ||  response.data) {
+                        vue.base64_array.push(response.data.base64_string);
+                    }
+                })
+                .catch(() => {
+                    console.log("Failed to fatch image.")
+                })
+         }
     },
     beforeMount() {
         let currentDay = new Date()

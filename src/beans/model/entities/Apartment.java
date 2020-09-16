@@ -28,7 +28,8 @@ public class Apartment extends DatabaseEntity implements Cloneable<Apartment>, F
    public String hostID;   
    public Location location;
    public ArrayList<Amenity> amenities;
-   public String imageLink;
+   public String mainImage;	// This will serve as the default display image on the browse section
+   public List<String> images;	// These are all the images (including the imagelink)
    
    public Double rating;
    public int numberOfRatings;
@@ -69,6 +70,7 @@ public class Apartment extends DatabaseEntity implements Cloneable<Apartment>, F
 		this.status = obj.status;
 		this.location = obj.location;
 		this.amenities = obj.amenities;
-		this.imageLink = obj.imageLink;
+		this.images = obj.images;
+		this.mainImage = this.images.get(0);
 	}
 }

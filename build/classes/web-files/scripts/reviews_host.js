@@ -5,6 +5,7 @@ let vue = new Vue({
         apartment : undefined,
         apartmentLoaded : false,
         reviewsLoaded : false,
+        apartmentImage : ""
     },
     methods : {
         getReviews : function() {
@@ -32,11 +33,21 @@ let vue = new Vue({
                         response.data.rating = Math.round(response.data.rating * 100)/100
                         Vue.set(vue, "apartment", response.data);
                         vue.apartmentLoaded = true;
+
+                        vue.getImage(response.data.mainImage)
+                            .then(response => {
+                                if (response.data) {
+                                    vue.apartmentImage = response.data.base64_string
+                                }
+                            })
                     }
                 })
                 .catch (error => {
                     console.log(error);
                 })
+        },
+        getImage : function(imageID) {
+            return axios.get("/WebProject/data/images/" + imageID)
         },
         hide : function(reviewID, index) {
             let wrapper = {

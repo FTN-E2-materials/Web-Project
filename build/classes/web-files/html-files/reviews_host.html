@@ -204,7 +204,7 @@
                             grid-row-gap: 0px;">
 
                     <div style="grid-area: 1 / 1 / 2 / 2; max-width: 250px; max-height: 250px;">
-                        <img :src="apartment.imageLink" style="max-width: inherit; max-height: inherit;"> 
+                        <img :src="apartmentImage" style="max-width: inherit; max-height: inherit;"> 
                     </div>
 
                     <div style="grid-area: 1 / 2 / 2 / 4; margin-left: 50px; text-align: right; position:relative;">
@@ -219,9 +219,18 @@
                             </div>
                             <div v-if="apartment.rating > 0"
                                  style="position:absolute; bottom:5px; right:0;">
-                                <div style="background-color: #1ead02; border-radius: 5px; width: fit-content; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px;">
-                                    <h4 style="color: white;">{{apartment.rating}}</h4>
-                                </div>
+                                 <div v-if="apartment.rating > 0"
+                                    style="position:absolute; bottom:5px; right:0;">
+                                   <div v-if="apartment.rating > 4.0" style="background-color: #1ead02; border-radius: 5px; width: fit-content; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px;">
+                                       <h4 style="color: white;">{{apartment.rating}}</h4>
+                                   </div>
+                                   <div v-else-if="apartment.rating > 2.5" style="background-color: #e7cd37; border-radius: 5px; width: fit-content; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px;">
+                                       <h4 style="color: white;">{{apartment.rating}}</h4>
+                                   </div>
+                                   <div v-else style="background-color: #af0909; border-radius: 5px; width: fit-content; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px;">
+                                       <h4 style="color: white;">{{apartment.rating}}</h4>
+                                   </div>
+                               </div>
                             </div>
                             <div v-else
                                 style="background-color: #919191; border-radius: 5px; width: fit-content; position:absolute; bottom:5px; right:0;

@@ -68,7 +68,7 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 			return null;
 	}
 	
-	/** Get an object from the database with the specified key attached to it.
+	/** Get an object from the database with the specified key attached to it. If key is null or object is deleted, null is returned.
 	 * @param 
 	 * @return Object or null if the key doesn't exist.
 	 */
@@ -132,5 +132,17 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 	/** Forces a database update, and writes the whole database to the file */
 	public void forceUpdate() {
 		storage.writeAll(database);
+	}
+	
+	public void normalizeIndexes(String IDHeader) {
+		int cntr = Config.minimalIdNumber;
+		Map<String, T> newDatabase = new HashMap<String, T>();
+		for (T obj : database.values()) {
+			obj.key = IDHeader + ++cntr;
+			newDatabase.put(obj.key, obj);
+		}
+		
+		this.database = new ObservableMapWrapper<String, T>(newDatabase);
+		forceUpdate();
 	}
 }

@@ -9,7 +9,9 @@ public class Image extends DatabaseEntity {
 	
 	@Override
 	public void validate() throws EntityValidationException {
-		// TODO Auto-generated method stub
+		if (base64_string == null)
+			throw new EntityValidationException("Image must not be null");
+		if (base64_string.isEmpty())
+			throw new EntityValidationException("Image nonexistent.");
 	}
-
 }

@@ -2,21 +2,34 @@ let vue = new Vue({
     el :"#vue-apartment",
     data : {
         apartment : {},
-        apartmentLoaded : false
+        apartmentLoaded : false,
+        apartmentImage : ""
     },
     methods : {
-        getApartment : function() {
+        loadData : function() {
             let addressBarTokens = window.location.href.split("/");
             let apartmentID = addressBarTokens[addressBarTokens.length-1];
 
-            axios.get("http://localhost:8080/WebProject/data/apartments/" + apartmentID)
+            this.getApartment(apartmentID)
                 .then(function(response) {
-                    if (response.status == 200) {
+                    if (response.data) {
                         Vue.set(vue, "apartment", response.data);
                         Vue.set(vue, "apartmentLoaded", true);
-                        console.log(response.data);
+
+                        vue.getImage(response.data.mainImage)
+                            .then(response => {
+                                if (response.data) {
+                                    vue.apartmentImage = response.data.base64_string;
+                                }
+                            })
                     }
                 })
+        },
+        getImage : function(imageID) {
+            return axios.get("/WebProject/data/images/" + imageID)
+        },
+        getApartment : function(apartmentID) {
+            return axios.get("/WebProject/data/apartments/" + apartmentID)
         },
         activate : function() {
             let requestWrapper = {
@@ -57,6 +70,6 @@ let vue = new Vue({
         }
     },
     beforeMount() {
-        this.getApartment();
+        this.loadData();
     }
 });

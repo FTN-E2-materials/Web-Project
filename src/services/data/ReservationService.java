@@ -1,6 +1,7 @@
 package services.data;
 
 import java.util.Calendar;
+import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -19,14 +20,13 @@ import beans.interfaces.SessionToken;
 import beans.model.entities.Apartment;
 import beans.model.entities.Reservation;
 import beans.model.enums.ReservationStatus;
+import beans.model.other.ApartmentPreview;
 import beans.model.other.Date;
 import dao.ApartmentDAO;
 import dao.ReservationDAO;
-import javassist.NotFoundException;
 import services.interfaces.rest.ReservationServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
-import sun.util.locale.provider.AvailableLanguageTags;
 import util.Config;
 import util.exceptions.BaseException;
 import util.services.SchedulingService;
@@ -78,7 +78,12 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		if (session.isGuest()) {
 			reservation.guestID = session.getUserID();
 			reservation.status = ReservationStatus.CREATED;
-			
+			ApartmentDAO apartmentDAO = (ApartmentDAO)ctx.getAttribute(Config.apartmentDatabaseString);
+			Apartment apartment = apartmentDAO.getByKey(reservation.apartment.key);
+			if (apartment == null)
+				return BadRequest("Apartment doesn't exist");
+			reservation.apartment = new ApartmentPreview(apartment);
+
 			try {
 				reservation.validate();
 				SchedulingService.getInstance(ctx).applyDateChanges(reservation);
@@ -182,8 +187,14 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		if (session.isHost() &&  session.getUserID().equals(reservation.apartment.hostID)) {
 			if (reservation.status == ReservationStatus.CREATED  ||
 					reservation.status == ReservationStatus.APPROVED) {
-				reservation.status = ReservationStatus.DENIED;
-				return OK(super.update(reservation));
+				try {
+					SchedulingService.getInstance(ctx).reverseDateChanges(reservation);
+					reservation.status = ReservationStatus.DENIED;
+					return OK(super.update(reservation));
+				}
+				catch (BaseException e) {
+					return BadRequest(e.message);
+				}
 			}
 			else {
 				return BadRequest("This reservation cannot be cancelled");
