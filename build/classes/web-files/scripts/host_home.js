@@ -62,6 +62,32 @@ let vue = new Vue({
         },
         loadMainImage(apartment) {
             
+        },
+        sortByLowestPrice() {
+            let sortFunction = function(a,b){
+                if (a.pricePerNight < b.pricePerNight) {
+                    return -1;
+                }
+                if (a.pricePerNight > b.pricePerNight) {
+                    return 1;
+                }
+                return 0;
+            }
+
+            vue.apartments.sort(sortFunction);
+        },
+        sortByHighestPrice() {
+            let sortFunction = function(a,b){
+                if (a.pricePerNight < b.pricePerNight) {
+                    return 1;
+                }
+                if (a.pricePerNight > b.pricePerNight) {
+                    return -1;
+                }
+                return 0;
+            }
+
+            vue.apartments.sort(sortFunction);
         }
     },
     beforeMount() {

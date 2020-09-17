@@ -260,15 +260,13 @@
             </div>
         </div>
 
-        <div class="inline" style="margin-left: 7%; margin-right: 7%;; margin-top: 7%;">
-
-
-            <div style="display: inline-block; background-color: rgb(221, 60, 168, 0.95); padding-top: 16px; padding-bottom: 16px; padding-left: 22px; padding-right: 22px; border-radius: 5px;">
+        <div class="inline" style="margin: 0 auto; width: 80%; margin-top: 7%;">
+            <div style="display: inline-block; background-color: rgba(15, 92, 180, 0.95); padding-top: 16px; padding-bottom: 16px; padding-left: 22px; padding-right: 22px; border-radius: 5px;">
                 <div class="column-left" style="margin-right: 10px;">
-                    <p style="color:white; font-weight: 500;">From lowest </p>
+                    <button class="button white-button"  @click="sortByLowestPrice">Lowest price</button>
                 </div>
                 <div class="column-left" style="margin-left: 25px;">
-                    <p style="color:white; font-weight: 500;"> From highest </p>
+                    <button class="button white-button"  @click="sortByHighestPrice">Highest price</button>
                 </div>
             </div>
         </div>

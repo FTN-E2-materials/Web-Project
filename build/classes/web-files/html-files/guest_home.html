@@ -394,6 +394,17 @@
                  </div>
             </div>
 
+            <div class="inline" style="margin: 0 auto; width: 80%; margin-top: 50px;">
+                <div style="display: inline-block; background-color: rgba(15, 92, 180, 0.95); padding-top: 16px; padding-bottom: 16px; padding-left: 22px; padding-right: 22px; border-radius: 5px;">
+                    <div class="column-left" style="margin-right: 10px;">
+                        <button class="button white-button"  @click="sortByLowestPrice">Lowest price</button>
+                    </div>
+                    <div class="column-left" style="margin-left: 25px;">
+                        <button class="button white-button"  @click="sortByHighestPrice">Highest price</button>
+                    </div>
+                </div>
+            </div>
+
         <div v-if="apartmentsLoaded"
                style="width: 80%; margin: 3% auto;">
             <table>

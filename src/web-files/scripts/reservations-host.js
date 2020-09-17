@@ -2,8 +2,11 @@ let vue = new Vue({
     el :"#vue-reservations",
     data : {
         reservations : [],
+        holder : [],
         reservationsLoaded : false,
-        apartmentImages : new Map()
+        apartmentImages : new Map(),
+        query : "",
+        reservationStatus : "All"
     },
     methods : {
         getReservations : function() {
@@ -90,6 +93,72 @@ let vue = new Vue({
                 .catch (error => {
                     alert(error.response.data)
                 })
+        },
+        sortByLowestPrice() {
+            let sortFunction = function(a,b){
+                if (a.price < b.price) {
+                    return -1;
+                }
+                if (a.price > b.price) {
+                    return 1;
+                }
+                return 0;
+            }
+
+            vue.reservations.sort(sortFunction);
+        },
+        sortByHighestPrice() {
+            let sortFunction = function(a,b){
+                if (a.price < b.price) {
+                    return 1;
+                }
+                if (a.price > b.price) {
+                    return -1;
+                }
+                return 0;
+            }
+
+            vue.reservations.sort(sortFunction);
+        },
+        searchByGuestName() {
+            if (!vue.query) {
+                if (vue.holder.length > 0) {
+                    Vue.set(vue, "reservations", vue.holder)
+                }
+            }
+            else {
+                vue.query = vue.query.toLowerCase()
+
+                if (vue.holder.length == 0) {
+                    vue.holder = vue.reservations
+                }
+                vue.reservations = []
+
+                Array.prototype.forEach.call(vue.holder, reservation => {
+                    if (reservation.guestID.toLowerCase().includes(vue.query)) {
+                        vue.reservations.push(reservation)
+                    }
+                })
+            }
+        },
+        filterType() {
+            if (vue.reservationStatus === "All") {
+                if (vue.holder.length > 0) {
+                    Vue.set(vue, "reservations", vue.holder)
+                }
+                return;
+            }
+
+            if (vue.holder.length == 0) {
+                vue.holder = vue.reservations
+            }
+            vue.reservations = []
+
+            Array.prototype.forEach.call(vue.holder, reservation => {
+                if (reservation.status === vue.reservationStatus) {
+                    vue.reservations.push(reservation)
+                }
+            })
         }
     },
     beforeMount() {

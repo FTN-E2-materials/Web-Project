@@ -35,6 +35,32 @@ let vue = new Vue({
         },
         goToApartment : function(apartmentID) {
             window.location.href = "/WebProject/apartments/" + apartmentID;
+        },
+        sortByLowestPrice() {
+            let sortFunction = function(a,b){
+                if (a.pricePerNight < b.pricePerNight) {
+                    return -1;
+                }
+                if (a.pricePerNight > b.pricePerNight) {
+                    return 1;
+                }
+                return 0;
+            }
+
+            vue.apartments.sort(sortFunction);
+        },
+        sortByHighestPrice() {
+            let sortFunction = function(a,b){
+                if (a.pricePerNight < b.pricePerNight) {
+                    return 1;
+                }
+                if (a.pricePerNight > b.pricePerNight) {
+                    return -1;
+                }
+                return 0;
+            }
+
+            vue.apartments.sort(sortFunction);
         }
     },
     beforeMount() {

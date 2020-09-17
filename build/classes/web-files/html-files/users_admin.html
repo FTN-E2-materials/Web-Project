@@ -390,13 +390,28 @@
                             vue.holder = vue.users
                         }
                         Vue.set(vue, "users", new Array())
-                        Array.prototype.forEach.call(vue.holder, user => {
+                        vue.query = vue.query.toLowerCase()
+
+                        for (let i = 0; i < vue.holder.length; i++) {
+                            let user = vue.holder[i]
                             if (user.key) {
                                 if (user.key.includes(vue.query)) {
                                     vue.users.push(user)
+                                    continue;
                                 }
                             }
-                        })
+                            if (user.person.firstName  &&  user.person.lastName) {
+                                if ((user.person.firstName + " " + user.person.lastName).toLowerCase().includes(vue.query)) {
+                                    vue.users.push(user)
+                                    continue;
+                                }
+                            }
+                            if (user.person.gender) {
+                                if (user.person.gender.toLowerCase() === vue.query) {
+                                    vue.users.push(user)
+                                }
+                            }
+                        }
                     }
                 }
             },

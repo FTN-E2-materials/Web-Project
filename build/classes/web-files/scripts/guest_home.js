@@ -112,7 +112,7 @@ let vue = new Vue({
                     }
                 })
                 .catch(error => {
-                    alert(error.response.data)
+                    vue.calendarErrorMsg = "Please enter valid filter values."
                 })
         },
         clearFilters : function() {
@@ -134,6 +134,32 @@ let vue = new Vue({
         openFilters : function() {
             Vue.set(vue, "filtersOpened", true);
             vue.calendarsVisible = true;
+        },
+        sortByLowestPrice() {
+            let sortFunction = function(a,b){
+                if (a.pricePerNight < b.pricePerNight) {
+                    return -1;
+                }
+                if (a.pricePerNight > b.pricePerNight) {
+                    return 1;
+                }
+                return 0;
+            }
+
+            vue.apartments.sort(sortFunction);
+        },
+        sortByHighestPrice() {
+            let sortFunction = function(a,b){
+                if (a.pricePerNight < b.pricePerNight) {
+                    return 1;
+                }
+                if (a.pricePerNight > b.pricePerNight) {
+                    return -1;
+                }
+                return 0;
+            }
+
+            vue.apartments.sort(sortFunction);
         }
     },
     beforeMount() {

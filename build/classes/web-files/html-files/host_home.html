@@ -260,7 +260,18 @@
             </div>
         </div>
 
-        <div style="margin: 150px auto; margin-bottom: 80px; width: 80%; text-align: right;">
+        <div class="inline" style="margin: 0 auto; width: 80%; margin-top: 7%;">
+            <div style="display: inline-block; background-color: rgba(15, 92, 180, 0.95); padding-top: 16px; padding-bottom: 16px; padding-left: 22px; padding-right: 22px; border-radius: 5px;">
+                <div class="column-left" style="margin-right: 10px;">
+                    <button class="button white-button"  @click="sortByLowestPrice">Lowest price</button>
+                </div>
+                <div class="column-left" style="margin-left: 25px;">
+                    <button class="button white-button"  @click="sortByHighestPrice">Highest price</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin: 50px auto; margin-bottom: 80px; width: 80%; text-align: right;">
             <button class="button green-button" @click="createApartment">Create apartment</button>
         </div>
 

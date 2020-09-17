@@ -60,6 +60,32 @@ let vue = new Vue({
                 .catch (error => {
                     alert(error.response.data);
                 })
+        },
+        sortByLowestPrice() {
+            let sortFunction = function(a,b){
+                if (a.price < b.price) {
+                    return -1;
+                }
+                if (a.price > b.price) {
+                    return 1;
+                }
+                return 0;
+            }
+
+            vue.reservations.sort(sortFunction);
+        },
+        sortByHighestPrice() {
+            let sortFunction = function(a,b){
+                if (a.price < b.price) {
+                    return 1;
+                }
+                if (a.price > b.price) {
+                    return -1;
+                }
+                return 0;
+            }
+
+            vue.reservations.sort(sortFunction);
         }
     },
     beforeMount() {

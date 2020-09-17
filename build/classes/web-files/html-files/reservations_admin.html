@@ -279,16 +279,28 @@
             </div>
         </div>
 
-        <div class="inline" style="margin-left: 7%; margin-right: 7%;; margin-top: 7%;">
-
-
-            <div style="display: inline-block; background-color: rgb(221, 60, 168, 0.95); padding-top: 16px; padding-bottom: 16px; padding-left: 22px; padding-right: 22px; border-radius: 5px;">
+        <div style="margin: 0 auto; width: 80%; margin-top: 7%;">
+            <div style="float:left; background-color: rgba(15, 92, 180, 0.95); padding-top: 16px; padding-bottom: 16px; padding-left: 22px; padding-right: 22px; border-radius: 5px;">
                 <div class="column-left" style="margin-right: 10px;">
-                    <p style="color:white; font-weight: 500;">From lowest </p>
+                    <button class="button white-button"  @click="sortByLowestPrice">Lowest price</button>
                 </div>
                 <div class="column-left" style="margin-left: 25px;">
-                    <p style="color:white; font-weight: 500;"> From highest </p>
+                    <button class="button white-button"  @click="sortByHighestPrice">Highest price</button>
                 </div>
+            </div>
+            <div class="column-right">
+                <input placeholder="Search by guest..." type="text" @keyup.enter="searchByGuestName" v-model="query"
+                        style="float:right; padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 5px; width: 250px; outline: none;"> 
+
+                <button style="float: right; margin-right: 50px;" class="button blue-button" @click="filterType">Filter type</button>
+                <select v-model="reservationStatus" style="float: right; margin-right: 10px;">
+                    <option>All</option>
+                    <option>CREATED</option>
+                    <option>APPROVED</option>
+                    <option>DENIED</option>
+                    <option>CANCELLED</option>
+                    <option>FINISHED</option>
+                </select>
             </div>
         </div>
 
@@ -386,8 +398,11 @@
             el :"#vue-reservations",
             data : {
                 reservations : [],
+                holder : [],
+                query : "",
                 reservationsLoaded : false,
-                apartmentImages : new Map()
+                apartmentImages : new Map(),
+                reservationStatus : "All"
             },
             methods : {
                 getReservations : function() {
@@ -420,11 +435,78 @@
                         .catch (error => {
                             console.log(error);
                         })
-            }},
-            beforeMount() {
-                this.getReservations();
+            },
+            sortByLowestPrice() {
+            let sortFunction = function(a,b){
+                if (a.price < b.price) {
+                    return -1;
+                }
+                if (a.price > b.price) {
+                    return 1;
+                }
+                return 0;
             }
-        })
+
+            vue.reservations.sort(sortFunction);
+        },
+        sortByHighestPrice() {
+            let sortFunction = function(a,b){
+                if (a.price < b.price) {
+                    return 1;
+                }
+                if (a.price > b.price) {
+                    return -1;
+                }
+                return 0;
+            }
+
+            vue.reservations.sort(sortFunction);
+        },
+        searchByGuestName() {
+            if (!vue.query) {
+                if (vue.holder.length > 0) {
+                    Vue.set(vue, "reservations", vue.holder)
+                }
+            }
+            else {
+                vue.query = vue.query.toLowerCase()
+
+                if (vue.holder.length == 0) {
+                    vue.holder = vue.reservations
+                }
+                vue.reservations = []
+
+                Array.prototype.forEach.call(vue.holder, reservation => {
+                    if (reservation.guestID.toLowerCase().includes(vue.query)) {
+                        vue.reservations.push(reservation)
+                    }
+                })
+            }
+        },
+        filterType() {
+            if (vue.reservationStatus === "All") {
+                if (vue.holder.length > 0) {
+                    Vue.set(vue, "reservations", vue.holder)
+                }
+                return;
+            }
+
+            if (vue.holder.length == 0) {
+                vue.holder = vue.reservations
+            }
+            vue.reservations = []
+
+            Array.prototype.forEach.call(vue.holder, reservation => {
+                if (reservation.status === vue.reservationStatus) {
+                    vue.reservations.push(reservation)
+                }
+            })
+        }
+    },
+        beforeMount() {
+            this.getReservations();
+        }
+    })
     </script>
 </body>
 </html>
