@@ -9,16 +9,18 @@ let vue = new Vue({
         formVisible : false,
         reviewText : "",
         reviewRating : "",
-        apartmentImage : ""
+        apartmentImage : "",
+        rating : "5 stars"
     },
     methods : {
         createReview : function() {
             let tokens = window.location.href.split("/");
             let apartmentID = tokens[tokens.length-1]
+            let tokenizedRating = vue.rating.split(" ")[0]
 
             let review = {
                 text : vue.reviewText,
-                rating : 5,
+                rating : tokenizedRating,
                 apartmentID : apartmentID
             }
 

@@ -22,7 +22,8 @@ let vue = new Vue({
         base64_array : [],
         oldImageLinks : [],
         imagesChanged : false,
-        apartmentForUpload : undefined
+        apartmentForUpload : undefined,
+        deletionMessage : ""
     },
     methods : {
         get : function() {
@@ -264,7 +265,22 @@ let vue = new Vue({
                 .catch(() => {
                     console.log("Failed to fatch image.")
                 })
-         }
+         },
+         deleteApartment : function() { 
+            vue.deletionMessage = ""
+            let apartmentID = vue.key
+            axios.post("/WebProject/data/apartments/delete", {
+                stringKey : apartmentID
+            })
+            .then(response => {
+                if (response.data) {
+                    vue.deletionMessage = "This apartment has been successfully deleted."
+                }
+            })
+            .catch(error => {
+                vue.deletionMessage = error.response.data
+            })
+        }
     },
     beforeMount() {
         let currentDay = new Date()

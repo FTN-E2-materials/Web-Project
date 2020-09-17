@@ -105,10 +105,10 @@
         }
 
         .button {
-            padding-left : 15px;
-            padding-right: 15px;
-            padding-top: 6px;
-            padding-bottom: 6px;
+            padding-left : 30px;
+            padding-right: 30px;
+            padding-top: 10px;
+            padding-bottom: 10px;
 
             border: none;
             outline: 0;
@@ -117,9 +117,22 @@
             text-align: center;
         }
 
-        .button:hover {
-            padding-right: 18px;
-            padding-left: 18px;
+        .green-button {
+            background-color: rgb(15, 175, 15);
+            color:white;
+        }
+
+        .red-button {
+            background-color: rgb(212, 24, 24);
+            color:white;
+        }
+
+        .green-button:hover {
+            background-color: rgb(7, 146, 7);
+        }
+
+        .red-button:hover {
+            background-color: rgb(185, 19, 19);
         }
 
         .select-all-dates-button {
@@ -134,27 +147,6 @@
         .clear-all-button {
             background-color: white;
             color: gray;
-        }
-
-        .create-button {
-            float: right;
-            width: 35%;
-            height: 40%;
-
-            background-color: #009e00;
-            color: white;
-
-            margin: 0 auto;
-            margin-top: 50px;
-            margin-bottom: 40px;
-
-            outline: none;
-            border-style: solid;
-            border-radius: 10px;
-            border: none;
-
-            font-size: 16px;
-            font-family: "Poppins";
         }
 
         .create-button:hover {
@@ -371,7 +363,11 @@
                 </div>
             </div>
 
-            <button class="create-button" type="button" @click="update">Update</button>
+            <div style="margin: 0 auto; width: fit-content; margin-top: 60px;">
+                <button style="float: left; margin-right: 30px;" class="button green-button" type="button" @click="update">Update</button>
+                <span style="float: right; margin-left: 50px; color: red; margin-top: 5px;">{{deletionMessage}}</span>
+                <button style="float: right;" class="button red-button" type="button" @click="deleteApartment">Delete</button>
+            </div>
         </div>
     </div>
 
