@@ -194,16 +194,58 @@
             </div>
         </div>
 
-        <!-- APARTMENT HEADER -->
-        <div style="padding-top: 150px; width: 80%; margin: 0 auto; overflow: hidden;">
+        <!-- Search + Create header-->
+        <div style="padding-top: 160px; width: 80%; overflow: hidden; margin: 0 auto;">
             <div style="float: right;">
-                <input placeholder="Search users..." type="text" style="width: 300px; height: 35px; padding-left: 5px; padding-right: 5px;">
+                <input placeholder="Search users..." v-on:keyup.enter="search" v-model="query" type="text" style="width: 300px; height: 35px; padding-left: 5px; padding-right: 5px;">
             </div>
-        </div>
+            <div style="float: left;">
+                <div v-if="!dialogOpened">
+                    <button @click="openDialog">Create host</button>
+                </div>
+                <div v-else>
+                    <div style="width: fit-content; height: fit-content; background-color: rgb(228, 228, 228); border-radius: 5px;
+                        display: grid;
+                        padding-top: 30px;
+                        padding-bottom: 30px;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                        grid-template-columns: repeat(2, 1fr);
+                        grid-template-rows: repeat(3, 1fr);
+                        grid-column-gap: 50px;
+                        grid-row-gap: 20px;"> 
+
+                        <div style="grid-area: 1 / 1 / 2 / 2;">
+                        <input placeholder="Username" style="width: 90%;" v-model="username">
+                        </div>
+                        <div style="grid-area: 1 / 2 / 2 / 3;">
+                        <input type="password" placeholder="Password" v-model="password">
+                        </div>
+                        <div style="grid-area: 2 / 1 / 3 / 2;">
+                        <input placeholder="Email" v-model="email">
+                        </div>
+                        <div style="grid-area: 2 / 2 / 3 / 3;">
+                            {{message}}
+                        </div>
+                        <div style="grid-area: 3 / 1 / 4 / 2;">
+                        <input placeholder="First name" v-model="firstName"> 
+                        </div>
+                        <div style="grid-area: 3 / 2 / 4 / 3;">
+                        <input placeholder="Last name" v-model="lastName">
+                        </div>
+                    </div>
+                    <div style="margin: 0 auto; margin-top: 10px;">
+                        <button @click="createHost">Create</button>
+                        <button @click="closeDialog">Close</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+
 
         <!-- LIST OF REVIEWS-->
 
-        <div style="margin: 0px auto; width: 80%; height: fit-content; margin-bottom: 100px; padding-top: 50px;">
+        <div style="margin: 0px auto; width: 80%; height: fit-content; margin-bottom: 100px; padding-top: 70px;">
             <table style="width: 100%;">
                 <tbody>
                     <tr v-for="(user, index) in users" :key="user.key"
@@ -226,7 +268,7 @@
                                 </div>
                                 <div style="grid-area: 1 / 4 / 2 / 5; position: relative;">
                                     <div style="position:absolute; right:0px; top: 55%;">
-                                        <button type="button">Block</button>
+                                        <button type="button" @click="block(user.key)">Block</button>
                                     </div>
                                 </div>
                             </div>
@@ -245,15 +287,22 @@
 
     <!-- Axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <!-- Vue.js implementation -->
-    <script slot="/WebProject/scripts/rest.js"></script>
 
     <script>
         let vue = new Vue({
             el :"#vue-users",
             data : {
                 users : [],
+                holder : [],
                 usersLoaded : false,
+                dialogOpened : false,
+                username : "",
+                password : "",
+                email : "",
+                firstName : "",
+                lastName : "",
+                message : "",
+                query : ""
             },
             methods : {
                 getUsers() {
@@ -268,9 +317,60 @@
                             console.log(error);
                         })
                 },
-                block() {
-                    alert("Blocking user... (demo)")
-                }},
+                openDialog() {
+                    vue.dialogOpened = true
+                },
+                closeDialog() {
+                    vue.dialogOpened = false
+                },
+                createHost() {
+                    vue.message = ""
+                    let account = {
+                        key : vue.username,
+                        password : vue.password,
+                        email : vue.email,
+                        person : {
+                            firstName : vue.firstName,
+                            lastName : vue.lastName
+                        } 
+                    }
+                    axios.post("/WebProject/data/users/", account)
+                        .then(response => {
+                            if (response.data) {
+                            vue.message = "Successfully created account."
+                            }
+                        })
+                        .catch(error => {
+                            if (error.data) {
+                                vue.message = error.data
+                            }
+                            else {
+                                vue.message = "Failed to update"
+                            }
+                        })
+                },
+                block(userKey) {
+                    alert("Blocking" + userKey)
+                },
+                search() {
+                    if (!vue.query) {
+                        Vue.set(vue, "users", vue.holder)
+                    }
+                    else {
+                        if (vue.holder.length == 0) {
+                            vue.holder = vue.users
+                        }
+                        Vue.set(vue, "users", new Array())
+                        Array.prototype.forEach.call(vue.holder, user => {
+                            if (user.key) {
+                                if (user.key.includes(vue.query)) {
+                                    vue.users.push(user)
+                                }
+                            }
+                        })
+                    }
+                }
+            },
                 beforeMount() {
                     this.getUsers()
                 }

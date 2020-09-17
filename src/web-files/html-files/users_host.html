@@ -196,7 +196,7 @@
         <!-- APARTMENT HEADER -->
         <div style="padding-top: 150px; width: 80%; margin: 0 auto; overflow: hidden;">
             <div style="float: right;">
-                <input placeholder="Search users..." type="text" style="width: 300px; height: 35px; padding-left: 5px; padding-right: 5px;">
+                <input placeholder="Search users..." type="text" v-on:keyup.enter="search" v-model="query" style="width: 300px; height: 35px; padding-left: 5px; padding-right: 5px;">
             </div>
         </div>
 
@@ -247,13 +247,15 @@
             el :"#vue-users",
             data : {
                 users : [],
+                holder : [],
                 usersLoaded : false,
                 reservations : [],
-                usersMap : {}
+                usersMap : {},
+                query : ""
             },
             methods : {
                 getUser(userID) {
-                    axios.get("/WebProject/data/users/" + userID)
+                    axios.get("/WebProject/data/users/id/" + userID)
                         .then(response => {
                             if (response.data) {
                                 vue.users.push(response.data);
@@ -278,7 +280,26 @@
                 },
                 block() {
                     alert("Blocking user... (demo)")
-                }},
+                },
+                search() {
+                    if (!vue.query) {
+                        Vue.set(vue, "users", vue.holder)
+                    }
+                    else {
+                        if (vue.holder.length == 0) {
+                            vue.holder = vue.users
+                        }
+                        Vue.set(vue, "users", new Array())
+                        Array.prototype.forEach.call(vue.holder, user => {
+                            if (user.key) {
+                                if (user.key.includes(vue.query)) {
+                                    vue.users.push(user)
+                                }
+                            }
+                        })
+                    }
+                }
+            },
                 beforeMount() {
                     this.getReservations()
                 },

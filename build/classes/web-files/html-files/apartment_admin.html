@@ -351,6 +351,15 @@
                             </div>
                         </div>
 
+                        <div class="data-row" style="margin-bottom: 60px;">
+                            <div v-for="amenity in apartment.amenities" :key="amenity.key">
+                                <div style="float:right; margin-right: 5px; margin-top: 5px; background-color: rgb(221, 221, 221); border-radius: 5px;
+                                    padding-top: 5px; padding-bottom: 5px; padding-left: 10px; padding-right: 10px;">
+                                    {{amenity.name}}    
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="data-row" style="margin-top: 100px;">
                             <div style="float: right;">
                                 <button class="button deactivate-button" @click="deleteApartment"> Delete </button>

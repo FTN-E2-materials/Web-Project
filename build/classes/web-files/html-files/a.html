@@ -11,33 +11,9 @@
    <!-- Google poppins font -->
    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 
-   <!-- Syncfusion calendar styles -->
-   <link href="https://cdn.syncfusion.com/ej2/ej2-base/styles/material.css" rel="stylesheet">
-   <link href="https://cdn.syncfusion.com/ej2/ej2-buttons/styles/material.css" rel="stylesheet">
-   <link href="https://cdn.syncfusion.com/ej2/ej2-calendars/styles/material.css" rel="stylesheet">
-
+   <!-- Font Awesome Icon Library (used for stars) -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    <style>
-      /* Bottom 3 are related to the syncfusion calendar style */
-      .container {
-         visibility: hidden;
-         max-width: 250px;
-         margin: 0 auto;
-      }
-
-      #loader {
-         color: #008cff;
-         height: 40px;
-         width: 30%;
-         position: absolute;
-         top: 45%;
-         left: 45%;
-      }
-
-      .element {
-         display: block;
-      }
-
-      /** Rest of the document */
       * {
          margin: 0px;
          padding: 0px;
@@ -46,6 +22,10 @@
 
       html {
          scroll-behavior: smooth;
+      }
+
+      body {
+         background: #ffffff;
       }
 
       /** Give all elements a transition and Poppins font */
@@ -71,6 +51,53 @@
 
       .wrapper {
          display: grid;
+      }
+
+      .table {
+         display: table;
+         background-color: #fafafa;
+         border-collapse: collapse;
+         width: 86%;
+         margin: 40px auto;
+
+         justify-content: space-evenly;
+      }
+
+      .row {
+         width: 100%;
+         background: #fafafa;
+         height: 50px;
+      }
+
+      .row:hover {
+         background-color: #ecf2fa;
+         cursor: pointer;
+      }
+
+      td {
+         padding-left: 12px;
+         min-width: auto;
+      }
+
+      .log-out {
+         padding-top: 8px;
+         padding-bottom: 8px;
+         padding-left: 30px;
+         padding-right: 30px;
+
+         background-color: rgb(202, 39, 39);
+         color: white;
+
+         border: none;
+         border-radius: 10px;
+
+         font-size: large;
+      }
+
+      .log-out:hover {
+         background-color: rgb(172, 34, 34);
+         padding-left: 35px;
+         padding-right: 35px;
       }
 
       .header {
@@ -103,62 +130,7 @@
          margin-right: 25px;
       }
 
-      .button {
-         padding-left: 15px;
-         padding-right: 15px;
-         padding-top: 6px;
-         padding-bottom: 6px;
 
-         border: none;
-         outline: 0;
-         border-radius: 5px;
-
-         text-align: center;
-      }
-
-      .button:hover {
-         padding-right: 18px;
-         padding-left: 18px;
-      }
-
-      .select-all-dates-button {
-         background-color: #e3165b;
-         color: white;
-      }
-
-      .select-all-dates-button:hover {
-         background-color: #b8144b;
-      }
-
-      .clear-all-button {
-         background-color: white;
-         color: gray;
-      }
-
-      .create-button {
-         float: right;
-         width: 35%;
-         height: 40%;
-
-         background-color: #009e00;
-         color: white;
-
-         margin: 0 auto;
-         margin-top: 50px;
-         margin-bottom: 40px;
-
-         outline: none;
-         border-style: solid;
-         border-radius: 10px;
-         border: none;
-
-         font-size: 16px;
-         font-family: "Poppins";
-      }
-
-      .create-button:hover {
-         background: rgb(10, 141, 10);
-      }
 
       .header-link:hover {
          color: white;
@@ -172,457 +144,157 @@
          font-weight: 600;
       }
 
-      .body {
-         margin: 8% auto;
-         display: grid;
-         background-color: #eeeeee;
-         padding: 35px;
-         border-radius: 20px;
+      .big-bold {
+         font-weight: bold;
+         font-size: 18px;
       }
 
-      body {
-         background: -webkit-linear-gradient(left, #3f97eb, #4fda42);
-         background: -o-linear-gradient(left, #3f97eb, #4fda42);
-         background: -moz-linear-gradient(left, #3f97eb, #4fda42);
-         background: linear-gradient(left, #3f97eb, #4fda42);
+      .column-left {
+         float: left;
       }
 
-      .content {}
+      .column-right {
+         float: right;
+      }
 
-      .content-row {
-         padding-bottom: 20px;
+      .column {
+         position: relative;
+      }
+
+      .error {
+         color: rgb(218, 49, 49);
+         font-size: medium;
+      }
+
+      .align-content-right {
+         text-align: right;
+         padding-top: 10px;
+         padding-right: 20px;
+      }
+
+      .align-content-left {
+         text-align: left;
+         padding-top: 10px;
+         padding-left: 20px;
       }
 
       input {
-         border: none;
-         height: 30px;
-         width: 200px;
-         border-radius: 5px;
-         text-decoration: none;
+         width : 90%;
          padding-left: 5px;
+         padding-right: 5px;
+         padding-top: 3px;
+         padding-bottom: 3px;
+         outline: none;
+         border-radius: 3px;
       }
 
-      .input-very-long {
-         width: 100%;
-      }
-
-      /* Long an short combine to fill out their parent width */
-      .input-long {
-         width: 72%;
-      }
-
-      .input-short {
-         width: 25%;
-      }
-
-      input:focus {
-         outline-width: 0;
-      }
-
-      .left-column {
-         float: left;
-         padding-right: 45px;
-      }
-
-      .right-column {
-         float: right;
-         padding-left: 45px;
-      }
-
-      .table {
-         display: table;
-         background-color: #fafafa;
-         border-collapse: collapse;
-         width: 80%;
-         margin: 0;
-         max-height: 600px;
-
-         justify-content: space-evenly;
-      }
-
-      .row:hover {
-         background-color: #d6ffd6;
-         cursor: pointer;
-      }
-
-      .row {
-         width: 100%;
-         background: #fafafa;
-         height: 50px;
-      }
-
-      td {
-         padding-left: 12px;
-         min-width: auto;
+      input:hover {
+         background-color: rgb(228, 228, 228);
       }
    </style>
-
-   <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
 
 </head>
 
 <body>
-   <div id="vue-create-apartment" class="wrapper">
+   <div id="vue" class="wrapper">
       <div class="header">
          <div><a href="http://localhost:8080/WebProject" class="header-title">FakeAirbnb
             </a></div><a href="http://localhost:8080/WebProject" class="header-title"></a>
          <div class="header-links"><a href="http://localhost:8080/WebProject" class="header-title"></a><a
-               href="http://localhost:8080/WebProject/" class="header-link header-link-active">Your apartments</a> <a
-               href="http://localhost:8080/WebProject/reservations"
-               class="header-link header-link-inactive">Reservations</a> <a
-               href="http://localhost:8080/WebProject/account" class="header-link header-link-inactive">Account</a>
-         </div>
+               href="http://localhost:8080/WebProject/" class="header-link header-link-inactive">Apartments</a> <a
+               href="http://localhost:8080/WebProject/reservations" class="header-link header-link-inactive">My
+               reservations</a> <a href="http://localhost:8080/WebProject/account"
+               class="header-link header-link-active">Account</a></div>
       </div>
-      <div class="body">
-         <div>
-            <h2>Create new apartment</h2>
-         </div>
-         <div class="content" style="margin-top: 50px;">
-            <div class="left-column">
-               <div class="content-row"><input type="text" placeholder="Name" class="input-very-long"></div>
-               <div class="content-row"><input type="text" placeholder="Number of guests"> <input type="text"
-                     placeholder="Number of rooms"></div>
-               <div class="content-row"><select name="type">
-                     <option value="Apartment">Apartment</option>
-                     <option value="Room">Room</option>
-                  </select></div>
-               <div class="content-row">
-                  <div><input type="text" placeholder="Check-in time"> <input type="text" placeholder="Check-out time">
-                  </div> <span style="font-size: 12px; margin-left: 65px; margin-top: 5px;">Default times are 10:00
-                     (check-in) and 12:00 (check-out)</span>
-               </div>
-               <div class="content-row"><input type="text" placeholder="Price for 1 night"> <span
-                     style="font-weight: 600; color: rgb(0, 158, 0);">$ </span></div>
-               <div class="content-row">
-                  <div>
-                     <p style="font-size: 13px; margin-left: 5px; margin-bottom: 3px;">Select up to 5 images</p>
-                     <input type="file" id="imagesToLoad" multiple="multiple" onchange="encodeImagesAsURL();">
-                  </div>
-                  <div style="width: 450px; height: 80px; background-color: #b1b1b1;">
-                     <img id="img1" style="float: left; height: 100%; width: 20%; object-fit: cover;">
-                     <img id="img2" style="float: left; height: 100%; width: 20%; object-fit: cover;">
-                     <img id="img3" style="float: left; height: 100%; width: 20%; object-fit: cover;">
-                     <img id="img4" style="float: left; height: 100%; width: 20%; object-fit: cover;">
-                     <img id="img5" style="float: left; height: 100%; width: 20%; object-fit: cover;">
-                  </div>
-               </div>
-               <div class="content-row" style="margin-top: 15px;">
-                  <p style="font-size: small;">Select available dates <br> (If left empty, default is the next 30
-                     days)</p>
-               </div>
-               <div class="content-row">
-                  <div id="container" class="container left-column" style="visibility: visible;">
-                     <div id="element" class="element e-control e-calendar e-lib e-keyboard" data-role="calendar"
-                        tabindex="0">
-                        <div class="e-header e-month">
-                           <div class="e-day e-title" aria-atomic="true" aria-live="assertive" aria-label="title">
-                              September 2020</div>
-                           <div class="e-icon-container"><button class="e-prev e-disabled e-overlay" type="button"
-                                 aria-disabled="true" aria-label="previous month"><span
-                                    class="e-date-icon-prev e-icons"></span></button><button class="e-next"
-                                 type="button" aria-disabled="false" aria-label="next month"><span
-                                    class="e-date-icon-next  e-icons"></span></button></div>
-                        </div>
-                        <div class="e-content e-month">
-                           <table tabindex="0" role="grid" aria-activedescendant="1600246622000_17">
-                              <thead class="e-week-header">
-                                 <tr>
-                                    <th class="">Su</th>
-                                    <th class="">Mo</th>
-                                    <th class="">Tu</th>
-                                    <th class="">We</th>
-                                    <th class="">Th</th>
-                                    <th class="">Fr</th>
-                                    <th class="">Sa</th>
-                                 </tr>
-                              </thead>
-                              <tbody class="">
-                                 <tr role="row">
-                                    <td class="e-cell e-disabled e-overlay e-other-month e-weekend" id="1598777822000_0"
-                                       aria-selected="false" role="gridcell"><span class="e-day">30</span></td>
-                                    <td class="e-cell e-disabled e-overlay e-other-month" id="1598864222000_1"
-                                       aria-selected="false" role="gridcell"><span class="e-day">31</span></td>
-                                    <td class="e-cell e-disabled e-overlay" id="1598950622000_2" aria-selected="false"
-                                       role="gridcell"><span class="e-day">1</span></td>
-                                    <td class="e-cell e-disabled e-overlay" id="1599037022000_3" aria-selected="false"
-                                       role="gridcell"><span class="e-day">2</span></td>
-                                    <td class="e-cell e-disabled e-overlay" id="1599123422000_4" aria-selected="false"
-                                       role="gridcell"><span class="e-day">3</span></td>
-                                    <td class="e-cell e-disabled e-overlay" id="1599209822000_5" aria-selected="false"
-                                       role="gridcell"><span class="e-day">4</span></td>
-                                    <td class="e-cell e-disabled e-overlay e-weekend" id="1599296222000_6"
-                                       aria-selected="false" role="gridcell"><span class="e-day">5</span></td>
-                                 </tr>
-                                 <tr role="row">
-                                    <td class="e-cell e-disabled e-overlay e-weekend" id="1599382622000_7"
-                                       aria-selected="false" role="gridcell"><span class="e-day">6</span></td>
-                                    <td class="e-cell e-disabled e-overlay" id="1599469022000_8" aria-selected="false"
-                                       role="gridcell"><span class="e-day">7</span></td>
-                                    <td class="e-cell e-disabled e-overlay" id="1599555422000_9" aria-selected="false"
-                                       role="gridcell"><span class="e-day">8</span></td>
-                                    <td class="e-cell e-disabled e-overlay" id="1599641822000_10" aria-selected="false"
-                                       role="gridcell"><span class="e-day">9</span></td>
-                                    <td class="e-cell e-disabled e-overlay" id="1599728222000_11" aria-selected="false"
-                                       role="gridcell"><span class="e-day">10</span></td>
-                                    <td class="e-cell e-disabled e-overlay" id="1599814622000_12" aria-selected="false"
-                                       role="gridcell"><span class="e-day">11</span></td>
-                                    <td class="e-cell e-disabled e-overlay e-weekend" id="1599901022000_13"
-                                       aria-selected="false" role="gridcell"><span class="e-day">12</span></td>
-                                 </tr>
-                                 <tr role="row">
-                                    <td class="e-cell e-disabled e-overlay e-weekend" id="1599987422000_14"
-                                       aria-selected="false" role="gridcell"><span class="e-day">13</span></td>
-                                    <td class="e-cell e-disabled e-overlay" id="1600073822000_15" aria-selected="false"
-                                       role="gridcell"><span class="e-day">14</span></td>
-                                    <td class="e-cell e-disabled e-overlay" id="1600160222000_16" aria-selected="false"
-                                       role="gridcell"><span class="e-day">15</span></td>
-                                    <td class="e-cell e-focused-date e-today" id="1600246622000_17"
-                                       aria-selected="false" role="gridcell" aria-label="Wednesday, September 16, 2020">
-                                       <span title="Wednesday, September 16, 2020" class="e-day">16</span></td>
-                                    <td class="e-cell" id="1600333022000_18" aria-selected="false" role="gridcell"><span
-                                          title="Thursday, September 17, 2020" class="e-day">17</span></td>
-                                    <td class="e-cell" id="1600419422000_19" aria-selected="false" role="gridcell"><span
-                                          title="Friday, September 18, 2020" class="e-day">18</span></td>
-                                    <td class="e-cell e-weekend" id="1600505822000_20" aria-selected="false"
-                                       role="gridcell"><span title="Saturday, September 19, 2020"
-                                          class="e-day">19</span></td>
-                                 </tr>
-                                 <tr role="row">
-                                    <td class="e-cell e-weekend" id="1600592222000_21" aria-selected="false"
-                                       role="gridcell"><span title="Sunday, September 20, 2020" class="e-day">20</span>
-                                    </td>
-                                    <td class="e-cell" id="1600678622000_22" aria-selected="false" role="gridcell"><span
-                                          title="Monday, September 21, 2020" class="e-day">21</span></td>
-                                    <td class="e-cell" id="1600765022000_23" aria-selected="false" role="gridcell"><span
-                                          title="Tuesday, September 22, 2020" class="e-day">22</span></td>
-                                    <td class="e-cell" id="1600851422000_24" aria-selected="false" role="gridcell"><span
-                                          title="Wednesday, September 23, 2020" class="e-day">23</span></td>
-                                    <td class="e-cell" id="1600937822000_25" aria-selected="false" role="gridcell"><span
-                                          title="Thursday, September 24, 2020" class="e-day">24</span></td>
-                                    <td class="e-cell" id="1601024222000_26" aria-selected="false" role="gridcell"><span
-                                          title="Friday, September 25, 2020" class="e-day">25</span></td>
-                                    <td class="e-cell e-weekend" id="1601110622000_27" aria-selected="false"
-                                       role="gridcell"><span title="Saturday, September 26, 2020"
-                                          class="e-day">26</span></td>
-                                 </tr>
-                                 <tr role="row">
-                                    <td class="e-cell e-weekend" id="1601197022000_28" aria-selected="false"
-                                       role="gridcell"><span title="Sunday, September 27, 2020" class="e-day">27</span>
-                                    </td>
-                                    <td class="e-cell" id="1601283422000_29" aria-selected="false" role="gridcell"><span
-                                          title="Monday, September 28, 2020" class="e-day">28</span></td>
-                                    <td class="e-cell" id="1601369822000_30" aria-selected="false" role="gridcell"><span
-                                          title="Tuesday, September 29, 2020" class="e-day">29</span></td>
-                                    <td class="e-cell" id="1601456222000_31" aria-selected="false" role="gridcell"><span
-                                          title="Wednesday, September 30, 2020" class="e-day">30</span></td>
-                                    <td class="e-cell e-other-month" id="1601542622000_32" aria-selected="false"
-                                       role="gridcell"><span title="Thursday, October 1, 2020" class="e-day">1</span>
-                                    </td>
-                                    <td class="e-cell e-other-month" id="1601629022000_33" aria-selected="false"
-                                       role="gridcell"><span title="Friday, October 2, 2020" class="e-day">2</span></td>
-                                    <td class="e-cell e-other-month e-weekend" id="1601715422000_34"
-                                       aria-selected="false" role="gridcell"><span title="Saturday, October 3, 2020"
-                                          class="e-day">3</span></td>
-                                 </tr>
-                                 <tr role="row" class="e-month-hide">
-                                    <td class="e-cell e-other-month e-weekend" id="1601801822000_35"
-                                       aria-selected="false" role="gridcell"><span title="Sunday, October 4, 2020"
-                                          class="e-day">4</span></td>
-                                    <td class="e-cell e-other-month" id="1601888222000_36" aria-selected="false"
-                                       role="gridcell"><span title="Monday, October 5, 2020" class="e-day">5</span></td>
-                                    <td class="e-cell e-other-month" id="1601974622000_37" aria-selected="false"
-                                       role="gridcell"><span title="Tuesday, October 6, 2020" class="e-day">6</span>
-                                    </td>
-                                    <td class="e-cell e-other-month" id="1602061022000_38" aria-selected="false"
-                                       role="gridcell"><span title="Wednesday, October 7, 2020" class="e-day">7</span>
-                                    </td>
-                                    <td class="e-cell e-other-month" id="1602147422000_39" aria-selected="false"
-                                       role="gridcell"><span title="Thursday, October 8, 2020" class="e-day">8</span>
-                                    </td>
-                                    <td class="e-cell e-other-month" id="1602233822000_40" aria-selected="false"
-                                       role="gridcell"><span title="Friday, October 9, 2020" class="e-day">9</span></td>
-                                    <td class="e-cell e-other-month e-weekend" id="1602320222000_41"
-                                       aria-selected="false" role="gridcell"><span title="Saturday, October 10, 2020"
-                                          class="e-day">10</span></td>
-                                 </tr>
-                              </tbody>
-                           </table>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="column-right"><button class="button select-all-dates-button">Select this month</button>
-                     <button class="button clear-all-button" style="margin-top: 15px;">Clear all</button></div>
-               </div>
+      <div><button type="button" class="log-out" style="margin-top: 100px; margin-left: 86%;">Log out</button></div>
+
+      <div style="margin:0 auto; margin-top: 150px; width: 35%; height: fit-content; background-color: rgb(228, 228, 228); border-radius: 5px;
+            display: grid;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 20px;
+            padding-right: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            grid-column-gap: 50px;
+            grid-row-gap: 20px;"> 
+
+            <div style="grid-area: 1 / 1 / 2 / 2;">
+               <input placeholder="Username" style="width: 90%;" v-model="username">
             </div>
-            <div class="right-column">
-               <div class="content-row"><input type="text" placeholder="Street name" class="input-long"> <input
-                     type="text" placeholder="Street no." class="input-short"></div>
-               <div class="content-row"><input type="text" placeholder="City"> <input type="text"
-                     placeholder="Postal code"></div>
-               <div class="content-row" style="padding-top: 20px;"><span>List of amenities:</span></div>
-               <div class="content-row">
-                  <table class="table">
-                     <tbody>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              Free parking
-                           </td>
-                        </tr>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              Wi-Fi
-                           </td>
-                        </tr>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              AC
-                           </td>
-                        </tr>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              Landline phone
-                           </td>
-                        </tr>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              Satellite TV
-                           </td>
-                        </tr>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              Fridge
-                           </td>
-                        </tr>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              Elevator
-                           </td>
-                        </tr>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              Baby crib
-                           </td>
-                        </tr>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              Central heating
-                           </td>
-                        </tr>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              Coffee maker
-                           </td>
-                        </tr>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              Iron
-                           </td>
-                        </tr>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              Dishwasher
-                           </td>
-                        </tr>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              Microwave
-                           </td>
-                        </tr>
-                        <tr class="row">
-                           <td style="overflow: hidden;">
-                              Refrigerator
-                           </td>
-                        </tr>
-                     </tbody>
-                  </table>
-               </div>
+            <div style="grid-area: 1 / 2 / 2 / 3;">
+               <input type="password" placeholder="Password" v-model="password">
             </div>
-         </div> <button type="button" class="create-button">Create</button>
+            <div style="grid-area: 2 / 1 / 3 / 2;">
+               <input placeholder="Email" v-model="email">
+            </div>
+            <div style="grid-area: 3 / 1 / 4 / 2;">
+               <input placeholder="First name" v-model="firstName"> 
+            </div>
+            <div style="grid-area: 3 / 2 / 4 / 3;">
+               <input placeholder="Last name" v-model="lastName">
+            </div>
+      </div>
+
+      <div style="margin: 0 auto; margin-top: 50px;">
+         <button class="button green-button" @click="update">Update</button>
+         <div style="margin-top: 30px;"> Success </span>
       </div>
    </div>
 
+
    <!-- Axios -->
    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-   <!-- Vue.js implementation -->
+   <!-- Vue.js implementation -->   
    <script>
-      var ele = document.getElementById('container');
-      if (ele) {
-         ele.style.visibility = "visible";
-      }   
-
-      // Load images as base64 strings
       let vue = new Vue({
-      el : "#vue-create-apartment",
-      data : {
-         base64_array : []
-      },
-      methods : {
-         uploadImage(base64) {
-            Array.prototype.forEach.call(vue.base64_array, base64_image => {
-               let img = { 
-                  base64_string : base64_image
-               }
-
-               axios.post("/WebProject/data/images", img)
-                  .then(response => {
-                     if (response.status == 200) {
-                        console.table(img)
-                     }
-                  }) 
-                  .catch(error => {
-                     console.log(error.data)
-                  })
-               })
+         el : "#vue",
+         data : {
+            username : "",
+            password : "",
+            email : "",
+            firstName : "",
+            lastName : "",
+            message : ""
          },
-         displayAvailableImages() {
-            if (vue.base64_array[0]) {
-               img1.src = vue.base64_array[0]
+         methods : {
+            getUser() { 
+               axios.get("/WebProject/data/users")
+                  .then(response => {
+                     if (response.data) {
+                        vue.username = response.data.key
+                        vue.password = response.data.password
+                        vue.email = response.data.email
+                        vue.firstName = response.data.person.firstName
+                        vue.lastName = response.data.person.lastName
+                     } 
+                  })
+            },
+            update() {
+               let account = {
+                  key : vue.username,
+                  password : vue.password,
+                  email : vue.email,
+                  person : {
+                     firstName : vue.firstName,
+                     lastName : vue.lastName
+                  } 
+               }
+               axios.post("/WebProject/data/users", account)
+                  .then(response => {
+                     if (response.data) {
+                        vue.message = "Successfully updated account."
+                     }
+                  })
+                  .catch(error => {
+                     vue.message = "Failed to update"
+                  })
             }
-            if (vue.base64_array[1]) {
-               img2.src = vue.base64_array[1]
-            }
-            if (vue.base64_array[2]) {
-               img3.src = vue.base64_array[2]
-            }
-            if (vue.base64_array[3]) {
-               img4.src = vue.base64_array[3]
-            }
-            if (vue.base64_array[4]) {
-               img5.src = vue.base64_array[4]
-            }
+         },
+         beforeMount() {
+            this.getUser()
          }
-      }
-   })
-
-   function toBase(file) {
-      return new Promise((resolve, reject) => {
-         let reader = new FileReader();
-         reader.onload = () => {
-            resolve(reader.result)
-         };
-         reader.readAsDataURL(file);
       })
-   }
-
-   function encodeImagesAsURL() {
-      vue.base64_array = new Array();     // Empty previously existing images
-
-      let filesSelected = document.getElementById("imagesToLoad").files;
-         if (filesSelected.length > 0) {
-            let promise = Promise.resolve();
-            Array.prototype.forEach.call(filesSelected, file => {
-               toBase(file).then(result => {
-                  vue.base64_array.push(result)
-                  vue.displayAvailableImages()
-               })
-            })
-         }
-   }
-   </script>
-   <!--<script src="http://localhost:8080/WebProject/scripts/create-apartment.js"></script>-->
-
-   <script>
-
    </script>
 
 

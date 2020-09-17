@@ -66,16 +66,14 @@ public class UserService extends BaseService implements UserServiceInterface {
 			return ForbiddenRequest();
 		if (session.isAdmin()) {
 			try {
-				if (host.type == TypeOfUser.HOST) {
+					host.type = TypeOfUser.HOST;
 					host.validate();
 					UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);
-
+	
 					UserAccount createdAccount = dao.create(host);
 					if (createdAccount == null)
 						throw new EntityValidationException("Host with that username already exists!");
 					return OK(createdAccount);
-				}
-				throw new EntityValidationException("You can only create a host.");
 			}
 			catch (EntityValidationException e) {
 				return BadRequest(e.message);
@@ -111,18 +109,33 @@ public class UserService extends BaseService implements UserServiceInterface {
 	}
 	
 	@GET
-	@Path("{userID}")
+	@Path("/id/{userID}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getByID(@PathParam("userID") String userID, @Context HttpServletRequest request) {
 		SessionToken session = getCurrentSession(request);
 		if (session == null)
 			return ForbiddenRequest();
-		if (session.isHost() || session.isAdmin()) {
+		if (session.isGuest())
+			return ForbiddenRequest();
+		
+		UserDAO dao = (UserDAO)ctx.getAttribute(Config.userDatabaseString);
+		return OK(dao.getByKey(userID));
+	}
+	
+	@GET
+	@Path("/self")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getSelf(@Context HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isHost()) {
 			UserDAO dao = (UserDAO)ctx.getAttribute(Config.userDatabaseString);
-			UserAccount user = dao.getByKey(userID);
-			if (user == null)
-				return BadRequest("User with id = " + userID + " not found.");
-			return OK(user);
+			return OK(dao.getByKey(session.getUserID()));
+		}
+		if (session.isGuest()) {
+			UserDAO dao = (UserDAO)ctx.getAttribute(Config.userDatabaseString);
+			return OK(dao.getByKey(session.getUserID()));
 		}
 		return ForbiddenRequest();
 	}
@@ -135,13 +148,20 @@ public class UserService extends BaseService implements UserServiceInterface {
 		
 		if (session == null)
 			return ForbiddenRequest();
-		if (!session.getUserID().equals(updatedAccount.key)) // Only the owner of the account can change the data 
-			return ForbiddenRequest();
+		
 		try { updatedAccount.validate(); }
-			catch (IllegalArgumentException ex) {
-				System.out.println("Attempt to update an account with invalid field values.");
-				return BadRequest();
-			}
+		catch (IllegalArgumentException ex) {
+			System.out.println("Attempt to update an account with invalid field values.");
+			return BadRequest();
+		}
+		
+		if (!session.getUserID().equals(updatedAccount.key)) {// Only the owner of the account can change the data 
+			System.out.println("Attempt from " + session.getUserID() + " to update " + updatedAccount.key);
+			return ForbiddenRequest();
+		}
+		
+		if (session.isGuest()) updatedAccount.type = TypeOfUser.GUEST;
+		else if (session.isHost()) updatedAccount.type = TypeOfUser.HOST;
 		
 		UserDAO dao = (UserDAO)ctx.getAttribute(Config.userDatabaseString);
 		return OK(dao.update(updatedAccount));
