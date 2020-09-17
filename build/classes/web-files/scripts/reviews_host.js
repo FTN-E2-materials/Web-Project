@@ -20,7 +20,7 @@ let vue = new Vue({
                     }
                 })
                 .catch (error => {
-                    console.log(error);
+                    alert(error.response.data)
                 })
         },
         getApartment : function() {
@@ -60,7 +60,7 @@ let vue = new Vue({
                     }
                 })
                 .catch(error => {
-                    alert(error.data);
+                    alert(error.response.data)
                 })
         },
         show : function(reviewID, index) {
@@ -74,7 +74,7 @@ let vue = new Vue({
                     }
                 })
                 .catch(error => {
-                    alert(error.data);
+                    alert(error.response.data)
                 })
         }
     },

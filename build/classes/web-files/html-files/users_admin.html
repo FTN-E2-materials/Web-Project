@@ -266,7 +266,8 @@
                                 </div>
                                 <div style="grid-area: 1 / 4 / 2 / 5; position: relative;">
                                     <div style="position:absolute; right:0px; top: 55%;">
-                                        <button type="button" @click="block(user.key)">Block</button>
+                                        <button v-if="!user.isBlocked" type="button" @click="block(user.key, index)">Block</button>
+                                        <button v-else type="button" @click="unblock(user.key, index)">Unblock</button>
                                     </div>
                                 </div>
                             </div>
@@ -312,7 +313,7 @@
                             }
                         })
                         .catch (error => {
-                            console.log(error);
+                            console.log(error.response.data);
                         })
                 },
                 openDialog() {
@@ -335,7 +336,8 @@
                     axios.post("/WebProject/data/users/", account)
                         .then(response => {
                             if (response.data) {
-                            vue.message = "Successfully created account."
+                                vue.message = "Successfully created account."
+                                vue.users.splice(1, 0, response.data);
                             }
                         })
                         .catch(error => {
@@ -343,12 +345,41 @@
                                 vue.message = error.data
                             }
                             else {
-                                vue.message = "Failed to update"
+                                vue.message = "Failed to create host"
                             }
                         })
                 },
-                block(userKey) {
-                    alert("Blocking" + userKey)
+                block(userKey, index) {
+                    if (userKey) {
+                        let wrapper = {
+                            stringKey : userKey
+                        }
+                        axios.put("/WebProject/data/users/block", wrapper)
+                            .then(response => {
+                                if (response.status === 200) {
+                                    vue.users[index].isBlocked = true
+                                }
+                            })
+                            .catch(error => {
+                                alert(error.response.data)
+                            })
+                    }
+                },
+                unblock(userKey, index) {
+                    if (userKey) {
+                        let wrapper = {
+                            stringKey : userKey
+                        }
+                        axios.put("/WebProject/data/users/unblock", wrapper)
+                            .then(response => {
+                                if (response.status === 200) {
+                                    vue.users[index].isBlocked = false
+                                }
+                            })
+                            .catch(error => {
+                                alert(error.response.data)
+                            })
+                    }
                 },
                 search() {
                     if (!vue.query) {

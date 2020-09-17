@@ -23,6 +23,7 @@ import services.templates.BaseService;
 import storage.Storage;
 import util.Config;
 import util.exceptions.EntityValidationException;
+import util.wrappers.RequestWrapper;
 
 
 @Path(Config.USERS_SERVICE_PATH)
@@ -165,6 +166,68 @@ public class UserService extends BaseService implements UserServiceInterface {
 		
 		UserDAO dao = (UserDAO)ctx.getAttribute(Config.userDatabaseString);
 		return OK(dao.update(updatedAccount));
+	}
+	
+	@PUT
+	@Path("/block")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response blockUser(RequestWrapper wrapper, @Context HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isAdmin()) {
+			try {
+				if (wrapper == null)
+					throw new EntityValidationException("Invalid wrapper.");
+				if (wrapper.stringKey == null)
+					throw new EntityValidationException("Invalid user id");
+				UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);
+				UserAccount user = dao.getByKey(wrapper.stringKey);
+				if (user == null)
+					throw new EntityValidationException("This user does not exist.");
+				if (user.type == TypeOfUser.ADMINISTRATOR)
+					throw new EntityValidationException("You cannot block an administrator.");
+				user.isBlocked = true;
+				dao.forceUpdate();
+				return OK(user);
+			}
+			catch(EntityValidationException e) {
+				return BadRequest(e.message);
+			}
+		}
+		
+		return ForbiddenRequest();
+	}
+	
+	@PUT
+	@Path("/unblock")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response unblockUser(RequestWrapper wrapper, @Context HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isAdmin()) {
+			try {
+				if (wrapper == null)
+					throw new EntityValidationException("Invalid wrapper.");
+				if (wrapper.stringKey == null)
+					throw new EntityValidationException("Invalid user id");
+				UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);
+				UserAccount user = dao.getByKey(wrapper.stringKey);
+				if (user == null)
+					throw new EntityValidationException("This user does not exist.");
+				user.isBlocked = false;
+				dao.forceUpdate();
+				return OK(user);
+			}
+			catch(EntityValidationException e) {
+				return BadRequest(e.message);
+			}
+		}
+		
+		return ForbiddenRequest();
 	}
 	
 }

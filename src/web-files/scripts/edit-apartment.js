@@ -154,7 +154,7 @@ let vue = new Vue({
                         .then(() => {
                             window.location.href = "/WebProject"
                         })
-                        .catch(error => console.log(error.data))
+                        .catch(error => alert(error.response.data))
                 })
             }
             else {
@@ -163,7 +163,7 @@ let vue = new Vue({
                 .then(() => {
                     window.location.href = "/WebProject"
                 })
-                .catch(error => console.log(error.data))
+                .catch(error => alert(error.response.data))
             }
         },
         selectAll : function() {

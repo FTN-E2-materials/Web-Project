@@ -29,8 +29,8 @@ new Vue({
                         // Potentially redundant? 
                     }
                 })
-                .catch(function() {
-                    alert("Login failed.")
+                .catch(error => {
+                    alert(error.response.data)
                 })
         },
     } 

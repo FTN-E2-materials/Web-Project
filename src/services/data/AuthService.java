@@ -80,9 +80,11 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 		UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);
 		UserAccount account = dao.getByKey(username);
 		if (account == null)
-			return AuthFailed("Account " + username + " does not exist!");
+			return BadRequest("Account " + username + " does not exist!");
+		if (account.isBlocked)
+			return BadRequest("Your account has been blocked");
 		if (!account.password.contentEquals(password))
-			return AuthFailed("Incorrect password!");
+			return BadRequest("Incorrect password!");
 		
 		System.out.println("Login successful for account: " + username);
 		super.createSession(account, request);

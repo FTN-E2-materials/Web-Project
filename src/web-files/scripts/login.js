@@ -1,30 +1,29 @@
-new Vue({
+let vue = new Vue({
     el :"#vue-login",
     data : {
         username : "", 
         password : "",
         errorMsgDisplay : "",
-        errorMsg : "Incorrect email or password!"
+        message : ""
     },
     methods : {
         login : function() {
-            let reqWrapper = {
+            let wrapper = {
                 stringArgs : [
                     this.username, 
                     this.password
                 ]
             };
-            axios.post("http://localhost:8080/WebProject/data/auth/login", reqWrapper)
+            console.log("Attempting login")
+            axios.post("http://localhost:8080/WebProject/data/auth/login", wrapper)
                 .then(function(response) {
                     if (response.status === 200) {// success
                         window.location.replace("http://localhost:8080/WebProject/")
                     }
-                    else {
-                        // Potentially redundant? 
-                    }
                 })
-                .catch(function() {
-                    alert("Login failed.")
+                .catch(error => {
+                    alert(error.response.data)
+                    vue.message = error.response.data
                 })
         },
     } 

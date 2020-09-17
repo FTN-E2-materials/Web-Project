@@ -29,7 +29,7 @@ let vue = new Vue({
                     }
                 })
                 .catch(error => {
-                    alert(error.data)
+                    alert(error.response.data)
                 })
         },
         getReviews : function() {
@@ -44,7 +44,7 @@ let vue = new Vue({
                     }
                 })
                 .catch (error => {
-                    console.log(error);
+                    alert(error.response.data)
                 })
         },
         getApartment : function() {
@@ -67,7 +67,7 @@ let vue = new Vue({
                     }
                 })
                 .catch (error => {
-                    console.log(error);
+                    alert(error.response.data)
                 })
         },
         getImage : function(imageID) {
@@ -88,7 +88,7 @@ let vue = new Vue({
                     }
                 })
                 .catch (error => {
-                    console.log(error.data)
+                    alert(error.response.data)
                     Vue.set(vue, "qualifiedForReview", false)
                 })
         },

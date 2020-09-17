@@ -34,7 +34,7 @@ let vue = new Vue({
                     }
                 })
                 .catch (error => {
-                    console.log(error);
+                    alert(error.response.data)
                 })
         },
         goToApartment : function(apartmentID) {
@@ -58,7 +58,7 @@ let vue = new Vue({
                     }
                 })
                 .catch (error => {
-                    console.log(error);
+                    alert(error.response.data)
                 })
         },
         approve : function(reservationID, index) {
@@ -73,7 +73,7 @@ let vue = new Vue({
                     }
                 })
                 .catch (error => {
-                    console.log(error);
+                    alert(error.response.data)
                 })
         },
         finish : function(reservationID, index) {
@@ -88,7 +88,7 @@ let vue = new Vue({
                     }
                 })
                 .catch (error => {
-                    console.log(error);
+                    alert(error.response.data)
                 })
         }
     },

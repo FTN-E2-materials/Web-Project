@@ -112,7 +112,7 @@ let vue = new Vue({
                     }
                 })
                 .catch(error => {
-                    console.log(error.response.data)
+                    alert(error.response.data)
                 })
         },
         clearFilters : function() {

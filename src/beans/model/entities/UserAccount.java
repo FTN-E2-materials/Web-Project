@@ -12,9 +12,11 @@ public class UserAccount extends DatabaseEntity implements SessionToken {
    public Person person;
    public String email;
    public TypeOfUser type = TypeOfUser.GUEST;
+   public Boolean isBlocked;
    
    public UserAccount() {
 	   isCountable = false;
+	   isBlocked = false;
    }
    
    @Override 
