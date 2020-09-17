@@ -13,7 +13,7 @@ import beans.interfaces.SessionToken;
 import services.interfaces.util.HttpResponseHandler;
 import services.interfaces.util.SessionTracker;
 import util.Config;
-import util.services.HTMLService;
+import util.services.HtmlService;
 import util.services.ScriptService;
 
 /** Abstract class for page navigation services. Implements the session tracker methods for tracking
@@ -73,13 +73,13 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 		SessionToken session = getCurrentSession(request);
 		
 		if (session == null)
-			return OK(HTMLService.getInstance().getSingleApartmentPageGuest());
+			return OK(HtmlService.getInstance().getPage("apartment_guest.html"));
 		if (session.isGuest())
-			return OK(HTMLService.getInstance().getSingleApartmentPageGuest());
+			return OK(HtmlService.getInstance().getPage("apartment_guest.html"));
 		if (session.isHost())
-			return OK(HTMLService.getInstance().getSingleApartmentPageHost());
+			return OK(HtmlService.getInstance().getPage("apartment_host.html"));
 		if (session.isAdmin())
-			return OK(HTMLService.getInstance().getSingleApartmentPageAdmin());
+			return OK(HtmlService.getInstance().getPage("apartment_admin.html"));
 		
 		return ForbiddenRequest();
 	}
@@ -95,9 +95,9 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 		if (session.isGuest())
 			return ForbiddenRequest();
 		if (session.isHost())
-			return OK(HTMLService.getInstance().getEditApartmentPage());
+			return OK(HtmlService.getInstance().getPage("edit_apartment.html"));
 		if (session.isAdmin())
-			return OK(HTMLService.getInstance().getEditApartmentAdminPage());
+			return OK(HtmlService.getInstance().getPage("edit_apartment_admin.html"));
 		
 		return ForbiddenRequest();
 	}
@@ -108,13 +108,13 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 	public Response Reviews(@PathParam("apartmentID") String apartmentID, @Context HttpServletRequest request) {
 		SessionToken session = getCurrentSession(request);
 		if (session == null)
-			return OK(HTMLService.getInstance().getReviewsForGuestPage());
+			return OK(HtmlService.getInstance().getPage("reviews_guest.html"));
 		if (session.isGuest())
-			return OK(HTMLService.getInstance().getReviewsForGuestPage());
+			return OK(HtmlService.getInstance().getPage("reviews_guest.html"));
 		if (session.isAdmin())
-			return OK(HTMLService.getInstance().getReviewsForAdminPage());
+			return OK(HtmlService.getInstance().getPage("reviews_admin.html"));
 		if (session.isHost())
-			return OK(HTMLService.getInstance().getReviewsForHostPage());
+			return OK(HtmlService.getInstance().getPage("reviews_host.html"));
 		
 		return ForbiddenRequest();
 	}
@@ -124,7 +124,7 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 //______________________
 	private Response LandingPage(HttpServletRequest request) {
 		if (!isLoggedIn(request)) 
-			return OK(HTMLService.getInstance().getLandingPage());
+			return OK(HtmlService.getInstance().getPage("index.html"));
 		
 		return HomePage(request);
 	}
@@ -133,13 +133,13 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 		SessionToken session = getCurrentSession(request);
 		
 		if (session.isGuest()) {
-			return OK(HTMLService.getInstance().getGuestHomePage());
+			return OK(HtmlService.getInstance().getPage("guest_home.html"));
 		}
 		if (session.isHost()) {
-			return OK(HTMLService.getInstance().getHostHomePage());
+			return OK(HtmlService.getInstance().getPage("host_home.html"));
 		}
 		if (session.isAdmin()) {
-			return OK(HTMLService.getInstance().getAdminHomePage());
+			return OK(HtmlService.getInstance().getPage("admin_home.html"));
 		}
 		
 		return ForbiddenRequest();
@@ -147,14 +147,14 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 	
 	private Response LoginPage(HttpServletRequest request) {
 		if (!isLoggedIn(request))
-			return OK(HTMLService.getInstance().getLoginPage());
+			return OK(HtmlService.getInstance().getPage("login.html"));
 
 		return Redirect("http://localhost:8080/WebProject");
 	}
 	
 	private Response RegistrationPage(HttpServletRequest request) {
 		if (!isLoggedIn(request)) 
-			return OK(HTMLService.getInstance().getRegistrationPage());
+			return OK(HtmlService.getInstance().getPage("registration.html"));
 		
 		return Redirect("http://localhost:8080/WebProject");
 	}
@@ -165,7 +165,7 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 		if (session == null)
 			return ForbiddenRequest();
 		if (session.isHost())
-			return OK(HTMLService.getInstance().getCreateApartmentPage());
+			return OK(HtmlService.getInstance().getPage("create_apartment.html"));
 		
 		return ForbiddenRequest();
 	}
@@ -176,9 +176,9 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 		if (session == null)
 			return ForbiddenRequest();
 		if (session.isGuest())
-			return OK(HTMLService.getInstance().getGuestAccountPage());
+			return OK(HtmlService.getInstance().getPage("guest_account.html"));
 		if (session.isHost())
-			return OK(HTMLService.getInstance().getHostAccountPage());
+			return OK(HtmlService.getInstance().getPage("host_account.html"));
 		
 		return ForbiddenRequest();
 	}
@@ -189,11 +189,11 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 		if (session == null)
 			return ForbiddenRequest();
 		if (session.isGuest())
-			return OK(HTMLService.getInstance().getReservationsPageGuest());
+			return OK(HtmlService.getInstance().getPage("reservations_guest.html"));
 		if (session.isHost())
-			return OK(HTMLService.getInstance().getReservationsPageHost());
+			return OK(HtmlService.getInstance().getPage("reservations_host.html"));
 		if (session.isAdmin())
-			return OK(HTMLService.getInstance().getReservationsPageAdmin());
+			return OK(HtmlService.getInstance().getPage("reservations_admin.html"));
 		
 		return ForbiddenRequest();
 	}
@@ -204,14 +204,14 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 		if (session == null)
 			return ForbiddenRequest();
 		if (session.isAdmin())
-			return OK(HTMLService.getInstance().getUsersPageAdmin());
+			return OK(HtmlService.getInstance().getPage("users_admin.html"));
 		if (session.isHost()) 
-			return OK(HTMLService.getInstance().getUsersPageHost());
+			return OK(HtmlService.getInstance().getPage("users_host.html"));
 					
 		return ForbiddenRequest();
 	}
 	
 	private Response TestPage() {
-		return OK(HTMLService.getInstance().getTestPage());
+		return OK(HtmlService.getInstance().getPage("test.html"));
 	}
 }
