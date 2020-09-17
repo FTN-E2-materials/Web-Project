@@ -28,6 +28,7 @@ import services.interfaces.rest.ReservationServiceInterface;
 import services.templates.CRUDService;
 import storage.Storage;
 import util.Config;
+import util.DateRange;
 import util.exceptions.BaseException;
 import util.services.SchedulingService;
 import util.wrappers.RequestWrapper;
@@ -87,6 +88,12 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 			try {
 				reservation.validate();
 				SchedulingService.getInstance(ctx).applyDateChanges(reservation);
+				
+				// Check if weekend or holiday
+				if (isDuringWeekend(reservation))
+					reservation.price *= 0.9;
+				if (isDuringHoliday(reservation)) 
+					reservation.price *= 1.1;
 				
 				Reservation createdRes = super.create(reservation);
 				if (createdRes == null)
@@ -276,5 +283,19 @@ public class ReservationService extends CRUDService<Reservation, ReservationDAO>
 		}
 		
 		return ForbiddenRequest();
+	}
+	
+	private boolean isDuringWeekend(Reservation reservation) {
+		Date start = reservation.startingDate;
+		Date end = new Date(start);
+		end.addDays(reservation.numberOfNights);
+		
+		DateRange range = new DateRange(start, end);
+		
+		return range.isOnWeekend();
+	}
+	
+	private boolean isDuringHoliday(Reservation reservation) {
+		return false;
 	}
 }
