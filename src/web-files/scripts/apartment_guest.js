@@ -9,28 +9,31 @@ let vue = new Vue({
         numberOfNights : 1,
         reservationMessage : "",
         calendarRendered : false,
-        apartmentImage : ""
+        apartmentImages : []
     },
     methods : {
         loadData : function() {
             let addressBarTokens = window.location.href.split("/");
             let apartmentID = addressBarTokens[addressBarTokens.length-1];
 
-            this.getApartment(apartmentID)
+            rest.getApartment(apartmentID)
                 .then(function(response) {
-                    if (response.status == 200) {
+                    if (response.data) {
                         Vue.set(vue, "apartment", response.data);
                         Vue.set(vue, "apartmentLoaded", true);
 
-                        vue.getImage(response.data.mainImage)
-                            .then(response => {
-                                if (response.status == 200) {
-                                    vue.apartmentImage = response.data.base64_string
-                                }
-                            })
-
+                        // Calendar available dates
                         response.data.availableDates.forEach(date => {
                             vue.availableDates.push(new Date(date.calendar))
+                        })
+
+                        Array.prototype.forEach.call(vue.apartment.images, imageID => {
+                            rest.getImage(imageID)
+                            .then(response => {
+                                if (response.data) {
+                                    vue.apartmentImages.push(response.data.base64_string);
+                                }
+                            })
                         })
                     }
                 })
@@ -77,6 +80,20 @@ let vue = new Vue({
                 .catch(error => {
                     console.log(error)
                 })
+        },
+        swapPhotos(smallImageID) {
+            let smallImage = document.getElementById(smallImageID);
+            let bigImage = document.getElementById("img1");
+
+            
+            if (smallImage.src  &&  bigImage.src) {
+                let tmp = bigImage.src
+                bigImage.src = smallImage.src
+                smallImage.src = tmp
+            }
+            else {
+                console.log("Cannot swap an empty image")
+            }
         },
         hideCalendar : function() {
             Vue.set(vue, "calendarVisible", false);

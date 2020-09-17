@@ -243,6 +243,7 @@
 
         img {
             opacity: 0.8;
+            object-fit: cover;
         }
 
         img:hover {
@@ -289,7 +290,15 @@
             </div>
             <div class="body" v-if="apartmentLoaded">
                 <div class="column-left" style="width: 45%;">
-                    <img style="width: 100%;" :src="apartmentImage">
+                    <div style="width: 100%; height: 70%;">
+                        <img id="img1" style="width: 100%;" :src="apartmentImages[0]">
+                    </div>
+                    <div style="width: 100%; height: 200px;">
+                        <img id="img2" style="width: 25%; height: 100%; float: left;" :src="apartmentImages[1]" @click="swapPhotos('img2')">
+                        <img id="img3" style="width: 25%; height: 100%; float: left;" :src="apartmentImages[2]" @click="swapPhotos('img3')">
+                        <img id="img4" style="width: 25%; height: 100%; float: left;" :src="apartmentImages[3]" @click="swapPhotos('img4')">
+                        <img id="img5" style="width: 25%; height: 100%; float: left;" :src="apartmentImages[4]" @click="swapPhotos('img5')">
+                    </div>
                 </div>
                 <div class="column-right align-content-right" style="max-width: 55%; min-width:50%; width: fit-content; padding: 5%; padding-left: 8%; padding-top: 3%;">
                     <div style="width: 100%">
@@ -389,6 +398,73 @@
 
         <!-- Vue.js implementation -->
         <script src="/WebProject/scripts/rest.js"></script>  
-        <script src="/WebProject/scripts/apartment-admin.js"></script>
+        <script type="text/javascript">
+            let vue = new Vue({
+                el :"#vue-apartment",
+                data : {
+                    apartment : {},
+                    apartmentLoaded : false,
+                    apartmentImages : [],
+                    deletionMessage : ""
+                },
+                methods : {
+                    loadData : function() {
+                        let addressBarTokens = window.location.href.split("/");
+                        let apartmentID = addressBarTokens[addressBarTokens.length-1];
+
+                        rest.getApartment(apartmentID)
+                            .then(function(response) {
+                                if (response.data) {
+                                    Vue.set(vue, "apartment", response.data);
+                                    Vue.set(vue, "apartmentLoaded", true);
+
+                                    Array.prototype.forEach.call(vue.apartment.images, imageID => {
+                                        rest.getImage(imageID)
+                                        .then(response => {
+                                            if (response.data) {
+                                                vue.apartmentImages.push(response.data.base64_string);
+                                            }
+                                        })
+                                    })
+                                }
+                            })
+                    }, 
+                    edit : function() {
+                        window.location.href = "http://localhost:8080/WebProject/apartments/edit/" + vue.apartment.key;
+                    },
+                    goToReviews : function() {
+                        window.location.href = "/WebProject/reviews/" + vue.apartment.key
+                    },
+                    deleteApartment : function() { 
+                        let apartmentID = vue.apartment.key
+                        rest.deleteApartment({
+                            stringKey : apartmentID
+                        })
+                        .then(response => {
+                            if (response.data) {
+                                vue.deletionMessage = "This apartment has been successfully deleted."
+                            }
+                        })
+                    },
+                    swapPhotos(smallImageID) {
+                        let smallImage = document.getElementById(smallImageID);
+                        let bigImage = document.getElementById("img1");
+
+                        
+                        if (smallImage.src  &&  bigImage.src) {
+                            let tmp = bigImage.src
+                            bigImage.src = smallImage.src
+                            smallImage.src = tmp
+                        }
+                        else {
+                            console.log("Cannot swap an empty image")
+                        }
+                    }
+                },
+                beforeMount() {
+                    this.loadData();
+                }
+            });
+        </script>
     </body>
 </html>

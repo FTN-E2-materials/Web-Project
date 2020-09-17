@@ -3,25 +3,27 @@ let vue = new Vue({
     data : {
         apartment : {},
         apartmentLoaded : false,
-        apartmentImage : ""
+        apartmentImages : []
     },
     methods : {
         loadData : function() {
             let addressBarTokens = window.location.href.split("/");
             let apartmentID = addressBarTokens[addressBarTokens.length-1];
 
-            this.getApartment(apartmentID)
+            rest.getApartment(apartmentID)
                 .then(function(response) {
                     if (response.data) {
                         Vue.set(vue, "apartment", response.data);
                         Vue.set(vue, "apartmentLoaded", true);
 
-                        vue.getImage(response.data.mainImage)
+                        Array.prototype.forEach.call(vue.apartment.images, imageID => {
+                            rest.getImage(imageID)
                             .then(response => {
                                 if (response.data) {
-                                    vue.apartmentImage = response.data.base64_string;
+                                    vue.apartmentImages.push(response.data.base64_string);
                                 }
                             })
+                        })
                     }
                 })
         },
@@ -44,6 +46,20 @@ let vue = new Vue({
                         alert("Failed to activate apartment.");
                     }
                 })
+        },
+        swapPhotos(smallImageID) {
+            let smallImage = document.getElementById(smallImageID);
+            let bigImage = document.getElementById("img1");
+
+            
+            if (smallImage.src  &&  bigImage.src) {
+                let tmp = bigImage.src
+                bigImage.src = smallImage.src
+                smallImage.src = tmp
+            }
+            else {
+                console.log("Cannot swap an empty image")
+            }
         },
         deactivate : function() {
             let requestWrapper = {

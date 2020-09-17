@@ -243,6 +243,7 @@
 
         img {
             opacity: 0.8;
+            object-fit: cover;
         }
 
         img:hover {
@@ -295,7 +296,15 @@
             </div>
             <div class="body" v-if="apartmentLoaded">
                 <div class="column-left" style="width: 45%;">
-                    <img style="width: 100%;" :src="apartmentImage">
+                    <div style="width: 100%; height: 70%;">
+                        <img id="img1" style="width: 100%;" :src="apartmentImages[0]">
+                    </div>
+                    <div style="width: 100%; height: 200px;">
+                        <img id="img2" style="width: 25%; height: 100%; float: left;" :src="apartmentImages[1]" @click="swapPhotos('img2')">
+                        <img id="img3" style="width: 25%; height: 100%; float: left;" :src="apartmentImages[2]" @click="swapPhotos('img3')">
+                        <img id="img4" style="width: 25%; height: 100%; float: left;" :src="apartmentImages[3]" @click="swapPhotos('img4')">
+                        <img id="img5" style="width: 25%; height: 100%; float: left;" :src="apartmentImages[4]" @click="swapPhotos('img5')">
+                    </div>
                 </div>
                 <div class="column-right align-content-right" style="max-width: 55%; min-width:50%; width: fit-content; padding: 5%; padding-left: 8%; padding-top: 3%;">
                     <div style="width: 100%">
@@ -403,7 +412,8 @@
                 </div>
             </div>
         </div>
-
+        <!-- Rest shorthand methods with axios -->
+        <script src="/WebProject/scripts/rest.js"></script> 
         <script>
             var ele = document.getElementById('container');
             if(ele) {
