@@ -47,6 +47,8 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 				return AccountPage(request);
 			case Config.RESERVATIONS_PAGE_PATH:
 				return ReservationsPage(request);
+			case "users":
+				return UsersPage(request);
 			case "test":
 				return TestPage();
 			default:
@@ -74,8 +76,12 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 			return OK(HTMLService.getInstance().getSingleApartmentPageGuest());
 		if (session.isGuest())
 			return OK(HTMLService.getInstance().getSingleApartmentPageGuest());
+		if (session.isHost())
+			return OK(HTMLService.getInstance().getSingleApartmentPageHost());
+		if (session.isAdmin())
+			return OK(HTMLService.getInstance().getSingleApartmentPageAdmin());
 		
-		return OK(HTMLService.getInstance().getSingleApartmentPageHost());
+		return ForbiddenRequest();
 	}
 	
 	@GET 
@@ -88,8 +94,12 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 			return ForbiddenRequest();
 		if (session.isGuest())
 			return ForbiddenRequest();
+		if (session.isHost())
+			return OK(HTMLService.getInstance().getEditApartmentPage());
+		if (session.isAdmin())
+			return OK(HTMLService.getInstance().getEditApartmentAdminPage());
 		
-		return OK(HTMLService.getInstance().getEditApartmentPage());
+		return ForbiddenRequest();
 	}
 	
 	@GET
@@ -101,8 +111,12 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 			return OK(HTMLService.getInstance().getReviewsForGuestPage());
 		if (session.isGuest())
 			return OK(HTMLService.getInstance().getReviewsForGuestPage());
+		if (session.isAdmin())
+			return OK(HTMLService.getInstance().getReviewsForAdminPage());
+		if (session.isHost())
+			return OK(HTMLService.getInstance().getReviewsForHostPage());
 		
-		return OK(HTMLService.getInstance().getReviewsForHostPage());
+		return ForbiddenRequest();
 	}
 	
 	
@@ -181,6 +195,19 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 		if (session.isAdmin())
 			return OK(HTMLService.getInstance().getReservationsPageAdmin());
 		
+		return ForbiddenRequest();
+	}
+	
+	private Response UsersPage(HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isAdmin())
+			return OK(HTMLService.getInstance().getUsersPageAdmin());
+		if (session.isHost()) 
+			return OK(HTMLService.getInstance().getUsersPageHost());
+					
 		return ForbiddenRequest();
 	}
 	

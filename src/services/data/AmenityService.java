@@ -116,7 +116,8 @@ public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements 
 		return NotAllowed();
 	}
 
-	@DELETE
+	@POST
+	@Path("/delete")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override

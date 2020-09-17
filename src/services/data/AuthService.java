@@ -72,9 +72,9 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 		String username = loginInfo.stringArgs.get(0);
 		String password = loginInfo.stringArgs.get(1);
 		
-		if (username.length() < 6)
+		if (username.length() < 4)
 			return BadRequest("Username too short.");
-		if (password.length() < 6)
+		if (password.length() < 4)
 			return BadRequest("Password too short.");
 		
 		UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);

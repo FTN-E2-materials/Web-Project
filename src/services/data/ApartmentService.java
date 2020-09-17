@@ -18,6 +18,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.sun.media.jfxmedia.Media;
+
 import beans.interfaces.SessionToken;
 import beans.model.entities.Apartment;
 import beans.model.enums.ApartmentStatus;
@@ -94,7 +96,8 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		return ForbiddenRequest();
 	}
 	
-	@DELETE
+	@POST
+	@Path("/delete")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
@@ -106,10 +109,11 @@ public class ApartmentService extends CRUDService<Apartment, ApartmentDAO> imple
 		if (session.isGuest())
 			return ForbiddenRequest();
 		
+		System.out.println("Attempting to find apartment: " + requestWrapper.stringKey);
 		Apartment apartment = super.getByID(requestWrapper);
 		
 		if (apartment == null)
-			return BadRequest();
+			return BadRequest("Couldn't find the apartment");
 		
 		if (session.isHost()  &&  !session.getUserID().equals(apartment.hostID))
 			return ForbiddenRequest();

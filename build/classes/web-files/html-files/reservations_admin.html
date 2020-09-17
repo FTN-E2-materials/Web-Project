@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservations</title>
+
+    <!-- Vue.js script -->
+    <script src="https://unpkg.com/vue"></script>
+    <!-- Datepicker script -->
+    <script src="https://unpkg.com/vuejs-datepicker"></script>
+
+    <!-- Google poppins font -->
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+    <!-- Font Awesome Icon Library (used for stars) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: -webkit-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+            background: -o-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+            background: -moz-linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+            background: linear-gradient(left, rgb(63, 151, 235, 0.9), rgb(79, 218, 66, 0.65));
+        }
+
+        /** Give all elements a transition and Poppins font */
+        * {
+            font-family: "Poppins";
+            transition: all 0.4s;
+            -webkit-transition: all 0.4s;
+            -o-transition: all 0.4s;
+            -moz-transition: all 0.4s;
+        }
+
+        button:hover {
+            cursor: pointer;
+        }
+
+        a:hover {
+            cursor: pointer;
+        }
+
+        div {
+            width: auto;
+        }
+
+        .wrapper {
+            display: grid;
+        }
+
+        .inline {
+            display: inline;
+        }
+
+        .table {
+            display: table;
+            background-color: #fafafa;
+            border-collapse: collapse;
+            width: 86%;
+            margin: 40px auto;
+
+            justify-content: space-evenly;
+        }
+
+        .row {
+            background-color: white; 
+            width: 100%; 
+            height: 210px;
+        }
+
+        .row:hover {
+            background-color: #d8ffd6;
+            cursor: pointer;
+        }
+
+        td {
+            padding-left: 12px;
+            min-width: auto;
+        }
+
+        .search {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 8px;
+            padding-right: 8px;
+
+            background-color: white;
+
+            outline: none;
+        }
+
+        .search:hover {
+            background-color: rgb(238, 238, 238);
+        }
+
+        .header {
+            padding: 10px 16px;
+            background: #275FCF;
+            color: #f1f1f1;
+            width: 100%;
+            position: fixed;
+            z-index: 999;
+        }
+
+        .header-title {
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: large;
+            float: left;
+            color: white;
+            text-decoration: none;
+        }
+
+        .header-links {
+            float: right;
+            margin-right: 25px;
+        }
+
+        .header-link {
+            font-size: small;
+            text-decoration: none;
+            color: white;
+            margin-right: 25px;
+        }
+
+
+
+        .header-link:hover {
+            color: white;
+        }
+
+        .header-link-inactive {
+            color: #A9BFEB;
+        }
+
+        .header-link-active {
+            font-weight: 600;
+        }
+
+        .big-bold {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .column-left {
+            float: left;
+        }
+
+        .column-right {
+            float: right;
+        }
+
+        .column {
+            position: relative;
+        }
+
+        .top-left-corner {
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        .error {
+            color: rgb(218, 49, 49);
+            font-size: small;
+        }
+
+        .align-content-right {
+            text-align: right;
+            padding-top: 10px;
+            padding-right: 20px;
+        }
+
+        .align-content-left {
+            text-align: left;
+            padding-top: 10px;
+            padding-left: 20px;
+        }
+
+        .checked {
+            color: rgb(255, 175, 25);
+        }
+
+        img {
+            object-fit: cover;
+        }
+
+        .button {
+            padding-left: 13px;
+            padding-right: 13px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+
+            outline: none;
+            border-style: solid;
+            border-radius: 5px;
+            border: none;
+
+            font-size: 15px;
+            font-family: "Poppins";
+        }
+
+        .green-button {
+            background-color: #009e00;
+            color: white;
+        }
+
+        .blue-button {
+            background-color: #3b6ccc;
+            color: white;
+        }
+
+        .red-button {
+            background-color: #c72323;
+            color: white;
+        }
+
+        .orange-button {
+            background-color: rgb(224, 159, 39);
+            color:white;
+        }
+
+        .rose-button {
+            background-color: rgb(221, 60, 168);
+            color: white;
+        }
+
+        .white-button {
+            background-color: rgb(255, 255, 255);
+            color: black;
+        }
+
+        .green-button:hover {
+            background-color: #008100;
+        }
+
+        .orange-button:hover {
+            background-color: rgb(201, 139, 25);;
+        }
+
+        .blue-button:hover {
+            background-color: #204ca5;
+        }
+
+        .red-button:hover { 
+            background-color: #be1919;
+        }
+
+        .rose-button:hover {
+            background-color: rgb(255, 91, 91);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="wrapper" id="vue-reservations">
+        <div class="header">
+            <div>
+                <a class="header-title" href="http://localhost:8080/WebProject">FakeAirbnb</span>
+            </div>
+            <div class="header-links">
+
+                <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/">Apartments</a>
+                <a class="header-link header-link-active" href="http://localhost:8080/WebProject/reservations">Reservations</a>
+                <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/amenities">Amenities</a>
+                <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/users">Users</a>
+                <a class="header-link header-link-inactive" href="http://localhost:8080/WebProject/account">Account</a>
+            </div>
+        </div>
+
+        <div class="inline" style="margin-left: 7%; margin-right: 7%;; margin-top: 7%;">
+
+
+            <div style="display: inline-block; background-color: rgb(221, 60, 168, 0.95); padding-top: 16px; padding-bottom: 16px; padding-left: 22px; padding-right: 22px; border-radius: 5px;">
+                <div class="column-left" style="margin-right: 10px;">
+                    <p style="color:white; font-weight: 500;">From lowest </p>
+                </div>
+                <div class="column-left" style="margin-left: 25px;">
+                    <p style="color:white; font-weight: 500;"> From highest </p>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="reservationsLoaded">
+            <table style="width: 80%; margin: 3% auto;">
+               <tbody>
+                  <tr   v-for="(reservation, index) in reservations" :key="reservation.key"
+                        class="row">
+                     <td style="display: grid;
+                                grid-template-columns: repeat(5, 1fr);
+                                grid-template-rows: 1fr;
+                                grid-column-gap: 0px;
+                                grid-row-gap: 0px;
+                                padding-left: 10px;
+                                padding-right: 15px;
+                                padding-top: 12px;
+                                padding-bottom: 12px;
+                                height: 210px;
+                                width: 100%;">
+
+                                <div style="grid-area: 1 / 1 / 2 / 2;"> 
+                                    <img :src="apartmentImages.get(reservation.apartment.key)" style="width: 95%; height: 180px;">
+                                </div>
+                                
+                                <!-- LEft part of the grid (image, name)-->
+                                <div style="grid-area: 1 / 2 / 2 / 5; position: relative;">
+                                    <div>
+                                        <h3>{{reservation.apartment.title}}</h3>
+                                    </div>
+                                    <div style="display: inline;">
+                                        <span > {{reservation.apartment.numberOfRooms}} rooms &middot; {{reservation.apartment.numberOfGuests}} guest &middot; {{reservation.numberOfNights}} nights &middot; </span>
+                                        
+                                        <span style="font-weight: bold; color:rgb(11, 52, 185)" v-if="reservation.status == 'CREATED'"> {{reservation.status}}</span>
+                                        <span style="font-weight: bold; color:rgb(14, 155, 21)" v-else-if="reservation.status == 'APPROVED'"> {{reservation.status}}</span>
+                                        <span style="font-weight: bold; color:rgb(173, 19, 19)" v-else-if="reservation.status == 'DENIED'"> {{reservation.status}}</span>
+                                        <span style="font-weight: bold; color:rgb(126, 126, 126)" v-else-if="reservation.status == 'CANCELLED'"> {{reservation.status}}</span>
+                                        <span style="font-weight: bold; color:rgb(107, 121, 184)" v-else-if="reservation.status == 'FINISHED'"> {{reservation.status}}</span>
+                                    </div>
+
+                                    <div>
+                                        Guest: {{reservation.guestID}}
+                                    </div>
+
+                                    <div> 
+                                        Starting date: {{new Date(reservation.startingDate.calendar).toLocaleDateString()}}
+                                    </div>
+
+                                    <div style="position: absolute; bottom:5px; left:0;">
+                                        <div  v-if="reservation.reservationMessage.length > 0"
+                                              style="float: left; border-radius: 1px; 
+                                              background: rgb(165, 165, 165); color: white;
+                                              padding-left: 15px;
+                                              padding-right: 15px;
+                                              padding-top: 5px;
+                                              padding-bottom: 5px;
+                                              font-size: 14px;">
+                                            {{reservation.reservationMessage}}
+                                        </div>
+                                    </div> 
+                                </div>
+
+                                <!-- Right part of grid (price, reviews) -->
+                                <div style="grid-area: 1 / 5 / 2 / 6; text-align: right; position:relative;">
+                                    <div> 
+                                        <h3>Total: {{reservation.price}}$</h3>
+                                    </div>
+                                    <div style="position: absolute; right: 0; bottom: 15px; display: block;">
+                                        
+                                        
+                                        <span v-if="reservation.apartment.rating > 0"
+                                                style="background-color: #09af09; color:white; border-radius: 5px; width: fit-content;
+                                                    font-weight: bold; font-size: 16px;
+                                                    padding-top: 5px; padding-left: 10px; padding-right: 10px; padding-bottom: 5px;">{{reservation.apartment.rating}}</span>
+                                    
+                                        <span v-else
+                                            style="background-color: #818181; color:white; border-radius: 5px; width: fit-content;
+                                            font-weight: bold; font-size: 16px;
+                                            padding-top: 5px; padding-left: 10px; padding-right: 10px; padding-bottom: 5px;">No rating</span>
+                                    </div>
+                                </div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+    </div>
+
+
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Vue.js implementation -->
+    <script src="http://localhost:8080/WebProject/scripts/rest.js"></script>  
+    <script>
+        let vue = new Vue({
+            el :"#vue-reservations",
+            data : {
+                reservations : [],
+                reservationsLoaded : false,
+                apartmentImages : new Map()
+            },
+            methods : {
+                getReservations : function() {
+                    rest.getReservations()
+                        .then(response => {
+                            if (response.data) {
+                                response.data.forEach(reservation => {      // Cut ratings to 2 decimals short
+                                    reservation.apartment.rating = Math.round(reservation.apartment.rating * 100)/100
+                                })
+                                Vue.set(vue, "reservations", response.data);
+                                Vue.set(vue, "reservationsLoaded", true);
+
+                                vue.reservations.forEach(reservation => {
+                                    rest.getImage(reservation.apartment.mainImage)
+                                        .then(response => {
+                                            if (response.status == 200) {
+                                                Vue.set(vue, "apartmentImages", new Map(vue.apartmentImages.set(reservation.apartment.key, response.data.base64_string)))
+                                            }
+                                        })
+
+                                    rest.getApartment(reservation.apartment.key)
+                                        .then(response => {
+                                            if (response.status == 200) {
+                                                reservation.apartment.rating = Math.round(response.data.rating * 100)/100
+                                            }
+                                        })
+                                })
+                            }
+                        })
+                        .catch (error => {
+                            console.log(error);
+                        })
+            }},
+            beforeMount() {
+                this.getReservations();
+            }
+        })
+    </script>
+</body>
+</html>

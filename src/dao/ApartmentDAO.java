@@ -23,12 +23,6 @@ public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInte
 	public ApartmentDAO(Storage<Apartment> storage) {
 		super(storage);
 		init();
-		
-		for(Apartment ap : database.values()) {
-			ap.numberOfRatings = 0;
-			ap.rating = 0d;
-		}
-		super.forceUpdate();
 	}
 	
 	/** Searches through all the apartments and returns those which contain the given word in their title.

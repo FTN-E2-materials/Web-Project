@@ -26,19 +26,33 @@ public class HTMLService {
 	private String LANDING_PAGE;
 	private String LOGIN_PAGE;
 	private String REGISTRATION_PAGE;
+	
 	private String GUEST_HOME;
 	private String HOST_HOME;
-	private String ADMIN_HOME;	
+	private String ADMIN_HOME;
+	
 	private String CREATE_APARTMENT_PAGE;
+	
 	private String SINGLE_APARTMENT_PAGE_HOST;
 	private String SINGLE_APARTMENT_PAGE_GUEST;
+	private String SINGLE_APARTMENT_PAGE_ADMIN;
+	
 	private String GUEST_ACCOUNT_PAGE;
 	private String HOST_ACCOUNT_PAGE;
+	
 	private String EDIT_APARTMENT_PAGE;
+	private String EDIT_APARTMENT_PAGE_ADMIN;
+	
 	private String REVIEWS_GUEST_PAGE;
 	private String REVIEWS_HOST_PAGE;
+	private String REVIEWS_ADMIN_PAGE;
+	
 	private String RESERVATIONS_GUEST_PAGE;
 	private String RESERVATIONS_HOST_PAGE;
+	private String RESERVATIONS_ADMIN_PAGE;
+	
+	private String USERS_PAGE_ADMIN;
+	private String USERS_PAGE_HOST;
 	
 	private String TEST_PAGE;
 
@@ -59,10 +73,16 @@ public class HTMLService {
 		GUEST_ACCOUNT_PAGE = IOService.readSourceFile((Config.GUEST_ACCOUNT_LOCATION));
 		HOST_ACCOUNT_PAGE = IOService.readSourceFile(Config.HOST_ACCOUNT_LOCATION);
 		EDIT_APARTMENT_PAGE = IOService.readSourceFile(Config.EDIT_APARTMENT_LOCATION);
+		EDIT_APARTMENT_PAGE_ADMIN = IOService.readSourceFile(Config.EDIT_APARTMENT_ADMIN_LOCATION);
 		REVIEWS_GUEST_PAGE = IOService.readSourceFile(Config.REVIEWS_GUEST_LOCATION);
 		REVIEWS_HOST_PAGE = IOService.readSourceFile(Config.REVIEWS_HOST_LOCATION);
+		REVIEWS_ADMIN_PAGE = IOService.readSourceFile(Config.REVIEWS_ADMIN_LOCATION);
 		RESERVATIONS_GUEST_PAGE = IOService.readSourceFile(Config.RESERVATIONS_GUEST_LOCATION);
 		RESERVATIONS_HOST_PAGE = IOService.readSourceFile(Config.RESERVATIONS_HOST_LOCATION);
+		RESERVATIONS_ADMIN_PAGE = IOService.readSourceFile(Config.RESERVATIONS_ADMIN_LOCATION);
+		USERS_PAGE_ADMIN = IOService.readSourceFile(Config.USERS_ADMIN_LOCATION);
+		USERS_PAGE_HOST = IOService.readSourceFile(Config.USERS_HOST_LOCATION);
+		SINGLE_APARTMENT_PAGE_ADMIN = IOService.readSourceFile(Config.APARTMENT_DETAILS_ADMIN_LOCATION);
 
 		TEST_PAGE = IOService.readSourceFile("/web-files/html-files/text.html");
 		
@@ -104,6 +124,10 @@ public class HTMLService {
 	public String getSingleApartmentPageGuest() {
 		return SINGLE_APARTMENT_PAGE_GUEST;
 	}
+	
+	public String getSingleApartmentPageAdmin() {
+		return SINGLE_APARTMENT_PAGE_ADMIN;
+	}
 
 	public String getGuestAccountPage() {
 		return GUEST_ACCOUNT_PAGE;
@@ -117,12 +141,20 @@ public class HTMLService {
 		return EDIT_APARTMENT_PAGE;
 	}
 	
+	public String getEditApartmentAdminPage() {
+		return EDIT_APARTMENT_PAGE_ADMIN;
+	}
+	
 	public String getReviewsForGuestPage() {
 		return REVIEWS_GUEST_PAGE;
 	}
 	
 	public String getReviewsForHostPage() {
 		return REVIEWS_HOST_PAGE;
+	}
+	
+	public String getReviewsForAdminPage() {
+		return REVIEWS_ADMIN_PAGE;
 	}
 
 	public String getReservationsPageGuest() {
@@ -134,10 +166,17 @@ public class HTMLService {
 	}
 	
 	public String getReservationsPageAdmin() {
-		return "Coming soon";
+		return RESERVATIONS_ADMIN_PAGE;
 	}
 	
 	public String getTestPage() {
 		return TEST_PAGE;
+	}
+	
+	public String getUsersPageAdmin() {
+		return USERS_PAGE_ADMIN;
+	}
+	public String getUsersPageHost() {
+		return USERS_PAGE_HOST;
 	}
 }

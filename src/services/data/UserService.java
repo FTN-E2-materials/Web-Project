@@ -5,8 +5,10 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -14,11 +16,13 @@ import javax.ws.rs.core.Response;
 
 import beans.interfaces.SessionToken;
 import beans.model.entities.UserAccount;
+import beans.model.enums.TypeOfUser;
 import dao.UserDAO;
 import services.interfaces.rest.UserServiceInterface;
 import services.templates.BaseService;
 import storage.Storage;
 import util.Config;
+import util.exceptions.EntityValidationException;
 
 
 @Path(Config.USERS_SERVICE_PATH)
@@ -52,6 +56,35 @@ public class UserService extends BaseService implements UserServiceInterface {
 										(Storage<UserAccount>)ctx.getAttribute(storageFileLocation)));
 	}
 	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createHost(UserAccount host, @Context HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isAdmin()) {
+			try {
+				if (host.type == TypeOfUser.HOST) {
+					host.validate();
+					UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);
+
+					UserAccount createdAccount = dao.create(host);
+					if (createdAccount == null)
+						throw new EntityValidationException("Host with that username already exists!");
+					return OK(createdAccount);
+				}
+				throw new EntityValidationException("You can only create a host.");
+			}
+			catch (EntityValidationException e) {
+				return BadRequest(e.message);
+			}
+		}
+		
+		return ForbiddenRequest();
+	}
+	
 	/** Returns a collection of all the users of the website. 
 	 * Available only to administrators.
 	 * @param request
@@ -74,6 +107,23 @@ public class UserService extends BaseService implements UserServiceInterface {
 			return OK(dao.getAll()); // TODO Add DAO method to search users 
 		}
 		// TODO Where can the host see his guests?
+		return ForbiddenRequest();
+	}
+	
+	@GET
+	@Path("{userID}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getByID(@PathParam("userID") String userID, @Context HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isHost() || session.isAdmin()) {
+			UserDAO dao = (UserDAO)ctx.getAttribute(Config.userDatabaseString);
+			UserAccount user = dao.getByKey(userID);
+			if (user == null)
+				return BadRequest("User with id = " + userID + " not found.");
+			return OK(user);
+		}
 		return ForbiddenRequest();
 	}
 	

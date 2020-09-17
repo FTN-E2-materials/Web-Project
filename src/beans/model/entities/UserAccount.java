@@ -11,7 +11,7 @@ public class UserAccount extends DatabaseEntity implements SessionToken {
    public String password;
    public Person person;
    public String email;
-   public TypeOfUser type;
+   public TypeOfUser type = TypeOfUser.GUEST;
    
    public UserAccount() {
 	   isCountable = false;

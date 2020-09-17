@@ -59,6 +59,7 @@ public class IOService {
 			return result.toString();
 		}
 		catch (Exception e) {
+			System.out.println("Couldn't read file on path: " + path);
 			return "";
 		}
 	}
