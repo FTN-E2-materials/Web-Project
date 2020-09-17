@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import beans.interfaces.SessionToken;
 import beans.model.entities.Amenity;
 import dao.AmenityDAO;
+import dao.ApartmentDAO;
 import services.interfaces.rest.ResponseCRUDInterface;
 import services.templates.CRUDService;
 import storage.Storage;
@@ -126,8 +127,15 @@ public class AmenityService extends CRUDService<Amenity, AmenityDAO> implements 
 		
 		if (session == null)
 			return ForbiddenRequest();
-		if (session.isAdmin())
-			return OK(super.delete(requestWrapper));
+		if (session.isAdmin()) {
+			Amenity deletedAmenity = super.delete(requestWrapper);
+			if (deletedAmenity == null)
+				return BadRequest("Failed to delete amenity.");
+			
+			ApartmentDAO apartmentDAO = (ApartmentDAO)ctx.getAttribute(Config.apartmentDatabaseString);
+			apartmentDAO.removeAmenityFromAll(deletedAmenity);
+			return OK(deletedAmenity);
+		}
 		
 		return ForbiddenRequest();
 	}

@@ -125,6 +125,7 @@ public abstract class BeanDAO <T extends DatabaseEntity> {
 			return null;
 		
 		entity.delete();
+		forceUpdate();
 		
 		return entity;
 	}

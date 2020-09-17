@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import beans.model.entities.Amenity;
 import beans.model.entities.Apartment;
 import beans.model.entities.Review;
 import beans.model.enums.ApartmentStatus;
@@ -126,6 +127,21 @@ public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInte
 		Apartment apartment = database.getOrDefault(review.apartmentID, null);
 		apartment.rating = ((apartment.rating * apartment.numberOfRatings) + review.rating)/(++apartment.numberOfRatings);
 		
+		forceUpdate();
+	}
+	
+	/** Removes the given amenity from all apartments which contain it */
+	public void removeAmenityFromAll(Amenity deletedAmenity) {
+		for (Apartment apartment : database.values()) {
+			Iterator<Amenity> iterator = apartment.amenities.iterator();
+			while (iterator.hasNext()) {
+				Amenity amenity = iterator.next();
+				if (amenity.key.contentEquals(deletedAmenity.key)) {
+					iterator.remove();
+					break;
+				}
+			}
+		}
 		forceUpdate();
 	}
 	

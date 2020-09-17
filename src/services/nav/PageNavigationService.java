@@ -49,6 +49,8 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 				return ReservationsPage(request);
 			case "users":
 				return UsersPage(request);
+			case "amenities":
+				return AmenitiesPage(request);
 			case "test":
 				return TestPage();
 			default:
@@ -208,6 +210,16 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 		if (session.isHost()) 
 			return OK(HtmlService.getInstance().getPage("users_host.html"));
 					
+		return ForbiddenRequest();
+	}
+	
+	private Response AmenitiesPage(HttpServletRequest request) {
+		SessionToken session = getCurrentSession(request);
+		if (session == null)
+			return ForbiddenRequest();
+		if (session.isAdmin())
+			return OK(HtmlService.getInstance().getPage("amenities_admin.html"));
+		
 		return ForbiddenRequest();
 	}
 	
