@@ -21,7 +21,9 @@ let vue = new Vue({
         calendarErrorMsg : "",
         calendarRendered : false,
         calendarsVisible : false,
-        apartmentImages : new Map()
+        apartmentImages : new Map(),
+        amenities : [],
+        selectedAmenities : []
     },
     components: {
         vuejsDatepicker
@@ -53,6 +55,15 @@ let vue = new Vue({
                         }
                 })
             })
+        },
+        getAmenities() {
+            axios.get("/WebProject/data/amenities")
+                .then(response => {
+                    if (response.data) {
+                        Vue.set(vue, "amenities", response.data)
+                    }
+                })
+                .catch(error => console.log(error.response.data))
         },
         getImage : function(imageID) {
             return axios.get("/WebProject/data/images/" + imageID)
@@ -92,7 +103,8 @@ let vue = new Vue({
                 minPrice : this.minPrice,
                 maxPrice : this.maxPrice,
                 startingDate : sDate,
-                endingDate : eDate
+                endingDate : eDate,
+                amenities : vue.selectedAmenities
             }
 
             axios.post("http://localhost:8080/WebProject/data/apartments/filter", filterWrapper)
@@ -164,6 +176,7 @@ let vue = new Vue({
     },
     beforeMount() {
         this.getApartments();
+        this.getAmenities()
         this.holder = new Array();
 
         this.calendarStart = new ej.calendars.Calendar({

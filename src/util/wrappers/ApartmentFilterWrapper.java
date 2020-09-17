@@ -1,6 +1,7 @@
 package util.wrappers;
 
 import java.util.Calendar;
+import java.util.List;
 
 import beans.model.other.City;
 import beans.model.other.Date;
@@ -18,6 +19,7 @@ public class ApartmentFilterWrapper {
 	public Double maxPrice;
 	public Date startingDate;
 	public Date endingDate;
+	public List<String> amenities;
 	
 	public boolean isCityValid() {
 		if (city == null)
@@ -50,6 +52,15 @@ public class ApartmentFilterWrapper {
 		if (startingDate.greaterThan(endingDate))
 			return false;
 		if (!startingDate.isFuture()  ||  !endingDate.isFuture())
+			return false;
+		
+		return true;
+	}
+	
+	public boolean areAmenitiesValid() {
+		if (amenities == null)
+			return false;
+		if (amenities.isEmpty())
 			return false;
 		
 		return true;

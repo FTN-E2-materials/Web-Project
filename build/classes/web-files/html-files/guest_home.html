@@ -353,11 +353,8 @@
                   </div>
                   <div style="grid-area: 2 / 2 / 3 / 3;">
                      <div>Select amenities</div>
-                     <select>
-                        <option value="1">Wi-fi</option>
-                        <option value="2">AC</option>
-                        <option value="3">Frige</option>
-                        <option value="4">Free parking</option>
+                     <select multiple v-model="selectedAmenities">
+                        <option v-for="amenity in amenities" :key="amenity.key"> {{amenity.name}} </option>
                       </select>
                   </div>
                   <div style="grid-area: 3 / 1 / 4 / 2;">

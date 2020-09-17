@@ -3,7 +3,9 @@ package filters;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
+import beans.model.entities.Amenity;
 import beans.model.entities.Apartment;
 import beans.model.other.City;
 import beans.model.other.Date;
@@ -147,6 +149,27 @@ public class ApartmentFilter extends BaseFilter<Apartment> {
 			Apartment ap = iterator.next();
 			if (ap.numberOfGuests != numberOfGuests)
 				iterator.remove();
+		}
+		return this;
+	}
+	
+	public ApartmentFilter filterByAmenities(List<String> amenities) {
+		Iterator<Apartment> iterator = entities.iterator(); 
+		while (iterator.hasNext()) { 
+			Apartment ap = iterator.next();
+			for (String amenityString : amenities) {
+				boolean amenityFound = false;
+				for (Amenity amenity : ap.amenities) {
+					if (amenity.name.contentEquals(amenityString)) {
+						amenityFound = true;
+						break;
+					}
+				}
+				if (!amenityFound) {
+					iterator.remove();
+					break;
+				}
+			}
 		}
 		return this;
 	}
