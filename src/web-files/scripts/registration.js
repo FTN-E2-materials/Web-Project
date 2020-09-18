@@ -1,4 +1,4 @@
-new Vue({
+let vue = new Vue({
     el :"#vue-registration",
     data : {
         username : "", 
@@ -7,26 +7,32 @@ new Vue({
         email : "",
         password : "",
         repeatPassword : "",
+        gender : "MALE"
     },
     methods : {
         register : function() {
+            if(!vue.username || !vue.password || !vue.lastName || !vue.email || !vue.repeatPassword || !vue.password) {
+                alert("Please enter all the data.")
+                return;
+            }
+
+            console.log(vue.gender)
+
             let userAccount = {
-                key : this.username,
-                password : this.password,
+                key : vue.username,
+                password : vue.password,
                 type : "GUEST", 
+                email : vue.email,
                 person : {
-                    firstName : this.firstName,
-                    lastName : this.lastName,
-                    gender : "MALE"
+                    firstName : vue.firstName,
+                    lastName : vue.lastName,
+                    gender : vue.gender
                 }
             }
-            axios.post("http://localhost:8080/WebProject/data/auth/registration", userAccount)
+            axios.post("/WebProject/data/auth/registration", userAccount)
                 .then(function(response) {
                     if (response.status === 200) {// success
                         window.location.replace("http://localhost:8080/WebProject/")
-                    }
-                    else {
-                        // Potentially redundant? 
                     }
                 })
                 .catch(error => {

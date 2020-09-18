@@ -623,16 +623,10 @@ input:hover {
                         <div class="col-2 column-align-right">
                             <div class="input-group">
                                 <label class="label">Gender</label>
-                                <div class="p-t-10">
-                                    <label class="radio-container m-r-45">Male
-                                        <input type="radio" checked="checked" name="gender">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="radio-container">Female
-                                        <input type="radio" name="gender">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
+                                <select v-model="gender"> 
+                                  <option>MALE</option>
+                                  <option>FEMALE</option>
+                                </select>
                             </div>
                         </div>
                         <div class="p-t-15">
