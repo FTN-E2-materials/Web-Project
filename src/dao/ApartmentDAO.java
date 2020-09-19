@@ -144,12 +144,4 @@ public class ApartmentDAO extends BeanDAO<Apartment> implements ApartmentDAOInte
 		}
 		forceUpdate();
 	}
-	
-	public Apartment getByName(String name) {
-		for (Apartment ap : database.values()) {
-			if (ap.title.contentEquals(name))
-				return ap;
-		}
-		return null;
-	}
 }

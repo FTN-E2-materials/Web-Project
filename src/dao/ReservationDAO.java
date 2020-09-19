@@ -10,7 +10,7 @@ import storage.Storage;
 import util.Config;
 
 
-public class ReservationDAO extends BeanDAO<Reservation> implements ReservationDAOInterface{
+public class ReservationDAO extends BeanDAO<Reservation> implements ReservationDAOInterface {
 
 	@Override
 	protected void init() {

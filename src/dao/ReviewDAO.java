@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import beans.model.entities.Review;
+import dao.interfaces.ReviewDAOInterface;
 import storage.Storage;
 import util.Config;
 
 
-public class ReviewDAO extends BeanDAO<Review> {
+public class ReviewDAO extends BeanDAO<Review> implements ReviewDAOInterface {
 
 	@Override
 	protected void init() {

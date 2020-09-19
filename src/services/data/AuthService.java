@@ -52,7 +52,7 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 									));
 	}
 	
-	@Path(Config.LOGIN_PATH)
+	@Path("/login")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -92,7 +92,7 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 		return OK(account);
 	}
 
-	@Path(Config.REGISTRATION_PATH)
+	@Path("/registration")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -100,7 +100,6 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 	public Response register(UserAccount account, @Context HttpServletRequest request) {
 		// If already logged in, deny
 		if (super.getCurrentSession(request) != null) {
-			System.out.println("This session is already logged in.");
 			return ForbiddenRequest();	
 		}
 		
@@ -117,7 +116,6 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 		// Only allow Guest creation through registration. 
 		account.type = TypeOfUser.GUEST;
 		UserAccount result = dao.create(account);
-		// DAO will return null if an object with such a key already exists (same username)
 		if (result == null)
 			return AuthFailed("Account with this username already exists!");
 		
@@ -126,7 +124,7 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 		return OK(result);
 	}
 
-	@Path(Config.LOGOUT_PATH)
+	@Path("/logout")
 	@POST
 	@Override
 	public Response logOut(@Context HttpServletRequest request) {

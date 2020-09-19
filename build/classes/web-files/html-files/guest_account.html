@@ -256,7 +256,8 @@
             email : "",
             firstName : "",
             lastName : "",
-            message : ""
+            message : "",
+            gender : ""
          },
          methods : {
             getUser() { 
@@ -268,6 +269,7 @@
                         vue.email = response.data.email
                         vue.firstName = response.data.person.firstName
                         vue.lastName = response.data.person.lastName
+                        vue.gender = response.data.person.gender
                      } 
                   })
             },
@@ -278,8 +280,9 @@
                   email : vue.email,
                   person : {
                      firstName : vue.firstName,
-                     lastName : vue.lastName
-                  } 
+                     lastName : vue.lastName,
+                     gender : vue.gender
+                  },
                }
                axios.put("/WebProject/data/users", account)
                   .then(response => {
@@ -288,8 +291,8 @@
                      }
                   })
                   .catch(error => {
-                    if (error.data) {
-                      vue.message = error.data
+                    if (error.response.data) {
+                      vue.message = error.response.data
                     }
                     else {
                       vue.message = "Failed to update"
@@ -303,7 +306,7 @@
                         window.location.href = "http://localhost:8080/WebProject/login"
                     }
                     else {
-                        message = "Failed to log out."
+                        vue.message = "Failed to log out."
                     }
                 })
             }

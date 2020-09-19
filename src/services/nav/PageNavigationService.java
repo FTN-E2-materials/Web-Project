@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 import beans.interfaces.SessionToken;
 import services.interfaces.util.HttpResponseHandler;
 import services.interfaces.util.SessionTracker;
-import util.Config;
 import util.services.HtmlService;
 import util.services.ScriptService;
 
@@ -37,15 +36,15 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 	@Produces(MediaType.TEXT_HTML)
 	public Response getSubpage(@PathParam("pagePath") String pagePath, @Context HttpServletRequest request) {
 		switch (pagePath) {
-			case Config.LOGIN_PAGE_PATH:
+			case "login":
 				return LoginPage(request);
-			case Config.REGISTRATION_PAGE_PATH:
+			case "registration":
 				return RegistrationPage(request);
-			case Config.CREATE_APARTMENT_PAGE_PATH:
+			case "createApartment":
 				return CreateApartmentPage(request);
-			case Config.ACCOUNT_PAGE_PATH:
+			case "account":
 				return AccountPage(request);
-			case Config.RESERVATIONS_PAGE_PATH:
+			case "reservations":
 				return ReservationsPage(request);
 			case "users":
 				return UsersPage(request);
@@ -53,8 +52,6 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 				return AmenitiesPage(request);
 			case "guest":
 				return UnregisteredPage(request);
-			case "test":
-				return TestPage();
 			default:
 				return OK("There is nothing here, go back.");
 		}
@@ -64,14 +61,14 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 	/** Used for fetching JS scripts that are stored locally 
 	 *  Url is: 'localhost.webproject/scripts/scriptName'*/
 	@GET
-	@Path(Config.SCRIPTS_PATH + "/{scriptName}")
+	@Path("/scripts/{scriptName}")
 	@Produces(MediaType.TEXT_HTML)
 	public Response getScript(@PathParam("scriptName") String scriptName) {
 		return OK(ScriptService.getInstance().getScript(scriptName));
 	}
 	
 	@GET
-	@Path(Config.APARTMENT_PAGE_PATH + "{apartmentID}")
+	@Path("apartments/{apartmentID}")
 	@Produces(MediaType.TEXT_HTML)
 	public Response ApartmentPage(@PathParam("apartmentID") String apartmentID, @Context HttpServletRequest request) {
 		SessionToken session = getCurrentSession(request);
@@ -89,7 +86,7 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 	}
 	
 	@GET 
-	@Path(Config.EDIT_APARTMENT_PAGE_PATH + "{apartmentID}")
+	@Path("apartments/edit/{apartmentID}")
 	@Produces(MediaType.TEXT_HTML)
 	public Response EditApartment(@PathParam("apartmentID") String apartmentID, @Context HttpServletRequest request) {
 		SessionToken session = getCurrentSession(request);
@@ -123,9 +120,7 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 		return ForbiddenRequest();
 	}
 	
-	
-// Page navigation 
-//______________________
+// Page fetch methods
 	private Response LandingPage(HttpServletRequest request) {
 		if (!isLoggedIn(request)) 
 			return OK(HtmlService.getInstance().getPage("index.html"));
@@ -231,9 +226,5 @@ public class PageNavigationService implements SessionTracker, HttpResponseHandle
 			return OK(HtmlService.getInstance().getPage("unregistered_home.html"));
 		}
 		return ForbiddenRequest();
-	}
-	
-	private Response TestPage() {
-		return OK(HtmlService.getInstance().getPage("test.html"));
 	}
 }

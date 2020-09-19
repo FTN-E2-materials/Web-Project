@@ -8,4 +8,5 @@ public interface ReservationDAOInterface {
 	
 	public Collection<Reservation> getByGuestID(String id); 
 	public Collection<Reservation> getByHostID(String id);
+	public Collection<Reservation> getByApartmentAndGuest(String apartmentID, String guestID);
 }
