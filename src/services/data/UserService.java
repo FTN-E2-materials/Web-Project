@@ -150,10 +150,11 @@ public class UserService extends BaseService implements UserServiceInterface {
 		if (session == null)
 			return ForbiddenRequest();
 		
-		try { updatedAccount.validate(); }
-		catch (IllegalArgumentException ex) {
-			System.out.println("Attempt to update an account with invalid field values.");
-			return BadRequest();
+		try { 
+			updatedAccount.validate(); 
+		}
+		catch (EntityValidationException e) {
+			return BadRequest(e.message);
 		}
 		
 		if (!session.getUserID().equals(updatedAccount.key)) {// Only the owner of the account can change the data 

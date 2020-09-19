@@ -4,6 +4,7 @@ import beans.model.enums.ReservationStatus;
 import beans.model.other.ApartmentPreview;
 import beans.model.other.Date;
 import beans.model.template.DatabaseEntity;
+import util.exceptions.EntityValidationException;
 
 
 public class Reservation extends DatabaseEntity {
@@ -23,8 +24,11 @@ public class Reservation extends DatabaseEntity {
    }
    
    @Override
-   public void validate() {
-   	// TODO Auto-generated method stub
+   public void validate() throws EntityValidationException {
+	   if (numberOfNights < 1)
+		   throw new EntityValidationException("Number of nights must be greater than 0");
+	   if (price < 1)
+		   throw new EntityValidationException("Price of the reservation must be greater than 0");
    }
    
    public boolean isDenied() {

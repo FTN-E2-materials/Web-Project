@@ -10,6 +10,7 @@ import beans.model.other.Date;
 import beans.model.other.Location;
 import beans.model.other.Time;
 import beans.model.template.DatabaseEntity;
+import util.exceptions.EntityValidationException;
 import util.wrappers.ApartmentFieldWrapper;
 import util.wrappers.FieldWrapper;
 
@@ -35,9 +36,29 @@ public class Apartment extends DatabaseEntity implements Cloneable<Apartment>, F
    public int numberOfRatings;
    
    @Override
-   public void validate() {
-   	// TODO Auto-generated method stub
-   	
+   public void validate() throws EntityValidationException {
+   		if (title == null)
+   			throw new EntityValidationException("Title cannot be empty");
+   		if (title.isEmpty())
+   			throw new EntityValidationException("Title cannot be empty");
+   		if (numberOfRooms == 0)
+   			throw new EntityValidationException("Number of rooms cannot be 0");
+   		if (numberOfGuests == 0)
+   			throw new EntityValidationException("Number of guests cannot be 0");
+   		if (pricePerNight == null)
+   			throw new EntityValidationException("Price cannot be 0");
+   		if (location == null)
+   			throw new EntityValidationException("Location cannot be empty");
+   		if (location.address == null)
+   			throw new EntityValidationException("Address cannot be empty");
+   		if (location.address.streetName == null)
+   			throw new EntityValidationException("Street name cannot be empty");
+   		if (location.address.streetNumber == null)
+   			throw new EntityValidationException("Street number cannot be empty");
+   		if (location.address.city == null)
+   			throw new EntityValidationException("City cannot be empty");
+   		if (location.address.city.name == null)
+   			throw new EntityValidationException("City name cannot be empty");
    }
 
 	@Override

@@ -26,5 +26,10 @@ public abstract class DatabaseEntity {
 	/** Validates object fields. 
 	 * @throws IllegalArgumentException if any of the required fields is empty or has a wrong value
 	 */
-	public abstract void validate() throws EntityValidationException;
+	public void validate() throws EntityValidationException {
+		if (key == null)
+			throw new EntityValidationException("Key cannot be empty");
+		if (key.isEmpty())
+			throw new EntityValidationException("Key cannot be empty");
+	}
 }

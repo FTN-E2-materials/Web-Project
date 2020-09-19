@@ -17,6 +17,7 @@ import services.interfaces.rest.AuthServiceInterface;
 import services.templates.BaseService;
 import storage.Storage;
 import util.Config;
+import util.exceptions.EntityValidationException;
 import util.wrappers.RequestWrapper;
 
 @Path(Config.AUTH_SERVICE_PATH)
@@ -108,9 +109,8 @@ public class AuthService extends BaseService implements AuthServiceInterface {
 		try {
 			account.validate();
 		}
-		catch(IllegalArgumentException ex) {
-			System.out.println("Attempt to create an account with bad field values.");
-			return BadRequest();
+		catch(EntityValidationException e) {
+			return BadRequest(e.message);
 		}
 		
 		UserDAO dao = (UserDAO)ctx.getAttribute(databaseAttributeString);

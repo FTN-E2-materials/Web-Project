@@ -9,7 +9,9 @@ public class Amenity extends DatabaseEntity {
 
 	@Override
 	public void validate() throws EntityValidationException {
-		// TODO Auto-generated method stub
-		
+		if (name == null)
+			throw new EntityValidationException("Amenity name cannot be empty");
+		if (name.isEmpty())
+			throw new EntityValidationException("Amenity name cannot be null");
 	}
 }
